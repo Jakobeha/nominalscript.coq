@@ -7,59 +7,69 @@ Require Import Coq.Arith.EqNat.
 Require Import Coq.Bool.Bool.
 From NS Require Import Misc.
 
-(* Void-able type *)
+(* Return (void-able) type *)
 Inductive vtype (type: Set): Set :=
 | VVoid
-| VType (a: type).
+| V (a: type).
 Arguments VVoid {type}.
-Arguments VType {type} a.
+Arguments V {type} a.
 
-(* Nominal (named) type *)
+(* Nominal (identifer) type *)
 Inductive itype (type: Set): Set :=
-| IType (name: string) (targs: list type).
-Arguments IType {type} name targs.
+| I (name: string) (targs: list type).
+Arguments I {type} name targs.
+
+Inductive variance: Set :=
+| Invariant
+| Covariant
+| Contravariant
+| Bivariant.
+
+(* Type parameter *)
+Inductive tparam (type: Set): Set :=
+| TParam (v: variance) (name: string) (supers: list type).
+Arguments TParam {type} v name supers.
+
+(* Optional (different than nullable) type *)
+Inductive otype (type: Set): Set :=
+| O (optional: bool) (a: type).
+Arguments O {type} optional a.
+
 
 (* Structural type *)
 Inductive stype (type: Set): Set :=
-| SFn (tparams: list string) (params: list type) (rparam: option type) (ret: vtype type)
+| SFn (tparams: list (tparam type)) (thisp: type) (params: list (otype type)) (rparam: type) (ret: vtype type)
 | SArray (elem: type)
-| STuple (elems: list type)
-| SObject (fields: js_record type).
-Arguments SFn {type} tparams params rparam ret.
+| STuple (elems: list (otype type))
+| SObject (fields: js_record (otype type)).
+Arguments SFn {type} tparams thisp params rparam ret.
 Arguments SArray {type} elem.
 Arguments STuple {type} elems.
 Arguments SObject {type} fields.
 
-(* Never-able type *)
-Inductive ntype (type: Set): Set :=
-| NNever
-| NType (a: type).
-Arguments NNever {type}.
-Arguments NType {type} a.
-
-(* Any-able, never-able, or nullable type *)
-Inductive atype (type: Set): Set :=
-| AAny
-| AType (nullable: bool) (a: ntype type).
-Arguments AAny {type}.
-Arguments AType {type} nullable a.
-
 (* Thin type: actual type that you write in nominalscript code *)
-Inductive ttype': Set :=
-| TTypeStructural (a: stype (atype ttype'))
-| TTypeNominal (a: itype (atype ttype')).
-Notation ttype := (atype ttype').
+Inductive ttype: Set :=
+| TAny
+| TNever (nullable: bool)
+| TStructural (nullable: bool) (structure: stype ttype)
+| TNominal (nullable: bool) (id: itype ttype).
 Notation vttype := (vtype ttype).
 Notation ittype := (itype ttype).
+Notation ttparam := (tparam ttype).
+Notation ottype := (otype ttype).
 Notation sttype := (stype ttype).
-Notation nttype := (ntype ttype).
 
-(* Fat type: resolved thin type (lookup supertypes and normalize), how the compiler sees thin types *)
-Inductive ftype': Set :=
-| FTypeStructural (s: stype (atype ftype'))
-| FTypeNominal (id: itype (atype ftype')) (super_ids: list (itype (atype ftype'))) (s: option (stype (atype ftype'))).
-Notation ftype := (atype ftype').
+(* Fat type: resolved thin type (lookup supevtypes and normalize), how the compiler sees thin types *)
+Inductive ftype: Set :=
+| FAny
+| FNever (nullable: bool)
+| FStructural (nullable: bool) (structure: stype ftype)
+| FNominal (nullable: bool) (id: itype ftype) (sids: list (itype ftype)) (structure: option (stype ftype)).
 Notation vftype := (vtype ftype).
 Notation iftype := (itype ftype).
+Notation ftparam := (tparam ftype).
+Notation oftype := (otype ftype).
 Notation sftype := (stype ftype).
-Notation nftype := (ntype ftype').
+
+Definition TEMPTY: ttype := TStructural false (STuple nil).
+Definition FEMPTY: ftype := FStructural false (STuple nil).
