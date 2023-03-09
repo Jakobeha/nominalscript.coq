@@ -1,0 +1,1349 @@
+DIGEST 7f5024078fabe9a096d0b2988c9e888f
+FNS.TypesInduction
+R147:149 Coq.micromega.Lia <> <> lib
+R167:184 Coq.Strings.String <> <> lib
+R202:219 Coq.Arith.PeanoNat <> <> lib
+R237:251 Coq.Arith.EqNat <> <> lib
+R269:281 Coq.Bool.Bool <> <> lib
+R299:332 Coq.Logic.FunctionalExtensionality <> <> lib
+R359:368 TLC.LibTactics <> <> lib
+R394:397 NS.Misc <> <> lib
+R423:431 NS.MiscArith <> <> lib
+R457:465 NS.TypesBase <> <> lib
+R491:503 NS.TypesNotation <> <> lib
+R529:546 NS.TypesSimpleHelpers <> <> lib
+ind 657:662 <> _ftype
+constr 674:678 <> _AAny
+constr 682:687 <> _AType
+ind 723:728 <> _ntype
+constr 740:746 <> _NNever
+constr 750:755 <> _NType
+ind 775:781 <> _ftype'
+constr 793:808 <> _FTypeStructural
+constr 824:836 <> _FTypeNominal
+ind 900:905 <> _itype
+constr 917:922 <> _IType
+ind 965:970 <> _stype
+constr 982:985 <> _SFn
+constr 1072:1078 <> _SArray
+constr 1097:1103 <> _STuple
+constr 1128:1135 <> _SObject
+ind 1169:1174 <> _vtype
+constr 1186:1191 <> _VVoid
+constr 1195:1200 <> _VType
+ind 1219:1231 <> _option_stype
+constr 1243:1252 <> None_SType
+constr 1256:1265 <> Some_SType
+ind 1284:1296 <> _option_ftype
+constr 1308:1317 <> None_FType
+constr 1321:1330 <> Some_FType
+ind 1349:1359 <> _list_itype
+constr 1371:1379 <> Nil_IType
+constr 1383:1392 <> Cons_IType
+ind 1429:1439 <> _list_ftype
+constr 1451:1459 <> Nil_FType
+constr 1463:1472 <> Cons_FType
+ind 1509:1524 <> _js_record_ftype
+constr 1536:1553 <> Nil_JsRecord_FType
+constr 1557:1575 <> Cons_JsRecord_FType
+ind 1624:1636 <> _string_ftype
+constr 1648:1659 <> String_FType
+R700:703 Coq.Init.Datatypes <> bool ind
+binder 690:697 <> nullable:25
+R710:715 NS.TypesInduction <> _ntype:2 ind
+binder 707:707 <> a:26
+R761:767 NS.TypesInduction <> _ftype':3 ind
+binder 758:758 <> a:27
+R814:819 NS.TypesInduction <> _stype:5 ind
+binder 811:811 <> s:28
+R843:848 NS.TypesInduction <> _itype:4 ind
+binder 839:840 <> id:29
+R863:873 NS.TypesInduction <> _list_itype:9 ind
+binder 852:860 <> super_ids:30
+R880:892 NS.TypesInduction <> _option_stype:7 ind
+binder 877:877 <> s:31
+R931:936 Coq.Strings.String <> string ind
+binder 925:928 <> name:32
+R947:957 NS.TypesInduction <> _list_ftype:10 ind
+binder 940:944 <> targs:33
+R997:1000 Coq.Init.Datatypes <> list ind
+R1002:1007 Coq.Strings.String <> string ind
+binder 988:994 <> tparams:34
+R1019:1029 NS.TypesInduction <> _list_ftype:10 ind
+binder 1011:1016 <> params:35
+R1041:1053 NS.TypesInduction <> _option_ftype:8 ind
+binder 1033:1038 <> rparam:36
+R1062:1067 NS.TypesInduction <> _vtype:6 ind
+binder 1057:1059 <> ret:37
+R1087:1092 NS.TypesInduction <> _ftype:1 ind
+binder 1081:1084 <> elem:38
+R1113:1123 NS.TypesInduction <> _list_ftype:10 ind
+binder 1106:1110 <> elems:39
+R1146:1161 NS.TypesInduction <> _js_record_ftype:11 ind
+binder 1138:1143 <> fields:40
+R1206:1211 NS.TypesInduction <> _ftype:1 ind
+binder 1203:1203 <> a:41
+R1271:1276 NS.TypesInduction <> _stype:5 ind
+binder 1268:1268 <> a:42
+R1336:1341 NS.TypesInduction <> _ftype:1 ind
+binder 1333:1333 <> a:43
+R1398:1403 NS.TypesInduction <> _itype:4 ind
+binder 1395:1395 <> x:44
+R1411:1421 NS.TypesInduction <> _list_itype:9 ind
+binder 1407:1408 <> xs:45
+R1478:1483 NS.TypesInduction <> _ftype:1 ind
+binder 1475:1475 <> x:46
+R1491:1501 NS.TypesInduction <> _list_ftype:10 ind
+binder 1487:1488 <> xs:47
+R1581:1593 NS.TypesInduction <> _string_ftype:12 ind
+binder 1578:1578 <> x:48
+R1601:1616 NS.TypesInduction <> _js_record_ftype:11 ind
+binder 1597:1598 <> xs:49
+R1667:1672 Coq.Strings.String <> string ind
+binder 1662:1664 <> key:50
+R1683:1688 NS.TypesInduction <> _ftype:1 ind
+binder 1676:1680 <> value:51
+def 1700:1710 <> _ftype_ind'
+R1729:1734 NS.TypesInduction <> _ftype ind
+def 1751:1761 <> _ntype_ind'
+R1780:1785 NS.TypesInduction <> _ntype ind
+def 1802:1813 <> _ftype'_ind'
+R1832:1838 NS.TypesInduction <> _ftype' ind
+def 1855:1865 <> _itype_ind'
+R1884:1889 NS.TypesInduction <> _itype ind
+def 1906:1916 <> _stype_ind'
+R1935:1940 NS.TypesInduction <> _stype ind
+def 1957:1967 <> _vtype_ind'
+R1986:1991 NS.TypesInduction <> _vtype ind
+def 2008:2025 <> _option_stype_ind'
+R2044:2056 NS.TypesInduction <> _option_stype ind
+def 2073:2090 <> _option_ftype_ind'
+R2109:2121 NS.TypesInduction <> _option_ftype ind
+def 2138:2153 <> _list_itype_ind'
+R2172:2182 NS.TypesInduction <> _list_itype ind
+def 2199:2214 <> _list_ftype_ind'
+R2233:2243 NS.TypesInduction <> _list_ftype ind
+def 2260:2280 <> _js_record_ftype_ind'
+R2299:2314 NS.TypesInduction <> _js_record_ftype ind
+def 2331:2348 <> _string_ftype_ind'
+R2367:2379 NS.TypesInduction <> _string_ftype ind
+ax 2490:2498 <> ftype_iso
+R2507:2509 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R2502:2506 NS.TypesBase <> ftype abbrev
+R2510:2515 NS.TypesBase <> ftype' ind
+R2583:2593 NS.TypesInduction <> _ftype_ind' scheme
+ax 2602:2611 <> ftype_ind'
+R2634:2637 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R2629:2633 NS.TypesBase <> ftype abbrev
+binder 2625:2625 <> P:53
+R2656:2659 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R2650:2655 NS.TypesBase <> nftype abbrev
+binder 2645:2646 <> P0:54
+R2678:2681 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R2672:2677 NS.TypesBase <> ftype' ind
+binder 2667:2668 <> P1:55
+R2700:2703 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R2694:2699 NS.TypesBase <> iftype abbrev
+binder 2689:2690 <> P2:56
+R2722:2725 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R2716:2721 NS.TypesBase <> sftype abbrev
+binder 2711:2712 <> P3:57
+R2744:2747 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R2738:2743 NS.TypesBase <> vftype abbrev
+binder 2733:2734 <> P4:58
+R2779:2782 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R2766:2771 Coq.Init.Datatypes <> option ind
+R2773:2778 NS.TypesBase <> sftype abbrev
+binder 2761:2762 <> P5:59
+R2807:2810 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R2795:2800 Coq.Init.Datatypes <> option ind
+R2802:2806 NS.TypesBase <> ftype abbrev
+binder 2790:2791 <> P6:60
+R2834:2837 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R2823:2826 Coq.Init.Datatypes <> list ind
+R2828:2833 NS.TypesBase <> iftype abbrev
+binder 2818:2819 <> P7:61
+R2860:2863 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R2850:2853 Coq.Init.Datatypes <> list ind
+R2855:2859 NS.TypesBase <> ftype abbrev
+binder 2845:2846 <> P8:62
+R2890:2893 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R2875:2883 NS.Misc <> js_record def
+R2885:2889 NS.TypesBase <> ftype abbrev
+binder 2871:2872 <> P9:63
+R2927:2930 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R2919:2921 Coq.Init.Datatypes <> ::type_scope:x_'*'_x not
+R2913:2918 Coq.Strings.String <> string ind
+R2922:2926 NS.TypesBase <> ftype abbrev
+binder 2907:2909 <> P10:64
+R2948:2955 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R2942:2942 NS.TypesInduction <> P:53 var
+R2944:2947 NS.TypesBase <> AAny constr
+R2956:2956 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R3024:3032 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R2976:2979 Coq.Init.Datatypes <> bool ind
+binder 2965:2972 <> nullable:65
+R2987:2992 NS.TypesBase <> nftype abbrev
+binder 2983:2983 <> a:66
+R3000:3003 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R2996:2997 NS.TypesInduction <> P0:54 var
+R2999:2999 NS.TypesInduction <> a:66 var
+R3004:3004 NS.TypesInduction <> P:53 var
+R3007:3011 NS.TypesBase <> AType constr
+R3022:3022 NS.TypesInduction <> a:66 var
+R3013:3020 NS.TypesInduction <> nullable:65 var
+R3042:3049 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R3033:3034 NS.TypesInduction <> P0:54 var
+R3036:3041 NS.TypesBase <> NNever constr
+R3050:3050 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R3090:3098 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R3062:3067 NS.TypesBase <> ftype' ind
+binder 3058:3058 <> a:67
+R3074:3077 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R3070:3071 NS.TypesInduction <> P1:55 var
+R3073:3073 NS.TypesInduction <> a:67 var
+R3078:3079 NS.TypesInduction <> P0:54 var
+R3082:3086 NS.TypesBase <> NType constr
+R3088:3088 NS.TypesInduction <> a:67 var
+R3099:3099 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R3149:3157 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R3111:3116 NS.TypesBase <> sftype abbrev
+binder 3107:3107 <> s:68
+R3123:3126 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R3119:3120 NS.TypesInduction <> P3:57 var
+R3122:3122 NS.TypesInduction <> s:68 var
+R3127:3128 NS.TypesInduction <> P1:55 var
+R3131:3145 NS.TypesBase <> FTypeStructural constr
+R3147:3147 NS.TypesInduction <> s:68 var
+R3158:3158 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R3303:3311 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R3171:3176 NS.TypesBase <> iftype abbrev
+binder 3166:3167 <> id:69
+R3184:3187 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R3179:3180 NS.TypesInduction <> P2:56 var
+R3182:3183 NS.TypesInduction <> id:69 var
+R3207:3210 Coq.Init.Datatypes <> list ind
+R3212:3217 NS.TypesBase <> iftype abbrev
+binder 3195:3203 <> super_ids:70
+R3232:3235 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R3220:3221 NS.TypesInduction <> P7:61 var
+R3223:3231 NS.TypesInduction <> super_ids:70 var
+R3248:3253 Coq.Init.Datatypes <> option ind
+R3255:3260 NS.TypesBase <> sftype abbrev
+binder 3243:3243 <> s:71
+R3267:3270 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R3263:3264 NS.TypesInduction <> P5:59 var
+R3266:3266 NS.TypesInduction <> s:71 var
+R3271:3272 NS.TypesInduction <> P1:55 var
+R3275:3286 NS.TypesBase <> FTypeNominal constr
+R3301:3301 NS.TypesInduction <> s:71 var
+R3291:3299 NS.TypesInduction <> super_ids:70 var
+R3288:3289 NS.TypesInduction <> id:69 var
+R3312:3312 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R3391:3399 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R3328:3333 Coq.Strings.String <> string ind
+binder 3321:3324 <> name:72
+R3345:3348 Coq.Init.Datatypes <> list ind
+R3350:3354 NS.TypesBase <> ftype abbrev
+binder 3337:3341 <> targs:73
+R3366:3369 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R3358:3359 NS.TypesInduction <> P8:62 var
+R3361:3365 NS.TypesInduction <> targs:73 var
+R3370:3371 NS.TypesInduction <> P2:56 var
+R3374:3378 NS.TypesBase <> IType constr
+R3385:3389 NS.TypesInduction <> targs:73 var
+R3380:3383 NS.TypesInduction <> name:72 var
+R3400:3400 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R3580:3588 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R3419:3422 Coq.Init.Datatypes <> list ind
+R3424:3429 Coq.Strings.String <> string ind
+binder 3409:3415 <> tparams:74
+R3442:3445 Coq.Init.Datatypes <> list ind
+R3447:3451 NS.TypesBase <> ftype abbrev
+binder 3433:3438 <> params:75
+R3468:3471 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R3459:3460 NS.TypesInduction <> P8:62 var
+R3462:3467 NS.TypesInduction <> params:75 var
+R3488:3493 Coq.Init.Datatypes <> option ind
+R3495:3499 NS.TypesBase <> ftype abbrev
+binder 3479:3484 <> rparam:76
+R3511:3514 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R3502:3503 NS.TypesInduction <> P6:60 var
+R3505:3510 NS.TypesInduction <> rparam:76 var
+R3528:3533 NS.TypesBase <> vftype abbrev
+binder 3522:3524 <> ret:77
+R3542:3545 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R3536:3537 NS.TypesInduction <> P4:58 var
+R3539:3541 NS.TypesInduction <> ret:77 var
+R3546:3547 NS.TypesInduction <> P3:57 var
+R3550:3552 NS.TypesBase <> SFn constr
+R3576:3578 NS.TypesInduction <> ret:77 var
+R3569:3574 NS.TypesInduction <> rparam:76 var
+R3562:3567 NS.TypesInduction <> params:75 var
+R3554:3560 NS.TypesInduction <> tparams:74 var
+R3589:3589 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R3637:3645 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R3604:3608 NS.TypesBase <> ftype abbrev
+binder 3597:3600 <> elem:78
+R3617:3620 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R3611:3611 NS.TypesInduction <> P:53 var
+R3613:3616 NS.TypesInduction <> elem:78 var
+R3621:3622 NS.TypesInduction <> P3:57 var
+R3625:3630 NS.TypesBase <> SArray constr
+R3632:3635 NS.TypesInduction <> elem:78 var
+R3646:3646 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R3703:3711 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R3662:3665 Coq.Init.Datatypes <> list ind
+R3667:3671 NS.TypesBase <> ftype abbrev
+binder 3654:3658 <> elems:79
+R3682:3685 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R3674:3675 NS.TypesInduction <> P8:62 var
+R3677:3681 NS.TypesInduction <> elems:79 var
+R3686:3687 NS.TypesInduction <> P3:57 var
+R3690:3695 NS.TypesBase <> STuple constr
+R3697:3701 NS.TypesInduction <> elems:79 var
+R3712:3712 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R3778:3786 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R3729:3737 NS.Misc <> js_record def
+R3739:3743 NS.TypesBase <> ftype abbrev
+binder 3720:3725 <> fields:80
+R3755:3758 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R3746:3747 NS.TypesInduction <> P9:63 var
+R3749:3754 NS.TypesInduction <> fields:80 var
+R3759:3760 NS.TypesInduction <> P3:57 var
+R3763:3769 NS.TypesBase <> SObject constr
+R3771:3776 NS.TypesInduction <> fields:80 var
+R3795:3802 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R3787:3788 NS.TypesInduction <> P4:58 var
+R3790:3794 NS.TypesBase <> VVoid constr
+R3803:3803 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R3841:3849 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R3815:3819 NS.TypesBase <> ftype abbrev
+binder 3811:3811 <> a:81
+R3825:3828 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R3822:3822 NS.TypesInduction <> P:53 var
+R3824:3824 NS.TypesInduction <> a:81 var
+R3829:3830 NS.TypesInduction <> P4:58 var
+R3833:3837 NS.TypesBase <> VType constr
+R3839:3839 NS.TypesInduction <> a:81 var
+R3857:3864 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R3850:3851 NS.TypesInduction <> P5:59 var
+R3853:3856 Coq.Init.Datatypes <> None constr
+R3865:3865 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R3904:3912 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R3877:3882 NS.TypesBase <> sftype abbrev
+binder 3873:3873 <> a:82
+R3889:3892 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R3885:3886 NS.TypesInduction <> P3:57 var
+R3888:3888 NS.TypesInduction <> a:82 var
+R3893:3894 NS.TypesInduction <> P5:59 var
+R3897:3900 Coq.Init.Datatypes <> Some constr
+R3902:3902 NS.TypesInduction <> a:82 var
+R3920:3927 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R3913:3914 NS.TypesInduction <> P6:60 var
+R3916:3919 Coq.Init.Datatypes <> None constr
+R3928:3928 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R3965:3973 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R3940:3944 NS.TypesBase <> ftype abbrev
+binder 3936:3936 <> a:83
+R3950:3953 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R3947:3947 NS.TypesInduction <> P:53 var
+R3949:3949 NS.TypesInduction <> a:83 var
+R3954:3955 NS.TypesInduction <> P6:60 var
+R3958:3961 Coq.Init.Datatypes <> Some constr
+R3963:3963 NS.TypesInduction <> a:83 var
+R3980:3987 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R3974:3975 NS.TypesInduction <> P7:61 var
+R3977:3979 Coq.Init.Datatypes <> nil constr
+R3988:3988 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R4064:4072 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R4000:4005 NS.TypesBase <> iftype abbrev
+binder 3996:3996 <> x:84
+R4012:4015 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R4008:4009 NS.TypesInduction <> P2:56 var
+R4011:4011 NS.TypesInduction <> x:84 var
+R4028:4031 Coq.Init.Datatypes <> list ind
+R4033:4038 NS.TypesBase <> iftype abbrev
+binder 4023:4024 <> xs:85
+R4046:4049 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R4041:4042 NS.TypesInduction <> P7:61 var
+R4044:4045 NS.TypesInduction <> xs:85 var
+R4050:4051 NS.TypesInduction <> P7:61 var
+R4054:4057 Coq.Init.Datatypes <> cons constr
+R4061:4062 NS.TypesInduction <> xs:85 var
+R4059:4059 NS.TypesInduction <> x:84 var
+R4079:4086 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R4073:4074 NS.TypesInduction <> P8:62 var
+R4076:4078 Coq.Init.Datatypes <> nil constr
+R4087:4087 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R4160:4168 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R4099:4103 NS.TypesBase <> ftype abbrev
+binder 4095:4095 <> x:86
+R4109:4112 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R4106:4106 NS.TypesInduction <> P:53 var
+R4108:4108 NS.TypesInduction <> x:86 var
+R4125:4128 Coq.Init.Datatypes <> list ind
+R4130:4134 NS.TypesBase <> ftype abbrev
+binder 4120:4121 <> xs:87
+R4142:4145 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R4137:4138 NS.TypesInduction <> P8:62 var
+R4140:4141 NS.TypesInduction <> xs:87 var
+R4146:4147 NS.TypesInduction <> P8:62 var
+R4150:4153 Coq.Init.Datatypes <> cons constr
+R4157:4158 NS.TypesInduction <> xs:87 var
+R4155:4155 NS.TypesInduction <> x:86 var
+R4175:4182 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R4169:4170 NS.TypesInduction <> P9:63 var
+R4172:4174 Coq.Init.Datatypes <> nil constr
+R4183:4183 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R4272:4280 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R4201:4203 Coq.Init.Datatypes <> ::type_scope:x_'*'_x not
+R4195:4200 Coq.Strings.String <> string ind
+R4204:4208 NS.TypesBase <> ftype abbrev
+binder 4191:4191 <> x:88
+R4216:4219 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R4211:4213 NS.TypesInduction <> P10:64 var
+R4215:4215 NS.TypesInduction <> x:88 var
+R4232:4240 NS.Misc <> js_record def
+R4242:4246 NS.TypesBase <> ftype abbrev
+binder 4227:4228 <> xs:89
+R4254:4257 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R4249:4250 NS.TypesInduction <> P9:63 var
+R4252:4253 NS.TypesInduction <> xs:89 var
+R4258:4259 NS.TypesInduction <> P9:63 var
+R4262:4265 Coq.Init.Datatypes <> cons constr
+R4269:4270 NS.TypesInduction <> xs:89 var
+R4267:4267 NS.TypesInduction <> x:88 var
+R4281:4281 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R4346:4354 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R4295:4300 Coq.Strings.String <> string ind
+binder 4290:4292 <> key:90
+R4311:4315 NS.TypesBase <> ftype abbrev
+binder 4304:4308 <> value:91
+R4326:4329 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R4319:4319 NS.TypesInduction <> P:53 var
+R4321:4325 NS.TypesInduction <> value:91 var
+R4330:4332 NS.TypesInduction <> P10:64 var
+R4334:4334 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R4338:4339 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R4345:4345 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R4335:4337 NS.TypesInduction <> key:90 var
+R4340:4344 NS.TypesInduction <> value:91 var
+R4366:4370 NS.TypesBase <> ftype abbrev
+binder 4362:4362 <> f:92
+R4373:4373 NS.TypesInduction <> P:53 var
+R4375:4375 NS.TypesInduction <> f:92 var
+prf 4640:4651 <> vtype_depth0
+R4665:4670 NS.TypesBase <> vftype abbrev
+binder 4662:4662 <> a:94
+R4700:4702 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R4674:4684 NS.TypesSimpleHelpers <> vtype_depth def
+R4699:4699 NS.TypesInduction <> a:94 var
+prf 4750:4761 <> ntype_depth0
+R4775:4780 NS.TypesBase <> nftype abbrev
+binder 4772:4772 <> a:95
+R4810:4812 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R4784:4794 NS.TypesSimpleHelpers <> ntype_depth def
+R4809:4809 NS.TypesInduction <> a:95 var
+prf 4860:4871 <> atype_depth0
+R4885:4889 NS.TypesBase <> ftype abbrev
+binder 4882:4882 <> a:96
+R4919:4921 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R4893:4903 NS.TypesSimpleHelpers <> atype_depth def
+R4918:4918 NS.TypesInduction <> a:96 var
+R4974:4985 NS.TypesInduction <> ntype_depth0 thm
+R4974:4985 NS.TypesInduction <> ntype_depth0 thm
+prf 5001:5012 <> stype_depth0
+R5026:5031 NS.TypesBase <> sftype abbrev
+binder 5023:5023 <> a:97
+R5061:5063 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R5035:5045 NS.TypesSimpleHelpers <> stype_depth def
+R5060:5060 NS.TypesInduction <> a:97 var
+prf 5335:5346 <> itype_depth0
+R5360:5365 NS.TypesBase <> iftype abbrev
+binder 5357:5357 <> a:98
+R5395:5397 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R5369:5379 NS.TypesSimpleHelpers <> itype_depth def
+R5394:5394 NS.TypesInduction <> a:98 var
+prf 5498:5510 <> vtype_depth0'
+R5544:5546 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R5514:5524 NS.TypesSimpleHelpers <> vtype_depth def
+R5526:5530 NS.TypesBase <> ftype abbrev
+R5574:5598 Coq.Logic.FunctionalExtensionality <> functional_extensionality thm
+R5574:5598 Coq.Logic.FunctionalExtensionality <> functional_extensionality thm
+R5607:5618 NS.TypesInduction <> vtype_depth0 thm
+R5607:5618 NS.TypesInduction <> vtype_depth0 thm
+prf 5633:5645 <> ntype_depth0'
+R5680:5682 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R5649:5659 NS.TypesSimpleHelpers <> ntype_depth def
+R5661:5666 NS.TypesBase <> ftype' ind
+R5710:5734 Coq.Logic.FunctionalExtensionality <> functional_extensionality thm
+R5710:5734 Coq.Logic.FunctionalExtensionality <> functional_extensionality thm
+R5743:5754 NS.TypesInduction <> ntype_depth0 thm
+R5743:5754 NS.TypesInduction <> ntype_depth0 thm
+prf 5769:5781 <> atype_depth0'
+R5816:5818 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R5785:5795 NS.TypesSimpleHelpers <> atype_depth def
+R5797:5802 NS.TypesBase <> ftype' ind
+R5846:5870 Coq.Logic.FunctionalExtensionality <> functional_extensionality thm
+R5846:5870 Coq.Logic.FunctionalExtensionality <> functional_extensionality thm
+R5879:5890 NS.TypesInduction <> atype_depth0 thm
+R5879:5890 NS.TypesInduction <> atype_depth0 thm
+prf 5905:5917 <> stype_depth0'
+R5951:5953 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R5921:5931 NS.TypesSimpleHelpers <> stype_depth def
+R5933:5937 NS.TypesBase <> ftype abbrev
+R5981:6005 Coq.Logic.FunctionalExtensionality <> functional_extensionality thm
+R5981:6005 Coq.Logic.FunctionalExtensionality <> functional_extensionality thm
+R6014:6025 NS.TypesInduction <> stype_depth0 thm
+R6014:6025 NS.TypesInduction <> stype_depth0 thm
+prf 6040:6052 <> itype_depth0'
+R6086:6088 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R6056:6066 NS.TypesSimpleHelpers <> itype_depth def
+R6068:6072 NS.TypesBase <> ftype abbrev
+R6116:6140 Coq.Logic.FunctionalExtensionality <> functional_extensionality thm
+R6116:6140 Coq.Logic.FunctionalExtensionality <> functional_extensionality thm
+R6149:6160 NS.TypesInduction <> itype_depth0 thm
+R6149:6160 NS.TypesInduction <> itype_depth0 thm
+prf 6314:6334 <> ftype'_depth_le_bound
+R6352:6354 Coq.Init.Datatypes <> nat ind
+binder 6345:6349 <> bound:99
+R6360:6360 Coq.Init.Logic <> ::type_scope:x_'/\'_x not
+R6404:6410 Coq.Init.Logic <> ::type_scope:x_'/\'_x not
+binder 6368:6368 <> a:100
+R6395:6398 Coq.Init.Peano <> ::nat_scope:x_'<='_x not
+R6371:6386 NS.TypesSimpleHelpers <> ftype_depth_upto abbrev
+R6388:6392 NS.TypesInduction <> bound:99 var
+R6394:6394 NS.TypesInduction <> a:100 var
+R6399:6403 NS.TypesInduction <> bound:99 var
+R6411:6411 Coq.Init.Logic <> ::type_scope:x_'/\'_x not
+R6456:6462 Coq.Init.Logic <> ::type_scope:x_'/\'_x not
+binder 6419:6419 <> a:101
+R6447:6450 Coq.Init.Peano <> ::nat_scope:x_'<='_x not
+R6422:6438 NS.TypesSimpleHelpers <> ftype'_depth_upto def
+R6446:6446 NS.TypesInduction <> a:101 var
+R6440:6444 NS.TypesInduction <> bound:99 var
+R6451:6455 NS.TypesInduction <> bound:99 var
+R6463:6463 Coq.Init.Logic <> ::type_scope:x_'/\'_x not
+R6522:6528 Coq.Init.Logic <> ::type_scope:x_'/\'_x not
+binder 6471:6471 <> a:102
+R6513:6516 Coq.Init.Peano <> ::nat_scope:x_'<='_x not
+R6474:6484 NS.TypesSimpleHelpers <> ntype_depth def
+R6512:6512 NS.TypesInduction <> a:102 var
+R6487:6503 NS.TypesSimpleHelpers <> ftype'_depth_upto def
+R6505:6509 NS.TypesInduction <> bound:99 var
+R6517:6521 NS.TypesInduction <> bound:99 var
+R6529:6529 Coq.Init.Logic <> ::type_scope:x_'/\'_x not
+R6587:6593 Coq.Init.Logic <> ::type_scope:x_'/\'_x not
+binder 6537:6537 <> a:103
+R6578:6581 Coq.Init.Peano <> ::nat_scope:x_'<='_x not
+R6540:6550 NS.TypesSimpleHelpers <> stype_depth def
+R6577:6577 NS.TypesInduction <> a:103 var
+R6553:6568 NS.TypesSimpleHelpers <> ftype_depth_upto abbrev
+R6570:6574 NS.TypesInduction <> bound:99 var
+R6582:6586 NS.TypesInduction <> bound:99 var
+R6594:6594 Coq.Init.Logic <> ::type_scope:x_'/\'_x not
+R6652:6658 Coq.Init.Logic <> ::type_scope:x_'/\'_x not
+binder 6602:6602 <> a:104
+R6643:6646 Coq.Init.Peano <> ::nat_scope:x_'<='_x not
+R6605:6615 NS.TypesSimpleHelpers <> itype_depth def
+R6642:6642 NS.TypesInduction <> a:104 var
+R6618:6633 NS.TypesSimpleHelpers <> ftype_depth_upto abbrev
+R6635:6639 NS.TypesInduction <> bound:99 var
+R6647:6651 NS.TypesInduction <> bound:99 var
+R6659:6659 Coq.Init.Logic <> ::type_scope:x_'/\'_x not
+R6717:6723 Coq.Init.Logic <> ::type_scope:x_'/\'_x not
+binder 6667:6667 <> a:105
+R6708:6711 Coq.Init.Peano <> ::nat_scope:x_'<='_x not
+R6670:6680 NS.TypesSimpleHelpers <> vtype_depth def
+R6707:6707 NS.TypesInduction <> a:105 var
+R6683:6698 NS.TypesSimpleHelpers <> ftype_depth_upto abbrev
+R6700:6704 NS.TypesInduction <> bound:99 var
+R6712:6716 NS.TypesInduction <> bound:99 var
+R6724:6724 Coq.Init.Logic <> ::type_scope:x_'/\'_x not
+R6808:6814 Coq.Init.Logic <> ::type_scope:x_'/\'_x not
+binder 6732:6732 <> a:106
+R6799:6802 Coq.Init.Peano <> ::nat_scope:x_'<='_x not
+R6735:6744 NS.Misc <> option_max def
+R6747:6756 Coq.Init.Datatypes <> option_map def
+R6797:6797 NS.TypesInduction <> a:106 var
+R6759:6769 NS.TypesSimpleHelpers <> stype_depth def
+R6772:6787 NS.TypesSimpleHelpers <> ftype_depth_upto abbrev
+R6789:6793 NS.TypesInduction <> bound:99 var
+R6803:6807 NS.TypesInduction <> bound:99 var
+R6815:6815 Coq.Init.Logic <> ::type_scope:x_'/\'_x not
+R6895:6901 Coq.Init.Logic <> ::type_scope:x_'/\'_x not
+binder 6823:6823 <> a:107
+R6886:6889 Coq.Init.Peano <> ::nat_scope:x_'<='_x not
+R6826:6833 NS.Misc <> list_max def
+R6836:6843 Coq.Lists.List <> map def
+R6884:6884 NS.TypesInduction <> a:107 var
+R6846:6856 NS.TypesSimpleHelpers <> itype_depth def
+R6859:6874 NS.TypesSimpleHelpers <> ftype_depth_upto abbrev
+R6876:6880 NS.TypesInduction <> bound:99 var
+R6890:6894 NS.TypesInduction <> bound:99 var
+R6902:6902 Coq.Init.Logic <> ::type_scope:x_'/\'_x not
+R6972:6979 Coq.Init.Logic <> ::type_scope:x_'/\'_x not
+R7045:7045 Coq.Init.Logic <> ::type_scope:x_'/\'_x not
+binder 6910:6910 <> a:108
+R6963:6966 Coq.Init.Peano <> ::nat_scope:x_'<='_x not
+R6913:6922 NS.Misc <> option_max def
+R6925:6934 Coq.Init.Datatypes <> option_map def
+R6961:6961 NS.TypesInduction <> a:108 var
+R6937:6952 NS.TypesSimpleHelpers <> ftype_depth_upto abbrev
+R6954:6958 NS.TypesInduction <> bound:99 var
+R6967:6971 NS.TypesInduction <> bound:99 var
+binder 6987:6987 <> a:109
+R7036:7039 Coq.Init.Peano <> ::nat_scope:x_'<='_x not
+R6990:6997 NS.Misc <> list_max def
+R7000:7007 Coq.Lists.List <> map def
+R7034:7034 NS.TypesInduction <> a:109 var
+R7010:7025 NS.TypesSimpleHelpers <> ftype_depth_upto abbrev
+R7027:7031 NS.TypesInduction <> bound:99 var
+R7040:7044 NS.TypesInduction <> bound:99 var
+R7141:7153 NS.TypesInduction <> atype_depth0' thm
+R7165:7177 NS.TypesInduction <> ntype_depth0' thm
+R7189:7201 NS.TypesInduction <> stype_depth0' thm
+R7213:7225 NS.TypesInduction <> itype_depth0' thm
+R7237:7249 NS.TypesInduction <> vtype_depth0' thm
+R7261:7275 NS.MiscArith <> option_max_map0 thm
+R7287:7299 NS.MiscArith <> list_max_map0 thm
+R7308:7318 Coq.Arith.PeanoNat Nat le_refl thm
+R7141:7153 NS.TypesInduction <> atype_depth0' thm
+R7141:7153 NS.TypesInduction <> atype_depth0' thm
+R7141:7153 NS.TypesInduction <> atype_depth0' thm
+R7165:7177 NS.TypesInduction <> ntype_depth0' thm
+R7165:7177 NS.TypesInduction <> ntype_depth0' thm
+R7189:7201 NS.TypesInduction <> stype_depth0' thm
+R7189:7201 NS.TypesInduction <> stype_depth0' thm
+R7213:7225 NS.TypesInduction <> itype_depth0' thm
+R7213:7225 NS.TypesInduction <> itype_depth0' thm
+R7237:7249 NS.TypesInduction <> vtype_depth0' thm
+R7237:7249 NS.TypesInduction <> vtype_depth0' thm
+R7261:7275 NS.MiscArith <> option_max_map0 thm
+R7261:7275 NS.MiscArith <> option_max_map0 thm
+R7287:7299 NS.MiscArith <> list_max_map0 thm
+R7287:7299 NS.MiscArith <> list_max_map0 thm
+R7141:7153 NS.TypesInduction <> atype_depth0' thm
+R7141:7153 NS.TypesInduction <> atype_depth0' thm
+R7165:7177 NS.TypesInduction <> ntype_depth0' thm
+R7165:7177 NS.TypesInduction <> ntype_depth0' thm
+R7189:7201 NS.TypesInduction <> stype_depth0' thm
+R7189:7201 NS.TypesInduction <> stype_depth0' thm
+R7213:7225 NS.TypesInduction <> itype_depth0' thm
+R7213:7225 NS.TypesInduction <> itype_depth0' thm
+R7237:7249 NS.TypesInduction <> vtype_depth0' thm
+R7237:7249 NS.TypesInduction <> vtype_depth0' thm
+R7261:7275 NS.MiscArith <> option_max_map0 thm
+R7261:7275 NS.MiscArith <> option_max_map0 thm
+R7287:7299 NS.MiscArith <> list_max_map0 thm
+R7287:7299 NS.MiscArith <> list_max_map0 thm
+R7141:7153 NS.TypesInduction <> atype_depth0' thm
+R7141:7153 NS.TypesInduction <> atype_depth0' thm
+R7165:7177 NS.TypesInduction <> ntype_depth0' thm
+R7165:7177 NS.TypesInduction <> ntype_depth0' thm
+R7165:7177 NS.TypesInduction <> ntype_depth0' thm
+R7189:7201 NS.TypesInduction <> stype_depth0' thm
+R7189:7201 NS.TypesInduction <> stype_depth0' thm
+R7213:7225 NS.TypesInduction <> itype_depth0' thm
+R7213:7225 NS.TypesInduction <> itype_depth0' thm
+R7237:7249 NS.TypesInduction <> vtype_depth0' thm
+R7237:7249 NS.TypesInduction <> vtype_depth0' thm
+R7261:7275 NS.MiscArith <> option_max_map0 thm
+R7261:7275 NS.MiscArith <> option_max_map0 thm
+R7287:7299 NS.MiscArith <> list_max_map0 thm
+R7287:7299 NS.MiscArith <> list_max_map0 thm
+R7141:7153 NS.TypesInduction <> atype_depth0' thm
+R7141:7153 NS.TypesInduction <> atype_depth0' thm
+R7141:7153 NS.TypesInduction <> atype_depth0' thm
+R7165:7177 NS.TypesInduction <> ntype_depth0' thm
+R7165:7177 NS.TypesInduction <> ntype_depth0' thm
+R7189:7201 NS.TypesInduction <> stype_depth0' thm
+R7189:7201 NS.TypesInduction <> stype_depth0' thm
+R7189:7201 NS.TypesInduction <> stype_depth0' thm
+R7213:7225 NS.TypesInduction <> itype_depth0' thm
+R7213:7225 NS.TypesInduction <> itype_depth0' thm
+R7237:7249 NS.TypesInduction <> vtype_depth0' thm
+R7237:7249 NS.TypesInduction <> vtype_depth0' thm
+R7261:7275 NS.MiscArith <> option_max_map0 thm
+R7261:7275 NS.MiscArith <> option_max_map0 thm
+R7287:7299 NS.MiscArith <> list_max_map0 thm
+R7287:7299 NS.MiscArith <> list_max_map0 thm
+R7141:7153 NS.TypesInduction <> atype_depth0' thm
+R7141:7153 NS.TypesInduction <> atype_depth0' thm
+R7141:7153 NS.TypesInduction <> atype_depth0' thm
+R7165:7177 NS.TypesInduction <> ntype_depth0' thm
+R7165:7177 NS.TypesInduction <> ntype_depth0' thm
+R7189:7201 NS.TypesInduction <> stype_depth0' thm
+R7189:7201 NS.TypesInduction <> stype_depth0' thm
+R7213:7225 NS.TypesInduction <> itype_depth0' thm
+R7213:7225 NS.TypesInduction <> itype_depth0' thm
+R7213:7225 NS.TypesInduction <> itype_depth0' thm
+R7237:7249 NS.TypesInduction <> vtype_depth0' thm
+R7237:7249 NS.TypesInduction <> vtype_depth0' thm
+R7261:7275 NS.MiscArith <> option_max_map0 thm
+R7261:7275 NS.MiscArith <> option_max_map0 thm
+R7287:7299 NS.MiscArith <> list_max_map0 thm
+R7287:7299 NS.MiscArith <> list_max_map0 thm
+R7141:7153 NS.TypesInduction <> atype_depth0' thm
+R7141:7153 NS.TypesInduction <> atype_depth0' thm
+R7141:7153 NS.TypesInduction <> atype_depth0' thm
+R7165:7177 NS.TypesInduction <> ntype_depth0' thm
+R7165:7177 NS.TypesInduction <> ntype_depth0' thm
+R7189:7201 NS.TypesInduction <> stype_depth0' thm
+R7189:7201 NS.TypesInduction <> stype_depth0' thm
+R7213:7225 NS.TypesInduction <> itype_depth0' thm
+R7213:7225 NS.TypesInduction <> itype_depth0' thm
+R7237:7249 NS.TypesInduction <> vtype_depth0' thm
+R7237:7249 NS.TypesInduction <> vtype_depth0' thm
+R7237:7249 NS.TypesInduction <> vtype_depth0' thm
+R7261:7275 NS.MiscArith <> option_max_map0 thm
+R7261:7275 NS.MiscArith <> option_max_map0 thm
+R7287:7299 NS.MiscArith <> list_max_map0 thm
+R7287:7299 NS.MiscArith <> list_max_map0 thm
+R7141:7153 NS.TypesInduction <> atype_depth0' thm
+R7141:7153 NS.TypesInduction <> atype_depth0' thm
+R7141:7153 NS.TypesInduction <> atype_depth0' thm
+R7165:7177 NS.TypesInduction <> ntype_depth0' thm
+R7165:7177 NS.TypesInduction <> ntype_depth0' thm
+R7189:7201 NS.TypesInduction <> stype_depth0' thm
+R7189:7201 NS.TypesInduction <> stype_depth0' thm
+R7189:7201 NS.TypesInduction <> stype_depth0' thm
+R7213:7225 NS.TypesInduction <> itype_depth0' thm
+R7213:7225 NS.TypesInduction <> itype_depth0' thm
+R7237:7249 NS.TypesInduction <> vtype_depth0' thm
+R7237:7249 NS.TypesInduction <> vtype_depth0' thm
+R7261:7275 NS.MiscArith <> option_max_map0 thm
+R7261:7275 NS.MiscArith <> option_max_map0 thm
+R7261:7275 NS.MiscArith <> option_max_map0 thm
+R7287:7299 NS.MiscArith <> list_max_map0 thm
+R7287:7299 NS.MiscArith <> list_max_map0 thm
+R7141:7153 NS.TypesInduction <> atype_depth0' thm
+R7141:7153 NS.TypesInduction <> atype_depth0' thm
+R7141:7153 NS.TypesInduction <> atype_depth0' thm
+R7165:7177 NS.TypesInduction <> ntype_depth0' thm
+R7165:7177 NS.TypesInduction <> ntype_depth0' thm
+R7189:7201 NS.TypesInduction <> stype_depth0' thm
+R7189:7201 NS.TypesInduction <> stype_depth0' thm
+R7213:7225 NS.TypesInduction <> itype_depth0' thm
+R7213:7225 NS.TypesInduction <> itype_depth0' thm
+R7213:7225 NS.TypesInduction <> itype_depth0' thm
+R7237:7249 NS.TypesInduction <> vtype_depth0' thm
+R7237:7249 NS.TypesInduction <> vtype_depth0' thm
+R7261:7275 NS.MiscArith <> option_max_map0 thm
+R7261:7275 NS.MiscArith <> option_max_map0 thm
+R7287:7299 NS.MiscArith <> list_max_map0 thm
+R7287:7299 NS.MiscArith <> list_max_map0 thm
+R7287:7299 NS.MiscArith <> list_max_map0 thm
+R7141:7153 NS.TypesInduction <> atype_depth0' thm
+R7141:7153 NS.TypesInduction <> atype_depth0' thm
+R7141:7153 NS.TypesInduction <> atype_depth0' thm
+R7165:7177 NS.TypesInduction <> ntype_depth0' thm
+R7165:7177 NS.TypesInduction <> ntype_depth0' thm
+R7189:7201 NS.TypesInduction <> stype_depth0' thm
+R7189:7201 NS.TypesInduction <> stype_depth0' thm
+R7213:7225 NS.TypesInduction <> itype_depth0' thm
+R7213:7225 NS.TypesInduction <> itype_depth0' thm
+R7237:7249 NS.TypesInduction <> vtype_depth0' thm
+R7237:7249 NS.TypesInduction <> vtype_depth0' thm
+R7261:7275 NS.MiscArith <> option_max_map0 thm
+R7261:7275 NS.MiscArith <> option_max_map0 thm
+R7261:7275 NS.MiscArith <> option_max_map0 thm
+R7287:7299 NS.MiscArith <> list_max_map0 thm
+R7287:7299 NS.MiscArith <> list_max_map0 thm
+R7141:7153 NS.TypesInduction <> atype_depth0' thm
+R7141:7153 NS.TypesInduction <> atype_depth0' thm
+R7141:7153 NS.TypesInduction <> atype_depth0' thm
+R7165:7177 NS.TypesInduction <> ntype_depth0' thm
+R7165:7177 NS.TypesInduction <> ntype_depth0' thm
+R7189:7201 NS.TypesInduction <> stype_depth0' thm
+R7189:7201 NS.TypesInduction <> stype_depth0' thm
+R7213:7225 NS.TypesInduction <> itype_depth0' thm
+R7213:7225 NS.TypesInduction <> itype_depth0' thm
+R7237:7249 NS.TypesInduction <> vtype_depth0' thm
+R7237:7249 NS.TypesInduction <> vtype_depth0' thm
+R7261:7275 NS.MiscArith <> option_max_map0 thm
+R7261:7275 NS.MiscArith <> option_max_map0 thm
+R7287:7299 NS.MiscArith <> list_max_map0 thm
+R7287:7299 NS.MiscArith <> list_max_map0 thm
+R7287:7299 NS.MiscArith <> list_max_map0 thm
+R7308:7318 Coq.Arith.PeanoNat Nat le_refl thm
+R7308:7318 Coq.Arith.PeanoNat Nat le_refl thm
+R7308:7318 Coq.Arith.PeanoNat Nat le_refl thm
+R7308:7318 Coq.Arith.PeanoNat Nat le_refl thm
+R7308:7318 Coq.Arith.PeanoNat Nat le_refl thm
+R7308:7318 Coq.Arith.PeanoNat Nat le_refl thm
+R7308:7318 Coq.Arith.PeanoNat Nat le_refl thm
+R7308:7318 Coq.Arith.PeanoNat Nat le_refl thm
+R7308:7318 Coq.Arith.PeanoNat Nat le_refl thm
+R7308:7318 Coq.Arith.PeanoNat Nat le_refl thm
+binder 7415:7415 <> a:110
+R7447:7450 Coq.Init.Peano <> ::nat_scope:x_'<='_x not
+R7418:7434 NS.TypesSimpleHelpers <> ftype'_depth_upto def
+R7446:7446 NS.TypesInduction <> a:110 var
+R7437:7437 Coq.Init.Datatypes <> S constr
+R7451:7451 Coq.Init.Datatypes <> S constr
+binder 7415:7415 <> a:111
+R7447:7450 Coq.Init.Peano <> ::nat_scope:x_'<='_x not
+R7418:7434 NS.TypesSimpleHelpers <> ftype'_depth_upto def
+R7446:7446 NS.TypesInduction <> a:111 var
+R7437:7437 Coq.Init.Datatypes <> S constr
+R7451:7451 Coq.Init.Datatypes <> S constr
+R7505:7520 Coq.Arith.PeanoNat Nat succ_le_mono thm
+R7505:7520 Coq.Arith.PeanoNat Nat succ_le_mono thm
+R7505:7520 Coq.Arith.PeanoNat Nat succ_le_mono thm
+R7505:7520 Coq.Arith.PeanoNat Nat succ_le_mono thm
+R7505:7520 Coq.Arith.PeanoNat Nat succ_le_mono thm
+R7537:7547 Coq.Arith.PeanoNat Nat max_0_r thm
+R7537:7547 Coq.Arith.PeanoNat Nat max_0_r thm
+R7537:7547 Coq.Arith.PeanoNat Nat max_0_r thm
+R7574:7593 NS.MiscArith <> list_max_cons_opt_le thm
+R7596:7611 NS.MiscArith <> list_max_cons_le thm
+R7574:7593 NS.MiscArith <> list_max_cons_opt_le thm
+R7574:7593 NS.MiscArith <> list_max_cons_opt_le thm
+R7596:7611 NS.MiscArith <> list_max_cons_le thm
+R7596:7611 NS.MiscArith <> list_max_cons_le thm
+binder 7675:7675 <> a:112
+R7721:7724 Coq.Init.Peano <> ::nat_scope:x_'<='_x not
+R7678:7688 NS.TypesSimpleHelpers <> ntype_depth def
+R7720:7720 NS.TypesInduction <> a:112 var
+R7691:7707 NS.TypesSimpleHelpers <> ftype'_depth_upto def
+R7710:7710 Coq.Init.Datatypes <> S constr
+R7725:7725 Coq.Init.Datatypes <> S constr
+binder 7675:7675 <> a:113
+R7721:7724 Coq.Init.Peano <> ::nat_scope:x_'<='_x not
+R7678:7688 NS.TypesSimpleHelpers <> ntype_depth def
+R7720:7720 NS.TypesInduction <> a:113 var
+R7691:7707 NS.TypesSimpleHelpers <> ftype'_depth_upto def
+R7710:7710 Coq.Init.Datatypes <> S constr
+R7725:7725 Coq.Init.Datatypes <> S constr
+R7775:7784 Coq.Arith.PeanoNat Nat le_0_l thm
+R7775:7784 Coq.Arith.PeanoNat Nat le_0_l thm
+binder 7831:7831 <> a:114
+R7862:7865 Coq.Init.Peano <> ::nat_scope:x_'<='_x not
+R7834:7849 NS.TypesSimpleHelpers <> ftype_depth_upto abbrev
+R7852:7852 Coq.Init.Datatypes <> S constr
+R7861:7861 NS.TypesInduction <> a:114 var
+R7866:7866 Coq.Init.Datatypes <> S constr
+binder 7831:7831 <> a:115
+R7862:7865 Coq.Init.Peano <> ::nat_scope:x_'<='_x not
+R7834:7849 NS.TypesSimpleHelpers <> ftype_depth_upto abbrev
+R7852:7852 Coq.Init.Datatypes <> S constr
+R7861:7861 NS.TypesInduction <> a:115 var
+R7866:7866 Coq.Init.Datatypes <> S constr
+R7916:7925 Coq.Arith.PeanoNat Nat le_0_l thm
+R7916:7925 Coq.Arith.PeanoNat Nat le_0_l thm
+binder 7961:7961 <> a:116
+R8006:8009 Coq.Init.Peano <> ::nat_scope:x_'<='_x not
+R7964:7974 NS.TypesSimpleHelpers <> vtype_depth def
+R8005:8005 NS.TypesInduction <> a:116 var
+R7977:7992 NS.TypesSimpleHelpers <> ftype_depth_upto abbrev
+R7995:7995 Coq.Init.Datatypes <> S constr
+R8010:8010 Coq.Init.Datatypes <> S constr
+binder 7961:7961 <> a:117
+R8006:8009 Coq.Init.Peano <> ::nat_scope:x_'<='_x not
+R7964:7974 NS.TypesSimpleHelpers <> vtype_depth def
+R8005:8005 NS.TypesInduction <> a:117 var
+R7977:7992 NS.TypesSimpleHelpers <> ftype_depth_upto abbrev
+R7995:7995 Coq.Init.Datatypes <> S constr
+R8010:8010 Coq.Init.Datatypes <> S constr
+R8060:8069 Coq.Arith.PeanoNat Nat le_0_l thm
+R8060:8069 Coq.Arith.PeanoNat Nat le_0_l thm
+binder 8118:8118 <> a:118
+R8163:8166 Coq.Init.Peano <> ::nat_scope:x_'<='_x not
+R8121:8131 NS.TypesSimpleHelpers <> itype_depth def
+R8162:8162 NS.TypesInduction <> a:118 var
+R8134:8149 NS.TypesSimpleHelpers <> ftype_depth_upto abbrev
+R8152:8152 Coq.Init.Datatypes <> S constr
+R8167:8167 Coq.Init.Datatypes <> S constr
+binder 8118:8118 <> a:119
+R8163:8166 Coq.Init.Peano <> ::nat_scope:x_'<='_x not
+R8121:8131 NS.TypesSimpleHelpers <> itype_depth def
+R8162:8162 NS.TypesInduction <> a:119 var
+R8134:8149 NS.TypesSimpleHelpers <> ftype_depth_upto abbrev
+R8152:8152 Coq.Init.Datatypes <> S constr
+R8167:8167 Coq.Init.Datatypes <> S constr
+R8216:8235 NS.MiscArith <> list_max_map_all_le' thm
+R8216:8235 NS.MiscArith <> list_max_map_all_le' thm
+binder 8278:8278 <> a:120
+R8323:8326 Coq.Init.Peano <> ::nat_scope:x_'<='_x not
+R8281:8291 NS.TypesSimpleHelpers <> stype_depth def
+R8322:8322 NS.TypesInduction <> a:120 var
+R8294:8309 NS.TypesSimpleHelpers <> ftype_depth_upto abbrev
+R8312:8312 Coq.Init.Datatypes <> S constr
+R8327:8327 Coq.Init.Datatypes <> S constr
+binder 8278:8278 <> a:121
+R8323:8326 Coq.Init.Peano <> ::nat_scope:x_'<='_x not
+R8281:8291 NS.TypesSimpleHelpers <> stype_depth def
+R8322:8322 NS.TypesInduction <> a:121 var
+R8294:8309 NS.TypesSimpleHelpers <> ftype_depth_upto abbrev
+R8312:8312 Coq.Init.Datatypes <> S constr
+R8327:8327 Coq.Init.Datatypes <> S constr
+R8382:8392 Coq.Arith.PeanoNat Nat max_lub thm
+R8382:8392 Coq.Arith.PeanoNat Nat max_lub thm
+R8448:8467 NS.MiscArith <> list_max_cons_opt_le thm
+R8448:8467 NS.MiscArith <> list_max_cons_opt_le thm
+R8448:8467 NS.MiscArith <> list_max_cons_opt_le thm
+R8493:8514 NS.MiscArith <> option_max_map_all_le' thm
+R8493:8514 NS.MiscArith <> option_max_map_all_le' thm
+R8556:8575 NS.MiscArith <> list_max_map_all_le' thm
+R8556:8575 NS.MiscArith <> list_max_map_all_le' thm
+R8645:8664 NS.MiscArith <> list_max_map_all_le' thm
+R8645:8664 NS.MiscArith <> list_max_map_all_le' thm
+R8700:8719 NS.MiscArith <> list_max_map_all_le' thm
+R8700:8719 NS.MiscArith <> list_max_map_all_le' thm
+R8884:8905 NS.MiscArith <> option_max_map_all_le' thm
+R8884:8905 NS.MiscArith <> option_max_map_all_le' thm
+R8928:8947 NS.MiscArith <> list_max_map_all_le' thm
+R8928:8947 NS.MiscArith <> list_max_map_all_le' thm
+R8970:8991 NS.MiscArith <> option_max_map_all_le' thm
+R8970:8991 NS.MiscArith <> option_max_map_all_le' thm
+R9014:9033 NS.MiscArith <> list_max_map_all_le' thm
+R9014:9033 NS.MiscArith <> list_max_map_all_le' thm
+prf 9296:9317 <> ftype_depth_unbounded'
+R9331:9335 NS.TypesBase <> ftype abbrev
+binder 9328:9328 <> a:122
+R9339:9346 Coq.Init.Logic <> ::type_scope:'exists'_x_'..'_x_','_x not
+R9357:9359 Coq.Init.Logic <> ::type_scope:'exists'_x_'..'_x_','_x not
+R9354:9356 Coq.Init.Datatypes <> nat ind
+binder 9347:9351 <> bound:123
+R9376:9378 Coq.Init.Datatypes <> nat ind
+binder 9368:9373 <> bound':124
+R9397:9400 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R9387:9390 Coq.Init.Peano <> ::nat_scope:x_'<='_x not
+R9382:9386 NS.TypesInduction <> bound:123 var
+R9391:9396 NS.TypesInduction <> bound':124 var
+R9426:9428 Coq.Init.Peano <> ::nat_scope:x_'<'_x not
+R9401:9416 NS.TypesSimpleHelpers <> ftype_depth_upto abbrev
+R9418:9423 NS.TypesInduction <> bound':124 var
+R9425:9425 NS.TypesInduction <> a:122 var
+R9429:9433 NS.TypesInduction <> bound:123 var
+R9452:9461 NS.TypesInduction <> ftype_ind' prfax
+binder 10750:10750 <> a:125
+R10755:10761 Coq.Init.Logic <> ::type_scope:'exists'_x_'..'_x_','_x not
+R10767:10768 Coq.Init.Logic <> ::type_scope:'exists'_x_'..'_x_','_x not
+binder 10762:10766 <> bound:126
+binder 10776:10781 <> bound':127
+R10799:10802 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R10789:10792 Coq.Init.Peano <> ::nat_scope:x_'<='_x not
+R10784:10788 NS.TypesInduction <> bound:126 var
+R10793:10798 NS.TypesInduction <> bound':127 var
+R10834:10836 Coq.Init.Peano <> ::nat_scope:x_'<'_x not
+R10803:10818 NS.TypesSimpleHelpers <> ftype_depth_upto abbrev
+R10820:10825 NS.TypesInduction <> bound':127 var
+R10828:10830 Coq.Init.Datatypes <> snd def
+R10832:10832 NS.TypesInduction <> a:125 var
+R10837:10841 NS.TypesInduction <> bound:126 var
+binder 10624:10624 <> a:128
+R10629:10635 Coq.Init.Logic <> ::type_scope:'exists'_x_'..'_x_','_x not
+R10641:10642 Coq.Init.Logic <> ::type_scope:'exists'_x_'..'_x_','_x not
+binder 10636:10640 <> bound:129
+binder 10650:10655 <> bound':130
+R10673:10676 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R10663:10666 Coq.Init.Peano <> ::nat_scope:x_'<='_x not
+R10658:10662 NS.TypesInduction <> bound:129 var
+R10667:10672 NS.TypesInduction <> bound':130 var
+R10731:10733 Coq.Init.Peano <> ::nat_scope:x_'<'_x not
+R10677:10684 NS.Misc <> list_max def
+R10687:10694 Coq.Lists.List <> map def
+R10729:10729 NS.TypesInduction <> a:128 var
+R10720:10723 NS.Misc <> :::x_'<<'_x not
+R10724:10726 Coq.Init.Datatypes <> snd def
+R10697:10712 NS.TypesSimpleHelpers <> ftype_depth_upto abbrev
+R10714:10719 NS.TypesInduction <> bound':130 var
+R10734:10738 NS.TypesInduction <> bound:129 var
+binder 10505:10505 <> a:131
+R10510:10516 Coq.Init.Logic <> ::type_scope:'exists'_x_'..'_x_','_x not
+R10522:10523 Coq.Init.Logic <> ::type_scope:'exists'_x_'..'_x_','_x not
+binder 10517:10521 <> bound:132
+binder 10531:10536 <> bound':133
+R10554:10557 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R10544:10547 Coq.Init.Peano <> ::nat_scope:x_'<='_x not
+R10539:10543 NS.TypesInduction <> bound:132 var
+R10548:10553 NS.TypesInduction <> bound':133 var
+R10605:10607 Coq.Init.Peano <> ::nat_scope:x_'<'_x not
+R10558:10565 NS.Misc <> list_max def
+R10568:10575 Coq.Lists.List <> map def
+R10603:10603 NS.TypesInduction <> a:131 var
+R10578:10593 NS.TypesSimpleHelpers <> ftype_depth_upto abbrev
+R10595:10600 NS.TypesInduction <> bound':133 var
+R10608:10612 NS.TypesInduction <> bound:132 var
+binder 10372:10372 <> a:134
+R10377:10383 Coq.Init.Logic <> ::type_scope:'exists'_x_'..'_x_','_x not
+R10389:10390 Coq.Init.Logic <> ::type_scope:'exists'_x_'..'_x_','_x not
+binder 10384:10388 <> bound:135
+binder 10398:10403 <> bound':136
+R10421:10424 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R10411:10414 Coq.Init.Peano <> ::nat_scope:x_'<='_x not
+R10406:10410 NS.TypesInduction <> bound:135 var
+R10415:10420 NS.TypesInduction <> bound':136 var
+R10486:10488 Coq.Init.Peano <> ::nat_scope:x_'<'_x not
+R10425:10432 NS.Misc <> list_max def
+R10435:10442 Coq.Lists.List <> map def
+R10484:10484 NS.TypesInduction <> a:134 var
+R10445:10455 NS.TypesSimpleHelpers <> itype_depth def
+R10458:10473 NS.TypesSimpleHelpers <> ftype_depth_upto abbrev
+R10475:10480 NS.TypesInduction <> bound':136 var
+R10489:10493 NS.TypesInduction <> bound:135 var
+binder 10249:10249 <> a:137
+R10254:10260 Coq.Init.Logic <> ::type_scope:'exists'_x_'..'_x_','_x not
+R10266:10267 Coq.Init.Logic <> ::type_scope:'exists'_x_'..'_x_','_x not
+binder 10261:10265 <> bound:138
+binder 10275:10280 <> bound':139
+R10298:10301 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R10288:10291 Coq.Init.Peano <> ::nat_scope:x_'<='_x not
+R10283:10287 NS.TypesInduction <> bound:138 var
+R10292:10297 NS.TypesInduction <> bound':139 var
+R10353:10355 Coq.Init.Peano <> ::nat_scope:x_'<'_x not
+R10302:10311 NS.Misc <> option_max def
+R10314:10323 Coq.Init.Datatypes <> option_map def
+R10351:10351 NS.TypesInduction <> a:137 var
+R10326:10341 NS.TypesSimpleHelpers <> ftype_depth_upto abbrev
+R10343:10348 NS.TypesInduction <> bound':139 var
+R10356:10360 NS.TypesInduction <> bound:138 var
+binder 10112:10112 <> a:140
+R10117:10123 Coq.Init.Logic <> ::type_scope:'exists'_x_'..'_x_','_x not
+R10129:10130 Coq.Init.Logic <> ::type_scope:'exists'_x_'..'_x_','_x not
+binder 10124:10128 <> bound:141
+binder 10138:10143 <> bound':142
+R10161:10164 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R10151:10154 Coq.Init.Peano <> ::nat_scope:x_'<='_x not
+R10146:10150 NS.TypesInduction <> bound:141 var
+R10155:10160 NS.TypesInduction <> bound':142 var
+R10230:10232 Coq.Init.Peano <> ::nat_scope:x_'<'_x not
+R10165:10174 NS.Misc <> option_max def
+R10177:10186 Coq.Init.Datatypes <> option_map def
+R10228:10228 NS.TypesInduction <> a:140 var
+R10189:10199 NS.TypesSimpleHelpers <> stype_depth def
+R10202:10217 NS.TypesSimpleHelpers <> ftype_depth_upto abbrev
+R10219:10224 NS.TypesInduction <> bound':142 var
+R10233:10237 NS.TypesInduction <> bound:141 var
+binder 10001:10001 <> a:143
+R10006:10012 Coq.Init.Logic <> ::type_scope:'exists'_x_'..'_x_','_x not
+R10018:10019 Coq.Init.Logic <> ::type_scope:'exists'_x_'..'_x_','_x not
+binder 10013:10017 <> bound:144
+binder 10027:10032 <> bound':145
+R10050:10053 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R10040:10043 Coq.Init.Peano <> ::nat_scope:x_'<='_x not
+R10035:10039 NS.TypesInduction <> bound:144 var
+R10044:10049 NS.TypesInduction <> bound':145 var
+R10093:10095 Coq.Init.Peano <> ::nat_scope:x_'<'_x not
+R10054:10064 NS.TypesSimpleHelpers <> vtype_depth def
+R10092:10092 NS.TypesInduction <> a:143 var
+R10067:10082 NS.TypesSimpleHelpers <> ftype_depth_upto abbrev
+R10084:10089 NS.TypesInduction <> bound':145 var
+R10096:10100 NS.TypesInduction <> bound:144 var
+binder 9890:9890 <> a:146
+R9895:9901 Coq.Init.Logic <> ::type_scope:'exists'_x_'..'_x_','_x not
+R9907:9908 Coq.Init.Logic <> ::type_scope:'exists'_x_'..'_x_','_x not
+binder 9902:9906 <> bound:147
+binder 9916:9921 <> bound':148
+R9939:9942 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R9929:9932 Coq.Init.Peano <> ::nat_scope:x_'<='_x not
+R9924:9928 NS.TypesInduction <> bound:147 var
+R9933:9938 NS.TypesInduction <> bound':148 var
+R9982:9984 Coq.Init.Peano <> ::nat_scope:x_'<'_x not
+R9943:9953 NS.TypesSimpleHelpers <> stype_depth def
+R9981:9981 NS.TypesInduction <> a:146 var
+R9956:9971 NS.TypesSimpleHelpers <> ftype_depth_upto abbrev
+R9973:9978 NS.TypesInduction <> bound':148 var
+R9985:9989 NS.TypesInduction <> bound:147 var
+binder 9779:9779 <> a:149
+R9784:9790 Coq.Init.Logic <> ::type_scope:'exists'_x_'..'_x_','_x not
+R9796:9797 Coq.Init.Logic <> ::type_scope:'exists'_x_'..'_x_','_x not
+binder 9791:9795 <> bound:150
+binder 9805:9810 <> bound':151
+R9828:9831 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R9818:9821 Coq.Init.Peano <> ::nat_scope:x_'<='_x not
+R9813:9817 NS.TypesInduction <> bound:150 var
+R9822:9827 NS.TypesInduction <> bound':151 var
+R9871:9873 Coq.Init.Peano <> ::nat_scope:x_'<'_x not
+R9832:9842 NS.TypesSimpleHelpers <> itype_depth def
+R9870:9870 NS.TypesInduction <> a:149 var
+R9845:9860 NS.TypesSimpleHelpers <> ftype_depth_upto abbrev
+R9862:9867 NS.TypesInduction <> bound':151 var
+R9874:9878 NS.TypesInduction <> bound:150 var
+binder 9681:9681 <> a:152
+R9686:9692 Coq.Init.Logic <> ::type_scope:'exists'_x_'..'_x_','_x not
+R9698:9699 Coq.Init.Logic <> ::type_scope:'exists'_x_'..'_x_','_x not
+binder 9693:9697 <> bound:153
+binder 9707:9712 <> bound':154
+R9730:9733 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R9720:9723 Coq.Init.Peano <> ::nat_scope:x_'<='_x not
+R9715:9719 NS.TypesInduction <> bound:153 var
+R9724:9729 NS.TypesInduction <> bound':154 var
+R9760:9762 Coq.Init.Peano <> ::nat_scope:x_'<'_x not
+R9734:9750 NS.TypesSimpleHelpers <> ftype'_depth_upto def
+R9759:9759 NS.TypesInduction <> a:152 var
+R9752:9757 NS.TypesInduction <> bound':154 var
+R9763:9767 NS.TypesInduction <> bound:153 var
+binder 9569:9569 <> a:155
+R9574:9580 Coq.Init.Logic <> ::type_scope:'exists'_x_'..'_x_','_x not
+R9586:9587 Coq.Init.Logic <> ::type_scope:'exists'_x_'..'_x_','_x not
+binder 9581:9585 <> bound:156
+binder 9595:9600 <> bound':157
+R9618:9621 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R9608:9611 Coq.Init.Peano <> ::nat_scope:x_'<='_x not
+R9603:9607 NS.TypesInduction <> bound:156 var
+R9612:9617 NS.TypesInduction <> bound':157 var
+R9662:9664 Coq.Init.Peano <> ::nat_scope:x_'<'_x not
+R9622:9632 NS.TypesSimpleHelpers <> ntype_depth def
+R9661:9661 NS.TypesInduction <> a:155 var
+R9635:9651 NS.TypesSimpleHelpers <> ftype'_depth_upto def
+R9653:9658 NS.TypesInduction <> bound':157 var
+R9665:9669 NS.TypesInduction <> bound:156 var
+binder 9472:9472 <> a:158
+R9477:9483 Coq.Init.Logic <> ::type_scope:'exists'_x_'..'_x_','_x not
+R9489:9490 Coq.Init.Logic <> ::type_scope:'exists'_x_'..'_x_','_x not
+binder 9484:9488 <> bound:159
+binder 9498:9503 <> bound':160
+R9521:9524 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R9511:9514 Coq.Init.Peano <> ::nat_scope:x_'<='_x not
+R9506:9510 NS.TypesInduction <> bound:159 var
+R9515:9520 NS.TypesInduction <> bound':160 var
+R9550:9552 Coq.Init.Peano <> ::nat_scope:x_'<'_x not
+R9525:9540 NS.TypesSimpleHelpers <> ftype_depth_upto abbrev
+R9542:9547 NS.TypesInduction <> bound':160 var
+R9549:9549 NS.TypesInduction <> a:158 var
+R9553:9557 NS.TypesInduction <> bound:159 var
+R9452:9461 NS.TypesInduction <> ftype_ind' prfax
+binder 10750:10750 <> a:161
+R10755:10761 Coq.Init.Logic <> ::type_scope:'exists'_x_'..'_x_','_x not
+R10767:10768 Coq.Init.Logic <> ::type_scope:'exists'_x_'..'_x_','_x not
+binder 10762:10766 <> bound:162
+binder 10776:10781 <> bound':163
+R10799:10802 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R10789:10792 Coq.Init.Peano <> ::nat_scope:x_'<='_x not
+R10784:10788 NS.TypesInduction <> bound:162 var
+R10793:10798 NS.TypesInduction <> bound':163 var
+R10834:10836 Coq.Init.Peano <> ::nat_scope:x_'<'_x not
+R10803:10818 NS.TypesSimpleHelpers <> ftype_depth_upto abbrev
+R10820:10825 NS.TypesInduction <> bound':163 var
+R10828:10830 Coq.Init.Datatypes <> snd def
+R10832:10832 NS.TypesInduction <> a:161 var
+R10837:10841 NS.TypesInduction <> bound:162 var
+binder 10624:10624 <> a:164
+R10629:10635 Coq.Init.Logic <> ::type_scope:'exists'_x_'..'_x_','_x not
+R10641:10642 Coq.Init.Logic <> ::type_scope:'exists'_x_'..'_x_','_x not
+binder 10636:10640 <> bound:165
+binder 10650:10655 <> bound':166
+R10673:10676 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R10663:10666 Coq.Init.Peano <> ::nat_scope:x_'<='_x not
+R10658:10662 NS.TypesInduction <> bound:165 var
+R10667:10672 NS.TypesInduction <> bound':166 var
+R10731:10733 Coq.Init.Peano <> ::nat_scope:x_'<'_x not
+R10677:10684 NS.Misc <> list_max def
+R10687:10694 Coq.Lists.List <> map def
+R10729:10729 NS.TypesInduction <> a:164 var
+R10720:10723 NS.Misc <> :::x_'<<'_x not
+R10724:10726 Coq.Init.Datatypes <> snd def
+R10697:10712 NS.TypesSimpleHelpers <> ftype_depth_upto abbrev
+R10714:10719 NS.TypesInduction <> bound':166 var
+R10734:10738 NS.TypesInduction <> bound:165 var
+binder 10505:10505 <> a:167
+R10510:10516 Coq.Init.Logic <> ::type_scope:'exists'_x_'..'_x_','_x not
+R10522:10523 Coq.Init.Logic <> ::type_scope:'exists'_x_'..'_x_','_x not
+binder 10517:10521 <> bound:168
+binder 10531:10536 <> bound':169
+R10554:10557 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R10544:10547 Coq.Init.Peano <> ::nat_scope:x_'<='_x not
+R10539:10543 NS.TypesInduction <> bound:168 var
+R10548:10553 NS.TypesInduction <> bound':169 var
+R10605:10607 Coq.Init.Peano <> ::nat_scope:x_'<'_x not
+R10558:10565 NS.Misc <> list_max def
+R10568:10575 Coq.Lists.List <> map def
+R10603:10603 NS.TypesInduction <> a:167 var
+R10578:10593 NS.TypesSimpleHelpers <> ftype_depth_upto abbrev
+R10595:10600 NS.TypesInduction <> bound':169 var
+R10608:10612 NS.TypesInduction <> bound:168 var
+binder 10372:10372 <> a:170
+R10377:10383 Coq.Init.Logic <> ::type_scope:'exists'_x_'..'_x_','_x not
+R10389:10390 Coq.Init.Logic <> ::type_scope:'exists'_x_'..'_x_','_x not
+binder 10384:10388 <> bound:171
+binder 10398:10403 <> bound':172
+R10421:10424 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R10411:10414 Coq.Init.Peano <> ::nat_scope:x_'<='_x not
+R10406:10410 NS.TypesInduction <> bound:171 var
+R10415:10420 NS.TypesInduction <> bound':172 var
+R10486:10488 Coq.Init.Peano <> ::nat_scope:x_'<'_x not
+R10425:10432 NS.Misc <> list_max def
+R10435:10442 Coq.Lists.List <> map def
+R10484:10484 NS.TypesInduction <> a:170 var
+R10445:10455 NS.TypesSimpleHelpers <> itype_depth def
+R10458:10473 NS.TypesSimpleHelpers <> ftype_depth_upto abbrev
+R10475:10480 NS.TypesInduction <> bound':172 var
+R10489:10493 NS.TypesInduction <> bound:171 var
+binder 10249:10249 <> a:173
+R10254:10260 Coq.Init.Logic <> ::type_scope:'exists'_x_'..'_x_','_x not
+R10266:10267 Coq.Init.Logic <> ::type_scope:'exists'_x_'..'_x_','_x not
+binder 10261:10265 <> bound:174
+binder 10275:10280 <> bound':175
+R10298:10301 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R10288:10291 Coq.Init.Peano <> ::nat_scope:x_'<='_x not
+R10283:10287 NS.TypesInduction <> bound:174 var
+R10292:10297 NS.TypesInduction <> bound':175 var
+R10353:10355 Coq.Init.Peano <> ::nat_scope:x_'<'_x not
+R10302:10311 NS.Misc <> option_max def
+R10314:10323 Coq.Init.Datatypes <> option_map def
+R10351:10351 NS.TypesInduction <> a:173 var
+R10326:10341 NS.TypesSimpleHelpers <> ftype_depth_upto abbrev
+R10343:10348 NS.TypesInduction <> bound':175 var
+R10356:10360 NS.TypesInduction <> bound:174 var
+binder 10112:10112 <> a:176
+R10117:10123 Coq.Init.Logic <> ::type_scope:'exists'_x_'..'_x_','_x not
+R10129:10130 Coq.Init.Logic <> ::type_scope:'exists'_x_'..'_x_','_x not
+binder 10124:10128 <> bound:177
+binder 10138:10143 <> bound':178
+R10161:10164 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R10151:10154 Coq.Init.Peano <> ::nat_scope:x_'<='_x not
+R10146:10150 NS.TypesInduction <> bound:177 var
+R10155:10160 NS.TypesInduction <> bound':178 var
+R10230:10232 Coq.Init.Peano <> ::nat_scope:x_'<'_x not
+R10165:10174 NS.Misc <> option_max def
+R10177:10186 Coq.Init.Datatypes <> option_map def
+R10228:10228 NS.TypesInduction <> a:176 var
+R10189:10199 NS.TypesSimpleHelpers <> stype_depth def
+R10202:10217 NS.TypesSimpleHelpers <> ftype_depth_upto abbrev
+R10219:10224 NS.TypesInduction <> bound':178 var
+R10233:10237 NS.TypesInduction <> bound:177 var
+binder 10001:10001 <> a:179
+R10006:10012 Coq.Init.Logic <> ::type_scope:'exists'_x_'..'_x_','_x not
+R10018:10019 Coq.Init.Logic <> ::type_scope:'exists'_x_'..'_x_','_x not
+binder 10013:10017 <> bound:180
+binder 10027:10032 <> bound':181
+R10050:10053 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R10040:10043 Coq.Init.Peano <> ::nat_scope:x_'<='_x not
+R10035:10039 NS.TypesInduction <> bound:180 var
+R10044:10049 NS.TypesInduction <> bound':181 var
+R10093:10095 Coq.Init.Peano <> ::nat_scope:x_'<'_x not
+R10054:10064 NS.TypesSimpleHelpers <> vtype_depth def
+R10092:10092 NS.TypesInduction <> a:179 var
+R10067:10082 NS.TypesSimpleHelpers <> ftype_depth_upto abbrev
+R10084:10089 NS.TypesInduction <> bound':181 var
+R10096:10100 NS.TypesInduction <> bound:180 var
+binder 9890:9890 <> a:182
+R9895:9901 Coq.Init.Logic <> ::type_scope:'exists'_x_'..'_x_','_x not
+R9907:9908 Coq.Init.Logic <> ::type_scope:'exists'_x_'..'_x_','_x not
+binder 9902:9906 <> bound:183
+binder 9916:9921 <> bound':184
+R9939:9942 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R9929:9932 Coq.Init.Peano <> ::nat_scope:x_'<='_x not
+R9924:9928 NS.TypesInduction <> bound:183 var
+R9933:9938 NS.TypesInduction <> bound':184 var
+R9982:9984 Coq.Init.Peano <> ::nat_scope:x_'<'_x not
+R9943:9953 NS.TypesSimpleHelpers <> stype_depth def
+R9981:9981 NS.TypesInduction <> a:182 var
+R9956:9971 NS.TypesSimpleHelpers <> ftype_depth_upto abbrev
+R9973:9978 NS.TypesInduction <> bound':184 var
+R9985:9989 NS.TypesInduction <> bound:183 var
+binder 9779:9779 <> a:185
+R9784:9790 Coq.Init.Logic <> ::type_scope:'exists'_x_'..'_x_','_x not
+R9796:9797 Coq.Init.Logic <> ::type_scope:'exists'_x_'..'_x_','_x not
+binder 9791:9795 <> bound:186
+binder 9805:9810 <> bound':187
+R9828:9831 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R9818:9821 Coq.Init.Peano <> ::nat_scope:x_'<='_x not
+R9813:9817 NS.TypesInduction <> bound:186 var
+R9822:9827 NS.TypesInduction <> bound':187 var
+R9871:9873 Coq.Init.Peano <> ::nat_scope:x_'<'_x not
+R9832:9842 NS.TypesSimpleHelpers <> itype_depth def
+R9870:9870 NS.TypesInduction <> a:185 var
+R9845:9860 NS.TypesSimpleHelpers <> ftype_depth_upto abbrev
+R9862:9867 NS.TypesInduction <> bound':187 var
+R9874:9878 NS.TypesInduction <> bound:186 var
+binder 9681:9681 <> a:188
+R9686:9692 Coq.Init.Logic <> ::type_scope:'exists'_x_'..'_x_','_x not
+R9698:9699 Coq.Init.Logic <> ::type_scope:'exists'_x_'..'_x_','_x not
+binder 9693:9697 <> bound:189
+binder 9707:9712 <> bound':190
+R9730:9733 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R9720:9723 Coq.Init.Peano <> ::nat_scope:x_'<='_x not
+R9715:9719 NS.TypesInduction <> bound:189 var
+R9724:9729 NS.TypesInduction <> bound':190 var
+R9760:9762 Coq.Init.Peano <> ::nat_scope:x_'<'_x not
+R9734:9750 NS.TypesSimpleHelpers <> ftype'_depth_upto def
+R9759:9759 NS.TypesInduction <> a:188 var
+R9752:9757 NS.TypesInduction <> bound':190 var
+R9763:9767 NS.TypesInduction <> bound:189 var
+binder 9569:9569 <> a:191
+R9574:9580 Coq.Init.Logic <> ::type_scope:'exists'_x_'..'_x_','_x not
+R9586:9587 Coq.Init.Logic <> ::type_scope:'exists'_x_'..'_x_','_x not
+binder 9581:9585 <> bound:192
+binder 9595:9600 <> bound':193
+R9618:9621 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R9608:9611 Coq.Init.Peano <> ::nat_scope:x_'<='_x not
+R9603:9607 NS.TypesInduction <> bound:192 var
+R9612:9617 NS.TypesInduction <> bound':193 var
+R9662:9664 Coq.Init.Peano <> ::nat_scope:x_'<'_x not
+R9622:9632 NS.TypesSimpleHelpers <> ntype_depth def
+R9661:9661 NS.TypesInduction <> a:191 var
+R9635:9651 NS.TypesSimpleHelpers <> ftype'_depth_upto def
+R9653:9658 NS.TypesInduction <> bound':193 var
+R9665:9669 NS.TypesInduction <> bound:192 var
+binder 9472:9472 <> a:194
+R9477:9483 Coq.Init.Logic <> ::type_scope:'exists'_x_'..'_x_','_x not
+R9489:9490 Coq.Init.Logic <> ::type_scope:'exists'_x_'..'_x_','_x not
+binder 9484:9488 <> bound:195
+binder 9498:9503 <> bound':196
+R9521:9524 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R9511:9514 Coq.Init.Peano <> ::nat_scope:x_'<='_x not
+R9506:9510 NS.TypesInduction <> bound:195 var
+R9515:9520 NS.TypesInduction <> bound':196 var
+R9550:9552 Coq.Init.Peano <> ::nat_scope:x_'<'_x not
+R9525:9540 NS.TypesSimpleHelpers <> ftype_depth_upto abbrev
+R9542:9547 NS.TypesInduction <> bound':196 var
+R9549:9549 NS.TypesInduction <> a:194 var
+R9553:9557 NS.TypesInduction <> bound:195 var
+R11250:11250 Coq.Init.Datatypes <> S constr
+R11250:11250 Coq.Init.Datatypes <> S constr
+R11445:11451 Coq.Arith.PeanoNat Nat max def
+R11454:11460 Coq.Arith.PeanoNat Nat max def
+R11445:11451 Coq.Arith.PeanoNat Nat max def
+R11454:11460 Coq.Arith.PeanoNat Nat max def
+R11510:11510 Coq.Init.Datatypes <> S constr
+R11513:11513 Coq.Init.Datatypes <> S constr
+R11510:11510 Coq.Init.Datatypes <> S constr
+R11513:11513 Coq.Init.Datatypes <> S constr
+R11658:11673 Coq.Arith.PeanoNat Nat succ_lt_mono thm
+R11676:11695 NS.MiscArith <> list_max_cons_opt_lt thm
+R11698:11713 NS.MiscArith <> list_max_cons_lt thm
+R11658:11673 Coq.Arith.PeanoNat Nat succ_lt_mono thm
+R11658:11673 Coq.Arith.PeanoNat Nat succ_lt_mono thm
+R11676:11695 NS.MiscArith <> list_max_cons_opt_lt thm
+R11676:11695 NS.MiscArith <> list_max_cons_opt_lt thm
+R11698:11713 NS.MiscArith <> list_max_cons_lt thm
+R11698:11713 NS.MiscArith <> list_max_cons_lt thm
+R11965:11971 Coq.Arith.PeanoNat Nat max def
+R11974:11980 Coq.Arith.PeanoNat Nat max def
+R11965:11971 Coq.Arith.PeanoNat Nat max def
+R11974:11980 Coq.Arith.PeanoNat Nat max def
+R12038:12038 Coq.Init.Datatypes <> S constr
+R12038:12038 Coq.Init.Datatypes <> S constr
+R12163:12180 Coq.Arith.PeanoNat Nat max_lub_lt_iff thm
+R12183:12202 NS.MiscArith <> list_max_cons_opt_lt thm
+R12163:12180 Coq.Arith.PeanoNat Nat max_lub_lt_iff thm
+R12163:12180 Coq.Arith.PeanoNat Nat max_lub_lt_iff thm
+R12183:12202 NS.MiscArith <> list_max_cons_opt_lt thm
+R12183:12202 NS.MiscArith <> list_max_cons_opt_lt thm
+R12996:13002 Coq.Arith.PeanoNat Nat max def
+R12996:13002 Coq.Arith.PeanoNat Nat max def
+R13228:13234 Coq.Arith.PeanoNat Nat max def
+R13228:13234 Coq.Arith.PeanoNat Nat max def
+R13460:13466 Coq.Arith.PeanoNat Nat max def
+R13460:13466 Coq.Arith.PeanoNat Nat max def
+prf 13692:13712 <> ftype_depth_unbounded
+R13726:13730 NS.TypesBase <> ftype abbrev
+binder 13723:13723 <> a:197
+R13734:13741 Coq.Init.Logic <> ::type_scope:'exists'_x_'..'_x_','_x not
+R13752:13754 Coq.Init.Logic <> ::type_scope:'exists'_x_'..'_x_','_x not
+R13749:13751 Coq.Init.Datatypes <> nat ind
+binder 13742:13746 <> bound:198
+R13779:13781 Coq.Init.Peano <> ::nat_scope:x_'<'_x not
+R13755:13770 NS.TypesSimpleHelpers <> ftype_depth_upto abbrev
+R13772:13776 NS.TypesInduction <> bound:198 var
+R13778:13778 NS.TypesInduction <> a:197 var
+R13782:13786 NS.TypesInduction <> bound:198 var
+R13820:13841 NS.TypesInduction <> ftype_depth_unbounded' thm
+R13820:13841 NS.TypesInduction <> ftype_depth_unbounded' thm
+R13894:13904 Coq.Arith.PeanoNat Nat le_refl thm
+R13894:13904 Coq.Arith.PeanoNat Nat le_refl thm

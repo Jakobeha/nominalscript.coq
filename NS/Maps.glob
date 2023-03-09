@@ -1,0 +1,456 @@
+DIGEST 13bc619b82fd5e2186ab6befe31b6163
+FNS.Maps
+R15:29 Coq.Arith.Arith <> <> lib
+R47:59 Coq.Bool.Bool <> <> lib
+R77:94 Coq.Strings.String <> <> lib
+R112:145 Coq.Logic.FunctionalExtensionality <> <> lib
+ind 160:161 <> id
+constr 175:176 <> Id
+R185:188 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R179:184 Coq.Strings.String <> string ind
+R189:190 NS.Maps <> id:1 ind
+def 205:210 <> beq_id
+R218:219 NS.Maps <> id ind
+binder 213:213 <> a:3
+binder 215:215 <> b:4
+R224:227 Coq.Init.Datatypes <> bool ind
+R243:243 NS.Maps <> b:4 var
+R240:240 NS.Maps <> a:3 var
+R254:255 NS.Maps <> Id constr
+R261:262 NS.Maps <> Id constr
+R273:282 Coq.Strings.String <> string_dec def
+R305:309 Coq.Init.Datatypes <> false constr
+R295:298 Coq.Init.Datatypes <> true constr
+prf 327:337 <> beq_id_refl
+binder 348:348 <> x:7
+R355:357 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R351:354 Coq.Init.Datatypes <> true constr
+R358:363 NS.Maps <> beq_id def
+R365:365 NS.Maps <> x:7 var
+R367:367 NS.Maps <> x:7 var
+R413:422 Coq.Strings.String <> string_dec def
+R413:422 Coq.Strings.String <> string_dec def
+prf 493:507 <> beq_id_true_iff
+R524:525 NS.Maps <> id ind
+binder 518:518 <> x:8
+binder 520:520 <> y:9
+R547:551 Coq.Init.Logic <> ::type_scope:x_'<->'_x not
+R540:542 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R530:535 NS.Maps <> beq_id def
+R537:537 NS.Maps <> x:8 var
+R539:539 NS.Maps <> y:9 var
+R543:546 Coq.Init.Datatypes <> true constr
+R553:555 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R552:552 NS.Maps <> x:8 var
+R556:556 NS.Maps <> y:9 var
+R595:600 NS.Maps <> beq_id def
+R615:624 Coq.Strings.String <> string_dec def
+R615:624 Coq.Strings.String <> string_dec def
+prf 803:818 <> beq_id_false_iff
+R835:836 NS.Maps <> id ind
+binder 829:829 <> x:10
+binder 831:831 <> y:11
+R859:865 Coq.Init.Logic <> ::type_scope:x_'<->'_x not
+R851:853 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R841:846 NS.Maps <> beq_id def
+R848:848 NS.Maps <> x:10 var
+R850:850 NS.Maps <> y:11 var
+R854:858 Coq.Init.Datatypes <> false constr
+R867:870 Coq.Init.Logic <> ::type_scope:x_'<>'_x not
+R866:866 NS.Maps <> x:10 var
+R871:871 NS.Maps <> y:11 var
+R904:918 NS.Maps <> beq_id_true_iff thm
+R904:918 NS.Maps <> beq_id_true_iff thm
+R904:918 NS.Maps <> beq_id_true_iff thm
+R931:948 Coq.Bool.Bool <> not_true_iff_false thm
+R931:948 Coq.Bool.Bool <> not_true_iff_false thm
+R931:948 Coq.Bool.Bool <> not_true_iff_false thm
+prf 981:992 <> false_beq_id
+R1009:1010 NS.Maps <> id ind
+binder 1003:1003 <> x:12
+binder 1005:1005 <> y:13
+R1022:1028 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R1017:1020 Coq.Init.Logic <> ::type_scope:x_'<>'_x not
+R1016:1016 NS.Maps <> x:12 var
+R1021:1021 NS.Maps <> y:13 var
+R1039:1041 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R1029:1034 NS.Maps <> beq_id def
+R1036:1036 NS.Maps <> x:12 var
+R1038:1038 NS.Maps <> y:13 var
+R1042:1046 Coq.Init.Datatypes <> false constr
+R1079:1094 NS.Maps <> beq_id_false_iff thm
+R1079:1094 NS.Maps <> beq_id_false_iff thm
+R1079:1094 NS.Maps <> beq_id_false_iff thm
+def 1125:1133 <> total_map
+binder 1136:1136 <> A:14
+R1150:1153 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R1148:1149 NS.Maps <> id ind
+R1154:1154 NS.Maps <> A:14 var
+def 1169:1175 <> t_empty
+binder 1178:1178 <> A:15
+R1191:1191 NS.Maps <> A:15 var
+binder 1188:1188 <> v:16
+R1196:1204 NS.Maps <> total_map def
+R1206:1206 NS.Maps <> A:15 var
+R1222:1223 NS.Maps <> id ind
+R1229:1229 NS.Maps <> v:16 var
+def 1244:1251 <> t_update
+binder 1254:1254 <> A:17
+R1267:1275 NS.Maps <> total_map def
+R1277:1277 NS.Maps <> A:17 var
+binder 1264:1264 <> m:18
+R1284:1285 NS.Maps <> id ind
+binder 1281:1281 <> k:19
+R1292:1292 NS.Maps <> A:17 var
+binder 1289:1289 <> v:20
+R1297:1305 NS.Maps <> total_map def
+R1307:1307 NS.Maps <> A:17 var
+R1323:1324 NS.Maps <> id ind
+binder 1319:1319 <> x:21
+R1333:1338 NS.Maps <> beq_id def
+R1340:1340 NS.Maps <> k:19 var
+R1342:1342 NS.Maps <> x:21 var
+R1356:1356 NS.Maps <> m:18 var
+R1358:1358 NS.Maps <> x:21 var
+R1349:1349 NS.Maps <> v:20 var
+def 1374:1383 <> examplemap
+R1390:1397 NS.Maps <> t_update def
+R1465:1468 Coq.Init.Datatypes <> true constr
+R1455:1456 NS.Maps <> Id constr
+R1400:1407 NS.Maps <> t_update def
+R1436:1440 Coq.Init.Datatypes <> false constr
+R1426:1427 NS.Maps <> Id constr
+R1410:1416 NS.Maps <> t_empty def
+R1418:1422 Coq.Init.Datatypes <> false constr
+def 1481:1495 <> update_example1
+R1520:1522 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R1499:1508 NS.Maps <> examplemap def
+R1511:1512 NS.Maps <> Id constr
+R1523:1527 Coq.Init.Datatypes <> false constr
+def 1564:1578 <> update_example2
+R1603:1605 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R1582:1591 NS.Maps <> examplemap def
+R1594:1595 NS.Maps <> Id constr
+R1606:1610 Coq.Init.Datatypes <> false constr
+def 1647:1661 <> update_example3
+R1687:1689 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R1665:1674 NS.Maps <> examplemap def
+R1677:1678 NS.Maps <> Id constr
+R1690:1694 Coq.Init.Datatypes <> false constr
+def 1731:1745 <> update_example4
+R1770:1772 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R1749:1758 NS.Maps <> examplemap def
+R1761:1762 NS.Maps <> Id constr
+R1773:1776 Coq.Init.Datatypes <> true constr
+prf 1811:1823 <> t_apply_empty
+binder 1833:1833 <> A:22
+binder 1835:1835 <> x:23
+binder 1837:1837 <> v:24
+R1854:1856 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R1841:1847 NS.Maps <> t_empty def
+R1849:1849 NS.Maps <> A:22 var
+R1851:1851 NS.Maps <> v:24 var
+R1853:1853 NS.Maps <> x:23 var
+R1857:1857 NS.Maps <> v:24 var
+R1886:1892 NS.Maps <> t_empty def
+prf 1920:1930 <> t_update_eq
+binder 1941:1941 <> A:25
+R1947:1955 NS.Maps <> total_map def
+R1957:1957 NS.Maps <> A:25 var
+binder 1944:1944 <> m:26
+binder 1960:1960 <> x:27
+binder 1962:1962 <> v:28
+R1985:1987 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R1968:1975 NS.Maps <> t_update def
+R1981:1981 NS.Maps <> v:28 var
+R1979:1979 NS.Maps <> x:27 var
+R1977:1977 NS.Maps <> m:26 var
+R1984:1984 NS.Maps <> x:27 var
+R1988:1988 NS.Maps <> v:28 var
+R2017:2024 NS.Maps <> t_update def
+R2040:2050 NS.Maps <> beq_id_refl thm
+R2040:2050 NS.Maps <> beq_id_refl thm
+R2040:2050 NS.Maps <> beq_id_refl thm
+prf 2082:2093 <> t_update_neq
+binder 2105:2105 <> X:29
+binder 2113:2113 <> v:30
+binder 2115:2116 <> x1:31
+binder 2118:2119 <> x2:32
+R2151:2159 NS.Maps <> total_map def
+R2161:2161 NS.Maps <> X:29 var
+binder 2147:2147 <> m:33
+R2175:2180 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R2169:2172 Coq.Init.Logic <> ::type_scope:x_'<>'_x not
+R2167:2168 NS.Maps <> x1:31 var
+R2173:2174 NS.Maps <> x2:32 var
+R2201:2203 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R2182:2189 NS.Maps <> t_update def
+R2196:2196 NS.Maps <> v:30 var
+R2193:2194 NS.Maps <> x1:31 var
+R2191:2191 NS.Maps <> m:33 var
+R2199:2200 NS.Maps <> x2:32 var
+R2204:2204 NS.Maps <> m:33 var
+R2206:2207 NS.Maps <> x2:32 var
+R2235:2246 NS.Maps <> false_beq_id thm
+R2235:2246 NS.Maps <> false_beq_id thm
+R2263:2270 NS.Maps <> t_update def
+prf 2316:2330 <> t_update_shadow
+binder 2341:2341 <> A:34
+R2347:2355 NS.Maps <> total_map def
+R2357:2357 NS.Maps <> A:34 var
+binder 2344:2344 <> m:35
+binder 2360:2361 <> v1:36
+binder 2363:2364 <> v2:37
+binder 2366:2366 <> x:38
+R2404:2408 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R2373:2380 NS.Maps <> t_update def
+R2402:2403 NS.Maps <> v2:37 var
+R2400:2400 NS.Maps <> x:38 var
+R2383:2390 NS.Maps <> t_update def
+R2396:2397 NS.Maps <> v1:36 var
+R2394:2394 NS.Maps <> x:38 var
+R2392:2392 NS.Maps <> m:35 var
+R2409:2416 NS.Maps <> t_update def
+R2422:2423 NS.Maps <> v2:37 var
+R2420:2420 NS.Maps <> x:38 var
+R2418:2418 NS.Maps <> m:35 var
+R2452:2459 NS.Maps <> t_update def
+R2470:2498 Coq.Logic.FunctionalExtensionality <> functional_extensionality_dep prfax
+R2470:2498 Coq.Logic.FunctionalExtensionality <> functional_extensionality_dep prfax
+R2523:2528 NS.Maps <> beq_id def
+R2523:2528 NS.Maps <> beq_id def
+prf 2583:2589 <> beq_idP
+binder 2600:2600 <> x:39
+binder 2602:2602 <> y:40
+R2605:2611 Coq.Bool.Bool <> reflect ind
+R2615:2617 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R2614:2614 NS.Maps <> x:39 var
+R2618:2618 NS.Maps <> y:40 var
+R2622:2627 NS.Maps <> beq_id def
+R2629:2629 NS.Maps <> x:39 var
+R2631:2631 NS.Maps <> y:40 var
+R2660:2670 Coq.Bool.Bool <> iff_reflect thm
+R2660:2670 Coq.Bool.Bool <> iff_reflect thm
+R2686:2700 NS.Maps <> beq_id_true_iff thm
+R2686:2700 NS.Maps <> beq_id_true_iff thm
+R2686:2700 NS.Maps <> beq_id_true_iff thm
+prf 2732:2744 <> t_update_same
+binder 2755:2755 <> X:41
+binder 2757:2757 <> x:42
+R2764:2772 NS.Maps <> total_map def
+R2774:2774 NS.Maps <> X:41 var
+binder 2760:2760 <> m:43
+R2798:2800 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R2780:2787 NS.Maps <> t_update def
+R2794:2794 NS.Maps <> m:43 var
+R2796:2796 NS.Maps <> x:42 var
+R2791:2791 NS.Maps <> x:42 var
+R2789:2789 NS.Maps <> m:43 var
+R2801:2801 NS.Maps <> m:43 var
+R2830:2837 NS.Maps <> t_update def
+R2848:2876 Coq.Logic.FunctionalExtensionality <> functional_extensionality_dep prfax
+R2848:2876 Coq.Logic.FunctionalExtensionality <> functional_extensionality_dep prfax
+R2901:2907 NS.Maps <> beq_idP thm
+R2901:2907 NS.Maps <> beq_idP thm
+prf 2978:2993 <> t_update_permute
+binder 3005:3005 <> X:44
+binder 3013:3014 <> v1:45
+binder 3016:3017 <> v2:46
+binder 3019:3020 <> x1:47
+binder 3022:3023 <> x2:48
+R3059:3067 NS.Maps <> total_map def
+R3069:3069 NS.Maps <> X:44 var
+binder 3055:3055 <> m:49
+R3083:3090 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R3077:3080 Coq.Init.Logic <> ::type_scope:x_'<>'_x not
+R3075:3076 NS.Maps <> x2:48 var
+R3081:3082 NS.Maps <> x1:47 var
+R3091:3091 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R3125:3131 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R3165:3165 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R3092:3099 NS.Maps <> t_update def
+R3123:3124 NS.Maps <> v1:45 var
+R3120:3121 NS.Maps <> x1:47 var
+R3102:3109 NS.Maps <> t_update def
+R3116:3117 NS.Maps <> v2:46 var
+R3113:3114 NS.Maps <> x2:48 var
+R3111:3111 NS.Maps <> m:49 var
+R3132:3139 NS.Maps <> t_update def
+R3163:3164 NS.Maps <> v2:46 var
+R3160:3161 NS.Maps <> x2:48 var
+R3142:3149 NS.Maps <> t_update def
+R3156:3157 NS.Maps <> v1:45 var
+R3153:3154 NS.Maps <> x1:47 var
+R3151:3151 NS.Maps <> m:49 var
+R3194:3201 NS.Maps <> t_update def
+R3212:3240 Coq.Logic.FunctionalExtensionality <> functional_extensionality_dep prfax
+R3212:3240 Coq.Logic.FunctionalExtensionality <> functional_extensionality_dep prfax
+R3265:3271 NS.Maps <> beq_idP thm
+R3265:3271 NS.Maps <> beq_idP thm
+R3294:3300 NS.Maps <> beq_idP thm
+R3294:3300 NS.Maps <> beq_idP thm
+R3394:3400 NS.Maps <> beq_idP thm
+R3394:3400 NS.Maps <> beq_idP thm
+def 3466:3476 <> partial_map
+binder 3479:3479 <> A:50
+R3490:3498 NS.Maps <> total_map def
+R3501:3506 Coq.Init.Datatypes <> option ind
+R3508:3508 NS.Maps <> A:50 var
+def 3524:3528 <> empty
+binder 3531:3531 <> A:51
+R3542:3552 NS.Maps <> partial_map def
+R3554:3554 NS.Maps <> A:51 var
+R3561:3567 NS.Maps <> t_empty def
+R3569:3572 Coq.Init.Datatypes <> None constr
+def 3587:3592 <> update
+binder 3595:3595 <> A:52
+R3608:3618 NS.Maps <> partial_map def
+R3620:3620 NS.Maps <> A:52 var
+binder 3605:3605 <> m:53
+R3627:3628 NS.Maps <> id ind
+binder 3624:3624 <> k:54
+R3635:3635 NS.Maps <> A:52 var
+binder 3632:3632 <> v:55
+R3643:3650 NS.Maps <> t_update def
+R3657:3660 Coq.Init.Datatypes <> Some constr
+R3662:3662 NS.Maps <> v:55 var
+R3654:3654 NS.Maps <> k:54 var
+R3652:3652 NS.Maps <> m:53 var
+prf 3674:3684 <> apply_empty
+binder 3695:3695 <> A:56
+binder 3697:3697 <> x:57
+R3710:3712 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R3701:3705 NS.Maps <> empty def
+R3707:3707 NS.Maps <> A:56 var
+R3709:3709 NS.Maps <> x:57 var
+R3713:3716 Coq.Init.Datatypes <> None constr
+R3743:3747 NS.Maps <> empty def
+R3758:3770 NS.Maps <> t_apply_empty thm
+R3758:3770 NS.Maps <> t_apply_empty thm
+R3758:3770 NS.Maps <> t_apply_empty thm
+prf 3798:3806 <> update_eq
+binder 3817:3817 <> A:58
+R3823:3833 NS.Maps <> partial_map def
+R3835:3835 NS.Maps <> A:58 var
+binder 3820:3820 <> m:59
+binder 3838:3838 <> x:60
+binder 3840:3840 <> v:61
+R3861:3863 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R3846:3851 NS.Maps <> update def
+R3857:3857 NS.Maps <> v:61 var
+R3855:3855 NS.Maps <> x:60 var
+R3853:3853 NS.Maps <> m:59 var
+R3860:3860 NS.Maps <> x:60 var
+R3864:3867 Coq.Init.Datatypes <> Some constr
+R3869:3869 NS.Maps <> v:61 var
+R3896:3901 NS.Maps <> update def
+R3912:3922 NS.Maps <> t_update_eq thm
+R3912:3922 NS.Maps <> t_update_eq thm
+R3912:3922 NS.Maps <> t_update_eq thm
+prf 3950:3959 <> update_neq
+binder 3970:3970 <> A:62
+R3976:3986 NS.Maps <> partial_map def
+R3988:3988 NS.Maps <> A:62 var
+binder 3973:3973 <> m:63
+binder 3991:3992 <> x1:64
+binder 3994:3995 <> x2:65
+binder 3997:3997 <> v:66
+R4010:4015 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R4004:4007 Coq.Init.Logic <> ::type_scope:x_'<>'_x not
+R4002:4003 NS.Maps <> x2:65 var
+R4008:4009 NS.Maps <> x1:64 var
+R4034:4036 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R4017:4022 NS.Maps <> update def
+R4029:4029 NS.Maps <> v:66 var
+R4026:4027 NS.Maps <> x2:65 var
+R4024:4024 NS.Maps <> m:63 var
+R4032:4033 NS.Maps <> x1:64 var
+R4037:4037 NS.Maps <> m:63 var
+R4039:4040 NS.Maps <> x1:64 var
+R4067:4072 NS.Maps <> update def
+R4083:4094 NS.Maps <> t_update_neq thm
+R4083:4094 NS.Maps <> t_update_neq thm
+R4083:4094 NS.Maps <> t_update_neq thm
+R4083:4094 NS.Maps <> t_update_neq thm
+prf 4139:4151 <> update_shadow
+binder 4162:4162 <> A:67
+R4168:4178 NS.Maps <> partial_map def
+R4180:4180 NS.Maps <> A:67 var
+binder 4165:4165 <> m:68
+binder 4183:4183 <> x:69
+binder 4185:4186 <> v1:70
+binder 4188:4189 <> v2:71
+R4221:4223 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R4194:4199 NS.Maps <> update def
+R4219:4220 NS.Maps <> v2:71 var
+R4217:4217 NS.Maps <> x:69 var
+R4202:4207 NS.Maps <> update def
+R4213:4214 NS.Maps <> v1:70 var
+R4211:4211 NS.Maps <> x:69 var
+R4209:4209 NS.Maps <> m:68 var
+R4224:4229 NS.Maps <> update def
+R4235:4236 NS.Maps <> v2:71 var
+R4233:4233 NS.Maps <> x:69 var
+R4231:4231 NS.Maps <> m:68 var
+R4263:4268 NS.Maps <> update def
+R4279:4293 NS.Maps <> t_update_shadow thm
+R4279:4293 NS.Maps <> t_update_shadow thm
+R4279:4293 NS.Maps <> t_update_shadow thm
+prf 4321:4331 <> update_same
+binder 4342:4342 <> A:72
+R4348:4358 NS.Maps <> partial_map def
+R4360:4360 NS.Maps <> A:72 var
+binder 4345:4345 <> m:73
+binder 4363:4363 <> x:74
+binder 4365:4365 <> v:75
+R4382:4387 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R4373:4375 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R4370:4370 NS.Maps <> m:73 var
+R4372:4372 NS.Maps <> x:74 var
+R4376:4379 Coq.Init.Datatypes <> Some constr
+R4381:4381 NS.Maps <> v:75 var
+R4400:4402 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R4388:4393 NS.Maps <> update def
+R4399:4399 NS.Maps <> v:75 var
+R4397:4397 NS.Maps <> x:74 var
+R4395:4395 NS.Maps <> m:73 var
+R4403:4403 NS.Maps <> m:73 var
+R4430:4435 NS.Maps <> update def
+R4460:4472 NS.Maps <> t_update_same thm
+R4460:4472 NS.Maps <> t_update_same thm
+R4460:4472 NS.Maps <> t_update_same thm
+prf 4500:4513 <> update_permute
+binder 4524:4524 <> A:76
+R4530:4540 NS.Maps <> partial_map def
+R4542:4542 NS.Maps <> A:76 var
+binder 4527:4527 <> m:77
+binder 4545:4546 <> x1:78
+binder 4548:4549 <> x2:79
+binder 4551:4552 <> v1:80
+binder 4554:4555 <> v2:81
+R4568:4573 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R4562:4565 Coq.Init.Logic <> ::type_scope:x_'<>'_x not
+R4560:4561 NS.Maps <> x2:79 var
+R4566:4567 NS.Maps <> x1:78 var
+R4574:4574 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R4604:4610 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R4640:4640 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R4575:4580 NS.Maps <> update def
+R4602:4603 NS.Maps <> v1:80 var
+R4599:4600 NS.Maps <> x1:78 var
+R4583:4588 NS.Maps <> update def
+R4595:4596 NS.Maps <> v2:81 var
+R4592:4593 NS.Maps <> x2:79 var
+R4590:4590 NS.Maps <> m:77 var
+R4611:4616 NS.Maps <> update def
+R4638:4639 NS.Maps <> v2:81 var
+R4635:4636 NS.Maps <> x2:79 var
+R4619:4624 NS.Maps <> update def
+R4631:4632 NS.Maps <> v1:80 var
+R4628:4629 NS.Maps <> x1:78 var
+R4626:4626 NS.Maps <> m:77 var
+R4667:4672 NS.Maps <> update def
+R4683:4698 NS.Maps <> t_update_permute thm
+R4683:4698 NS.Maps <> t_update_permute thm
+R4683:4698 NS.Maps <> t_update_permute thm
+R4683:4698 NS.Maps <> t_update_permute thm

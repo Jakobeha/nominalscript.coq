@@ -1,0 +1,1244 @@
+DIGEST fd8b49f69d16845612af3a0e0b991cdf
+FNS.TypesNotation
+R116:133 Coq.Strings.String <> <> lib
+R151:163 Coq.Bool.Bool <> <> lib
+R189:197 NS.TypesBase <> <> lib
+not 455:455 <> ::ttype_scope:'[!'_x_'!]'
+not 511:511 <> :ttype::'('_x_')'
+not 568:568 <> :ttype::'{!'_x_'!}'
+R632:635 NS.TypesBase <> AAny constr
+not 621:621 <> :ttype::'Any'
+R679:683 NS.TypesBase <> AType constr
+R691:696 NS.TypesBase <> NNever constr
+R685:689 Coq.Init.Datatypes <> false constr
+not 665:665 <> :ttype::'Never'
+R740:744 NS.TypesBase <> AType constr
+R751:756 NS.TypesBase <> NNever constr
+R746:749 Coq.Init.Datatypes <> true constr
+not 727:727 <> :ttype::'Null'
+R795:799 NS.TypesBase <> AType constr
+R808:812 NS.TypesBase <> NType constr
+R815:826 NS.TypesBase <> TTypeNominal constr
+R829:833 NS.TypesBase <> IType constr
+R837:839 Coq.Init.Datatypes <> nil constr
+R801:805 Coq.Init.Datatypes <> false constr
+not 787:787 <> :ttype::x
+R916:920 NS.TypesBase <> AType constr
+R928:932 NS.TypesBase <> NType constr
+R935:946 NS.TypesBase <> TTypeNominal constr
+R949:953 NS.TypesBase <> IType constr
+R957:959 Coq.Init.Datatypes <> nil constr
+R922:925 Coq.Init.Datatypes <> true constr
+not 906:906 <> :ttype::x_'?'
+R1043:1047 NS.TypesBase <> AType constr
+R1056:1060 NS.TypesBase <> NType constr
+R1063:1074 NS.TypesBase <> TTypeNominal constr
+R1077:1081 NS.TypesBase <> IType constr
+R1086:1089 Coq.Init.Datatypes <> cons constr
+R1094:1096 Coq.Init.Datatypes <> nil constr
+R1049:1053 Coq.Init.Datatypes <> false constr
+not 1026:1026 <> :ttype::x_'<'_x_'>'
+R1215:1219 NS.TypesBase <> AType constr
+R1227:1231 NS.TypesBase <> NType constr
+R1234:1245 NS.TypesBase <> TTypeNominal constr
+R1248:1252 NS.TypesBase <> IType constr
+R1257:1260 Coq.Init.Datatypes <> cons constr
+R1265:1267 Coq.Init.Datatypes <> nil constr
+R1221:1224 Coq.Init.Datatypes <> true constr
+not 1196:1196 <> :ttype::x_'<'_x_'>'_'?'
+R1394:1398 NS.TypesBase <> AType constr
+R1407:1411 NS.TypesBase <> NType constr
+R1414:1425 NS.TypesBase <> TTypeNominal constr
+R1428:1432 NS.TypesBase <> IType constr
+R1437:1440 Coq.Init.Datatypes <> cons constr
+R1449:1452 Coq.Init.Datatypes <> cons constr
+R1457:1459 Coq.Init.Datatypes <> nil constr
+R1400:1404 Coq.Init.Datatypes <> false constr
+not 1367:1367 <> :ttype::x_'<'_x_','_'..'_','_x_'>'
+R1621:1625 NS.TypesBase <> AType constr
+R1633:1637 NS.TypesBase <> NType constr
+R1640:1651 NS.TypesBase <> TTypeNominal constr
+R1654:1658 NS.TypesBase <> IType constr
+R1663:1666 Coq.Init.Datatypes <> cons constr
+R1675:1678 Coq.Init.Datatypes <> cons constr
+R1683:1685 Coq.Init.Datatypes <> nil constr
+R1627:1630 Coq.Init.Datatypes <> true constr
+not 1592:1592 <> :ttype::x_'<'_x_','_'..'_','_x_'>'_'?'
+R1829:1833 NS.TypesBase <> AType constr
+R1842:1846 NS.TypesBase <> NType constr
+R1849:1863 NS.TypesBase <> TTypeStructural constr
+R1866:1871 NS.TypesBase <> SArray constr
+R1835:1839 Coq.Init.Datatypes <> false constr
+not 1818:1818 <> :ttype::x_'[]'
+R1947:1951 NS.TypesBase <> AType constr
+R1959:1963 NS.TypesBase <> NType constr
+R1966:1980 NS.TypesBase <> TTypeStructural constr
+R1983:1988 NS.TypesBase <> SArray constr
+R1953:1956 Coq.Init.Datatypes <> true constr
+not 1934:1934 <> :ttype::x_'[]'_'?'
+R2061:2065 NS.TypesBase <> AType constr
+R2074:2078 NS.TypesBase <> NType constr
+R2081:2095 NS.TypesBase <> TTypeStructural constr
+R2098:2103 NS.TypesBase <> STuple constr
+R2105:2107 Coq.Init.Datatypes <> nil constr
+R2067:2071 Coq.Init.Datatypes <> false constr
+not 2051:2051 <> :ttype::'['_']'
+R2153:2157 NS.TypesBase <> AType constr
+R2165:2169 NS.TypesBase <> NType constr
+R2172:2186 NS.TypesBase <> TTypeStructural constr
+R2189:2194 NS.TypesBase <> STuple constr
+R2196:2198 Coq.Init.Datatypes <> nil constr
+R2159:2162 Coq.Init.Datatypes <> true constr
+not 2141:2141 <> :ttype::'['_']'_'?'
+R2245:2249 NS.TypesBase <> AType constr
+R2258:2262 NS.TypesBase <> NType constr
+R2265:2279 NS.TypesBase <> TTypeStructural constr
+R2282:2287 NS.TypesBase <> STuple constr
+R2290:2293 Coq.Init.Datatypes <> cons constr
+R2298:2300 Coq.Init.Datatypes <> nil constr
+R2251:2255 Coq.Init.Datatypes <> false constr
+not 2232:2232 <> :ttype::'['_x_']'
+R2378:2382 NS.TypesBase <> AType constr
+R2390:2394 NS.TypesBase <> NType constr
+R2397:2411 NS.TypesBase <> TTypeStructural constr
+R2414:2419 NS.TypesBase <> STuple constr
+R2422:2425 Coq.Init.Datatypes <> cons constr
+R2430:2432 Coq.Init.Datatypes <> nil constr
+R2384:2387 Coq.Init.Datatypes <> true constr
+not 2363:2363 <> :ttype::'['_x_']'_'?'
+R2520:2524 NS.TypesBase <> AType constr
+R2533:2537 NS.TypesBase <> NType constr
+R2540:2554 NS.TypesBase <> TTypeStructural constr
+R2557:2562 NS.TypesBase <> STuple constr
+R2565:2568 Coq.Init.Datatypes <> cons constr
+R2577:2580 Coq.Init.Datatypes <> cons constr
+R2585:2587 Coq.Init.Datatypes <> nil constr
+R2526:2530 Coq.Init.Datatypes <> false constr
+not 2495:2495 <> :ttype::'['_x_','_'..'_','_x_']'
+R2714:2718 NS.TypesBase <> AType constr
+R2726:2730 NS.TypesBase <> NType constr
+R2733:2747 NS.TypesBase <> TTypeStructural constr
+R2750:2755 NS.TypesBase <> STuple constr
+R2758:2761 Coq.Init.Datatypes <> cons constr
+R2770:2773 Coq.Init.Datatypes <> cons constr
+R2778:2780 Coq.Init.Datatypes <> nil constr
+R2720:2723 Coq.Init.Datatypes <> true constr
+not 2687:2687 <> :ttype::'['_x_','_'..'_','_x_']'_'?'
+R2890:2894 NS.TypesBase <> AType constr
+R2903:2907 NS.TypesBase <> NType constr
+R2910:2924 NS.TypesBase <> TTypeStructural constr
+R2927:2933 NS.TypesBase <> SObject constr
+R2935:2937 Coq.Init.Datatypes <> nil constr
+R2896:2900 Coq.Init.Datatypes <> false constr
+not 2880:2880 <> :ttype::'{'_'}'
+R2983:2987 NS.TypesBase <> AType constr
+R2995:2999 NS.TypesBase <> NType constr
+R3002:3016 NS.TypesBase <> TTypeStructural constr
+R3019:3025 NS.TypesBase <> SObject constr
+R3027:3029 Coq.Init.Datatypes <> nil constr
+R2989:2992 Coq.Init.Datatypes <> true constr
+not 2971:2971 <> :ttype::'{'_'}'_'?'
+R3076:3080 NS.TypesBase <> AType constr
+R3089:3093 NS.TypesBase <> NType constr
+R3096:3110 NS.TypesBase <> TTypeStructural constr
+R3113:3119 NS.TypesBase <> SObject constr
+R3122:3125 Coq.Init.Datatypes <> cons constr
+R3130:3132 Coq.Init.Datatypes <> nil constr
+R3082:3086 Coq.Init.Datatypes <> false constr
+not 3063:3063 <> :ttype::'{'_x_'}'
+R3205:3209 NS.TypesBase <> AType constr
+R3217:3221 NS.TypesBase <> NType constr
+R3224:3238 NS.TypesBase <> TTypeStructural constr
+R3241:3247 NS.TypesBase <> SObject constr
+R3250:3253 Coq.Init.Datatypes <> cons constr
+R3258:3260 Coq.Init.Datatypes <> nil constr
+R3211:3214 Coq.Init.Datatypes <> true constr
+not 3190:3190 <> :ttype::'{'_x_'}'_'?'
+R3343:3347 NS.TypesBase <> AType constr
+R3356:3360 NS.TypesBase <> NType constr
+R3363:3377 NS.TypesBase <> TTypeStructural constr
+R3380:3386 NS.TypesBase <> SObject constr
+R3389:3392 Coq.Init.Datatypes <> cons constr
+R3401:3404 Coq.Init.Datatypes <> cons constr
+R3409:3411 Coq.Init.Datatypes <> nil constr
+R3349:3353 Coq.Init.Datatypes <> false constr
+not 3318:3318 <> :ttype::'{'_x_','_'..'_','_x_'}'
+R3528:3532 NS.TypesBase <> AType constr
+R3540:3544 NS.TypesBase <> NType constr
+R3547:3561 NS.TypesBase <> TTypeStructural constr
+R3564:3570 NS.TypesBase <> SObject constr
+R3573:3576 Coq.Init.Datatypes <> cons constr
+R3585:3588 Coq.Init.Datatypes <> cons constr
+R3593:3595 Coq.Init.Datatypes <> nil constr
+R3534:3537 Coq.Init.Datatypes <> true constr
+not 3501:3501 <> :ttype::'{'_x_','_'..'_','_x_'}'_'?'
+R3703:3703 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R3708:3709 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R3715:3715 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+not 3685:3685 <> :ttype_field::x_':'_x
+R4214:4218 NS.TypesBase <> AType constr
+R4227:4231 NS.TypesBase <> NType constr
+R4234:4248 NS.TypesBase <> TTypeStructural constr
+R4251:4253 NS.TypesBase <> SFn constr
+R4268:4272 NS.TypesBase <> VVoid constr
+R4263:4266 Coq.Init.Datatypes <> None constr
+R4259:4261 Coq.Init.Datatypes <> nil constr
+R4255:4257 Coq.Init.Datatypes <> nil constr
+R4220:4224 Coq.Init.Datatypes <> false constr
+not 4192:4192 <> :ttype::'('_')'_'=>'_'Void'
+R4340:4344 NS.TypesBase <> AType constr
+R4353:4357 NS.TypesBase <> NType constr
+R4360:4374 NS.TypesBase <> TTypeStructural constr
+R4377:4379 NS.TypesBase <> SFn constr
+R4395:4399 NS.TypesBase <> VType constr
+R4389:4392 Coq.Init.Datatypes <> None constr
+R4385:4387 Coq.Init.Datatypes <> nil constr
+R4381:4383 Coq.Init.Datatypes <> nil constr
+R4346:4350 Coq.Init.Datatypes <> false constr
+not 4321:4321 <> :ttype::'('_')'_'=>'_x
+R4532:4536 NS.TypesBase <> AType constr
+R4545:4549 NS.TypesBase <> NType constr
+R4552:4566 NS.TypesBase <> TTypeStructural constr
+R4569:4571 NS.TypesBase <> SFn constr
+R4596:4600 NS.TypesBase <> VVoid constr
+R4591:4594 Coq.Init.Datatypes <> None constr
+R4587:4589 Coq.Init.Datatypes <> nil constr
+R4574:4577 Coq.Init.Datatypes <> cons constr
+R4582:4584 Coq.Init.Datatypes <> nil constr
+R4538:4542 Coq.Init.Datatypes <> false constr
+not 4503:4503 <> :ttype::'<'_x_'>'_'('_')'_'=>'_'Void'
+R4698:4702 NS.TypesBase <> AType constr
+R4711:4715 NS.TypesBase <> NType constr
+R4718:4732 NS.TypesBase <> TTypeStructural constr
+R4735:4737 NS.TypesBase <> SFn constr
+R4763:4767 NS.TypesBase <> VType constr
+R4757:4760 Coq.Init.Datatypes <> None constr
+R4753:4755 Coq.Init.Datatypes <> nil constr
+R4740:4743 Coq.Init.Datatypes <> cons constr
+R4748:4750 Coq.Init.Datatypes <> nil constr
+R4704:4708 Coq.Init.Datatypes <> false constr
+not 4672:4672 <> :ttype::'<'_x_'>'_'('_')'_'=>'_x
+R4933:4937 NS.TypesBase <> AType constr
+R4946:4950 NS.TypesBase <> NType constr
+R4953:4967 NS.TypesBase <> TTypeStructural constr
+R4970:4972 NS.TypesBase <> SFn constr
+R5014:5018 NS.TypesBase <> VVoid constr
+R5009:5012 Coq.Init.Datatypes <> None constr
+R5005:5007 Coq.Init.Datatypes <> nil constr
+R4975:4978 Coq.Init.Datatypes <> cons constr
+R4987:4990 Coq.Init.Datatypes <> cons constr
+R4995:4997 Coq.Init.Datatypes <> nil constr
+R4939:4943 Coq.Init.Datatypes <> false constr
+not 4894:4894 <> :ttype::'<'_x_','_'..'_','_x_'>'_'('_')'_'=>'_'Void'
+R5149:5153 NS.TypesBase <> AType constr
+R5162:5166 NS.TypesBase <> NType constr
+R5169:5183 NS.TypesBase <> TTypeStructural constr
+R5186:5188 NS.TypesBase <> SFn constr
+R5231:5235 NS.TypesBase <> VType constr
+R5225:5228 Coq.Init.Datatypes <> None constr
+R5221:5223 Coq.Init.Datatypes <> nil constr
+R5191:5194 Coq.Init.Datatypes <> cons constr
+R5203:5206 Coq.Init.Datatypes <> cons constr
+R5211:5213 Coq.Init.Datatypes <> nil constr
+R5155:5159 Coq.Init.Datatypes <> false constr
+not 5113:5113 <> :ttype::'<'_x_','_'..'_','_x_'>'_'('_')'_'=>'_x
+R5410:5414 NS.TypesBase <> AType constr
+R5423:5427 NS.TypesBase <> NType constr
+R5430:5444 NS.TypesBase <> TTypeStructural constr
+R5447:5449 NS.TypesBase <> SFn constr
+R5474:5478 NS.TypesBase <> VVoid constr
+R5469:5472 Coq.Init.Datatypes <> None constr
+R5456:5459 Coq.Init.Datatypes <> cons constr
+R5464:5466 Coq.Init.Datatypes <> nil constr
+R5451:5453 Coq.Init.Datatypes <> nil constr
+R5416:5420 Coq.Init.Datatypes <> false constr
+not 5385:5385 <> :ttype::'('_x_')'_'=>'_'Void'
+R5577:5581 NS.TypesBase <> AType constr
+R5590:5594 NS.TypesBase <> NType constr
+R5597:5611 NS.TypesBase <> TTypeStructural constr
+R5614:5616 NS.TypesBase <> SFn constr
+R5642:5646 NS.TypesBase <> VType constr
+R5636:5639 Coq.Init.Datatypes <> None constr
+R5623:5626 Coq.Init.Datatypes <> cons constr
+R5631:5633 Coq.Init.Datatypes <> nil constr
+R5618:5620 Coq.Init.Datatypes <> nil constr
+R5583:5587 Coq.Init.Datatypes <> false constr
+not 5555:5555 <> :ttype::'('_x_')'_'=>'_x
+R5810:5814 NS.TypesBase <> AType constr
+R5823:5827 NS.TypesBase <> NType constr
+R5830:5844 NS.TypesBase <> TTypeStructural constr
+R5847:5849 NS.TypesBase <> SFn constr
+R5884:5888 NS.TypesBase <> VVoid constr
+R5879:5882 Coq.Init.Datatypes <> None constr
+R5866:5869 Coq.Init.Datatypes <> cons constr
+R5874:5876 Coq.Init.Datatypes <> nil constr
+R5852:5855 Coq.Init.Datatypes <> cons constr
+R5860:5862 Coq.Init.Datatypes <> nil constr
+R5816:5820 Coq.Init.Datatypes <> false constr
+not 5778:5778 <> :ttype::'<'_x_'>'_'('_x_')'_'=>'_'Void'
+R6017:6021 NS.TypesBase <> AType constr
+R6030:6034 NS.TypesBase <> NType constr
+R6037:6051 NS.TypesBase <> TTypeStructural constr
+R6054:6056 NS.TypesBase <> SFn constr
+R6092:6096 NS.TypesBase <> VType constr
+R6086:6089 Coq.Init.Datatypes <> None constr
+R6073:6076 Coq.Init.Datatypes <> cons constr
+R6081:6083 Coq.Init.Datatypes <> nil constr
+R6059:6062 Coq.Init.Datatypes <> cons constr
+R6067:6069 Coq.Init.Datatypes <> nil constr
+R6023:6027 Coq.Init.Datatypes <> false constr
+not 5988:5988 <> :ttype::'<'_x_'>'_'('_x_')'_'=>'_x
+R6293:6297 NS.TypesBase <> AType constr
+R6306:6310 NS.TypesBase <> NType constr
+R6313:6327 NS.TypesBase <> TTypeStructural constr
+R6330:6332 NS.TypesBase <> SFn constr
+R6384:6388 NS.TypesBase <> VVoid constr
+R6379:6382 Coq.Init.Datatypes <> None constr
+R6366:6369 Coq.Init.Datatypes <> cons constr
+R6374:6376 Coq.Init.Datatypes <> nil constr
+R6335:6338 Coq.Init.Datatypes <> cons constr
+R6347:6350 Coq.Init.Datatypes <> cons constr
+R6355:6357 Coq.Init.Datatypes <> nil constr
+R6299:6303 Coq.Init.Datatypes <> false constr
+not 6251:6251 <> :ttype::'<'_x_','_'..'_','_x_'>'_'('_x_')'_'=>'_'Void'
+R6550:6554 NS.TypesBase <> AType constr
+R6563:6567 NS.TypesBase <> NType constr
+R6570:6584 NS.TypesBase <> TTypeStructural constr
+R6587:6589 NS.TypesBase <> SFn constr
+R6642:6646 NS.TypesBase <> VType constr
+R6636:6639 Coq.Init.Datatypes <> None constr
+R6623:6626 Coq.Init.Datatypes <> cons constr
+R6631:6633 Coq.Init.Datatypes <> nil constr
+R6592:6595 Coq.Init.Datatypes <> cons constr
+R6604:6607 Coq.Init.Datatypes <> cons constr
+R6612:6614 Coq.Init.Datatypes <> nil constr
+R6556:6560 Coq.Init.Datatypes <> false constr
+not 6511:6511 <> :ttype::'<'_x_','_'..'_','_x_'>'_'('_x_')'_'=>'_x
+R6867:6871 NS.TypesBase <> AType constr
+R6880:6884 NS.TypesBase <> NType constr
+R6887:6901 NS.TypesBase <> TTypeStructural constr
+R6904:6906 NS.TypesBase <> SFn constr
+R6948:6952 NS.TypesBase <> VVoid constr
+R6943:6946 Coq.Init.Datatypes <> None constr
+R6913:6916 Coq.Init.Datatypes <> cons constr
+R6925:6928 Coq.Init.Datatypes <> cons constr
+R6933:6935 Coq.Init.Datatypes <> nil constr
+R6908:6910 Coq.Init.Datatypes <> nil constr
+R6873:6877 Coq.Init.Datatypes <> false constr
+not 6832:6832 <> :ttype::'('_x_','_'..'_','_x_')'_'=>'_'Void'
+R7089:7093 NS.TypesBase <> AType constr
+R7102:7106 NS.TypesBase <> NType constr
+R7109:7123 NS.TypesBase <> TTypeStructural constr
+R7126:7128 NS.TypesBase <> SFn constr
+R7171:7175 NS.TypesBase <> VType constr
+R7165:7168 Coq.Init.Datatypes <> None constr
+R7135:7138 Coq.Init.Datatypes <> cons constr
+R7147:7150 Coq.Init.Datatypes <> cons constr
+R7155:7157 Coq.Init.Datatypes <> nil constr
+R7130:7132 Coq.Init.Datatypes <> nil constr
+R7095:7099 Coq.Init.Datatypes <> false constr
+not 7057:7057 <> :ttype::'('_x_','_'..'_','_x_')'_'=>'_x
+R7377:7381 NS.TypesBase <> AType constr
+R7390:7394 NS.TypesBase <> NType constr
+R7397:7411 NS.TypesBase <> TTypeStructural constr
+R7414:7416 NS.TypesBase <> SFn constr
+R7468:7472 NS.TypesBase <> VVoid constr
+R7463:7466 Coq.Init.Datatypes <> None constr
+R7433:7436 Coq.Init.Datatypes <> cons constr
+R7445:7448 Coq.Init.Datatypes <> cons constr
+R7453:7455 Coq.Init.Datatypes <> nil constr
+R7419:7422 Coq.Init.Datatypes <> cons constr
+R7427:7429 Coq.Init.Datatypes <> nil constr
+R7383:7387 Coq.Init.Datatypes <> false constr
+not 7335:7335 <> :ttype::'<'_x_'>'_'('_x_','_'..'_','_x_')'_'=>'_'Void'
+R7639:7643 NS.TypesBase <> AType constr
+R7652:7656 NS.TypesBase <> NType constr
+R7659:7673 NS.TypesBase <> TTypeStructural constr
+R7676:7678 NS.TypesBase <> SFn constr
+R7731:7735 NS.TypesBase <> VType constr
+R7725:7728 Coq.Init.Datatypes <> None constr
+R7695:7698 Coq.Init.Datatypes <> cons constr
+R7707:7710 Coq.Init.Datatypes <> cons constr
+R7715:7717 Coq.Init.Datatypes <> nil constr
+R7681:7684 Coq.Init.Datatypes <> cons constr
+R7689:7691 Coq.Init.Datatypes <> nil constr
+R7645:7649 Coq.Init.Datatypes <> false constr
+not 7600:7600 <> :ttype::'<'_x_'>'_'('_x_','_'..'_','_x_')'_'=>'_x
+R7978:7982 NS.TypesBase <> AType constr
+R7991:7995 NS.TypesBase <> NType constr
+R7998:8012 NS.TypesBase <> TTypeStructural constr
+R8015:8017 NS.TypesBase <> SFn constr
+R8086:8090 NS.TypesBase <> VVoid constr
+R8081:8084 Coq.Init.Datatypes <> None constr
+R8051:8054 Coq.Init.Datatypes <> cons constr
+R8063:8066 Coq.Init.Datatypes <> cons constr
+R8071:8073 Coq.Init.Datatypes <> nil constr
+R8020:8023 Coq.Init.Datatypes <> cons constr
+R8032:8035 Coq.Init.Datatypes <> cons constr
+R8040:8042 Coq.Init.Datatypes <> nil constr
+R7984:7988 Coq.Init.Datatypes <> false constr
+not 7926:7926 <> :ttype::'<'_x_','_'..'_','_x_'>'_'('_x_','_'..'_','_x_')'_'=>'_'Void'
+R8290:8294 NS.TypesBase <> AType constr
+R8303:8307 NS.TypesBase <> NType constr
+R8310:8324 NS.TypesBase <> TTypeStructural constr
+R8327:8329 NS.TypesBase <> SFn constr
+R8399:8403 NS.TypesBase <> VType constr
+R8393:8396 Coq.Init.Datatypes <> None constr
+R8363:8366 Coq.Init.Datatypes <> cons constr
+R8375:8378 Coq.Init.Datatypes <> cons constr
+R8383:8385 Coq.Init.Datatypes <> nil constr
+R8332:8335 Coq.Init.Datatypes <> cons constr
+R8344:8347 Coq.Init.Datatypes <> cons constr
+R8352:8354 Coq.Init.Datatypes <> nil constr
+R8296:8300 Coq.Init.Datatypes <> false constr
+not 8241:8241 <> :ttype::'<'_x_','_'..'_','_x_'>'_'('_x_','_'..'_','_x_')'_'=>'_x
+R8647:8651 NS.TypesBase <> AType constr
+R8660:8664 NS.TypesBase <> NType constr
+R8667:8681 NS.TypesBase <> TTypeStructural constr
+R8684:8686 NS.TypesBase <> SFn constr
+R8705:8709 NS.TypesBase <> VVoid constr
+R8697:8700 Coq.Init.Datatypes <> Some constr
+R8692:8694 Coq.Init.Datatypes <> nil constr
+R8688:8690 Coq.Init.Datatypes <> nil constr
+R8653:8657 Coq.Init.Datatypes <> false constr
+not 8617:8617 <> :ttype::'('_'...'_x_')'_'=>'_'Void'
+R8812:8816 NS.TypesBase <> AType constr
+R8825:8829 NS.TypesBase <> NType constr
+R8832:8846 NS.TypesBase <> TTypeStructural constr
+R8849:8851 NS.TypesBase <> SFn constr
+R8871:8875 NS.TypesBase <> VType constr
+R8862:8865 Coq.Init.Datatypes <> Some constr
+R8857:8859 Coq.Init.Datatypes <> nil constr
+R8853:8855 Coq.Init.Datatypes <> nil constr
+R8818:8822 Coq.Init.Datatypes <> false constr
+not 8785:8785 <> :ttype::'('_'...'_x_')'_'=>'_x
+R9043:9047 NS.TypesBase <> AType constr
+R9056:9060 NS.TypesBase <> NType constr
+R9063:9077 NS.TypesBase <> TTypeStructural constr
+R9080:9082 NS.TypesBase <> SFn constr
+R9111:9115 NS.TypesBase <> VVoid constr
+R9103:9106 Coq.Init.Datatypes <> Some constr
+R9098:9100 Coq.Init.Datatypes <> nil constr
+R9085:9088 Coq.Init.Datatypes <> cons constr
+R9093:9095 Coq.Init.Datatypes <> nil constr
+R9049:9053 Coq.Init.Datatypes <> false constr
+not 9006:9006 <> :ttype::'<'_x_'>'_'('_'...'_x_')'_'=>'_'Void'
+R9248:9252 NS.TypesBase <> AType constr
+R9261:9265 NS.TypesBase <> NType constr
+R9268:9282 NS.TypesBase <> TTypeStructural constr
+R9285:9287 NS.TypesBase <> SFn constr
+R9317:9321 NS.TypesBase <> VType constr
+R9308:9311 Coq.Init.Datatypes <> Some constr
+R9303:9305 Coq.Init.Datatypes <> nil constr
+R9290:9293 Coq.Init.Datatypes <> cons constr
+R9298:9300 Coq.Init.Datatypes <> nil constr
+R9254:9258 Coq.Init.Datatypes <> false constr
+not 9214:9214 <> :ttype::'<'_x_'>'_'('_'...'_x_')'_'=>'_x
+R9522:9526 NS.TypesBase <> AType constr
+R9535:9539 NS.TypesBase <> NType constr
+R9542:9556 NS.TypesBase <> TTypeStructural constr
+R9559:9561 NS.TypesBase <> SFn constr
+R9607:9611 NS.TypesBase <> VVoid constr
+R9599:9602 Coq.Init.Datatypes <> Some constr
+R9594:9596 Coq.Init.Datatypes <> nil constr
+R9564:9567 Coq.Init.Datatypes <> cons constr
+R9576:9579 Coq.Init.Datatypes <> cons constr
+R9584:9586 Coq.Init.Datatypes <> nil constr
+R9528:9532 Coq.Init.Datatypes <> false constr
+not 9475:9475 <> :ttype::'<'_x_','_'..'_','_x_'>'_'('_'...'_x_')'_'=>'_'Void'
+R9777:9781 NS.TypesBase <> AType constr
+R9790:9794 NS.TypesBase <> NType constr
+R9797:9811 NS.TypesBase <> TTypeStructural constr
+R9814:9816 NS.TypesBase <> SFn constr
+R9863:9867 NS.TypesBase <> VType constr
+R9854:9857 Coq.Init.Datatypes <> Some constr
+R9849:9851 Coq.Init.Datatypes <> nil constr
+R9819:9822 Coq.Init.Datatypes <> cons constr
+R9831:9834 Coq.Init.Datatypes <> cons constr
+R9839:9841 Coq.Init.Datatypes <> nil constr
+R9783:9787 Coq.Init.Datatypes <> false constr
+not 9733:9733 <> :ttype::'<'_x_','_'..'_','_x_'>'_'('_'...'_x_')'_'=>'_x
+R10087:10091 NS.TypesBase <> AType constr
+R10100:10104 NS.TypesBase <> NType constr
+R10107:10121 NS.TypesBase <> TTypeStructural constr
+R10124:10126 NS.TypesBase <> SFn constr
+R10155:10159 NS.TypesBase <> VVoid constr
+R10147:10150 Coq.Init.Datatypes <> Some constr
+R10133:10136 Coq.Init.Datatypes <> cons constr
+R10141:10143 Coq.Init.Datatypes <> nil constr
+R10128:10130 Coq.Init.Datatypes <> nil constr
+R10093:10097 Coq.Init.Datatypes <> false constr
+not 10052:10052 <> :ttype::'('_x_','_'...'_x_')'_'=>'_'Void'
+R10295:10299 NS.TypesBase <> AType constr
+R10308:10312 NS.TypesBase <> NType constr
+R10315:10329 NS.TypesBase <> TTypeStructural constr
+R10332:10334 NS.TypesBase <> SFn constr
+R10364:10368 NS.TypesBase <> VType constr
+R10355:10358 Coq.Init.Datatypes <> Some constr
+R10341:10344 Coq.Init.Datatypes <> cons constr
+R10349:10351 Coq.Init.Datatypes <> nil constr
+R10336:10338 Coq.Init.Datatypes <> nil constr
+R10301:10305 Coq.Init.Datatypes <> false constr
+not 10263:10263 <> :ttype::'('_x_','_'...'_x_')'_'=>'_x
+R10569:10573 NS.TypesBase <> AType constr
+R10582:10586 NS.TypesBase <> NType constr
+R10589:10603 NS.TypesBase <> TTypeStructural constr
+R10606:10608 NS.TypesBase <> SFn constr
+R10647:10651 NS.TypesBase <> VVoid constr
+R10639:10642 Coq.Init.Datatypes <> Some constr
+R10625:10628 Coq.Init.Datatypes <> cons constr
+R10633:10635 Coq.Init.Datatypes <> nil constr
+R10611:10614 Coq.Init.Datatypes <> cons constr
+R10619:10621 Coq.Init.Datatypes <> nil constr
+R10575:10579 Coq.Init.Datatypes <> false constr
+not 10527:10527 <> :ttype::'<'_x_'>'_'('_x_','_'...'_x_')'_'=>'_'Void'
+R10817:10821 NS.TypesBase <> AType constr
+R10830:10834 NS.TypesBase <> NType constr
+R10837:10851 NS.TypesBase <> TTypeStructural constr
+R10854:10856 NS.TypesBase <> SFn constr
+R10896:10900 NS.TypesBase <> VType constr
+R10887:10890 Coq.Init.Datatypes <> Some constr
+R10873:10876 Coq.Init.Datatypes <> cons constr
+R10881:10883 Coq.Init.Datatypes <> nil constr
+R10859:10862 Coq.Init.Datatypes <> cons constr
+R10867:10869 Coq.Init.Datatypes <> nil constr
+R10823:10827 Coq.Init.Datatypes <> false constr
+not 10778:10778 <> :ttype::'<'_x_'>'_'('_x_','_'...'_x_')'_'=>'_x
+R11142:11146 NS.TypesBase <> AType constr
+R11155:11159 NS.TypesBase <> NType constr
+R11162:11176 NS.TypesBase <> TTypeStructural constr
+R11179:11181 NS.TypesBase <> SFn constr
+R11237:11241 NS.TypesBase <> VVoid constr
+R11229:11232 Coq.Init.Datatypes <> Some constr
+R11215:11218 Coq.Init.Datatypes <> cons constr
+R11223:11225 Coq.Init.Datatypes <> nil constr
+R11184:11187 Coq.Init.Datatypes <> cons constr
+R11196:11199 Coq.Init.Datatypes <> cons constr
+R11204:11206 Coq.Init.Datatypes <> nil constr
+R11148:11152 Coq.Init.Datatypes <> false constr
+not 11090:11090 <> :ttype::'<'_x_','_'..'_','_x_'>'_'('_x_','_'...'_x_')'_'=>'_'Void'
+R11440:11444 NS.TypesBase <> AType constr
+R11453:11457 NS.TypesBase <> NType constr
+R11460:11474 NS.TypesBase <> TTypeStructural constr
+R11477:11479 NS.TypesBase <> SFn constr
+R11536:11540 NS.TypesBase <> VType constr
+R11527:11530 Coq.Init.Datatypes <> Some constr
+R11513:11516 Coq.Init.Datatypes <> cons constr
+R11521:11523 Coq.Init.Datatypes <> nil constr
+R11482:11485 Coq.Init.Datatypes <> cons constr
+R11494:11497 Coq.Init.Datatypes <> cons constr
+R11502:11504 Coq.Init.Datatypes <> nil constr
+R11446:11450 Coq.Init.Datatypes <> false constr
+not 11391:11391 <> :ttype::'<'_x_','_'..'_','_x_'>'_'('_x_','_'...'_x_')'_'=>'_x
+R11798:11802 NS.TypesBase <> AType constr
+R11811:11815 NS.TypesBase <> NType constr
+R11818:11832 NS.TypesBase <> TTypeStructural constr
+R11835:11837 NS.TypesBase <> SFn constr
+R11883:11887 NS.TypesBase <> VVoid constr
+R11875:11878 Coq.Init.Datatypes <> Some constr
+R11844:11847 Coq.Init.Datatypes <> cons constr
+R11856:11859 Coq.Init.Datatypes <> cons constr
+R11864:11866 Coq.Init.Datatypes <> nil constr
+R11839:11841 Coq.Init.Datatypes <> nil constr
+R11804:11808 Coq.Init.Datatypes <> false constr
+not 11753:11753 <> :ttype::'('_x_','_'..'_','_x_','_'...'_x_')'_'=>'_'Void'
+R12061:12065 NS.TypesBase <> AType constr
+R12074:12078 NS.TypesBase <> NType constr
+R12081:12095 NS.TypesBase <> TTypeStructural constr
+R12098:12100 NS.TypesBase <> SFn constr
+R12147:12151 NS.TypesBase <> VType constr
+R12138:12141 Coq.Init.Datatypes <> Some constr
+R12107:12110 Coq.Init.Datatypes <> cons constr
+R12119:12122 Coq.Init.Datatypes <> cons constr
+R12127:12129 Coq.Init.Datatypes <> nil constr
+R12102:12104 Coq.Init.Datatypes <> nil constr
+R12067:12071 Coq.Init.Datatypes <> false constr
+not 12019:12019 <> :ttype::'('_x_','_'..'_','_x_','_'...'_x_')'_'=>'_x
+R12398:12402 NS.TypesBase <> AType constr
+R12411:12415 NS.TypesBase <> NType constr
+R12418:12432 NS.TypesBase <> TTypeStructural constr
+R12435:12437 NS.TypesBase <> SFn constr
+R12493:12497 NS.TypesBase <> VVoid constr
+R12485:12488 Coq.Init.Datatypes <> Some constr
+R12454:12457 Coq.Init.Datatypes <> cons constr
+R12466:12469 Coq.Init.Datatypes <> cons constr
+R12474:12476 Coq.Init.Datatypes <> nil constr
+R12440:12443 Coq.Init.Datatypes <> cons constr
+R12448:12450 Coq.Init.Datatypes <> nil constr
+R12404:12408 Coq.Init.Datatypes <> false constr
+not 12346:12346 <> :ttype::'<'_x_'>'_'('_x_','_'..'_','_x_','_'...'_x_')'_'=>'_'Void'
+R12701:12705 NS.TypesBase <> AType constr
+R12714:12718 NS.TypesBase <> NType constr
+R12721:12735 NS.TypesBase <> TTypeStructural constr
+R12738:12740 NS.TypesBase <> SFn constr
+R12797:12801 NS.TypesBase <> VType constr
+R12788:12791 Coq.Init.Datatypes <> Some constr
+R12757:12760 Coq.Init.Datatypes <> cons constr
+R12769:12772 Coq.Init.Datatypes <> cons constr
+R12777:12779 Coq.Init.Datatypes <> nil constr
+R12743:12746 Coq.Init.Datatypes <> cons constr
+R12751:12753 Coq.Init.Datatypes <> nil constr
+R12707:12711 Coq.Init.Datatypes <> false constr
+not 12652:12652 <> :ttype::'<'_x_'>'_'('_x_','_'..'_','_x_','_'...'_x_')'_'=>'_x
+R13081:13085 NS.TypesBase <> AType constr
+R13094:13098 NS.TypesBase <> NType constr
+R13101:13115 NS.TypesBase <> TTypeStructural constr
+R13118:13120 NS.TypesBase <> SFn constr
+R13193:13197 NS.TypesBase <> VVoid constr
+R13185:13188 Coq.Init.Datatypes <> Some constr
+R13154:13157 Coq.Init.Datatypes <> cons constr
+R13166:13169 Coq.Init.Datatypes <> cons constr
+R13174:13176 Coq.Init.Datatypes <> nil constr
+R13123:13126 Coq.Init.Datatypes <> cons constr
+R13135:13138 Coq.Init.Datatypes <> cons constr
+R13143:13145 Coq.Init.Datatypes <> nil constr
+R13087:13091 Coq.Init.Datatypes <> false constr
+not 13019:13019 <> :ttype::'<'_x_','_'..'_','_x_'>'_'('_x_','_'..'_','_x_','_'...'_x_')'_'=>'_'Void'
+R13442:13446 NS.TypesBase <> AType constr
+R13455:13459 NS.TypesBase <> NType constr
+R13462:13476 NS.TypesBase <> TTypeStructural constr
+R13479:13481 NS.TypesBase <> SFn constr
+R13555:13559 NS.TypesBase <> VType constr
+R13546:13549 Coq.Init.Datatypes <> Some constr
+R13515:13518 Coq.Init.Datatypes <> cons constr
+R13527:13530 Coq.Init.Datatypes <> cons constr
+R13535:13537 Coq.Init.Datatypes <> nil constr
+R13484:13487 Coq.Init.Datatypes <> cons constr
+R13496:13499 Coq.Init.Datatypes <> cons constr
+R13504:13506 Coq.Init.Datatypes <> nil constr
+R13448:13452 Coq.Init.Datatypes <> false constr
+not 13383:13383 <> :ttype::'<'_x_','_'..'_','_x_'>'_'('_x_','_'..'_','_x_','_'...'_x_')'_'=>'_x
+R13827:13831 NS.TypesBase <> AType constr
+R13839:13843 NS.TypesBase <> NType constr
+R13846:13860 NS.TypesBase <> TTypeStructural constr
+R13863:13865 NS.TypesBase <> SFn constr
+R13880:13884 NS.TypesBase <> VVoid constr
+R13875:13878 Coq.Init.Datatypes <> None constr
+R13871:13873 Coq.Init.Datatypes <> nil constr
+R13867:13869 Coq.Init.Datatypes <> nil constr
+R13833:13836 Coq.Init.Datatypes <> true constr
+not 13800:13800 <> :ttype::'('_'('_')'_'=>'_'Void'_')?'
+R13957:13961 NS.TypesBase <> AType constr
+R13969:13973 NS.TypesBase <> NType constr
+R13976:13990 NS.TypesBase <> TTypeStructural constr
+R13993:13995 NS.TypesBase <> SFn constr
+R14011:14015 NS.TypesBase <> VType constr
+R14005:14008 Coq.Init.Datatypes <> None constr
+R14001:14003 Coq.Init.Datatypes <> nil constr
+R13997:13999 Coq.Init.Datatypes <> nil constr
+R13963:13966 Coq.Init.Datatypes <> true constr
+not 13933:13933 <> :ttype::'('_'('_')'_'=>'_x_')?'
+R14153:14157 NS.TypesBase <> AType constr
+R14165:14169 NS.TypesBase <> NType constr
+R14172:14186 NS.TypesBase <> TTypeStructural constr
+R14189:14191 NS.TypesBase <> SFn constr
+R14216:14220 NS.TypesBase <> VVoid constr
+R14211:14214 Coq.Init.Datatypes <> None constr
+R14207:14209 Coq.Init.Datatypes <> nil constr
+R14194:14197 Coq.Init.Datatypes <> cons constr
+R14202:14204 Coq.Init.Datatypes <> nil constr
+R14159:14162 Coq.Init.Datatypes <> true constr
+not 14119:14119 <> :ttype::'('_'<'_x_'>'_'('_')'_'=>'_'Void'_')?'
+R14323:14327 NS.TypesBase <> AType constr
+R14335:14339 NS.TypesBase <> NType constr
+R14342:14356 NS.TypesBase <> TTypeStructural constr
+R14359:14361 NS.TypesBase <> SFn constr
+R14387:14391 NS.TypesBase <> VType constr
+R14381:14384 Coq.Init.Datatypes <> None constr
+R14377:14379 Coq.Init.Datatypes <> nil constr
+R14364:14367 Coq.Init.Datatypes <> cons constr
+R14372:14374 Coq.Init.Datatypes <> nil constr
+R14329:14332 Coq.Init.Datatypes <> true constr
+not 14292:14292 <> :ttype::'('_'<'_x_'>'_'('_')'_'=>'_x_')?'
+R14562:14566 NS.TypesBase <> AType constr
+R14574:14578 NS.TypesBase <> NType constr
+R14581:14595 NS.TypesBase <> TTypeStructural constr
+R14598:14600 NS.TypesBase <> SFn constr
+R14642:14646 NS.TypesBase <> VVoid constr
+R14637:14640 Coq.Init.Datatypes <> None constr
+R14633:14635 Coq.Init.Datatypes <> nil constr
+R14603:14606 Coq.Init.Datatypes <> cons constr
+R14615:14618 Coq.Init.Datatypes <> cons constr
+R14623:14625 Coq.Init.Datatypes <> nil constr
+R14568:14571 Coq.Init.Datatypes <> true constr
+not 14518:14518 <> :ttype::'('_'<'_x_','_'..'_','_x_'>'_'('_')'_'=>'_'Void'_')?'
+R14782:14786 NS.TypesBase <> AType constr
+R14794:14798 NS.TypesBase <> NType constr
+R14801:14815 NS.TypesBase <> TTypeStructural constr
+R14818:14820 NS.TypesBase <> SFn constr
+R14863:14867 NS.TypesBase <> VType constr
+R14857:14860 Coq.Init.Datatypes <> None constr
+R14853:14855 Coq.Init.Datatypes <> nil constr
+R14823:14826 Coq.Init.Datatypes <> cons constr
+R14835:14838 Coq.Init.Datatypes <> cons constr
+R14843:14845 Coq.Init.Datatypes <> nil constr
+R14788:14791 Coq.Init.Datatypes <> true constr
+not 14741:14741 <> :ttype::'('_'<'_x_','_'..'_','_x_'>'_'('_')'_'=>'_x_')?'
+R15047:15051 NS.TypesBase <> AType constr
+R15059:15063 NS.TypesBase <> NType constr
+R15066:15080 NS.TypesBase <> TTypeStructural constr
+R15083:15085 NS.TypesBase <> SFn constr
+R15110:15114 NS.TypesBase <> VVoid constr
+R15105:15108 Coq.Init.Datatypes <> None constr
+R15092:15095 Coq.Init.Datatypes <> cons constr
+R15100:15102 Coq.Init.Datatypes <> nil constr
+R15087:15089 Coq.Init.Datatypes <> nil constr
+R15053:15056 Coq.Init.Datatypes <> true constr
+not 15017:15017 <> :ttype::'('_'('_x_')'_'=>'_'Void'_')?'
+R15218:15222 NS.TypesBase <> AType constr
+R15230:15234 NS.TypesBase <> NType constr
+R15237:15251 NS.TypesBase <> TTypeStructural constr
+R15254:15256 NS.TypesBase <> SFn constr
+R15282:15286 NS.TypesBase <> VType constr
+R15276:15279 Coq.Init.Datatypes <> None constr
+R15263:15266 Coq.Init.Datatypes <> cons constr
+R15271:15273 Coq.Init.Datatypes <> nil constr
+R15258:15260 Coq.Init.Datatypes <> nil constr
+R15224:15227 Coq.Init.Datatypes <> true constr
+not 15191:15191 <> :ttype::'('_'('_x_')'_'=>'_x_')?'
+R15455:15459 NS.TypesBase <> AType constr
+R15467:15471 NS.TypesBase <> NType constr
+R15474:15488 NS.TypesBase <> TTypeStructural constr
+R15491:15493 NS.TypesBase <> SFn constr
+R15528:15532 NS.TypesBase <> VVoid constr
+R15523:15526 Coq.Init.Datatypes <> None constr
+R15510:15513 Coq.Init.Datatypes <> cons constr
+R15518:15520 Coq.Init.Datatypes <> nil constr
+R15496:15499 Coq.Init.Datatypes <> cons constr
+R15504:15506 Coq.Init.Datatypes <> nil constr
+R15461:15464 Coq.Init.Datatypes <> true constr
+not 15418:15418 <> :ttype::'('_'<'_x_'>'_'('_x_')'_'=>'_'Void'_')?'
+R15666:15670 NS.TypesBase <> AType constr
+R15678:15682 NS.TypesBase <> NType constr
+R15685:15699 NS.TypesBase <> TTypeStructural constr
+R15702:15704 NS.TypesBase <> SFn constr
+R15740:15744 NS.TypesBase <> VType constr
+R15734:15737 Coq.Init.Datatypes <> None constr
+R15721:15724 Coq.Init.Datatypes <> cons constr
+R15729:15731 Coq.Init.Datatypes <> nil constr
+R15707:15710 Coq.Init.Datatypes <> cons constr
+R15715:15717 Coq.Init.Datatypes <> nil constr
+R15672:15675 Coq.Init.Datatypes <> true constr
+not 15632:15632 <> :ttype::'('_'<'_x_'>'_'('_x_')'_'=>'_x_')?'
+R15946:15950 NS.TypesBase <> AType constr
+R15958:15962 NS.TypesBase <> NType constr
+R15965:15979 NS.TypesBase <> TTypeStructural constr
+R15982:15984 NS.TypesBase <> SFn constr
+R16036:16040 NS.TypesBase <> VVoid constr
+R16031:16034 Coq.Init.Datatypes <> None constr
+R16018:16021 Coq.Init.Datatypes <> cons constr
+R16026:16028 Coq.Init.Datatypes <> nil constr
+R15987:15990 Coq.Init.Datatypes <> cons constr
+R15999:16002 Coq.Init.Datatypes <> cons constr
+R16007:16009 Coq.Init.Datatypes <> nil constr
+R15952:15955 Coq.Init.Datatypes <> true constr
+not 15899:15899 <> :ttype::'('_'<'_x_','_'..'_','_x_'>'_'('_x_')'_'=>'_'Void'_')?'
+R16207:16211 NS.TypesBase <> AType constr
+R16219:16223 NS.TypesBase <> NType constr
+R16226:16240 NS.TypesBase <> TTypeStructural constr
+R16243:16245 NS.TypesBase <> SFn constr
+R16298:16302 NS.TypesBase <> VType constr
+R16292:16295 Coq.Init.Datatypes <> None constr
+R16279:16282 Coq.Init.Datatypes <> cons constr
+R16287:16289 Coq.Init.Datatypes <> nil constr
+R16248:16251 Coq.Init.Datatypes <> cons constr
+R16260:16263 Coq.Init.Datatypes <> cons constr
+R16268:16270 Coq.Init.Datatypes <> nil constr
+R16213:16216 Coq.Init.Datatypes <> true constr
+not 16163:16163 <> :ttype::'('_'<'_x_','_'..'_','_x_'>'_'('_x_')'_'=>'_x_')?'
+R16528:16532 NS.TypesBase <> AType constr
+R16540:16544 NS.TypesBase <> NType constr
+R16547:16561 NS.TypesBase <> TTypeStructural constr
+R16564:16566 NS.TypesBase <> SFn constr
+R16608:16612 NS.TypesBase <> VVoid constr
+R16603:16606 Coq.Init.Datatypes <> None constr
+R16573:16576 Coq.Init.Datatypes <> cons constr
+R16585:16588 Coq.Init.Datatypes <> cons constr
+R16593:16595 Coq.Init.Datatypes <> nil constr
+R16568:16570 Coq.Init.Datatypes <> nil constr
+R16534:16537 Coq.Init.Datatypes <> true constr
+not 16488:16488 <> :ttype::'('_'('_x_','_'..'_','_x_')'_'=>'_'Void'_')?'
+R16754:16758 NS.TypesBase <> AType constr
+R16766:16770 NS.TypesBase <> NType constr
+R16773:16787 NS.TypesBase <> TTypeStructural constr
+R16790:16792 NS.TypesBase <> SFn constr
+R16835:16839 NS.TypesBase <> VType constr
+R16829:16832 Coq.Init.Datatypes <> None constr
+R16799:16802 Coq.Init.Datatypes <> cons constr
+R16811:16814 Coq.Init.Datatypes <> cons constr
+R16819:16821 Coq.Init.Datatypes <> nil constr
+R16794:16796 Coq.Init.Datatypes <> nil constr
+R16760:16763 Coq.Init.Datatypes <> true constr
+not 16717:16717 <> :ttype::'('_'('_x_','_'..'_','_x_')'_'=>'_x_')?'
+R17046:17050 NS.TypesBase <> AType constr
+R17058:17062 NS.TypesBase <> NType constr
+R17065:17079 NS.TypesBase <> TTypeStructural constr
+R17082:17084 NS.TypesBase <> SFn constr
+R17136:17140 NS.TypesBase <> VVoid constr
+R17131:17134 Coq.Init.Datatypes <> None constr
+R17101:17104 Coq.Init.Datatypes <> cons constr
+R17113:17116 Coq.Init.Datatypes <> cons constr
+R17121:17123 Coq.Init.Datatypes <> nil constr
+R17087:17090 Coq.Init.Datatypes <> cons constr
+R17095:17097 Coq.Init.Datatypes <> nil constr
+R17052:17055 Coq.Init.Datatypes <> true constr
+not 16999:16999 <> :ttype::'('_'<'_x_'>'_'('_x_','_'..'_','_x_')'_'=>'_'Void'_')?'
+R17312:17316 NS.TypesBase <> AType constr
+R17324:17328 NS.TypesBase <> NType constr
+R17331:17345 NS.TypesBase <> TTypeStructural constr
+R17348:17350 NS.TypesBase <> SFn constr
+R17403:17407 NS.TypesBase <> VType constr
+R17397:17400 Coq.Init.Datatypes <> None constr
+R17367:17370 Coq.Init.Datatypes <> cons constr
+R17379:17382 Coq.Init.Datatypes <> cons constr
+R17387:17389 Coq.Init.Datatypes <> nil constr
+R17353:17356 Coq.Init.Datatypes <> cons constr
+R17361:17363 Coq.Init.Datatypes <> nil constr
+R17318:17321 Coq.Init.Datatypes <> true constr
+not 17268:17268 <> :ttype::'('_'<'_x_'>'_'('_x_','_'..'_','_x_')'_'=>'_x_')?'
+R17655:17659 NS.TypesBase <> AType constr
+R17667:17671 NS.TypesBase <> NType constr
+R17674:17688 NS.TypesBase <> TTypeStructural constr
+R17691:17693 NS.TypesBase <> SFn constr
+R17762:17766 NS.TypesBase <> VVoid constr
+R17757:17760 Coq.Init.Datatypes <> None constr
+R17727:17730 Coq.Init.Datatypes <> cons constr
+R17739:17742 Coq.Init.Datatypes <> cons constr
+R17747:17749 Coq.Init.Datatypes <> nil constr
+R17696:17699 Coq.Init.Datatypes <> cons constr
+R17708:17711 Coq.Init.Datatypes <> cons constr
+R17716:17718 Coq.Init.Datatypes <> nil constr
+R17661:17664 Coq.Init.Datatypes <> true constr
+not 17598:17598 <> :ttype::'('_'<'_x_','_'..'_','_x_'>'_'('_x_','_'..'_','_x_')'_'=>'_'Void'_')?'
+R17971:17975 NS.TypesBase <> AType constr
+R17983:17987 NS.TypesBase <> NType constr
+R17990:18004 NS.TypesBase <> TTypeStructural constr
+R18007:18009 NS.TypesBase <> SFn constr
+R18079:18083 NS.TypesBase <> VType constr
+R18073:18076 Coq.Init.Datatypes <> None constr
+R18043:18046 Coq.Init.Datatypes <> cons constr
+R18055:18058 Coq.Init.Datatypes <> cons constr
+R18063:18065 Coq.Init.Datatypes <> nil constr
+R18012:18015 Coq.Init.Datatypes <> cons constr
+R18024:18027 Coq.Init.Datatypes <> cons constr
+R18032:18034 Coq.Init.Datatypes <> nil constr
+R17977:17980 Coq.Init.Datatypes <> true constr
+not 17917:17917 <> :ttype::'('_'<'_x_','_'..'_','_x_'>'_'('_x_','_'..'_','_x_')'_'=>'_x_')?'
+R18332:18336 NS.TypesBase <> AType constr
+R18344:18348 NS.TypesBase <> NType constr
+R18351:18365 NS.TypesBase <> TTypeStructural constr
+R18368:18370 NS.TypesBase <> SFn constr
+R18389:18393 NS.TypesBase <> VVoid constr
+R18381:18384 Coq.Init.Datatypes <> Some constr
+R18376:18378 Coq.Init.Datatypes <> nil constr
+R18372:18374 Coq.Init.Datatypes <> nil constr
+R18338:18341 Coq.Init.Datatypes <> true constr
+not 18297:18297 <> :ttype::'('_'('_'...'_x_')'_'=>'_'Void'_')?'
+R18501:18505 NS.TypesBase <> AType constr
+R18513:18517 NS.TypesBase <> NType constr
+R18520:18534 NS.TypesBase <> TTypeStructural constr
+R18537:18539 NS.TypesBase <> SFn constr
+R18559:18563 NS.TypesBase <> VType constr
+R18550:18553 Coq.Init.Datatypes <> Some constr
+R18545:18547 Coq.Init.Datatypes <> nil constr
+R18541:18543 Coq.Init.Datatypes <> nil constr
+R18507:18510 Coq.Init.Datatypes <> true constr
+not 18469:18469 <> :ttype::'('_'('_'...'_x_')'_'=>'_x_')?'
+R18736:18740 NS.TypesBase <> AType constr
+R18748:18752 NS.TypesBase <> NType constr
+R18755:18769 NS.TypesBase <> TTypeStructural constr
+R18772:18774 NS.TypesBase <> SFn constr
+R18803:18807 NS.TypesBase <> VVoid constr
+R18795:18798 Coq.Init.Datatypes <> Some constr
+R18790:18792 Coq.Init.Datatypes <> nil constr
+R18777:18780 Coq.Init.Datatypes <> cons constr
+R18785:18787 Coq.Init.Datatypes <> nil constr
+R18742:18745 Coq.Init.Datatypes <> true constr
+not 18694:18694 <> :ttype::'('_'<'_x_'>'_'('_'...'_x_')'_'=>'_'Void'_')?'
+R18945:18949 NS.TypesBase <> AType constr
+R18957:18961 NS.TypesBase <> NType constr
+R18964:18978 NS.TypesBase <> TTypeStructural constr
+R18981:18983 NS.TypesBase <> SFn constr
+R19013:19017 NS.TypesBase <> VType constr
+R19004:19007 Coq.Init.Datatypes <> Some constr
+R18999:19001 Coq.Init.Datatypes <> nil constr
+R18986:18989 Coq.Init.Datatypes <> cons constr
+R18994:18996 Coq.Init.Datatypes <> nil constr
+R18951:18954 Coq.Init.Datatypes <> true constr
+not 18906:18906 <> :ttype::'('_'<'_x_'>'_'('_'...'_x_')'_'=>'_x_')?'
+R19223:19227 NS.TypesBase <> AType constr
+R19235:19239 NS.TypesBase <> NType constr
+R19242:19256 NS.TypesBase <> TTypeStructural constr
+R19259:19261 NS.TypesBase <> SFn constr
+R19307:19311 NS.TypesBase <> VVoid constr
+R19299:19302 Coq.Init.Datatypes <> Some constr
+R19294:19296 Coq.Init.Datatypes <> nil constr
+R19264:19267 Coq.Init.Datatypes <> cons constr
+R19276:19279 Coq.Init.Datatypes <> cons constr
+R19284:19286 Coq.Init.Datatypes <> nil constr
+R19229:19232 Coq.Init.Datatypes <> true constr
+not 19171:19171 <> :ttype::'('_'<'_x_','_'..'_','_x_'>'_'('_'...'_x_')'_'=>'_'Void'_')?'
+R19482:19486 NS.TypesBase <> AType constr
+R19494:19498 NS.TypesBase <> NType constr
+R19501:19515 NS.TypesBase <> TTypeStructural constr
+R19518:19520 NS.TypesBase <> SFn constr
+R19567:19571 NS.TypesBase <> VType constr
+R19558:19561 Coq.Init.Datatypes <> Some constr
+R19553:19555 Coq.Init.Datatypes <> nil constr
+R19523:19526 Coq.Init.Datatypes <> cons constr
+R19535:19538 Coq.Init.Datatypes <> cons constr
+R19543:19545 Coq.Init.Datatypes <> nil constr
+R19488:19491 Coq.Init.Datatypes <> true constr
+not 19433:19433 <> :ttype::'('_'<'_x_','_'..'_','_x_'>'_'('_'...'_x_')'_'=>'_x_')?'
+R19796:19800 NS.TypesBase <> AType constr
+R19808:19812 NS.TypesBase <> NType constr
+R19815:19829 NS.TypesBase <> TTypeStructural constr
+R19832:19834 NS.TypesBase <> SFn constr
+R19863:19867 NS.TypesBase <> VVoid constr
+R19855:19858 Coq.Init.Datatypes <> Some constr
+R19841:19844 Coq.Init.Datatypes <> cons constr
+R19849:19851 Coq.Init.Datatypes <> nil constr
+R19836:19838 Coq.Init.Datatypes <> nil constr
+R19802:19805 Coq.Init.Datatypes <> true constr
+not 19756:19756 <> :ttype::'('_'('_x_','_'...'_x_')'_'=>'_'Void'_')?'
+R20008:20012 NS.TypesBase <> AType constr
+R20020:20024 NS.TypesBase <> NType constr
+R20027:20041 NS.TypesBase <> TTypeStructural constr
+R20044:20046 NS.TypesBase <> SFn constr
+R20076:20080 NS.TypesBase <> VType constr
+R20067:20070 Coq.Init.Datatypes <> Some constr
+R20053:20056 Coq.Init.Datatypes <> cons constr
+R20061:20063 Coq.Init.Datatypes <> nil constr
+R20048:20050 Coq.Init.Datatypes <> nil constr
+R20014:20017 Coq.Init.Datatypes <> true constr
+not 19971:19971 <> :ttype::'('_'('_x_','_'...'_x_')'_'=>'_x_')?'
+R20286:20290 NS.TypesBase <> AType constr
+R20298:20302 NS.TypesBase <> NType constr
+R20305:20319 NS.TypesBase <> TTypeStructural constr
+R20322:20324 NS.TypesBase <> SFn constr
+R20363:20367 NS.TypesBase <> VVoid constr
+R20355:20358 Coq.Init.Datatypes <> Some constr
+R20341:20344 Coq.Init.Datatypes <> cons constr
+R20349:20351 Coq.Init.Datatypes <> nil constr
+R20327:20330 Coq.Init.Datatypes <> cons constr
+R20335:20337 Coq.Init.Datatypes <> nil constr
+R20292:20295 Coq.Init.Datatypes <> true constr
+not 20239:20239 <> :ttype::'('_'<'_x_'>'_'('_x_','_'...'_x_')'_'=>'_'Void'_')?'
+R20538:20542 NS.TypesBase <> AType constr
+R20550:20554 NS.TypesBase <> NType constr
+R20557:20571 NS.TypesBase <> TTypeStructural constr
+R20574:20576 NS.TypesBase <> SFn constr
+R20616:20620 NS.TypesBase <> VType constr
+R20607:20610 Coq.Init.Datatypes <> Some constr
+R20593:20596 Coq.Init.Datatypes <> cons constr
+R20601:20603 Coq.Init.Datatypes <> nil constr
+R20579:20582 Coq.Init.Datatypes <> cons constr
+R20587:20589 Coq.Init.Datatypes <> nil constr
+R20544:20547 Coq.Init.Datatypes <> true constr
+not 20494:20494 <> :ttype::'('_'<'_x_'>'_'('_x_','_'...'_x_')'_'=>'_x_')?'
+R20867:20871 NS.TypesBase <> AType constr
+R20879:20883 NS.TypesBase <> NType constr
+R20886:20900 NS.TypesBase <> TTypeStructural constr
+R20903:20905 NS.TypesBase <> SFn constr
+R20961:20965 NS.TypesBase <> VVoid constr
+R20953:20956 Coq.Init.Datatypes <> Some constr
+R20939:20942 Coq.Init.Datatypes <> cons constr
+R20947:20949 Coq.Init.Datatypes <> nil constr
+R20908:20911 Coq.Init.Datatypes <> cons constr
+R20920:20923 Coq.Init.Datatypes <> cons constr
+R20928:20930 Coq.Init.Datatypes <> nil constr
+R20873:20876 Coq.Init.Datatypes <> true constr
+not 20810:20810 <> :ttype::'('_'<'_x_','_'..'_','_x_'>'_'('_x_','_'...'_x_')'_'=>'_'Void'_')?'
+R21169:21173 NS.TypesBase <> AType constr
+R21181:21185 NS.TypesBase <> NType constr
+R21188:21202 NS.TypesBase <> TTypeStructural constr
+R21205:21207 NS.TypesBase <> SFn constr
+R21264:21268 NS.TypesBase <> VType constr
+R21255:21258 Coq.Init.Datatypes <> Some constr
+R21241:21244 Coq.Init.Datatypes <> cons constr
+R21249:21251 Coq.Init.Datatypes <> nil constr
+R21210:21213 Coq.Init.Datatypes <> cons constr
+R21222:21225 Coq.Init.Datatypes <> cons constr
+R21230:21232 Coq.Init.Datatypes <> nil constr
+R21175:21178 Coq.Init.Datatypes <> true constr
+not 21115:21115 <> :ttype::'('_'<'_x_','_'..'_','_x_'>'_'('_x_','_'...'_x_')'_'=>'_x_')?'
+R21531:21535 NS.TypesBase <> AType constr
+R21543:21547 NS.TypesBase <> NType constr
+R21550:21564 NS.TypesBase <> TTypeStructural constr
+R21567:21569 NS.TypesBase <> SFn constr
+R21615:21619 NS.TypesBase <> VVoid constr
+R21607:21610 Coq.Init.Datatypes <> Some constr
+R21576:21579 Coq.Init.Datatypes <> cons constr
+R21588:21591 Coq.Init.Datatypes <> cons constr
+R21596:21598 Coq.Init.Datatypes <> nil constr
+R21571:21573 Coq.Init.Datatypes <> nil constr
+R21537:21540 Coq.Init.Datatypes <> true constr
+not 21481:21481 <> :ttype::'('_'('_x_','_'..'_','_x_','_'...'_x_')'_'=>'_'Void'_')?'
+R21798:21802 NS.TypesBase <> AType constr
+R21810:21814 NS.TypesBase <> NType constr
+R21817:21831 NS.TypesBase <> TTypeStructural constr
+R21834:21836 NS.TypesBase <> SFn constr
+R21883:21887 NS.TypesBase <> VType constr
+R21874:21877 Coq.Init.Datatypes <> Some constr
+R21843:21846 Coq.Init.Datatypes <> cons constr
+R21855:21858 Coq.Init.Datatypes <> cons constr
+R21863:21865 Coq.Init.Datatypes <> nil constr
+R21838:21840 Coq.Init.Datatypes <> nil constr
+R21804:21807 Coq.Init.Datatypes <> true constr
+not 21751:21751 <> :ttype::'('_'('_x_','_'..'_','_x_','_'...'_x_')'_'=>'_x_')?'
+R22139:22143 NS.TypesBase <> AType constr
+R22151:22155 NS.TypesBase <> NType constr
+R22158:22172 NS.TypesBase <> TTypeStructural constr
+R22175:22177 NS.TypesBase <> SFn constr
+R22233:22237 NS.TypesBase <> VVoid constr
+R22225:22228 Coq.Init.Datatypes <> Some constr
+R22194:22197 Coq.Init.Datatypes <> cons constr
+R22206:22209 Coq.Init.Datatypes <> cons constr
+R22214:22216 Coq.Init.Datatypes <> nil constr
+R22180:22183 Coq.Init.Datatypes <> cons constr
+R22188:22190 Coq.Init.Datatypes <> nil constr
+R22145:22148 Coq.Init.Datatypes <> true constr
+not 22082:22082 <> :ttype::'('_'<'_x_'>'_'('_x_','_'..'_','_x_','_'...'_x_')'_'=>'_'Void'_')?'
+R22446:22450 NS.TypesBase <> AType constr
+R22458:22462 NS.TypesBase <> NType constr
+R22465:22479 NS.TypesBase <> TTypeStructural constr
+R22482:22484 NS.TypesBase <> SFn constr
+R22541:22545 NS.TypesBase <> VType constr
+R22532:22535 Coq.Init.Datatypes <> Some constr
+R22501:22504 Coq.Init.Datatypes <> cons constr
+R22513:22516 Coq.Init.Datatypes <> cons constr
+R22521:22523 Coq.Init.Datatypes <> nil constr
+R22487:22490 Coq.Init.Datatypes <> cons constr
+R22495:22497 Coq.Init.Datatypes <> nil constr
+R22452:22455 Coq.Init.Datatypes <> true constr
+not 22392:22392 <> :ttype::'('_'<'_x_'>'_'('_x_','_'..'_','_x_','_'...'_x_')'_'=>'_x_')?'
+R22830:22834 NS.TypesBase <> AType constr
+R22842:22846 NS.TypesBase <> NType constr
+R22849:22863 NS.TypesBase <> TTypeStructural constr
+R22866:22868 NS.TypesBase <> SFn constr
+R22941:22945 NS.TypesBase <> VVoid constr
+R22933:22936 Coq.Init.Datatypes <> Some constr
+R22902:22905 Coq.Init.Datatypes <> cons constr
+R22914:22917 Coq.Init.Datatypes <> cons constr
+R22922:22924 Coq.Init.Datatypes <> nil constr
+R22871:22874 Coq.Init.Datatypes <> cons constr
+R22883:22886 Coq.Init.Datatypes <> cons constr
+R22891:22893 Coq.Init.Datatypes <> nil constr
+R22836:22839 Coq.Init.Datatypes <> true constr
+not 22763:22763 <> :ttype::'('_'<'_x_','_'..'_','_x_'>'_'('_x_','_'..'_','_x_','_'...'_x_')'_'=>'_'Void'_')?'
+R23195:23199 NS.TypesBase <> AType constr
+R23207:23211 NS.TypesBase <> NType constr
+R23214:23228 NS.TypesBase <> TTypeStructural constr
+R23231:23233 NS.TypesBase <> SFn constr
+R23307:23311 NS.TypesBase <> VType constr
+R23298:23301 Coq.Init.Datatypes <> Some constr
+R23267:23270 Coq.Init.Datatypes <> cons constr
+R23279:23282 Coq.Init.Datatypes <> cons constr
+R23287:23289 Coq.Init.Datatypes <> nil constr
+R23236:23239 Coq.Init.Datatypes <> cons constr
+R23248:23251 Coq.Init.Datatypes <> cons constr
+R23256:23258 Coq.Init.Datatypes <> nil constr
+R23201:23204 Coq.Init.Datatypes <> true constr
+not 23131:23131 <> :ttype::'('_'<'_x_','_'..'_','_x_'>'_'('_x_','_'..'_','_x_','_'...'_x_')'_'=>'_x_')?'
+not 23667:23667 <> :ttype_ident::x
+def 23730:23736 <> Integer
+def 23767:23773 <> Natural
+def 23804:23809 <> String
+def 23839:23843 <> test0
+R23846:23850 NS.TypesBase <> ttype abbrev
+R23855:23857 NS.TypesNotation <> ::ttype_scope:'[!'_x_'!]' not
+R23865:23867 NS.TypesNotation <> ::ttype_scope:'[!'_x_'!]' not
+R23858:-1 NS.TypesNotation <> :ttype_ident::x not
+R0:23864 NS.TypesNotation <> :ttype_ident::x not
+R23858:23864 NS.TypesNotation <> Natural ex
+def 23878:23882 <> test1
+R23885:23889 NS.TypesBase <> ttype abbrev
+binder 23898:23900 <> Foo:1
+R23921:23923 NS.TypesNotation <> ::ttype_scope:'[!'_x_'!]' not
+R23927:23929 NS.TypesNotation <> ::ttype_scope:'[!'_x_'!]' not
+R23924:-1 NS.TypesNotation <> :ttype_ident::x not
+R0:23926 NS.TypesNotation <> :ttype_ident::x not
+R23924:23926 NS.TypesNotation <> Foo:1 var
+def 23940:23944 <> test2
+R23947:23951 NS.TypesBase <> ttype abbrev
+binder 23960:23962 <> Bar:2
+R23983:23985 NS.TypesNotation <> ::ttype_scope:'[!'_x_'!]' not
+R23998:24000 NS.TypesNotation <> ::ttype_scope:'[!'_x_'!]' not
+R23989:23989 NS.TypesNotation <> :ttype::x_'<'_x_','_'..'_','_x_'>' not
+R23997:23997 NS.TypesNotation <> :ttype::x_'<'_x_','_'..'_','_x_'>' not
+R23986:-1 NS.TypesNotation <> :ttype_ident::x not
+R0:23988 NS.TypesNotation <> :ttype_ident::x not
+R23986:23988 NS.TypesNotation <> Bar:2 var
+R23990:-1 NS.TypesNotation <> :ttype_ident::x not
+R0:23996 NS.TypesNotation <> :ttype_ident::x not
+R23990:23996 NS.TypesNotation <> Natural ex
+def 24011:24015 <> test3
+R24018:24022 NS.TypesBase <> ttype abbrev
+binder 24031:24033 <> Baz:3
+R24054:24056 NS.TypesNotation <> ::ttype_scope:'[!'_x_'!]' not
+R24077:24079 NS.TypesNotation <> ::ttype_scope:'[!'_x_'!]' not
+R24060:24060 NS.TypesNotation <> :ttype::x_'<'_x_','_'..'_','_x_'>' not
+R24067:24068 NS.TypesNotation <> :ttype::x_'<'_x_','_'..'_','_x_'>' not
+R24076:24076 NS.TypesNotation <> :ttype::x_'<'_x_','_'..'_','_x_'>' not
+R24057:-1 NS.TypesNotation <> :ttype_ident::x not
+R0:24059 NS.TypesNotation <> :ttype_ident::x not
+R24057:24059 NS.TypesNotation <> Baz:3 var
+R24061:-1 NS.TypesNotation <> :ttype_ident::x not
+R0:24066 NS.TypesNotation <> :ttype_ident::x not
+R24061:24066 NS.TypesNotation <> String ex
+R24069:-1 NS.TypesNotation <> :ttype_ident::x not
+R0:24075 NS.TypesNotation <> :ttype_ident::x not
+R24069:24075 NS.TypesNotation <> Natural ex
+def 24090:24094 <> test4
+R24097:24101 NS.TypesBase <> ttype abbrev
+R24106:24108 NS.TypesNotation <> ::ttype_scope:'[!'_x_'!]' not
+R24118:24120 NS.TypesNotation <> ::ttype_scope:'[!'_x_'!]' not
+R24115:24117 NS.TypesNotation <> :ttype::x_'[]' not
+R24109:-1 NS.TypesNotation <> :ttype_ident::x not
+R0:24114 NS.TypesNotation <> :ttype_ident::x not
+R24109:24114 NS.TypesNotation <> String ex
+def 24131:24135 <> test5
+R24138:24142 NS.TypesBase <> ttype abbrev
+binder 24151:24153 <> Foo:4
+binder 24178:24180 <> Bar:5
+binder 24205:24207 <> Baz:6
+R24228:24230 NS.TypesNotation <> ::ttype_scope:'[!'_x_'!]' not
+R24246:24248 NS.TypesNotation <> ::ttype_scope:'[!'_x_'!]' not
+R24231:24231 NS.TypesNotation <> :ttype::'['_x_','_'..'_','_x_']' not
+R24235:24236 NS.TypesNotation <> :ttype::'['_x_','_'..'_','_x_']' not
+R24240:24241 NS.TypesNotation <> :ttype::'['_x_','_'..'_','_x_']' not
+R24245:24245 NS.TypesNotation <> :ttype::'['_x_','_'..'_','_x_']' not
+R24232:-1 NS.TypesNotation <> :ttype_ident::x not
+R0:24234 NS.TypesNotation <> :ttype_ident::x not
+R24232:24234 NS.TypesNotation <> Foo:4 var
+R24237:-1 NS.TypesNotation <> :ttype_ident::x not
+R0:24239 NS.TypesNotation <> :ttype_ident::x not
+R24237:24239 NS.TypesNotation <> Bar:5 var
+R24242:-1 NS.TypesNotation <> :ttype_ident::x not
+R0:24244 NS.TypesNotation <> :ttype_ident::x not
+R24242:24244 NS.TypesNotation <> Baz:6 var
+def 24259:24263 <> test6
+R24266:24270 NS.TypesBase <> ttype abbrev
+binder 24279:24281 <> Foo:7
+binder 24306:24308 <> Bar:8
+binder 24333:24335 <> Baz:9
+R24356:24358 NS.TypesNotation <> ::ttype_scope:'[!'_x_'!]' not
+R24377:24379 NS.TypesNotation <> ::ttype_scope:'[!'_x_'!]' not
+R24374:24376 NS.TypesNotation <> :ttype::x_'[]' not
+R24359:24359 NS.TypesNotation <> :ttype::'['_x_','_'..'_','_x_']' not
+R24363:24364 NS.TypesNotation <> :ttype::'['_x_','_'..'_','_x_']' not
+R24368:24369 NS.TypesNotation <> :ttype::'['_x_','_'..'_','_x_']' not
+R24373:24373 NS.TypesNotation <> :ttype::'['_x_','_'..'_','_x_']' not
+R24360:-1 NS.TypesNotation <> :ttype_ident::x not
+R0:24362 NS.TypesNotation <> :ttype_ident::x not
+R24360:24362 NS.TypesNotation <> Foo:7 var
+R24365:-1 NS.TypesNotation <> :ttype_ident::x not
+R0:24367 NS.TypesNotation <> :ttype_ident::x not
+R24365:24367 NS.TypesNotation <> Bar:8 var
+R24370:-1 NS.TypesNotation <> :ttype_ident::x not
+R0:24372 NS.TypesNotation <> :ttype_ident::x not
+R24370:24372 NS.TypesNotation <> Baz:9 var
+def 24390:24394 <> test7
+R24397:24401 NS.TypesBase <> ttype abbrev
+binder 24410:24412 <> Foo:10
+binder 24437:24439 <> Bar:11
+binder 24464:24466 <> Baz:12
+binder 24515:24517 <> foo:13
+binder 24542:24544 <> bar:14
+binder 24569:24571 <> baz:15
+R24616:24618 NS.TypesNotation <> ::ttype_scope:'[!'_x_'!]' not
+R24673:24675 NS.TypesNotation <> ::ttype_scope:'[!'_x_'!]' not
+R24670:24672 NS.TypesNotation <> :ttype::x_'[]' not
+R24619:24620 NS.TypesNotation <> :ttype::'{'_x_','_'..'_','_x_'}' not
+R24630:24631 NS.TypesNotation <> :ttype::'{'_x_','_'..'_','_x_'}' not
+R24645:24646 NS.TypesNotation <> :ttype::'{'_x_','_'..'_','_x_'}' not
+R24668:24669 NS.TypesNotation <> :ttype::'{'_x_','_'..'_','_x_'}' not
+R24624:24626 NS.TypesNotation <> :ttype_field::x_':'_x not
+R24621:-1 NS.TypesNotation <> :ttype_ident::x not
+R0:24623 NS.TypesNotation <> :ttype_ident::x not
+R24621:24623 NS.TypesNotation <> foo:13 var
+R24627:-1 NS.TypesNotation <> :ttype_ident::x not
+R0:24629 NS.TypesNotation <> :ttype_ident::x not
+R24627:24629 NS.TypesNotation <> Foo:10 var
+R24635:24637 NS.TypesNotation <> :ttype_field::x_':'_x not
+R24632:-1 NS.TypesNotation <> :ttype_ident::x not
+R0:24634 NS.TypesNotation <> :ttype_ident::x not
+R24632:24634 NS.TypesNotation <> bar:14 var
+R24638:24639 NS.TypesNotation <> :ttype::'['_x_','_'..'_','_x_']' not
+R24643:24644 NS.TypesNotation <> :ttype::'['_x_','_'..'_','_x_']' not
+R24640:-1 NS.TypesNotation <> :ttype_ident::x not
+R0:24642 NS.TypesNotation <> :ttype_ident::x not
+R24640:24642 NS.TypesNotation <> Bar:11 var
+R24650:24652 NS.TypesNotation <> :ttype_field::x_':'_x not
+R24647:-1 NS.TypesNotation <> :ttype_ident::x not
+R0:24649 NS.TypesNotation <> :ttype_ident::x not
+R24647:24649 NS.TypesNotation <> baz:15 var
+R24665:24667 NS.TypesNotation <> :ttype::x_'[]' not
+R24656:24657 NS.TypesNotation <> :ttype::x_'<'_x_','_'..'_','_x_'>' not
+R24664:24664 NS.TypesNotation <> :ttype::x_'<'_x_','_'..'_','_x_'>' not
+R24653:-1 NS.TypesNotation <> :ttype_ident::x not
+R0:24655 NS.TypesNotation <> :ttype_ident::x not
+R24653:24655 NS.TypesNotation <> Baz:12 var
+R24658:-1 NS.TypesNotation <> :ttype_ident::x not
+R0:24663 NS.TypesNotation <> :ttype_ident::x not
+R24658:24663 NS.TypesNotation <> String ex
+def 24802:24806 <> test8
+R24809:24813 NS.TypesBase <> ttype abbrev
+R24818:24820 NS.TypesNotation <> ::ttype_scope:'[!'_x_'!]' not
+R24832:24834 NS.TypesNotation <> ::ttype_scope:'[!'_x_'!]' not
+R24821:24831 NS.TypesNotation <> :ttype::'('_')'_'=>'_'Void' not
+def 24845:24849 <> test9
+R24852:24856 NS.TypesBase <> ttype abbrev
+R24861:24863 NS.TypesNotation <> ::ttype_scope:'[!'_x_'!]' not
+R24884:24886 NS.TypesNotation <> ::ttype_scope:'[!'_x_'!]' not
+R24864:24864 NS.TypesNotation <> :ttype::'('_x_','_'..'_','_x_')'_'=>'_x not
+R24872:24876 NS.TypesNotation <> :ttype::'('_x_','_'..'_','_x_')'_'=>'_x not
+R24865:-1 NS.TypesNotation <> :ttype_ident::x not
+R0:24871 NS.TypesNotation <> :ttype_ident::x not
+R24865:24871 NS.TypesNotation <> Integer ex
+R24883:24883 NS.TypesNotation <> :ttype::x_'?' not
+R24877:-1 NS.TypesNotation <> :ttype_ident::x not
+R0:24882 NS.TypesNotation <> :ttype_ident::x not
+R24877:24882 NS.TypesNotation <> String ex
+def 24897:24902 <> test10
+R24905:24909 NS.TypesBase <> ttype abbrev
+binder 24918:24920 <> Foo:16
+binder 24945:24947 <> foo:17
+R24993:24995 NS.TypesNotation <> ::ttype_scope:'[!'_x_'!]' not
+R25067:25069 NS.TypesNotation <> ::ttype_scope:'[!'_x_'!]' not
+R24996:24998 NS.TypesNotation <> :ttype::'('_'<'_x_','_'..'_','_x_'>'_'('_x_','_'..'_','_x_')'_'=>'_x_')?' not
+R25002:25003 NS.TypesNotation <> :ttype::'('_'<'_x_','_'..'_','_x_'>'_'('_x_','_'..'_','_x_')'_'=>'_x_')?' not
+R25013:25014 NS.TypesNotation <> :ttype::'('_'<'_x_','_'..'_','_x_'>'_'('_x_','_'..'_','_x_')'_'=>'_x_')?' not
+R25036:25040 NS.TypesNotation <> :ttype::'('_'<'_x_','_'..'_','_x_'>'_'('_x_','_'..'_','_x_')'_'=>'_x_')?' not
+R25064:25066 NS.TypesNotation <> :ttype::'('_'<'_x_','_'..'_','_x_'>'_'('_x_','_'..'_','_x_')'_'=>'_x_')?' not
+R24999:-1 NS.TypesNotation <> :ttype_ident::x not
+R0:25001 NS.TypesNotation <> :ttype_ident::x not
+R24999:25001 NS.TypesNotation <> Foo:16 var
+R25011:25012 NS.TypesNotation <> :ttype::x_'[]' not
+R25004:-1 NS.TypesNotation <> :ttype_ident::x not
+R0:25010 NS.TypesNotation <> :ttype_ident::x not
+R25004:25010 NS.TypesNotation <> Natural ex
+R25015:25016 NS.TypesNotation <> :ttype::'{'_x_','_'..'_','_x_'}' not
+R25034:25035 NS.TypesNotation <> :ttype::'{'_x_','_'..'_','_x_'}' not
+R25020:25022 NS.TypesNotation <> :ttype_field::x_':'_x not
+R25017:-1 NS.TypesNotation <> :ttype_ident::x not
+R0:25019 NS.TypesNotation <> :ttype_ident::x not
+R25017:25019 NS.TypesNotation <> foo:17 var
+R25026:25026 NS.TypesNotation <> :ttype::x_'<'_x_','_'..'_','_x_'>' not
+R25033:25033 NS.TypesNotation <> :ttype::x_'<'_x_','_'..'_','_x_'>' not
+R25023:-1 NS.TypesNotation <> :ttype_ident::x not
+R0:25025 NS.TypesNotation <> :ttype_ident::x not
+R25023:25025 NS.TypesNotation <> Foo:16 var
+R25027:-1 NS.TypesNotation <> :ttype_ident::x not
+R0:25032 NS.TypesNotation <> :ttype_ident::x not
+R25027:25032 NS.TypesNotation <> String ex
+R25041:25041 NS.TypesNotation <> :ttype::'('_x_','_'..'_','_x_')'_'=>'_x not
+R25049:25053 NS.TypesNotation <> :ttype::'('_x_','_'..'_','_x_')'_'=>'_x not
+R25042:-1 NS.TypesNotation <> :ttype_ident::x not
+R0:25048 NS.TypesNotation <> :ttype_ident::x not
+R25042:25048 NS.TypesNotation <> Integer ex
+R25062:25063 NS.TypesNotation <> :ttype::x_'[]' not
+R25060:25061 NS.TypesNotation <> :ttype::x_'[]' not
+R25054:-1 NS.TypesNotation <> :ttype_ident::x not
+R0:25059 NS.TypesNotation <> :ttype_ident::x not
+R25054:25059 NS.TypesNotation <> String ex

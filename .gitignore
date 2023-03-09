@@ -1,0 +1,6 @@
+*.o
+*.v.d
+*.vo
+*.vio
+*.vok
+*.vos

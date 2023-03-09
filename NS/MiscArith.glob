@@ -1,0 +1,381 @@
+DIGEST 2c93cd13b4e0adf043b07b7ff882ea2a
+FNS.MiscArith
+R116:133 Coq.Strings.String <> <> lib
+R151:168 Coq.Arith.PeanoNat <> <> lib
+R186:200 Coq.Arith.EqNat <> <> lib
+R218:230 Coq.Bool.Bool <> <> lib
+R256:259 NS.Misc <> <> lib
+prf 271:283 <> list_max_map0
+binder 294:294 <> A:1
+R307:310 Coq.Init.Datatypes <> list ind
+R312:312 NS.MiscArith <> A:1 var
+binder 304:304 <> a:2
+R350:352 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R316:323 NS.Misc <> list_max def
+R326:333 Coq.Lists.List <> map def
+R348:348 NS.MiscArith <> a:2 var
+prf 426:440 <> option_max_map0
+binder 451:451 <> A:3
+R464:469 Coq.Init.Datatypes <> option ind
+R471:471 NS.MiscArith <> A:3 var
+binder 461:461 <> a:4
+R513:515 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R475:484 NS.Misc <> option_max def
+R487:496 Coq.Init.Datatypes <> option_map def
+R511:511 NS.MiscArith <> a:4 var
+prf 565:580 <> list_max_cons_le
+R594:596 Coq.Init.Datatypes <> nat ind
+binder 591:591 <> y:5
+R603:605 Coq.Init.Datatypes <> nat ind
+binder 600:600 <> x:6
+R613:616 Coq.Init.Datatypes <> list ind
+R618:620 Coq.Init.Datatypes <> nat ind
+binder 609:610 <> xs:7
+R647:651 Coq.Init.Logic <> ::type_scope:x_'<->'_x not
+R642:645 Coq.Init.Peano <> ::nat_scope:x_'<='_x not
+R624:631 NS.Misc <> list_max def
+R635:638 Coq.Init.Datatypes <> ::list_scope:x_'::'_x not
+R634:634 NS.MiscArith <> x:6 var
+R639:640 NS.MiscArith <> xs:7 var
+R646:646 NS.MiscArith <> y:5 var
+R658:661 Coq.Init.Logic <> ::type_scope:x_'/\'_x not
+R653:656 Coq.Init.Peano <> ::nat_scope:x_'<='_x not
+R652:652 NS.MiscArith <> x:6 var
+R657:657 NS.MiscArith <> y:5 var
+R673:676 Coq.Init.Peano <> ::nat_scope:x_'<='_x not
+R662:669 NS.Misc <> list_max def
+R671:672 NS.MiscArith <> xs:7 var
+R677:677 NS.MiscArith <> y:5 var
+R733:747 Coq.Arith.PeanoNat Nat max_lub_iff thm
+R733:747 Coq.Arith.PeanoNat Nat max_lub_iff thm
+R733:747 Coq.Arith.PeanoNat Nat max_lub_iff thm
+R778:792 Coq.Arith.PeanoNat Nat max_lub_iff thm
+R778:792 Coq.Arith.PeanoNat Nat max_lub_iff thm
+R778:792 Coq.Arith.PeanoNat Nat max_lub_iff thm
+prf 818:837 <> list_max_cons_opt_le
+R851:853 Coq.Init.Datatypes <> nat ind
+binder 848:848 <> y:8
+R860:865 Coq.Init.Datatypes <> option ind
+R867:869 Coq.Init.Datatypes <> nat ind
+binder 857:857 <> x:9
+R877:880 Coq.Init.Datatypes <> list ind
+R882:884 Coq.Init.Datatypes <> nat ind
+binder 873:874 <> xs:10
+R912:916 Coq.Init.Logic <> ::type_scope:x_'<->'_x not
+R907:910 Coq.Init.Peano <> ::nat_scope:x_'<='_x not
+R888:895 NS.Misc <> list_max def
+R899:903 NS.Misc <> ::list_scope:x_'?::'_x not
+R898:898 NS.MiscArith <> x:9 var
+R904:905 NS.MiscArith <> xs:10 var
+R911:911 NS.MiscArith <> y:8 var
+R934:937 Coq.Init.Logic <> ::type_scope:x_'/\'_x not
+R929:932 Coq.Init.Peano <> ::nat_scope:x_'<='_x not
+R917:926 NS.Misc <> option_max def
+R928:928 NS.MiscArith <> x:9 var
+R933:933 NS.MiscArith <> y:8 var
+R949:952 Coq.Init.Peano <> ::nat_scope:x_'<='_x not
+R938:945 NS.Misc <> list_max def
+R947:948 NS.MiscArith <> xs:10 var
+R953:953 NS.MiscArith <> y:8 var
+R1028:1042 Coq.Arith.PeanoNat Nat max_lub_iff thm
+R1028:1042 Coq.Arith.PeanoNat Nat max_lub_iff thm
+R1028:1042 Coq.Arith.PeanoNat Nat max_lub_iff thm
+R1072:1081 Coq.Arith.PeanoNat Nat le_0_l thm
+R1072:1081 Coq.Arith.PeanoNat Nat le_0_l thm
+R1114:1128 Coq.Arith.PeanoNat Nat max_lub_iff thm
+R1114:1128 Coq.Arith.PeanoNat Nat max_lub_iff thm
+R1114:1128 Coq.Arith.PeanoNat Nat max_lub_iff thm
+prf 1188:1203 <> list_max_cons_lt
+R1217:1219 Coq.Init.Datatypes <> nat ind
+binder 1214:1214 <> y:11
+R1226:1228 Coq.Init.Datatypes <> nat ind
+binder 1223:1223 <> x:12
+R1236:1239 Coq.Init.Datatypes <> list ind
+R1241:1243 Coq.Init.Datatypes <> nat ind
+binder 1232:1233 <> xs:13
+R1269:1273 Coq.Init.Logic <> ::type_scope:x_'<->'_x not
+R1265:1267 Coq.Init.Peano <> ::nat_scope:x_'<'_x not
+R1247:1254 NS.Misc <> list_max def
+R1258:1261 Coq.Init.Datatypes <> ::list_scope:x_'::'_x not
+R1257:1257 NS.MiscArith <> x:12 var
+R1262:1263 NS.MiscArith <> xs:13 var
+R1268:1268 NS.MiscArith <> y:11 var
+R1279:1282 Coq.Init.Logic <> ::type_scope:x_'/\'_x not
+R1275:1277 Coq.Init.Peano <> ::nat_scope:x_'<'_x not
+R1274:1274 NS.MiscArith <> x:12 var
+R1278:1278 NS.MiscArith <> y:11 var
+R1294:1296 Coq.Init.Peano <> ::nat_scope:x_'<'_x not
+R1283:1290 NS.Misc <> list_max def
+R1292:1293 NS.MiscArith <> xs:13 var
+R1297:1297 NS.MiscArith <> y:11 var
+R1353:1370 Coq.Arith.PeanoNat Nat max_lub_lt_iff thm
+R1353:1370 Coq.Arith.PeanoNat Nat max_lub_lt_iff thm
+R1353:1370 Coq.Arith.PeanoNat Nat max_lub_lt_iff thm
+R1401:1418 Coq.Arith.PeanoNat Nat max_lub_lt_iff thm
+R1401:1418 Coq.Arith.PeanoNat Nat max_lub_lt_iff thm
+R1401:1418 Coq.Arith.PeanoNat Nat max_lub_lt_iff thm
+prf 1444:1463 <> list_max_cons_opt_lt
+R1477:1479 Coq.Init.Datatypes <> nat ind
+binder 1474:1474 <> y:14
+R1486:1491 Coq.Init.Datatypes <> option ind
+R1493:1495 Coq.Init.Datatypes <> nat ind
+binder 1483:1483 <> x:15
+R1503:1506 Coq.Init.Datatypes <> list ind
+R1508:1510 Coq.Init.Datatypes <> nat ind
+binder 1499:1500 <> xs:16
+R1539:1543 Coq.Init.Logic <> ::type_scope:x_'<->'_x not
+R1533:1535 Coq.Init.Peano <> ::nat_scope:x_'<'_x not
+R1514:1521 NS.Misc <> list_max def
+R1525:1529 NS.Misc <> ::list_scope:x_'?::'_x not
+R1524:1524 NS.MiscArith <> x:15 var
+R1530:1531 NS.MiscArith <> xs:16 var
+R1536:1536 Coq.Init.Datatypes <> S constr
+R1538:1538 NS.MiscArith <> y:14 var
+R1562:1565 Coq.Init.Logic <> ::type_scope:x_'/\'_x not
+R1556:1558 Coq.Init.Peano <> ::nat_scope:x_'<'_x not
+R1544:1553 NS.Misc <> option_max def
+R1555:1555 NS.MiscArith <> x:15 var
+R1559:1559 Coq.Init.Datatypes <> S constr
+R1561:1561 NS.MiscArith <> y:14 var
+R1577:1579 Coq.Init.Peano <> ::nat_scope:x_'<'_x not
+R1566:1573 NS.Misc <> list_max def
+R1575:1576 NS.MiscArith <> xs:16 var
+R1580:1580 Coq.Init.Datatypes <> S constr
+R1582:1582 NS.MiscArith <> y:14 var
+R1657:1674 Coq.Arith.PeanoNat Nat max_lub_lt_iff thm
+R1657:1674 Coq.Arith.PeanoNat Nat max_lub_lt_iff thm
+R1657:1674 Coq.Arith.PeanoNat Nat max_lub_lt_iff thm
+R1704:1716 Coq.Arith.PeanoNat Nat lt_0_succ thm
+R1704:1716 Coq.Arith.PeanoNat Nat lt_0_succ thm
+R1749:1766 Coq.Arith.PeanoNat Nat max_lub_lt_iff thm
+R1749:1766 Coq.Arith.PeanoNat Nat max_lub_lt_iff thm
+R1749:1766 Coq.Arith.PeanoNat Nat max_lub_lt_iff thm
+prf 1826:1840 <> list_max_all_le
+R1854:1856 Coq.Init.Datatypes <> nat ind
+binder 1851:1851 <> b:17
+R1864:1867 Coq.Init.Datatypes <> list ind
+R1869:1871 Coq.Init.Datatypes <> nat ind
+binder 1860:1861 <> xs:18
+R1907:1910 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R1875:1885 Coq.Lists.List <> Forall ind
+R1905:1906 NS.MiscArith <> xs:18 var
+binder 1892:1892 <> a:19
+R1898:1901 Coq.Init.Peano <> ::nat_scope:x_'<='_x not
+R1897:1897 NS.MiscArith <> a:19 var
+R1902:1902 NS.MiscArith <> b:17 var
+R1922:1925 Coq.Init.Peano <> ::nat_scope:x_'<='_x not
+R1911:1918 NS.Misc <> list_max def
+R1920:1921 NS.MiscArith <> xs:18 var
+R1926:1926 NS.MiscArith <> b:17 var
+R1994:2003 Coq.Arith.PeanoNat Nat le_0_l thm
+R1994:2003 Coq.Arith.PeanoNat Nat le_0_l thm
+R2057:2071 Coq.Arith.PeanoNat Nat max_lub_iff thm
+R2057:2071 Coq.Arith.PeanoNat Nat max_lub_iff thm
+R2057:2071 Coq.Arith.PeanoNat Nat max_lub_iff thm
+prf 2120:2136 <> option_max_all_le
+R2150:2152 Coq.Init.Datatypes <> nat ind
+binder 2147:2147 <> b:20
+R2160:2165 Coq.Init.Datatypes <> option ind
+R2167:2169 Coq.Init.Datatypes <> nat ind
+binder 2156:2157 <> xs:21
+R2207:2210 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R2173:2185 NS.Misc <> Option_Forall ind
+R2205:2206 NS.MiscArith <> xs:21 var
+binder 2192:2192 <> a:22
+R2198:2201 Coq.Init.Peano <> ::nat_scope:x_'<='_x not
+R2197:2197 NS.MiscArith <> a:22 var
+R2202:2202 NS.MiscArith <> b:20 var
+R2224:2227 Coq.Init.Peano <> ::nat_scope:x_'<='_x not
+R2211:2220 NS.Misc <> option_max def
+R2222:2223 NS.MiscArith <> xs:21 var
+R2228:2228 NS.MiscArith <> b:20 var
+R2326:2335 Coq.Arith.PeanoNat Nat le_0_l thm
+R2326:2335 Coq.Arith.PeanoNat Nat le_0_l thm
+prf 2352:2370 <> list_max_map_all_le
+binder 2381:2381 <> A:23
+R2395:2398 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R2394:2394 NS.MiscArith <> A:23 var
+R2399:2401 Coq.Init.Datatypes <> nat ind
+binder 2391:2391 <> f:24
+R2408:2410 Coq.Init.Datatypes <> nat ind
+binder 2405:2405 <> b:25
+R2418:2421 Coq.Init.Datatypes <> list ind
+R2423:2423 NS.MiscArith <> A:23 var
+binder 2414:2415 <> xs:26
+R2465:2468 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R2431:2441 Coq.Lists.List <> Forall ind
+R2463:2464 NS.MiscArith <> xs:26 var
+binder 2448:2448 <> a:27
+R2456:2459 Coq.Init.Peano <> ::nat_scope:x_'<='_x not
+R2453:2453 NS.MiscArith <> f:24 var
+R2455:2455 NS.MiscArith <> a:27 var
+R2460:2460 NS.MiscArith <> b:25 var
+R2493:2496 Coq.Init.Peano <> ::nat_scope:x_'<='_x not
+R2469:2476 NS.Misc <> list_max def
+R2479:2486 Coq.Lists.List <> map def
+R2490:2491 NS.MiscArith <> xs:26 var
+R2488:2488 NS.MiscArith <> f:24 var
+R2497:2497 NS.MiscArith <> b:25 var
+R2536:2550 NS.MiscArith <> list_max_all_le thm
+R2536:2550 NS.MiscArith <> list_max_all_le thm
+R2563:2577 Coq.Lists.List <> Forall_map thm
+R2563:2577 Coq.Lists.List <> Forall_map thm
+R2563:2577 Coq.Lists.List <> Forall_map thm
+prf 2603:2619 <> option_forall_map
+binder 2630:2630 <> A:28
+binder 2632:2632 <> B:29
+R2648:2651 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R2647:2647 NS.MiscArith <> A:28 var
+R2652:2652 NS.MiscArith <> B:29 var
+binder 2643:2643 <> f:30
+R2661:2664 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R2660:2660 NS.MiscArith <> B:29 var
+binder 2656:2656 <> P:31
+R2676:2681 Coq.Init.Datatypes <> option ind
+R2683:2683 NS.MiscArith <> A:28 var
+binder 2672:2672 <> a:32
+R2723:2727 Coq.Init.Logic <> ::type_scope:x_'<->'_x not
+R2691:2703 NS.Misc <> Option_Forall ind
+R2708:2717 Coq.Init.Datatypes <> option_map def
+R2721:2721 NS.MiscArith <> a:32 var
+R2719:2719 NS.MiscArith <> f:30 var
+R2705:2705 NS.MiscArith <> P:31 var
+R2728:2740 NS.Misc <> Option_Forall ind
+R2765:2765 NS.MiscArith <> a:32 var
+R2751:2751 NS.MiscArith <> A:28 var
+binder 2747:2747 <> x:33
+R2756:2756 NS.MiscArith <> P:31 var
+R2759:2759 NS.MiscArith <> f:30 var
+R2761:2761 NS.MiscArith <> x:33 var
+R2840:2857 NS.Misc <> Option_Forall_None constr
+R2840:2857 NS.Misc <> Option_Forall_None constr
+R2840:2857 NS.Misc <> Option_Forall_None constr
+R2874:2891 NS.Misc <> Option_Forall_Some constr
+R2874:2891 NS.Misc <> Option_Forall_Some constr
+R2874:2891 NS.Misc <> Option_Forall_Some constr
+prf 2937:2957 <> option_max_map_all_le
+binder 2968:2968 <> A:34
+R2982:2985 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R2981:2981 NS.MiscArith <> A:34 var
+R2986:2988 Coq.Init.Datatypes <> nat ind
+binder 2978:2978 <> f:35
+R2995:2997 Coq.Init.Datatypes <> nat ind
+binder 2992:2992 <> b:36
+R3005:3010 Coq.Init.Datatypes <> option ind
+R3012:3012 NS.MiscArith <> A:34 var
+binder 3001:3002 <> xs:37
+R3056:3059 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R3020:3032 NS.Misc <> Option_Forall ind
+R3054:3055 NS.MiscArith <> xs:37 var
+binder 3039:3039 <> a:38
+R3047:3050 Coq.Init.Peano <> ::nat_scope:x_'<='_x not
+R3044:3044 NS.MiscArith <> f:35 var
+R3046:3046 NS.MiscArith <> a:38 var
+R3051:3051 NS.MiscArith <> b:36 var
+R3088:3091 Coq.Init.Peano <> ::nat_scope:x_'<='_x not
+R3060:3069 NS.Misc <> option_max def
+R3072:3081 Coq.Init.Datatypes <> option_map def
+R3085:3086 NS.MiscArith <> xs:37 var
+R3083:3083 NS.MiscArith <> f:35 var
+R3092:3092 NS.MiscArith <> b:36 var
+R3131:3147 NS.MiscArith <> option_max_all_le thm
+R3131:3147 NS.MiscArith <> option_max_all_le thm
+R3160:3176 NS.MiscArith <> option_forall_map thm
+R3160:3176 NS.MiscArith <> option_forall_map thm
+R3160:3176 NS.MiscArith <> option_forall_map thm
+prf 3204:3221 <> list_forall_weaken
+binder 3232:3232 <> A:39
+R3246:3249 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R3245:3245 NS.MiscArith <> A:39 var
+binder 3242:3242 <> P:40
+R3257:3257 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R3271:3275 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+binder 3265:3265 <> a:41
+R3268:3268 NS.MiscArith <> P:40 var
+R3270:3270 NS.MiscArith <> a:41 var
+R3288:3291 Coq.Init.Datatypes <> list ind
+R3293:3293 NS.MiscArith <> A:39 var
+binder 3284:3285 <> xs:42
+R3297:3307 Coq.Lists.List <> Forall ind
+R3311:3312 NS.MiscArith <> xs:42 var
+R3309:3309 NS.MiscArith <> P:40 var
+R3364:3378 Coq.Lists.List <> Forall_nil constr
+R3388:3403 Coq.Lists.List <> Forall_cons constr
+R3364:3378 Coq.Lists.List <> Forall_nil constr
+R3388:3403 Coq.Lists.List <> Forall_cons constr
+prf 3454:3473 <> option_forall_weaken
+binder 3484:3484 <> A:43
+R3498:3501 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R3497:3497 NS.MiscArith <> A:43 var
+binder 3494:3494 <> P:44
+R3509:3509 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R3523:3527 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+binder 3517:3517 <> a:45
+R3520:3520 NS.MiscArith <> P:44 var
+R3522:3522 NS.MiscArith <> a:45 var
+R3540:3545 Coq.Init.Datatypes <> option ind
+R3547:3547 NS.MiscArith <> A:43 var
+binder 3536:3537 <> xs:46
+R3551:3563 NS.Misc <> Option_Forall ind
+R3567:3568 NS.MiscArith <> xs:46 var
+R3565:3565 NS.MiscArith <> P:44 var
+R3619:3636 NS.Misc <> Option_Forall_Some constr
+R3646:3663 NS.Misc <> Option_Forall_None constr
+R3619:3636 NS.Misc <> Option_Forall_Some constr
+R3646:3663 NS.Misc <> Option_Forall_None constr
+prf 3700:3719 <> list_max_map_all_le'
+binder 3730:3730 <> A:47
+R3744:3747 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R3743:3743 NS.MiscArith <> A:47 var
+R3748:3750 Coq.Init.Datatypes <> nat ind
+binder 3740:3740 <> f:48
+R3757:3759 Coq.Init.Datatypes <> nat ind
+binder 3754:3754 <> b:49
+R3767:3767 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R3786:3790 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+binder 3775:3775 <> a:50
+R3781:3784 Coq.Init.Peano <> ::nat_scope:x_'<='_x not
+R3778:3778 NS.MiscArith <> f:48 var
+R3780:3780 NS.MiscArith <> a:50 var
+R3785:3785 NS.MiscArith <> b:49 var
+R3803:3806 Coq.Init.Datatypes <> list ind
+R3808:3808 NS.MiscArith <> A:47 var
+binder 3799:3800 <> xs:51
+R3836:3839 Coq.Init.Peano <> ::nat_scope:x_'<='_x not
+R3812:3819 NS.Misc <> list_max def
+R3822:3829 Coq.Lists.List <> map def
+R3833:3834 NS.MiscArith <> xs:51 var
+R3831:3831 NS.MiscArith <> f:48 var
+R3840:3840 NS.MiscArith <> b:49 var
+R3879:3897 NS.MiscArith <> list_max_map_all_le thm
+R3879:3897 NS.MiscArith <> list_max_map_all_le thm
+R3908:3925 NS.MiscArith <> list_forall_weaken thm
+R3908:3925 NS.MiscArith <> list_forall_weaken thm
+prf 3955:3976 <> option_max_map_all_le'
+binder 3987:3987 <> A:52
+R4001:4004 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R4000:4000 NS.MiscArith <> A:52 var
+R4005:4007 Coq.Init.Datatypes <> nat ind
+binder 3997:3997 <> f:53
+R4014:4016 Coq.Init.Datatypes <> nat ind
+binder 4011:4011 <> b:54
+R4024:4024 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R4043:4047 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+binder 4032:4032 <> a:55
+R4038:4041 Coq.Init.Peano <> ::nat_scope:x_'<='_x not
+R4035:4035 NS.MiscArith <> f:53 var
+R4037:4037 NS.MiscArith <> a:55 var
+R4042:4042 NS.MiscArith <> b:54 var
+R4060:4065 Coq.Init.Datatypes <> option ind
+R4067:4067 NS.MiscArith <> A:52 var
+binder 4056:4057 <> xs:56
+R4099:4102 Coq.Init.Peano <> ::nat_scope:x_'<='_x not
+R4071:4080 NS.Misc <> option_max def
+R4083:4092 Coq.Init.Datatypes <> option_map def
+R4096:4097 NS.MiscArith <> xs:56 var
+R4094:4094 NS.MiscArith <> f:53 var
+R4103:4103 NS.MiscArith <> b:54 var
+R4142:4162 NS.MiscArith <> option_max_map_all_le thm
+R4142:4162 NS.MiscArith <> option_max_map_all_le thm
+R4173:4192 NS.MiscArith <> option_forall_weaken thm
+R4173:4192 NS.MiscArith <> option_forall_weaken thm

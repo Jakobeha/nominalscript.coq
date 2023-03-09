@@ -1,0 +1,706 @@
+(* Add LoadPath should not be necessary but it is *)
+Add LoadPath "." as NS.
+Set Implicit Arguments.
+Require Import Lia.
+Require Import Coq.Strings.String.
+Require Import Coq.Arith.PeanoNat.
+Require Import Coq.Arith.EqNat.
+Require Import Coq.Bool.Bool.
+
+Notation "a <| b" := (a b) (at level 102, right associativity, only parsing).
+Notation "a << b" := (fun x => a (b x)) (at level 101, right associativity, only parsing).
+
+Definition is_empty {A: Type} (xs : list A) : bool :=
+match xs with
+| nil => true
+| cons x xs' => false
+end.
+
+Fixpoint all {A: Type} (pred: A -> bool) (xs: list A): bool :=
+match xs with
+| nil => true
+| cons x xs' => pred x && all pred xs'
+end.
+
+Fixpoint any {A: Type} (p: A -> bool) (xs: list A): bool :=
+match xs with
+| nil => false
+| cons x xs => p x || any p xs
+end.
+
+Definition len := List.length.
+Definition find := List.find.
+
+Fixpoint find_map {A B: Type} (p: A -> option B) (xs: list A): option B :=
+match xs with
+| nil => None
+| cons x xs =>
+    match p x with
+    | None => find_map p xs
+    | Some y => Some y
+    end
+end.
+
+Fixpoint zip_eqb {A B: Type} (eqb: A -> B -> bool) (xs: list A) (ys: list B): bool :=
+match xs, ys with
+| cons x xs, cons y ys => eqb x y && zip_eqb eqb xs ys
+| _, _ => true
+end.
+
+Fixpoint zip_with {A B C: Type} (f: A -> B -> C) (xs: list A) (ys: list B): list C :=
+match xs, ys with
+| cons x xs, cons y ys => cons (f x y) (zip_with f xs ys)
+| _, _ => nil
+end.
+
+Definition cons_opt {A: Type} (x: option A) (xs: list A) :=
+match x with
+| None => xs
+| Some x => cons x xs
+end.
+
+Definition unwrap_or {A: Type} (default: A) (a: option A): A :=
+match a with
+| None => default
+| Some a => a
+end.
+
+Fixpoint intersect {A B C: Type} (intersect1: A -> B -> option C) (xs: list A) (ys: list B): list C :=
+match xs with
+| nil => nil
+| cons x xs => cons_opt (find_map (intersect1 x) ys) (intersect intersect1 xs ys)
+end.
+
+Definition subtract_hd {A: Type} (eqb: A -> A -> bool) (xs: list A) (ys: list A): option A :=
+  find (fun x => negb (any (eqb x) ys)) xs.
+
+Definition is_some {A: Type} (a: option A): bool :=
+match a with
+| None => false
+| Some _ => true
+end.
+
+Definition option_zip_with {A B C: Type} (f: A -> B -> C) (a: option A) (b: option B): option C :=
+match a, b with
+| Some a, Some b => Some (f a b)
+| _, _ => None
+end.
+
+Definition js_record {a: Set}: Set := list (string * a).
+
+Fixpoint js_record_has_key {A: Set} (key: string) (a: @js_record A): bool :=
+match a with
+| nil => false
+| cons (x_key, _) xs => String.eqb key x_key || js_record_has_key key xs
+end.
+
+Fixpoint js_record_assoc {A: Set} (key: string) (a: @js_record A): option A :=
+match a with
+| nil => None
+| cons (x_key, x) xs => if String.eqb key x_key then Some x else js_record_assoc key xs
+end.
+
+Definition map_js_record {A B: Set} (f: A -> B) (a: @js_record A): @js_record B :=
+  List.map (fun x => match x with (name, value) => (name, f value) end) a.
+
+Fixpoint js_record_fields_superset {A B: Set} (a: @js_record A) (b: @js_record B): bool :=
+match b with
+| nil => true
+| cons (b_key, _) bs => js_record_has_key b_key a && js_record_fields_superset a bs
+end.
+
+Definition js_record_fields_eqb {A B: Set} (a: @js_record A) (b: @js_record B): bool :=
+  js_record_fields_superset a b && js_record_fields_superset b a.
+
+Fixpoint js_record_zip_with {A B C: Set} (f: A -> B -> C) (a: @js_record A) (b: @js_record B): @js_record C :=
+match a with
+| nil => nil
+| cons (x_key, x) xs =>
+    cons_opt (option_map ((fun z => (x_key, z)) << f x) (js_record_assoc x_key b)) (js_record_zip_with f xs b)
+end.
+
+Declare Scope nominal_scope.
+
+(* Void-able type *)
+Inductive vtype {type: Set}: Set :=
+| VVoid
+| VType (a: type).
+
+(* Ident (nominal) type *)
+Inductive itype {type: Set}: Set :=
+| IIdent (name: string) (targs: list type).
+
+(* Structural type *)
+Inductive stype {type: Set}: Set :=
+| SFn (tparams: list string) (params: list type) (rparam: option type) (ret: @vtype type)
+| SArray (elem: type)
+| STuple (elems: list type)
+| SObject (fields: @js_record type).
+
+(* Never-able type *)
+Inductive ntype {type: Set}: Set :=
+| NNever
+| NType (a: type).
+
+(* Any-able, never-able, or nullable type *)
+Inductive atype {type: Set}: Set :=
+| AAny
+| AType (nullable: bool) (a: @ntype type).
+
+(* Thin type *)
+Inductive ttype': Set :=
+| TTypeStructural (a: @stype (@atype ttype'))
+| TTypeNominal (a: @itype (@atype ttype')).
+Definition ttype: Set := @atype ttype'.
+
+(* Fat (post-resolution) type *)
+Inductive ftype': Set :=
+| FType (ids: list (@itype (@atype ftype'))) (s: option (@stype (@atype ftype'))).
+Definition ftype: Set := @atype ftype'.
+
+Inductive _ftype: Set :=
+| _AAny
+| _AType (nullable: bool) (a: _ntype)
+with _ntype: Set :=
+| _NNever
+| _NType (a: _ftype')
+with _ftype': Set :=
+| _FType (ids: list_itype) (s: option_stype)
+with _itype: Set :=
+| _IIdent (name: string) (targs: list_ftype)
+with _stype: Set :=
+| _SFn (tparams: list string) (params: list_ftype) (rparam: option_ftype) (ret: _vtype)
+| _SArray (elem: _ftype)
+| _STuple (elems: list _ftype)
+| _SObject (fields: @js_record _ftype)
+with _vtype: Set :=
+| _VVoid
+| _VType (a: _ftype)
+with option_stype: Set :=
+| None_SType
+| Some_SType (a: _stype)
+with option_ftype: Set :=
+| None_FType
+| Some_FType (a: _ftype)
+with list_itype: Set :=
+| Nil_IType
+| Cons_IType (x: _itype) (xs: list_itype)
+with list_ftype: Set :=
+| Nil_FType
+| Cons_FType (x: _ftype) (xs: list_ftype).
+
+Scheme atype_ind' := Induction for _ftype Sort Prop
+with ntype_ind' := Induction for _ntype Sort Prop
+with ftype'_ind' := Induction for _ftype' Sort Prop
+with itype_ind' := Induction for _itype Sort Prop
+with stype_ind' := Induction for _stype Sort Prop
+with vtype_ind' := Induction for _vtype Sort Prop
+with option_stype_ind' := Induction for option_stype Sort Prop
+with option_ftype_ind' := Induction for option_ftype Sort Prop
+with list_itype_ind' := Induction for list_itype Sort Prop
+with list_ftype_ind' := Induction for list_ftype Sort Prop.
+
+Theorem ftype_iso :
+
+Print _ftype'_ind.
+
+
+Definition TAny: ttype := AAny.
+Definition TNever: ttype := AType false NNever.
+Definition TNull: ttype := AType true NNever.
+Definition FAny: ftype := AAny.
+Definition FNever: ftype := AType false NNever.
+Definition FNull: ftype := AType true NNever.
+
+(* Definition ftype'_struct (a: ftype'): option (@stype ftype) :=
+match a with
+| FTypeStructural s => Some s
+| FTypeNominal _ _ s => s
+end.
+
+Definition ftype'_nominal (a: ftype'): list (@itype ftype) :=
+match a with
+| FTypeStructural _ => nil
+| FTypeNominal hd tl _ => cons hd tl
+end.
+
+Definition ftype'_split (a: ftype'): list (@itype ftype) * option (@stype ftype) :=
+match a with
+| FTypeStructural s => (nil, Some s)
+| FTypeNominal id ids s => (cons id ids, s)
+end.
+
+Definition ftype'_join (ids: list (@itype ftype)) (s: option (@stype ftype)): option ftype' :=
+match ids, s with
+| nil, None => None
+| nil, Some s => Some (FTypeStructural s)
+| cons id ids, s => Some (FTypeNominal id ids s)
+end. *)
+
+Definition map_itype {A B: Set} (f: A -> B) (a: @itype A): @itype B :=
+match a with
+| IIdent name targs => IIdent name (List.map f targs)
+end.
+
+Definition map_vtype {A B: Set} (f: A -> B) (a: @vtype A): @vtype B :=
+match a with
+| VVoid => VVoid
+| VType a => VType (f a)
+end.
+
+Definition map_stype {A B: Set} (f: A -> B) (a: @stype A): @stype B :=
+match a with
+| SFn tparams params rparam ret => SFn tparams (List.map f params) (option_map f rparam) (map_vtype f ret)
+| SArray elem => SArray (f elem)
+| STuple elems => STuple (List.map f elems)
+| SObject fields => SObject (map_js_record f fields)
+end.
+
+Definition map_ntype {A B: Set} (f: A -> B) (a: @ntype A): @ntype B :=
+match a with
+| NNever => NNever
+| NType a => NType (f a)
+end.
+
+Definition map_atype {A B: Set} (f: A -> B) (a: @atype A): @atype B :=
+match a with
+| AAny => AAny
+| AType nullable a => AType nullable (map_ntype f a)
+end.
+
+Definition map_opt_atype {A B: Set} (f: A -> option B) (a: @atype A): @atype B :=
+match a with
+| AAny => AAny
+| AType nullable a =>
+   match map_ntype f a with
+   | NNever => AType nullable NNever
+   | NType None => AAny
+   | NType (Some b) => AType nullable (NType b)
+   end
+end.
+
+Fixpoint thin' (a: ftype'): option ttype' :=
+match a with
+| FType nil None => None
+| FType nil (Some s) => Some (TTypeStructural (map_stype (map_opt_atype thin') s))
+| FType (cons hd _) _ => Some (TTypeNominal (map_itype (map_opt_atype thin') hd))
+end.
+Definition thin: ftype -> ttype := map_opt_atype thin'.
+
+Definition is_nullable {type: Set} (a: @atype type): bool :=
+match a with
+| AAny => true
+| AType nullable _ => nullable
+end.
+
+Definition add_null_if {type: Set} (cond: bool) (a: @atype type): @atype type :=
+match a with
+| AAny => AAny
+| AType nullable a => AType (nullable || cond) a
+end.
+
+Definition atype_opt {type: Set} (nullable: bool) (a: option (@ntype type)): @atype type :=
+match a with
+| None => AAny
+| Some a => AType nullable a
+end.
+
+Definition itype_id {type: Set} (a: @itype type): string :=
+match a with
+| IIdent name _ => name
+end.
+
+Definition itype_targs {type: Set} (a: @itype type): list type :=
+match a with
+| IIdent _ targs => targs
+end.
+
+Inductive sj_fn_loc: Set :=
+| InParam (idx: nat)
+| InRestParam
+| InReturn.
+
+Inductive sj_loc: Set :=
+| InGeneric (a: string) (idx: nat)
+| InFn (a: sj_fn_loc)
+| InArray
+| InTuple (idx: nat)
+| InObject (field: string).
+
+Inductive sj_fn_struct_err: Set :=
+| DifferentTParams
+| DifferentNumParams
+| DifferentHasRestParam
+| DifferentVoidReturn.
+
+Inductive sj_struct_err: Set :=
+| DifferentStructKinds
+| DifferentFn (a: sj_fn_struct_err)
+| DifferentNumElems
+| DifferentFields.
+
+Inductive sj_err: Set :=
+| MissingAny
+| Nullable
+| MissingNominal (a: string)
+| MissingNever
+| Structural (a: sj_struct_err)
+| InLoc (loc: sj_loc) (inner: sj_err).
+
+(* Subtype judgement *)
+Definition sj: Set := list sj_err.
+
+(* Unify + subtype judgement *)
+Inductive uj {type: Set}: Set :=
+| UJ (union: type) (s: sj).
+
+(* Unify + subtype with fuel limit *)
+Inductive uj' {type: Set}: Set :=
+| UJ'OutOfFuel
+| UJ' (union: type) (s: sj).
+
+Definition uj'0 {type: Set} (a: type): @uj' type := UJ' a nil.
+Definition uj'_cons {type: Set} (err: sj_err) (a: @uj' type) :=
+match a with
+| UJ'OutOfFuel => UJ'OutOfFuel
+| UJ' union s => UJ' union (cons err s)
+end.
+Definition uj'1 {type: Set} (err: sj_err) (a: type): @uj' type := uj'_cons err (uj'0 a).
+Definition uj'_cons_iff {type: Set} (err: sj_err) (cond: bool) (a: @uj' type) :=
+if cond then uj'_cons err a else a.
+Definition uj'_cons_map {type A: Set} (err: A -> sj_err) (cond: option A) (a: @uj' type) :=
+match cond with
+| None => a
+| Some cond => uj'_cons (err cond) a
+end.
+
+Definition loc_uj'_errs {A: Set} (loc: sj_loc) (a: @uj' A): @uj' A :=
+match a with
+| UJ'OutOfFuel => UJ'OutOfFuel
+| UJ' union s => UJ' union (List.map (InLoc loc) s)
+end.
+
+Definition map_uj' {A B: Set} (f: A -> B) (a: @uj' A): @uj' B :=
+match a with
+| UJ'OutOfFuel => UJ'OutOfFuel
+| UJ' union s => UJ' (f union) s
+end.
+
+Definition ap_uj' {A B: Set} (f: @uj' (A -> B)) (a: @uj' A): @uj' B :=
+match f, a with
+| UJ' f sf, UJ' a sa => UJ' (f a) (app sf sa)
+| _, _ => UJ'OutOfFuel
+end.
+
+Definition then_uj' {A B: Set} (f: A -> @uj' B) (a: @uj' A): @uj' B :=
+match a with
+| UJ'OutOfFuel => UJ'OutOfFuel
+| UJ' union s =>
+    match f union with
+    | UJ'OutOfFuel => UJ'OutOfFuel
+    | UJ' union s' => UJ' union (app s' s)
+    end
+end.
+
+Notation "f '<uj'$>' x" := (map_uj' f x) (at level 84, left associativity).
+Notation "f '<uj'*>' x" := (ap_uj' f x) (at level 84, left associativity).
+Notation "f '=uj'<<' x" := (then_uj' f x) (at level 84, left associativity).
+
+Fixpoint traverse_uj' {A: Set} (xs: list (@uj' A)): @uj' (list A) :=
+match xs with
+| nil => uj'0 nil
+| cons x xs => cons <uj'$> x <uj'*> traverse_uj' xs
+end.
+
+Fixpoint _traverse_loc_uj' {A: Set} (loc: nat -> sj_loc) (idx: nat) (xs: list (@uj' A)): @uj' (list A) :=
+match xs with
+| nil => uj'0 nil
+| cons x xs => cons <uj'$> loc_uj'_errs (loc idx) x <uj'*> _traverse_loc_uj' loc (Nat.succ idx) xs
+end.
+
+Definition traverse_loc_uj' {A: Set} (loc: nat -> sj_loc): list (@uj' A) -> @uj' (list A) := _traverse_loc_uj' loc 0.
+
+Fixpoint traverse_loc_uj'_fields {A: Set} (loc: string -> sj_loc) (a: @js_record (@uj' A)): @uj' (@js_record A) :=
+match a with
+| nil => uj'0 nil
+| cons (x_key, x) xs => cons <uj'$> loc_uj'_errs (loc x_key) ((fun x => (x_key, x)) <uj'$> x) <uj'*> traverse_loc_uj'_fields loc xs
+end.
+
+Definition transpose_option_uj' {A: Set} (a: option (@uj' A)): @uj' (option A) :=
+match a with
+| None => uj'0 None
+| Some uj' => Some <uj'$> uj'
+end.
+
+Fixpoint is_sj_err_rt_ok (a: sj_err): bool :=
+match a with
+| MissingAny => true
+| Nullable => true
+| MissingNominal _ => true
+| MissingNever => false
+| Structural _ => false
+| InLoc _ inner => is_sj_err_rt_ok inner
+end.
+
+Definition is_sj_ok: sj -> bool := is_empty.
+Definition is_sj_rt_ok: sj -> bool := all is_sj_err_rt_ok.
+
+Definition itype_id_eqb {type: Set} (a: @itype type) (b: @itype type): bool :=
+match a, b with
+| IIdent a_ident _, IIdent b_ident _ => String.eqb a_ident b_ident
+end.
+
+Definition uj'_ftype_join (ids: list (@uj' (@itype ftype))) (s: option (@uj' (option (@stype ftype)) * @stype ftype)): @uj' ftype' :=
+match ids, s with
+| nil, None => uj'0 (FType nil None)
+| nil, Some (s, _) => FType nil <uj'$> s
+| cons id ids, s =>
+    map_uj' (fun ids => FType ids (option_map snd s)) <|
+    cons <uj'$> id <uj'*> traverse_uj' ids
+end.
+
+Fixpoint list_sum_map {A: Type} (f: A -> nat) (a: list A): nat :=
+match a with
+| nil => 0
+| cons x xs => f x + list_sum_map f xs
+end.
+
+Definition option_sum_map {A: Type} (f: A -> nat) (a: option A): nat :=
+match a with
+| None => 0
+| Some x => f x
+end.
+
+Definition ntype_size {type: Set} (type_size: type -> nat) (a: @ntype type): nat :=
+match a with
+| NNever => 1
+| NType a => type_size a
+end.
+
+Definition atype_size {type: Set} (type_size: type -> nat) (a: @atype type): nat :=
+match a with
+| AAny => 1
+| AType _ a => ntype_size type_size a
+end.
+
+Definition vtype_size {type: Set} (type_size: type -> nat) (a: @vtype type): nat :=
+match a with
+| VVoid => 1
+| VType a => type_size a
+end.
+
+Definition itype_size {type: Set} (type_size: type -> nat) (a: @itype type): nat :=
+match a with
+| IIdent _ targs => S (list_sum_map type_size targs)
+end.
+
+Definition stype_size {type: Set} (type_size: type -> nat) (a: @stype type): nat := S <|
+match a with
+| SFn _ params rparam ret => list_sum_map type_size params + option_sum_map type_size rparam + vtype_size type_size ret
+| SArray elem => type_size elem
+| STuple elems => list_sum_map type_size elems
+| SObject fields => list_sum_map (fun x => type_size (snd x)) fields
+end.
+
+Fixpoint ftype'_size (fuel: nat) (a: ftype'): nat :=
+match fuel with
+| O => 0
+| S fuel =>
+  match a with
+  | FType nil None => 0
+  | FType nil (Some s) => stype_size (atype_size (ftype'_size fuel)) s
+  | FType (cons id ids) s => itype_size (atype_size (ftype'_size fuel)) id
+  end
+end.
+
+Definition unify0 {type: Set} (unify: @ntype type -> @ntype type -> @uj' (@ntype type))
+  (asn: @atype type) (req: @atype type): @uj' (@atype type) :=
+match asn, req with
+| _, AAny => uj'0 AAny
+| AAny, _ => uj'1 MissingAny AAny
+| AType asn_nullable asn, AType req_nullable req =>
+    uj'_cons_iff Nullable (asn_nullable && negb req_nullable) <|
+    map_uj' (AType (asn_nullable || req_nullable)) <|
+    unify asn req
+end.
+
+Definition unify1 {type: Set} (unify: type -> type -> @uj' type)
+  (asn: @ntype type) (req: @ntype type): @uj' (@ntype type) :=
+match asn, req with
+| NNever, req => uj'0 req
+| NType asn, NNever => uj'1 MissingNever (NType asn)
+| NType asn, NType req => NType <uj'$> unify asn req
+end.
+
+Definition unify_itype {type: Set} (unify: @atype type -> @atype type -> @uj' (@atype type))
+  (asn: @itype (@atype type)) (req: @itype (@atype type)): option (@uj' (@itype (@atype type))) :=
+match asn, req with
+| IIdent asn_ident asn_args, IIdent req_ident req_args =>
+    if negb (String.eqb asn_ident req_ident) then None else
+    Some (IIdent asn_ident <uj'$> traverse_loc_uj' (InGeneric asn_ident) (zip_with unify asn_args req_args))
+end.
+
+Definition unify_vtype {type: Set} (unify: @atype type -> @atype type -> @uj' (@atype type))
+  (asn: @vtype (@atype type)) (req: @vtype (@atype type)): @uj' (@vtype (@atype type)) :=
+match asn, req with
+| VVoid, VVoid => uj'0 VVoid
+| VType asn, VType req => VType <uj'$> unify asn req
+| _, _ => uj'1 (Structural (DifferentFn DifferentVoidReturn)) VVoid
+end.
+
+Definition unify_stype {type: Set} (unify: @atype type -> @atype type -> @uj' (@atype type))
+  (asn: @stype (@atype type)) (req: @stype (@atype type)): @uj' (option (@stype (@atype type))) :=
+match asn, req with
+| SFn asn_tparams asn_params asn_rparam asn_ret, SFn req_tparams req_params req_rparam req_ret =>
+    uj'_cons_iff (Structural (DifferentFn DifferentTParams)) (negb (zip_eqb String.eqb asn_tparams req_tparams)) <|
+    uj'_cons_iff (Structural (DifferentFn DifferentNumParams)) (negb (len asn_params =? len req_params)) <|
+    uj'_cons_iff (Structural (DifferentFn DifferentHasRestParam)) (negb (Bool.eqb (is_some asn_rparam) (is_some req_rparam))) <|
+    map_uj' Some <|
+      SFn asn_tparams <uj'$>
+      traverse_loc_uj' (InFn << InParam) (zip_with unify req_params asn_params) <uj'*>
+      loc_uj'_errs (InFn InRestParam) (transpose_option_uj' (option_zip_with unify req_rparam asn_rparam)) <uj'*>
+      unify_vtype unify asn_ret req_ret
+| SArray asn_elem, SArray req_elem =>
+    map_uj' Some <| SArray <uj'$> loc_uj'_errs InArray (unify asn_elem req_elem)
+| STuple asn_elems, STuple req_elems =>
+    uj'_cons_iff (Structural DifferentNumElems) (negb (len asn_elems =? len req_elems)) <|
+    map_uj' Some <| STuple <uj'$> traverse_loc_uj' InTuple (zip_with unify asn_elems req_elems)
+| SObject asn_fields, SObject req_fields =>
+    uj'_cons_iff (Structural DifferentFields) (negb (js_record_fields_eqb asn_fields req_fields)) <|
+    map_uj' Some <| SObject <uj'$> traverse_loc_uj'_fields InObject (js_record_zip_with unify asn_fields req_fields)
+| _, _ => uj'1 (Structural DifferentStructKinds) None
+end.
+
+Definition unify_stype' {type: Set} (unify: @atype type -> @atype type -> @uj' (@atype type))
+  (asn: option (@stype (@atype type))) (req: option (@stype (@atype type))): @uj' (option (@stype (@atype type))) :=
+match asn, req with
+| Some asn, Some req => unify_stype unify asn req
+| _, _ => uj'0 None
+end.
+
+Definition unify2 (unify: ftype -> ftype -> @uj' ftype) (asn: ftype') (req: ftype'): @uj' ftype' :=
+match asn, req with
+| FType asn_ids asn_struct, FType req_ids req_struct =>
+    uj'_cons_map MissingNominal (option_map itype_id (subtract_hd itype_id_eqb req_ids asn_ids)) <|
+      uj'_ftype_join
+      (intersect (unify_itype unify) asn_ids req_ids)
+      (option_zip_with (fun asn_struct req_struct => (unify_stype unify asn_struct req_struct, req_struct)) asn_struct req_struct)
+end.
+
+Definition unify2_alt (unify: ftype -> ftype -> @uj' ftype) (asn: ftype') (req: ftype'): @uj' ftype' :=
+match asn, req with
+| FType asn_ids asn_struct, FType req_ids req_struct =>
+    uj'_cons_map MissingNominal (option_map itype_id (subtract_hd itype_id_eqb req_ids asn_ids)) <|
+      FType <uj'$>
+      traverse_uj' (intersect (unify_itype unify) asn_ids req_ids) <uj'*>
+      unify_stype' unify asn_struct req_struct
+end.
+
+Fixpoint unify' (fuel: nat): ftype -> ftype -> @uj' ftype :=
+match fuel with
+| O => fun _ _ => UJ'OutOfFuel
+| S fuel => unify0 (unify1 (unify2 (unify' fuel)))
+end.
+
+Definition uj'_has_fuel {A: Set} (a: @uj' A): Prop :=
+match a with
+| UJ'OutOfFuel => False
+| UJ' _ _ => True
+end.
+
+Lemma unify'_has_fuel: forall (a b: ftype), exists (fuel: nat), uj'_has_fuel (unify' fuel a b).
+Proof.
+  cut (forall a b, exists fuel, uj'_has_fuel (unify' (S fuel) a b)).
+    intros. destruct (H a b). eexists. exact H0.
+  simpl. unfold unify0. intros a b.
+  destruct a; destruct b; try (exists 0; reflexivity).
+  rename a0 into b. unfold unify1.
+  destruct a; destruct b; try (unfold uj'_cons_iff, uj'0, uj'1, uj'_cons, map_uj'; destruct (nullable && negb nullable0); exists 0; simpl; reflexivity).
+  rename a0 into b.
+  cut (exists fuel, uj'_has_fuel (unify2 (unify' fuel) a b)).
+    destruct 1. exists x. remember (unify2 (unify' x) a b) as c. destruct c; [contradiction H | ].
+    unfold uj'_cons_iff, uj'_cons, map_uj'. destruct (nullable && negb nullable0); simpl; reflexivity.
+  unfold unify2. destruct a. destruct b.
+    rename ids into a_ids. rename s into a_s. rename nullable into a_nullable.
+    rename ids0 into b_ids. rename s0 into b_s. rename nullable0 into b_nullable.
+    clear a_nullable b_nullable. revert a_ids a_s.
+  induction b_ids; simpl.
+  - destruct b_s. rename s into b_s.
+    induction b_s.
+  revert a. induction b.
+  - intros a.
+    eexists.
+
+(*
+Fixpoint unify (asn: ftype) (req: ftype) {struct req}: @uj ftype :=
+match asn, req with
+| _, AAny => uj0 AAny
+| AAny, _ => uj1 MissingAny AAny
+| AType asn_nullable asn, AType req_nullable req =>
+    uj_cons_iff Nullable (asn_nullable && negb req_nullable) <|
+    map_uj (AType (asn_nullable || req_nullable)) <|
+    unify_ntype asn req
+end
+with unify_ntype (asn: @ntype ftype') (req: @ntype ftype') {struct req}: @uj (@ntype ftype') :=
+match asn, req with
+| NNever, req => uj0 req
+| NType asn, NNever => uj1 MissingNever (NType asn)
+| NType asn, NType req => NType <uj$> unify_ftype' asn req
+end
+with unify_itype (asn: @itype ftype) (req: @itype ftype) {struct req}: option (@uj (@itype ftype)) :=
+match asn, req with
+| IIdent asn_ident asn_args, IIdent req_ident req_args =>
+    if negb (String.eqb asn_ident req_ident) then None else
+    Some (IIdent asn_ident <uj$> traverse_loc_uj (InGeneric asn_ident) (zip_with unify asn_args req_args))
+end
+with unify_vtype (asn: @vtype ftype) (req: @vtype ftype) {struct req}: @uj (@vtype ftype) :=
+match asn, req with
+| VVoid, VVoid => uj0 VVoid
+| VType asn, VType req => VType <uj$> unify asn req
+| _, _ => uj1 (Structural (DifferentFn DifferentVoidReturn)) VVoid
+end
+with unify_stype (asn: @stype ftype) (req: @stype ftype) {struct req}: @uj (option (@stype ftype)) :=
+match asn, req with
+| SFn asn_tparams asn_params asn_rparam asn_ret, SFn req_tparams req_params req_rparam req_ret =>
+    uj_cons_iff (Structural (DifferentFn DifferentTParams)) (negb (zip_eqb String.eqb asn_tparams req_tparams)) <|
+    uj_cons_iff (Structural (DifferentFn DifferentNumParams)) (negb (len asn_params =? len req_params)) <|
+    uj_cons_iff (Structural (DifferentFn DifferentHasRestParam)) (negb (Bool.eqb (is_some asn_rparam) (is_some req_rparam))) <|
+    map_uj Some <|
+      SFn asn_tparams <uj$>
+      traverse_loc_uj (InFn << InParam) (zip_with unify req_params asn_params) <uj*>
+      loc_uj_errs (InFn InRestParam) (transpose_option_uj (option_zip_with unify req_rparam asn_rparam)) <uj*>
+      unify_vtype asn_ret req_ret
+| SArray asn_elem, SArray req_elem =>
+    map_uj Some <| SArray <uj$> loc_uj_errs InArray (unify asn_elem req_elem)
+| STuple asn_elems, STuple req_elems =>
+    uj_cons_iff (Structural DifferentNumElems) (negb (len asn_elems =? len req_elems)) <|
+    map_uj Some <| STuple <uj$> traverse_loc_uj InTuple (zip_with unify asn_elems req_elems)
+| SObject asn_fields, SObject req_fields =>
+    uj_cons_iff (Structural DifferentFields) (negb (js_record_fields_eqb asn_fields req_fields)) <|
+    map_uj Some <| SObject <uj$> traverse_loc_uj_fields InObject (js_record_zip_with unify asn_fields req_fields)
+| _, _ => uj1 (Structural DifferentStructKinds) None
+end
+with unify_stype' (asn: option (@stype ftype)) (req: option (@stype ftype)) {struct req}: @uj (option (@stype ftype)) :=
+match asn, req with
+| Some asn, Some req => unify_stype asn req
+| _, _ => uj0 None
+end
+with unify_ftype' (asn: ftype') (req: ftype') {struct req}: @uj ftype' :=
+match asn, req with
+| FType asn_ids asn_struct, FType req_ids req_struct =>
+    uj_cons_map MissingNominal (option_map itype_id (subtract_hd itype_id_eqb req_ids asn_ids)) <|
+      uj_ftype_join
+      (intersect unify_itype asn_ids req_ids)
+      (option_zip_with (fun asn_struct req_struct => (unify_stype asn_struct req_struct, req_struct)) asn_struct req_struct)
+end.
+
+
+Definition unify2_alt (unify: ftype -> ftype -> @uj ftype) (asn: ftype') (req: ftype'): @uj (option ftype') :=
+match ftype'_split asn, ftype'_split req with
+| (asn_ids, asn_struct), (req_ids, req_struct) =>
+    uj_cons_map MissingNominal (option_map itype_id (subtract_hd itype_id_eqb req_ids asn_ids)) <|
+      ftype'_join <uj$>
+      traverse_uj (intersect (unify_itype unify) asn_ids req_ids) <uj*>
+      unify_stype' unify asn_struct req_struct
+end.
+*)
