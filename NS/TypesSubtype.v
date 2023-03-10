@@ -1,6 +1,7 @@
 
 (* Add LoadPath should not be necessary but it is *)
 Add LoadPath "." as NS.
+Add LoadPath "tlc/src" as TLC.
 Set Implicit Arguments.
 Require Import Coq.Strings.String.
 Require Import Coq.Arith.PeanoNat.
@@ -87,16 +88,24 @@ Definition IsBounded {A: Set} (x min max: A): Prop := min U x <: x /\ x U max <:
 Notation "min '<:' x '<:' max" := (IsBounded x min max) (at level 64, no associativity).
 
 Definition Union {A: Set} (lhs rhs a: A): Prop := lhs U rhs <: a /\ forall b, lhs U rhs <: b -> a <: b.
-Notation "lhs 'U' rhs '=' a" := (Union lhs rhs a) (at level 63, rhs at next level, no associativity).
+Notation "lhs 'U' rhs '=' a" := (Union lhs rhs a) (at level 57, rhs at next level, no associativity).
+
+From TLC Require Import LibTactics.
 
 Theorem subtype_never: forall (a: ftype), FNEVER <: a.
-Admitted.
+Proof.
+  intros. apply CSNeverL.
+Qed.
 
 Theorem subtype_null: forall (a: ftype), IsNullable a -> FNULL <: a.
-Admitted.
+Proof.
+  intros. apply CSNullL. exact H.
+Qed.
 
 Theorem subtype_any: forall (a: ftype), a <: FAny.
-Admitted.
+Proof.
+  intros. apply CSAny.
+Qed.
 
 Theorem subtype_refl: forall {A: Set} (a b: A), a <: b -> a <: a.
 Admitted.
@@ -108,13 +117,19 @@ Theorem subtype_trans: forall {A: Set} (a b c: A), a <: b -> b <: c -> a <: c.
 Admitted.
 
 Theorem supertype_never: forall (a: ftype), a :> FNEVER.
-Admitted.
+Proof.
+  intros. apply CSNeverR.
+Qed.
 
 Theorem supertype_null: forall (a: ftype), IsNullable a -> a :> FNULL.
-Admitted.
+Proof.
+  intros. apply CSNullR. exact H.
+Qed.
 
 Theorem supertype_any: forall (a: ftype), FAny :> a.
-Admitted.
+Proof.
+  intros. apply CSAny.
+Qed.
 
 Theorem supertype_refl: forall {A: Set} (a b: A), a :> b -> a :> a.
 Admitted.
@@ -126,10 +141,14 @@ Theorem supertype_trans: forall {A: Set} (a b c: A), a :> b -> b :> c -> a :> c.
 Admitted.
 
 Theorem union_never: forall (a: ftype), FNEVER U a = a.
-Admitted.
+Proof.
+  intros. split.
+  - apply CSNeverL.
+  - intros. revert H. destruct a; destruct b; simpl; intros;
+      try apply CSAny.
+    + destruct H.
 
-Theorem union_null: forall (a: ftype), IsNullable a -> FNULL U a = a.
-Admitted.
+Theorem union_null: forall (a: ftype), IsNullable A -> FNULL U a = a.
 
 Theorem union_any: forall (a: ftype), FAny U a = FAny.
 Admitted.
