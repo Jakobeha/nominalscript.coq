@@ -14,7 +14,7 @@ From NS Require Import TypesSimpleHelpers.
 Local Notation "a < b" := (Bool.lt a b) : bool_scope.
 Reserved Notation "a 'U' b '<:' c" (at level 60, b at next level, no associativity).
 Reserved Notation "a 'U' b '<:2' c" (at level 60, b at next level, no associativity).
-Inductive common_supertype : forall {A: Set}, A -> A -> A -> Prop :=
+Inductive CommonSupertype : forall {A: Set}, A -> A -> A -> Prop :=
 | CSAny             : forall (lhs rhs: ftype), lhs U rhs <: FAny
 | CSNeverL          : forall (rhs: ftype), FNEVER U rhs <: rhs
 | CSNeverR          : forall (lhs: ftype), lhs U FNEVER <: lhs
@@ -31,9 +31,9 @@ Inductive common_supertype : forall {A: Set}, A -> A -> A -> Prop :=
     FNominal nl idl idsl sl U FNominal nr idr idsr sr <: FNominal nu idu idsu su
 | CSNomCommonStruct : forall (nl nr nu: bool) (idl idr: itype ftype) (idsl idsr: list (itype ftype)) (sl sr su: stype ftype),
     nl || nr < nu -> sl U sr <: su -> FNominal nl idl idsl (Some sl) U FNominal nr idr idsr (Some sr) <: FStructural nu su
-(* with common_supertype_ident : itype ftype -> itype ftype -> itype ftype -> Prop := *)
+(* with CommonSupertype_ident : itype ftype -> itype ftype -> itype ftype -> Prop := *)
 | CSIdent           : forall (name: string) (tal tar tau: list ftype), tal U tar <: tau -> I name tal U I name tar <: I name tau
-(* with common_supertype_struct : stype ftype -> stype ftype -> stype ftype -> Prop := *)
+(* with CommonSupertype_struct : stype ftype -> stype ftype -> stype ftype -> Prop := *)
 | CSFn              : forall (tpl tpr tpu: list (tparam ftype)) (thispl thispr thispu: ftype)
                              (pl pr pu: list (otype ftype)) (rl rr ru: ftype) (retl retr retu: vtype ftype),
     tpl U tpr <: tpu -> thispl U thispr <: thispu -> pl U pr <: pu -> rl U rr <: ru -> retl U retr <: retu ->
@@ -41,18 +41,18 @@ Inductive common_supertype : forall {A: Set}, A -> A -> A -> Prop :=
 | CSArray           : forall (el er eu: ftype),                      el U er <: eu    -> SArray el   U SArray er   <: SArray eu
 | CSTuple           : forall (esl esr esu: list (otype ftype)),      esl U esr <: esu -> STuple esl  U STuple esr  <: STuple esu
 | CSObject          : forall (fsl fsr fsu: js_record (otype ftype)), fsl U fsr <: fsu -> SObject fsl U SObject fsr <: SObject fsu
-(* with common_supertype_otype : otype ftype -> otype ftype -> otype ftype -> Prop := *)
+(* with CommonSupertype_otype : otype ftype -> otype ftype -> otype ftype -> Prop := *)
 | CSOType           : forall (ol or ou: bool) (lhs rhs uni: ftype), ol || or < ou -> lhs U rhs <: uni -> O ol lhs U O or rhs <: O ou uni
-(* with common_supertype_void : vtype ftype -> vtype ftype -> vtype ftype -> Prop := *)
+(* with CommonSupertype_void : vtype ftype -> vtype ftype -> vtype ftype -> Prop := *)
 | CSVoid            : @VVoid ftype U VVoid <: VVoid
 | CSNotVoid         : forall (lhs rhs uni: ftype), lhs U rhs <: uni -> V lhs U V rhs <: V uni
-(* with common_supertype_zip_ftype : list ftype -> list ftype -> list ftype -> Prop := *)
+(* with CommonSupertype_zip_ftype : list ftype -> list ftype -> list ftype -> Prop := *)
 | CSNilFType        : @nil ftype U nil <: nil
 | CSConsFType       : forall (xl xr xu: ftype) (xsl xsr xsu: list ftype),
     xl U xr <: xu -> xsl U xsr <: xsu -> cons xl xsl U cons xr xsr <: cons xu xsu
-(* with common_supertype_zip_otype : list (otype ftype) -> list (otype ftype) -> list (otype ftype) -> Prop := *)
+(* with CommonSupertype_zip_otype : list (otype ftype) -> list (otype ftype) -> list (otype ftype) -> Prop := *)
 | CSOTypes          : forall (xsl xsr xsu: list (otype ftype)), List.rev xsl U List.rev xsr <:2 List.rev xsu -> xsl U xsr <: xsu
-(* with common_supertype_intersect_itype : list (itype ftype) -> list (itype ftype) -> list (itype ftype) -> Prop := *)
+(* with CommonSupertype_intersect_itype : list (itype ftype) -> list (itype ftype) -> list (itype ftype) -> Prop := *)
 | CSIntersectNil    : forall (idsl idsr: list (itype ftype)), idsl U idsr <: nil
 | CSIntersectConsL  : forall (idl: itype ftype) (idsl idsr idsu: list (itype ftype)), cons idl idsl U idsr <: idsu
 | CSIntersectConsR  : forall (idr: itype ftype) (idsl idsr idsu: list (itype ftype)), idsl U cons idr idsr <: idsu
@@ -60,31 +60,31 @@ Inductive common_supertype : forall {A: Set}, A -> A -> A -> Prop :=
      List.Add idr idsr idsr' -> idl U idr <: idu -> cons idl idsl U idsr' <: cons idu idsu
 | CSIntersectInL    : forall (idl idr idu: itype ftype) (idsl idsr idsl' idsu: list (itype ftype)),
      List.Add idl idsl idsl' -> idl U idr <: idu -> idsl' U cons idr idsr <: cons idu idsu
-where "a 'U' b '<:' c" := (common_supertype a b c)
-with common_supertype_zip_otype_rev : list (otype ftype) -> list (otype ftype) -> list (otype ftype) -> Prop :=
+where "a 'U' b '<:' c" := (CommonSupertype a b c)
+with CommonSupertype_zip_otype_rev : list (otype ftype) -> list (otype ftype) -> list (otype ftype) -> Prop :=
 | CSNilOType        : nil U nil <:2 nil
 | CSConsOType       : forall (xl xr xu: otype ftype) (xsl xsr xsu: list (otype ftype)),
     xl U xr <: xu -> xsl U xsr <:2 xsu -> cons xl xsl U cons xr xsr <:2 cons xu xsu
 | CSConsOTypeL     : forall (xsl xsr xsu: list (otype ftype)) (xl: otype ftype), xsl U xsr <:2 xsu -> cons xl xsl U xsr <:2 xsu
 | CSConsOTypeR     : forall (xsl xsr xsu: list (otype ftype)) (xr: otype ftype), xsl U xsr <:2 xsu -> xsl U cons xr xsr <:2 xsu
-where "a 'U' b '<:2' c" := (common_supertype_zip_otype_rev a b c)
+where "a 'U' b '<:2' c" := (CommonSupertype_zip_otype_rev a b c)
 .
 
-Inductive has_variance {A: Set} : A -> A -> variance -> Prop :=
-| IsBivariant     : forall (lhs rhs uni: A), lhs U rhs <: uni -> has_variance lhs rhs Bivariant
-| IsCovariant     : forall (lhs rhs    : A), lhs U rhs <: rhs -> has_variance lhs rhs Covariant
-| IsContravariant : forall (lhs rhs    : A), lhs U rhs <: lhs -> has_variance lhs rhs Contravariant
-| IsInvariant     : forall (a          : A), a U a <: a       -> has_variance a   a   Invariant
+Inductive HasVariance {A: Set} : A -> A -> variance -> Prop :=
+| IsBivariant     : forall (lhs rhs uni: A), lhs U rhs <: uni -> HasVariance lhs rhs Bivariant
+| IsCovariant     : forall (lhs rhs    : A), lhs U rhs <: rhs -> HasVariance lhs rhs Covariant
+| IsContravariant : forall (lhs rhs    : A), lhs U rhs <: lhs -> HasVariance lhs rhs Contravariant
+| IsInvariant     : forall (a          : A), a U a <: a       -> HasVariance a   a   Invariant
 .
 
-Definition is_subtype {A: Set} (lhs rhs: A): Prop := lhs U rhs <: rhs.
-Notation "lhs '<:' rhs" := (is_subtype lhs rhs) (at level 63, no associativity).
+Definition IsSubtype {A: Set} (lhs rhs: A): Prop := lhs U rhs <: rhs.
+Notation "lhs '<:' rhs" := (IsSubtype lhs rhs) (at level 63, no associativity).
 
-Definition is_supertype {A: Set} (lhs rhs: A): Prop := lhs U rhs <: lhs.
-Notation "lhs ':>' rhs" := (is_subtype lhs rhs) (at level 63, no associativity).
+Definition IsSupertype {A: Set} (lhs rhs: A): Prop := lhs U rhs <: lhs.
+Notation "lhs ':>' rhs" := (IsSupertype lhs rhs) (at level 63, no associativity).
 
-Definition is_bounded {A: Set} (x min max: A): Prop := min U x <: x /\ x U max <: x.
-Notation "min '<:' x '<:' max" := (is_bounded x min max) (at level 64, no associativity).
+Definition IsBounded {A: Set} (x min max: A): Prop := min U x <: x /\ x U max <: x.
+Notation "min '<:' x '<:' max" := (IsBounded x min max) (at level 64, no associativity).
 
 Definition Union {A: Set} (lhs rhs a: A): Prop := lhs U rhs <: a /\ forall b, lhs U rhs <: b -> a <: b.
 Notation "lhs 'U' rhs '=' a" := (Union lhs rhs a) (at level 63, rhs at next level, no associativity).
