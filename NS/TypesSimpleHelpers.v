@@ -55,12 +55,20 @@ match a with
 | TNominal nullable _ => nullable
 end.
 
-Definition is_ftype_nullable (a: ftype): bool :=
+Definition is_nullable (a: ftype): bool :=
 match a with
 | FAny => true
 | FNever nullable => nullable
 | FStructural nullable _ => nullable
 | FNominal nullable _ _ _ => nullable
+end.
+
+Definition IsNullable (a: ftype): Prop :=
+match a with
+| FAny => True
+| FNever nullable => Bool.Is_true nullable
+| FStructural nullable _ => Bool.Is_true nullable
+| FNominal nullable _ _ _ => Bool.Is_true nullable
 end.
 
 Definition ttype_add_null_if (cond: bool) (a: ttype): ttype :=
@@ -71,7 +79,7 @@ match a with
 | TNominal nullable id => TNominal (cond || nullable) id
 end.
 
-Definition ftype_add_null_if (cond: bool) (a: ftype): ftype :=
+Definition add_null_if (cond: bool) (a: ftype): ftype :=
 match a with
 | FAny => FAny
 | FNever nullable => FNever (cond || nullable)
@@ -85,7 +93,7 @@ match a with
 | Some a => a
 end.
 
-Definition ftype_collapse_opt (nullable: bool) (a: option ftype): ftype :=
+Definition collapse_opt (nullable: bool) (a: option ftype): ftype :=
 match a with
 | None => FAny
 | Some a => a

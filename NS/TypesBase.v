@@ -71,5 +71,9 @@ Notation ftparam := (tparam ftype).
 Notation oftype := (otype ftype).
 Notation sftype := (stype ftype).
 
+Definition TNEVER: ttype := TNever false.
+Definition TNULL : ttype := TNever true.
 Definition TEMPTY: ttype := TStructural false (STuple nil).
+Definition FNEVER: ftype := FNever false.
+Definition FNULL : ftype := FNever true.
 Definition FEMPTY: ftype := FStructural false (STuple nil).

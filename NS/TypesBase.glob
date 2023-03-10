@@ -1,4 +1,4 @@
-DIGEST 43632e77796c866b6edad108f6940547
+DIGEST 742de7bb1780a69f6704122bffb8009b
 FNS.TypesBase
 R116:133 Coq.Strings.String <> <> lib
 R151:168 Coq.Arith.PeanoNat <> <> lib
@@ -162,15 +162,31 @@ R2195:2199 NS.TypesBase <> ftype ind
 abbrev 2212:2217 <> sftype
 R2223:2227 NS.TypesBase <> stype ind
 R2229:2233 NS.TypesBase <> ftype ind
-def 2249:2254 <> TEMPTY
+def 2249:2254 <> TNEVER
 R2257:2261 NS.TypesBase <> ttype ind
-R2266:2276 NS.TypesBase <> TStructural constr
-R2285:2290 NS.TypesBase <> STuple constr
-R2292:2294 Coq.Init.Datatypes <> nil constr
-R2278:2282 Coq.Init.Datatypes <> false constr
-def 2309:2314 <> FEMPTY
-R2317:2321 NS.TypesBase <> ftype ind
-R2326:2336 NS.TypesBase <> FStructural constr
-R2345:2350 NS.TypesBase <> STuple constr
-R2352:2354 Coq.Init.Datatypes <> nil constr
-R2338:2342 Coq.Init.Datatypes <> false constr
+R2266:2271 NS.TypesBase <> TNever constr
+R2273:2277 Coq.Init.Datatypes <> false constr
+def 2291:2295 <> TNULL
+R2299:2303 NS.TypesBase <> ttype ind
+R2308:2313 NS.TypesBase <> TNever constr
+R2315:2318 Coq.Init.Datatypes <> true constr
+def 2332:2337 <> TEMPTY
+R2340:2344 NS.TypesBase <> ttype ind
+R2349:2359 NS.TypesBase <> TStructural constr
+R2368:2373 NS.TypesBase <> STuple constr
+R2375:2377 Coq.Init.Datatypes <> nil constr
+R2361:2365 Coq.Init.Datatypes <> false constr
+def 2392:2397 <> FNEVER
+R2400:2404 NS.TypesBase <> ftype ind
+R2409:2414 NS.TypesBase <> FNever constr
+R2416:2420 Coq.Init.Datatypes <> false constr
+def 2434:2438 <> FNULL
+R2442:2446 NS.TypesBase <> ftype ind
+R2451:2456 NS.TypesBase <> FNever constr
+R2458:2461 Coq.Init.Datatypes <> true constr
+def 2475:2480 <> FEMPTY
+R2483:2487 NS.TypesBase <> ftype ind
+R2492:2502 NS.TypesBase <> FStructural constr
+R2511:2516 NS.TypesBase <> STuple constr
+R2518:2520 Coq.Init.Datatypes <> nil constr
+R2504:2508 Coq.Init.Datatypes <> false constr
