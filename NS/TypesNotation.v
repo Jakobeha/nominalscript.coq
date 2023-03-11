@@ -559,10 +559,10 @@ Notation "'cov' x <: y0 & .. & yn" :=
 Notation "'con' x <: y0 & .. & yn" :=
   (TParam Contravariant x (cons y0 .. (cons yn nil) .. ))
     (in custom ttype_param at level 0, x custom ttype_ident, y0 custom ttype at level 3, yn custom ttype at level 3).
-Notation "x" := (O false x) (in custom ottype at level 0, x custom ttype at level 2).
-Notation "? x" := (O true x) (in custom ottype at level 0, x custom ttype at level 2).
-Notation "name : value" := (name, O false value) (in custom ttype_field at level 0, name custom ttype_ident, value custom ttype at level 3).
-Notation "name ?: value" := (name, O true value) (in custom ttype_field at level 0, name custom ttype_ident, value custom ttype at level 3).
+Notation "x" := (Ot false x) (in custom ottype at level 0, x custom ttype at level 2).
+Notation "? x" := (Ot true x) (in custom ottype at level 0, x custom ttype at level 2).
+Notation "name : value" := (name, Ot false value) (in custom ttype_field at level 0, name custom ttype_ident, value custom ttype at level 3).
+Notation "name ?: value" := (name, Ot true value) (in custom ttype_field at level 0, name custom ttype_ident, value custom ttype at level 3).
 Example Integer := "Integer"%string.
 Example Natural := "Natural"%string.
 Example String := "String"%string.

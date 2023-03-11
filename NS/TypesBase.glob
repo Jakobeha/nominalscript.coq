@@ -1,4 +1,4 @@
-DIGEST 2e81a31f7cc4558d156965e655dee30e
+DIGEST 0ab4db134302f8de9d570dc116aec651
 FNS.TypesBase
 R116:133 Coq.Strings.String <> <> lib
 R151:168 Coq.Arith.PeanoNat <> <> lib
@@ -43,150 +43,392 @@ binder 719:724 <> supers:17
 R749:754 NS.TypesBase <> TParam constr
 R749:754 NS.TypesBase <> TParam constr
 ind 835:839 <> otype
-constr 863:863 <> O
+constr 863:864 <> Ot
 binder 842:845 <> type:18
-R876:879 Coq.Init.Datatypes <> bool ind
-binder 866:873 <> optional:21
-R886:889 NS.TypesBase <> type:18 var
-binder 883:883 <> a:22
-R903:903 NS.TypesBase <> O constr
-R903:903 NS.TypesBase <> O constr
-ind 958:962 <> stype
-constr 986:988 <> SFn
-constr 1097:1102 <> SArray
-constr 1119:1124 <> STuple
-constr 1155:1161 <> SObject
-binder 965:968 <> type:23
-R1000:1003 Coq.Init.Datatypes <> list ind
-R1006:1011 NS.TypesBase <> tparam ind
-R1013:1016 NS.TypesBase <> type:23 var
-binder 991:997 <> tparams:26
-R1028:1031 NS.TypesBase <> type:23 var
-binder 1021:1025 <> thisp:27
-R1043:1046 Coq.Init.Datatypes <> list ind
-R1049:1053 NS.TypesBase <> otype ind
-R1055:1058 NS.TypesBase <> type:23 var
-binder 1035:1040 <> params:28
-R1071:1074 NS.TypesBase <> type:23 var
-binder 1063:1068 <> rparam:29
-R1083:1087 NS.TypesBase <> vtype ind
-R1089:1092 NS.TypesBase <> type:23 var
-binder 1078:1080 <> ret:30
-R1111:1114 NS.TypesBase <> type:23 var
-binder 1105:1108 <> elem:31
-R1134:1137 Coq.Init.Datatypes <> list ind
-R1140:1144 NS.TypesBase <> otype ind
-R1146:1149 NS.TypesBase <> type:23 var
-binder 1127:1131 <> elems:32
-R1172:1180 NS.Misc <> js_record def
-R1183:1187 NS.TypesBase <> otype ind
-R1189:1192 NS.TypesBase <> type:23 var
-binder 1164:1169 <> fields:33
-R1207:1209 NS.TypesBase <> SFn constr
-R1207:1209 NS.TypesBase <> SFn constr
-R1261:1266 NS.TypesBase <> SArray constr
-R1261:1266 NS.TypesBase <> SArray constr
-R1291:1296 NS.TypesBase <> STuple constr
-R1291:1296 NS.TypesBase <> STuple constr
-R1322:1328 NS.TypesBase <> SObject constr
-R1322:1328 NS.TypesBase <> SObject constr
-ind 1422:1426 <> ttype
-constr 1438:1441 <> TAny
-constr 1445:1450 <> TNever
-constr 1471:1481 <> TStructural
-constr 1527:1534 <> TNominal
-R1463:1466 Coq.Init.Datatypes <> bool ind
-binder 1453:1460 <> nullable:36
-R1494:1497 Coq.Init.Datatypes <> bool ind
-binder 1484:1491 <> nullable:37
-R1512:1516 NS.TypesBase <> stype ind
-R1518:1522 NS.TypesBase <> ttype:34 ind
-binder 1501:1509 <> structure:38
-R1547:1550 Coq.Init.Datatypes <> bool ind
-binder 1537:1544 <> nullable:39
-R1558:1562 NS.TypesBase <> itype ind
-R1564:1568 NS.TypesBase <> ttype:34 ind
-binder 1554:1555 <> id:40
-abbrev 1581:1586 <> vttype
-R1592:1596 NS.TypesBase <> vtype ind
-R1598:1602 NS.TypesBase <> ttype ind
-abbrev 1615:1620 <> ittype
-R1626:1630 NS.TypesBase <> itype ind
-R1632:1636 NS.TypesBase <> ttype ind
-abbrev 1649:1655 <> ttparam
-R1661:1666 NS.TypesBase <> tparam ind
-R1668:1672 NS.TypesBase <> ttype ind
-abbrev 1685:1690 <> ottype
-R1696:1700 NS.TypesBase <> otype ind
-R1702:1706 NS.TypesBase <> ttype ind
-abbrev 1719:1724 <> sttype
-R1730:1734 NS.TypesBase <> stype ind
-R1736:1740 NS.TypesBase <> ttype ind
-ind 1858:1862 <> ftype
-constr 1874:1877 <> FAny
-constr 1881:1886 <> FNever
-constr 1907:1917 <> FStructural
-constr 1963:1970 <> FNominal
-R1899:1902 Coq.Init.Datatypes <> bool ind
-binder 1889:1896 <> nullable:43
-R1930:1933 Coq.Init.Datatypes <> bool ind
-binder 1920:1927 <> nullable:44
-R1948:1952 NS.TypesBase <> stype ind
-R1954:1958 NS.TypesBase <> ftype:41 ind
-binder 1937:1945 <> structure:45
-R1983:1986 Coq.Init.Datatypes <> bool ind
-binder 1973:1980 <> nullable:46
-R1994:1998 NS.TypesBase <> itype ind
-R2000:2004 NS.TypesBase <> ftype:41 ind
-binder 1990:1991 <> id:47
-R2014:2017 Coq.Init.Datatypes <> list ind
-R2020:2024 NS.TypesBase <> itype ind
-R2026:2030 NS.TypesBase <> ftype:41 ind
-binder 2008:2011 <> sids:48
-R2046:2051 Coq.Init.Datatypes <> option ind
-R2054:2058 NS.TypesBase <> stype ind
-R2060:2064 NS.TypesBase <> ftype:41 ind
-binder 2035:2043 <> structure:49
-abbrev 2078:2083 <> vftype
-R2089:2093 NS.TypesBase <> vtype ind
-R2095:2099 NS.TypesBase <> ftype ind
-abbrev 2112:2117 <> iftype
-R2123:2127 NS.TypesBase <> itype ind
-R2129:2133 NS.TypesBase <> ftype ind
-abbrev 2146:2152 <> ftparam
-R2158:2163 NS.TypesBase <> tparam ind
-R2165:2169 NS.TypesBase <> ftype ind
-abbrev 2182:2187 <> oftype
-R2193:2197 NS.TypesBase <> otype ind
-R2199:2203 NS.TypesBase <> ftype ind
-abbrev 2216:2221 <> sftype
-R2227:2231 NS.TypesBase <> stype ind
-R2233:2237 NS.TypesBase <> ftype ind
-def 2253:2258 <> TNEVER
-R2261:2265 NS.TypesBase <> ttype ind
-R2270:2275 NS.TypesBase <> TNever constr
-R2277:2281 Coq.Init.Datatypes <> false constr
-def 2295:2299 <> TNULL
-R2303:2307 NS.TypesBase <> ttype ind
-R2312:2317 NS.TypesBase <> TNever constr
-R2319:2322 Coq.Init.Datatypes <> true constr
-def 2336:2341 <> TEMPTY
-R2344:2348 NS.TypesBase <> ttype ind
-R2353:2363 NS.TypesBase <> TStructural constr
-R2372:2377 NS.TypesBase <> STuple constr
-R2379:2381 Coq.Init.Datatypes <> nil constr
-R2365:2369 Coq.Init.Datatypes <> false constr
-def 2396:2401 <> FNEVER
-R2404:2408 NS.TypesBase <> ftype ind
-R2413:2418 NS.TypesBase <> FNever constr
-R2420:2424 Coq.Init.Datatypes <> false constr
-def 2438:2442 <> FNULL
-R2446:2450 NS.TypesBase <> ftype ind
-R2455:2460 NS.TypesBase <> FNever constr
-R2462:2465 Coq.Init.Datatypes <> true constr
-def 2479:2484 <> FEMPTY
-R2487:2491 NS.TypesBase <> ftype ind
-R2496:2506 NS.TypesBase <> FStructural constr
-R2515:2520 NS.TypesBase <> STuple constr
-R2522:2524 Coq.Init.Datatypes <> nil constr
-R2508:2512 Coq.Init.Datatypes <> false constr
+R877:880 Coq.Init.Datatypes <> bool ind
+binder 867:874 <> optional:21
+R887:890 NS.TypesBase <> type:18 var
+binder 884:884 <> a:22
+R904:905 NS.TypesBase <> Ot constr
+R904:905 NS.TypesBase <> Ot constr
+ind 960:964 <> stype
+constr 988:990 <> SFn
+constr 1099:1104 <> SArray
+constr 1121:1126 <> STuple
+constr 1157:1163 <> SObject
+binder 967:970 <> type:23
+R1002:1005 Coq.Init.Datatypes <> list ind
+R1008:1013 NS.TypesBase <> tparam ind
+R1015:1018 NS.TypesBase <> type:23 var
+binder 993:999 <> tparams:26
+R1030:1033 NS.TypesBase <> type:23 var
+binder 1023:1027 <> thisp:27
+R1045:1048 Coq.Init.Datatypes <> list ind
+R1051:1055 NS.TypesBase <> otype ind
+R1057:1060 NS.TypesBase <> type:23 var
+binder 1037:1042 <> params:28
+R1073:1076 NS.TypesBase <> type:23 var
+binder 1065:1070 <> rparam:29
+R1085:1089 NS.TypesBase <> vtype ind
+R1091:1094 NS.TypesBase <> type:23 var
+binder 1080:1082 <> ret:30
+R1113:1116 NS.TypesBase <> type:23 var
+binder 1107:1110 <> elem:31
+R1136:1139 Coq.Init.Datatypes <> list ind
+R1142:1146 NS.TypesBase <> otype ind
+R1148:1151 NS.TypesBase <> type:23 var
+binder 1129:1133 <> elems:32
+R1174:1182 NS.Misc <> js_record def
+R1185:1189 NS.TypesBase <> otype ind
+R1191:1194 NS.TypesBase <> type:23 var
+binder 1166:1171 <> fields:33
+R1209:1211 NS.TypesBase <> SFn constr
+R1209:1211 NS.TypesBase <> SFn constr
+R1263:1268 NS.TypesBase <> SArray constr
+R1263:1268 NS.TypesBase <> SArray constr
+R1293:1298 NS.TypesBase <> STuple constr
+R1293:1298 NS.TypesBase <> STuple constr
+R1324:1330 NS.TypesBase <> SObject constr
+R1324:1330 NS.TypesBase <> SObject constr
+ind 1424:1428 <> ttype
+constr 1440:1443 <> TAny
+constr 1447:1452 <> TNever
+constr 1473:1483 <> TStructural
+constr 1529:1536 <> TNominal
+R1465:1468 Coq.Init.Datatypes <> bool ind
+binder 1455:1462 <> nullable:36
+R1496:1499 Coq.Init.Datatypes <> bool ind
+binder 1486:1493 <> nullable:37
+R1514:1518 NS.TypesBase <> stype ind
+R1520:1524 NS.TypesBase <> ttype:34 ind
+binder 1503:1511 <> structure:38
+R1549:1552 Coq.Init.Datatypes <> bool ind
+binder 1539:1546 <> nullable:39
+R1560:1564 NS.TypesBase <> itype ind
+R1566:1570 NS.TypesBase <> ttype:34 ind
+binder 1556:1557 <> id:40
+abbrev 1583:1588 <> vttype
+R1594:1598 NS.TypesBase <> vtype ind
+R1600:1604 NS.TypesBase <> ttype ind
+abbrev 1617:1622 <> ittype
+R1628:1632 NS.TypesBase <> itype ind
+R1634:1638 NS.TypesBase <> ttype ind
+abbrev 1651:1657 <> ttparam
+R1663:1668 NS.TypesBase <> tparam ind
+R1670:1674 NS.TypesBase <> ttype ind
+abbrev 1687:1692 <> ottype
+R1698:1702 NS.TypesBase <> otype ind
+R1704:1708 NS.TypesBase <> ttype ind
+abbrev 1721:1726 <> sttype
+R1732:1736 NS.TypesBase <> stype ind
+R1738:1742 NS.TypesBase <> ttype ind
+ind 1860:1864 <> ftype
+constr 1876:1879 <> FAny
+constr 1883:1888 <> FNever
+constr 1909:1919 <> FStructural
+constr 1965:1972 <> FNominal
+R1901:1904 Coq.Init.Datatypes <> bool ind
+binder 1891:1898 <> nullable:43
+R1932:1935 Coq.Init.Datatypes <> bool ind
+binder 1922:1929 <> nullable:44
+R1950:1954 NS.TypesBase <> stype ind
+R1956:1960 NS.TypesBase <> ftype:41 ind
+binder 1939:1947 <> structure:45
+R1985:1988 Coq.Init.Datatypes <> bool ind
+binder 1975:1982 <> nullable:46
+R1996:2000 NS.TypesBase <> itype ind
+R2002:2006 NS.TypesBase <> ftype:41 ind
+binder 1992:1993 <> id:47
+R2016:2019 Coq.Init.Datatypes <> list ind
+R2022:2026 NS.TypesBase <> itype ind
+R2028:2032 NS.TypesBase <> ftype:41 ind
+binder 2010:2013 <> sids:48
+R2048:2053 Coq.Init.Datatypes <> option ind
+R2056:2060 NS.TypesBase <> stype ind
+R2062:2066 NS.TypesBase <> ftype:41 ind
+binder 2037:2045 <> structure:49
+abbrev 2080:2085 <> vftype
+R2091:2095 NS.TypesBase <> vtype ind
+R2097:2101 NS.TypesBase <> ftype ind
+abbrev 2114:2119 <> iftype
+R2125:2129 NS.TypesBase <> itype ind
+R2131:2135 NS.TypesBase <> ftype ind
+abbrev 2148:2154 <> ftparam
+R2160:2165 NS.TypesBase <> tparam ind
+R2167:2171 NS.TypesBase <> ftype ind
+abbrev 2184:2189 <> oftype
+R2195:2199 NS.TypesBase <> otype ind
+R2201:2205 NS.TypesBase <> ftype ind
+abbrev 2218:2223 <> sftype
+R2229:2233 NS.TypesBase <> stype ind
+R2235:2239 NS.TypesBase <> ftype ind
+ind 2254:2265 <> IType_Forall
+constr 2322:2330 <> Forall_It
+binder 2268:2271 <> type:50
+R2287:2290 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R2283:2286 NS.TypesBase <> type:50 var
+binder 2280:2280 <> P:51
+R2308:2311 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R2298:2302 NS.TypesBase <> itype ind
+binder 2341:2344 <> name:54
+binder 2346:2350 <> targs:55
+R2372:2375 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R2353:2363 Coq.Lists.List <> Forall ind
+R2367:2371 NS.TypesBase <> targs:55 var
+R2365:2365 NS.TypesBase <> P:51 var
+R2376:2387 NS.TypesBase <> IType_Forall:52 ind
+R2392:2393 NS.TypesBase <> It constr
+R2400:2404 NS.TypesBase <> targs:55 var
+R2395:2398 NS.TypesBase <> name:54 var
+R2389:2389 NS.TypesBase <> P:51 var
+ind 2418:2429 <> VType_Forall
+constr 2486:2497 <> Forall_VVoid
+constr 2524:2532 <> Forall_Vt
+binder 2432:2435 <> type:56
+R2451:2454 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R2447:2450 NS.TypesBase <> type:56 var
+binder 2444:2444 <> P:57
+R2472:2475 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R2462:2466 NS.TypesBase <> vtype ind
+R2501:2512 NS.TypesBase <> VType_Forall:58 ind
+R2516:2520 NS.TypesBase <> VVoid constr
+R2514:2514 NS.TypesBase <> P:57 var
+binder 2543:2543 <> x:60
+R2549:2552 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R2546:2546 NS.TypesBase <> P:57 var
+R2548:2548 NS.TypesBase <> x:60 var
+R2553:2564 NS.TypesBase <> VType_Forall:58 ind
+R2569:2570 NS.TypesBase <> Vt constr
+R2572:2572 NS.TypesBase <> x:60 var
+R2566:2566 NS.TypesBase <> P:57 var
+ind 2586:2597 <> OType_Forall
+constr 2654:2662 <> Forall_Ot
+binder 2600:2603 <> type:61
+R2619:2622 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R2615:2618 NS.TypesBase <> type:61 var
+binder 2612:2612 <> P:62
+R2640:2643 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R2630:2634 NS.TypesBase <> otype ind
+binder 2673:2680 <> optional:65
+binder 2682:2682 <> x:66
+R2688:2691 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R2685:2685 NS.TypesBase <> P:62 var
+R2687:2687 NS.TypesBase <> x:66 var
+R2692:2703 NS.TypesBase <> OType_Forall:63 ind
+R2708:2709 NS.TypesBase <> Ot constr
+R2720:2720 NS.TypesBase <> x:66 var
+R2711:2718 NS.TypesBase <> optional:65 var
+R2705:2705 NS.TypesBase <> P:62 var
+ind 2734:2746 <> TParam_Forall
+constr 2804:2816 <> Forall_TParam
+binder 2749:2752 <> type:67
+R2768:2771 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R2764:2767 NS.TypesBase <> type:67 var
+binder 2761:2761 <> P:68
+R2790:2793 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R2779:2784 NS.TypesBase <> tparam ind
+binder 2827:2834 <> variance:71
+binder 2836:2839 <> name:72
+binder 2841:2846 <> supers:73
+R2869:2872 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R2849:2859 Coq.Lists.List <> Forall ind
+R2863:2868 NS.TypesBase <> supers:73 var
+R2861:2861 NS.TypesBase <> P:68 var
+R2873:2885 NS.TypesBase <> TParam_Forall:69 ind
+R2890:2895 NS.TypesBase <> TParam constr
+R2911:2916 NS.TypesBase <> supers:73 var
+R2906:2909 NS.TypesBase <> name:72 var
+R2897:2904 NS.TypesBase <> variance:71 var
+R2887:2887 NS.TypesBase <> P:68 var
+ind 2930:2941 <> SType_Forall
+constr 2998:3007 <> Forall_SFn
+constr 3239:3251 <> Forall_SArray
+constr 3309:3321 <> Forall_STuple
+constr 3409:3422 <> Forall_SObject
+binder 2944:2947 <> type:74
+R2963:2966 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R2959:2962 NS.TypesBase <> type:74 var
+binder 2956:2956 <> P:75
+R2984:2987 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R2974:2978 NS.TypesBase <> stype ind
+binder 3018:3024 <> tparams:78
+binder 3026:3030 <> thisp:79
+binder 3032:3037 <> params:80
+binder 3039:3044 <> rparam:81
+binder 3046:3048 <> ret:82
+R3092:3095 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R3055:3065 Coq.Lists.List <> Forall ind
+R3085:3091 NS.TypesBase <> tparams:78 var
+R3068:3080 NS.TypesBase <> TParam_Forall ind
+R3082:3082 NS.TypesBase <> P:75 var
+R3103:3106 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R3096:3096 NS.TypesBase <> P:75 var
+R3098:3102 NS.TypesBase <> thisp:79 var
+R3142:3145 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R3107:3117 Coq.Lists.List <> Forall ind
+R3136:3141 NS.TypesBase <> params:80 var
+R3120:3131 NS.TypesBase <> OType_Forall ind
+R3133:3133 NS.TypesBase <> P:75 var
+R3154:3157 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R3146:3146 NS.TypesBase <> P:75 var
+R3148:3153 NS.TypesBase <> rparam:81 var
+R3176:3183 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R3158:3169 NS.TypesBase <> VType_Forall ind
+R3173:3175 NS.TypesBase <> ret:82 var
+R3171:3171 NS.TypesBase <> P:75 var
+R3184:3195 NS.TypesBase <> SType_Forall:76 ind
+R3200:3202 NS.TypesBase <> SFn constr
+R3232:3234 NS.TypesBase <> ret:82 var
+R3225:3230 NS.TypesBase <> rparam:81 var
+R3218:3223 NS.TypesBase <> params:80 var
+R3212:3216 NS.TypesBase <> thisp:79 var
+R3204:3210 NS.TypesBase <> tparams:78 var
+R3197:3197 NS.TypesBase <> P:75 var
+binder 3262:3265 <> elem:83
+R3274:3277 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R3268:3268 NS.TypesBase <> P:75 var
+R3270:3273 NS.TypesBase <> elem:83 var
+R3278:3289 NS.TypesBase <> SType_Forall:76 ind
+R3294:3299 NS.TypesBase <> SArray constr
+R3301:3304 NS.TypesBase <> elem:83 var
+R3291:3291 NS.TypesBase <> P:75 var
+binder 3332:3336 <> elems:84
+R3373:3376 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R3339:3349 Coq.Lists.List <> Forall ind
+R3368:3372 NS.TypesBase <> elems:84 var
+R3352:3363 NS.TypesBase <> OType_Forall ind
+R3365:3365 NS.TypesBase <> P:75 var
+R3377:3388 NS.TypesBase <> SType_Forall:76 ind
+R3393:3398 NS.TypesBase <> STuple constr
+R3400:3404 NS.TypesBase <> elems:84 var
+R3390:3390 NS.TypesBase <> P:75 var
+binder 3433:3438 <> fields:85
+R3483:3486 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R3441:3451 Coq.Lists.List <> Forall ind
+R3477:3482 NS.TypesBase <> fields:85 var
+R3468:3471 NS.Misc <> :::x_'<<'_x not
+R3472:3474 Coq.Init.Datatypes <> snd def
+R3454:3465 NS.TypesBase <> OType_Forall ind
+R3467:3467 NS.TypesBase <> P:75 var
+R3487:3498 NS.TypesBase <> SType_Forall:76 ind
+R3503:3509 NS.TypesBase <> SObject constr
+R3511:3516 NS.TypesBase <> fields:85 var
+R3500:3500 NS.TypesBase <> P:75 var
+ax 3527:3536 <> ttype_rec'
+R3557:3560 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R3552:3556 NS.TypesBase <> ttype ind
+binder 3549:3549 <> P:86
+R3578:3578 NS.TypesBase <> P:86 var
+R3580:3583 NS.TypesBase <> TAny constr
+binder 3572:3575 <> fAny:87
+binder 3606:3613 <> nullable:88
+R3616:3616 NS.TypesBase <> P:86 var
+R3619:3624 NS.TypesBase <> TNever constr
+R3626:3633 NS.TypesBase <> nullable:88 var
+binder 3591:3596 <> fNever:89
+binder 3662:3669 <> nullable:90
+binder 3671:3679 <> structure:91
+R3706:3709 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R3682:3693 NS.TypesBase <> SType_Forall ind
+R3697:3705 NS.TypesBase <> structure:91 var
+R3695:3695 NS.TypesBase <> P:86 var
+R3710:3710 NS.TypesBase <> P:86 var
+R3713:3723 NS.TypesBase <> TStructural constr
+R3734:3742 NS.TypesBase <> structure:91 var
+R3725:3732 NS.TypesBase <> nullable:90 var
+binder 3642:3652 <> fStructural:92
+binder 3768:3775 <> nullable:93
+binder 3777:3778 <> id:94
+R3798:3801 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R3781:3792 NS.TypesBase <> IType_Forall ind
+R3796:3797 NS.TypesBase <> id:94 var
+R3794:3794 NS.TypesBase <> P:86 var
+R3802:3802 NS.TypesBase <> P:86 var
+R3805:3812 NS.TypesBase <> TNominal constr
+R3823:3824 NS.TypesBase <> id:94 var
+R3814:3821 NS.TypesBase <> nullable:93 var
+binder 3751:3758 <> fNominal:95
+R3836:3840 NS.TypesBase <> ttype ind
+binder 3833:3833 <> x:96
+R3844:3844 NS.TypesBase <> P:86 var
+R3846:3846 NS.TypesBase <> x:96 var
+ax 3855:3864 <> ftype_rec'
+R3885:3888 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R3880:3884 NS.TypesBase <> ftype ind
+binder 3877:3877 <> P:98
+R3906:3906 NS.TypesBase <> P:98 var
+R3908:3911 NS.TypesBase <> FAny constr
+binder 3900:3903 <> fAny:99
+binder 3934:3941 <> nullable:100
+R3944:3944 NS.TypesBase <> P:98 var
+R3947:3952 NS.TypesBase <> FNever constr
+R3954:3961 NS.TypesBase <> nullable:100 var
+binder 3919:3924 <> fNever:101
+binder 3990:3997 <> nullable:102
+binder 3999:4007 <> structure:103
+R4034:4037 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R4010:4021 NS.TypesBase <> SType_Forall ind
+R4025:4033 NS.TypesBase <> structure:103 var
+R4023:4023 NS.TypesBase <> P:98 var
+R4038:4038 NS.TypesBase <> P:98 var
+R4041:4051 NS.TypesBase <> FStructural constr
+R4062:4070 NS.TypesBase <> structure:103 var
+R4053:4060 NS.TypesBase <> nullable:102 var
+binder 3970:3980 <> fStructural:104
+binder 4096:4103 <> nullable:105
+binder 4105:4106 <> id:106
+binder 4108:4111 <> sids:107
+binder 4113:4121 <> structure:108
+R4141:4144 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R4124:4135 NS.TypesBase <> IType_Forall ind
+R4139:4140 NS.TypesBase <> id:106 var
+R4137:4137 NS.TypesBase <> P:98 var
+R4178:4181 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R4145:4155 Coq.Lists.List <> Forall ind
+R4174:4177 NS.TypesBase <> sids:107 var
+R4158:4169 NS.TypesBase <> IType_Forall ind
+R4171:4171 NS.TypesBase <> P:98 var
+R4222:4225 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R4182:4194 NS.Misc <> Option_Forall ind
+R4213:4221 NS.TypesBase <> structure:108 var
+R4197:4208 NS.TypesBase <> SType_Forall ind
+R4210:4210 NS.TypesBase <> P:98 var
+R4226:4226 NS.TypesBase <> P:98 var
+R4229:4236 NS.TypesBase <> FNominal constr
+R4255:4263 NS.TypesBase <> structure:108 var
+R4250:4253 NS.TypesBase <> sids:107 var
+R4247:4248 NS.TypesBase <> id:106 var
+R4238:4245 NS.TypesBase <> nullable:105 var
+binder 4079:4086 <> fNominal:109
+R4275:4279 NS.TypesBase <> ftype ind
+binder 4272:4272 <> x:110
+R4283:4283 NS.TypesBase <> P:98 var
+R4285:4285 NS.TypesBase <> x:110 var
+def 4300:4305 <> TNEVER
+R4308:4312 NS.TypesBase <> ttype ind
+R4317:4322 NS.TypesBase <> TNever constr
+R4324:4328 Coq.Init.Datatypes <> false constr
+def 4342:4346 <> TNULL
+R4350:4354 NS.TypesBase <> ttype ind
+R4359:4364 NS.TypesBase <> TNever constr
+R4366:4369 Coq.Init.Datatypes <> true constr
+def 4383:4388 <> TEMPTY
+R4391:4395 NS.TypesBase <> ttype ind
+R4400:4410 NS.TypesBase <> TStructural constr
+R4419:4424 NS.TypesBase <> STuple constr
+R4426:4428 Coq.Init.Datatypes <> nil constr
+R4412:4416 Coq.Init.Datatypes <> false constr
+def 4443:4448 <> FNEVER
+R4451:4455 NS.TypesBase <> ftype ind
+R4460:4465 NS.TypesBase <> FNever constr
+R4467:4471 Coq.Init.Datatypes <> false constr
+def 4485:4489 <> FNULL
+R4493:4497 NS.TypesBase <> ftype ind
+R4502:4507 NS.TypesBase <> FNever constr
+R4509:4512 Coq.Init.Datatypes <> true constr
+def 4526:4531 <> FEMPTY
+R4534:4538 NS.TypesBase <> ftype ind
+R4543:4553 NS.TypesBase <> FStructural constr
+R4562:4567 NS.TypesBase <> STuple constr
+R4569:4571 Coq.Init.Datatypes <> nil constr
+R4555:4559 Coq.Init.Datatypes <> false constr

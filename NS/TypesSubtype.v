@@ -61,7 +61,7 @@ Inductive CommonSupertype : forall {A: Set}, A -> A -> A -> Prop :=
     xl U xr <: xu -> xsl U xsr <: xsu -> cons xl xsl U cons xr xsr <: cons xu xsu
 (* with CommonSupertype_zip_tparam : list tparam -> list tparam -> list tparam -> Prop := *)
 | US_NilTParam       : @nil (tparam ftype) U nil <: nil
-| US_ConsFTParam     : forall (xl xr xu: tparam ftype) (xsl xsr xsu: list (tparam ftype)),
+| US_ConsTParam     : forall (xl xr xu: tparam ftype) (xsl xsr xsu: list (tparam ftype)),
     xl U xr <: xu -> xsl U xsr <: xsu -> cons xl xsl U cons xr xsr <: cons xu xsu
 (* with CommonSupertype_zip_otype : list (otype ftype) -> list (otype ftype) -> list (otype ftype) -> Prop := *)
 | US_OTypes          : forall (xsl xsr xsu: list (otype ftype)),
@@ -144,7 +144,7 @@ with CommonSubtype : forall {A: Set}, A -> A -> A -> Prop :=
     xl I xr :> xu -> xsl I xsr :> xsu -> cons xl xsl I cons xr xsr :> cons xu xsu
 (* with CommonSupertype_zip_tparam : list tparam -> list tparam -> list tparam -> Prop := *)
 | IS_NilTParam       : @nil (tparam ftype) I nil :> nil
-| IS_ConsFTParam     : forall (xl xr xu: tparam ftype) (xsl xsr xsu: list (tparam ftype)),
+| IS_ConsTParam     : forall (xl xr xu: tparam ftype) (xsl xsr xsu: list (tparam ftype)),
     xl I xr :> xu -> xsl I xsr :> xsu -> cons xl xsl I cons xr xsr :> cons xu xsu
 (* with CommonSupertype_zip_otype : list (otype ftype) -> list (otype ftype) -> list (otype ftype) -> Prop := *)
 | IS_OTypes          : forall (xsl xsr xsu: list (otype ftype)),
@@ -248,17 +248,17 @@ Admitted.
 
 Theorem supertype_never: forall (a: ftype), a :> FNEVER.
 Proof.
-  intros. apply US_NeverR.
+  intros. apply IS_Never.
 Qed.
 
 Theorem supertype_null: forall (a: ftype), IsNullable a -> a :> FNULL.
 Proof.
-  intros. apply US_NullR. exact H.
+  intros. apply IS_Null. exact H. by_ simpl.
 Qed.
 
 Theorem supertype_any: forall (a: ftype), FAny :> a.
 Proof.
-  intros. apply US_Any.
+  intros. apply IS_AnyL.
 Qed.
 
 Theorem supertype_refl: forall {A: Set} (a b: A), a :> b -> a :> a.
@@ -274,9 +274,16 @@ Axiom iftype_neq_ftype: iftype <> ftype.
 Axiom sftype_neq_ftype: sftype <> ftype.
 Axiom oftype_neq_ftype: oftype <> ftype.
 Axiom vftype_neq_ftype: vftype <> ftype.
+Axiom ftparam_neq_ftype: ftparam <> ftype.
+Axiom variance_neq_ftype: variance <> ftype.
 Axiom list_ftype_neq_ftype: list ftype <> ftype.
 Axiom list_iftype_neq_ftype: list iftype <> ftype.
 Axiom list_oftype_neq_ftype: list oftype <> ftype.
+Axiom list_ftparam_neq_ftype: list ftparam <> ftype.
+Axiom js_record_neq_ftype: js_record ftype <> ftype.
+Axiom list_js_record_neq_ftype: list (js_record ftype) <> ftype.
+Axiom Rev_neq_ftype: Rev <> ftype.
+Axiom Supers_neq_ftype: Supers <> ftype.
 
 Local Ltac by_contradiction H := contradiction H; fail.
 Local Ltac clear_obvious_eqs :=
@@ -291,9 +298,16 @@ Ltac inv_cs H :=
   try by_contradiction sftype_neq_ftype;
   try by_contradiction oftype_neq_ftype;
   try by_contradiction vftype_neq_ftype;
+  try by_contradiction ftparam_neq_ftype;
+  try by_contradiction variance_neq_ftype;
   try by_contradiction list_ftype_neq_ftype;
   try by_contradiction list_iftype_neq_ftype;
   try by_contradiction list_oftype_neq_ftype;
+  try by_contradiction list_ftparam_neq_ftype;
+  try by_contradiction Rev_neq_ftype;
+  try by_contradiction Supers_neq_ftype;
+  try by_contradiction js_record_neq_ftype;
+  try by_contradiction list_js_record_neq_ftype;
   clear_obvious_eqs.
 Ltac discr_cs H := inv_cs H; fail.
 
@@ -331,15 +345,19 @@ Proof.
       try discr_cs H.
 Qed.
 
+Print ftype_ind.
+
 Theorem union_refl : forall {A: Set} (a b c: A), a U b = c -> a U a = a.
 Proof.
   intros. split.
   - destruct H as [H0 H]. inv_cs H0.
-    + destruct a.
+    + induction a.
       * apply US_Any.
       * destruct nullable; [apply US_NullL; by_ simpl | apply US_NeverL].
-      * apply US_Struct; [destruct nullable; simpl; reflexivity |]. destruct structure.
-        --  apply US_Fn.
+      * apply US_Struct; [destruct nullable; simpl; reflexivity |]. induction structure.
+        --  apply US_Fn. induction tparams.
+            ++  apply IS_NilTParam.
+            ++  apply IS_ConsTParam. Focus 2.
 
 
 Theorem union_sym : forall {A: Set} (a b c: A), a U b = c -> b U a = c.

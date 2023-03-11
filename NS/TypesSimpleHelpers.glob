@@ -1,4 +1,4 @@
-DIGEST 987ec8f675dd1321f27ab4f1894782f3
+DIGEST b9bd0c71c09670a1a304c87732302caa
 FNS.TypesSimpleHelpers
 R116:133 Coq.Strings.String <> <> lib
 R151:168 Coq.Arith.PeanoNat <> <> lib
@@ -74,319 +74,319 @@ binder 840:840 <> a:19
 R853:857 NS.TypesBase <> otype ind
 R859:859 NS.TypesSimpleHelpers <> B:17 var
 R870:870 NS.TypesSimpleHelpers <> a:19 var
-R879:879 NS.TypesBase <> O constr
-R895:895 NS.TypesBase <> O constr
-R907:907 NS.TypesSimpleHelpers <> f:18 var
-R909:909 NS.TypesSimpleHelpers <> a:19 var
-def 929:937 <> map_stype
-binder 940:940 <> A:21
-binder 942:942 <> B:22
-R955:958 Coq.Init.Logic <> ::type_scope:x_'->'_x not
-R954:954 NS.TypesSimpleHelpers <> A:21 var
-R959:959 NS.TypesSimpleHelpers <> B:22 var
-binder 951:951 <> f:23
-R966:970 NS.TypesBase <> stype ind
-R972:972 NS.TypesSimpleHelpers <> A:21 var
-binder 963:963 <> a:24
-R976:980 NS.TypesBase <> stype ind
-R982:982 NS.TypesSimpleHelpers <> B:22 var
-R993:993 NS.TypesSimpleHelpers <> a:24 var
-R1002:1004 NS.TypesBase <> SFn constr
-R1041:1043 NS.TypesBase <> SFn constr
-R1133:1141 NS.TypesSimpleHelpers <> map_vtype def
-R1143:1143 NS.TypesSimpleHelpers <> f:23 var
-R1122:1122 NS.TypesSimpleHelpers <> f:23 var
-R1090:1097 Coq.Lists.List <> map def
-R1100:1108 NS.TypesSimpleHelpers <> map_otype def
-R1110:1110 NS.TypesSimpleHelpers <> f:23 var
-R1080:1080 NS.TypesSimpleHelpers <> f:23 var
-R1046:1053 Coq.Lists.List <> map def
-R1056:1065 NS.TypesSimpleHelpers <> map_tparam def
-R1067:1067 NS.TypesSimpleHelpers <> f:23 var
-R1152:1157 NS.TypesBase <> SArray constr
-R1167:1172 NS.TypesBase <> SArray constr
-R1175:1175 NS.TypesSimpleHelpers <> f:23 var
-R1185:1190 NS.TypesBase <> STuple constr
-R1201:1206 NS.TypesBase <> STuple constr
-R1209:1216 Coq.Lists.List <> map def
-R1219:1227 NS.TypesSimpleHelpers <> map_otype def
-R1229:1229 NS.TypesSimpleHelpers <> f:23 var
-R1241:1247 NS.TypesBase <> SObject constr
-R1259:1265 NS.TypesBase <> SObject constr
-R1268:1280 NS.Misc <> map_js_record def
-R1283:1291 NS.TypesSimpleHelpers <> map_otype def
-R1293:1293 NS.TypesSimpleHelpers <> f:23 var
-def 1319:1326 <> thinnify
-R1332:1336 NS.TypesBase <> ftype ind
-binder 1329:1329 <> a:26
-R1340:1344 NS.TypesBase <> ttype ind
-R1355:1355 NS.TypesSimpleHelpers <> a:26 var
-R1364:1367 NS.TypesBase <> FAny constr
-R1372:1375 NS.TypesBase <> TAny constr
-R1379:1384 NS.TypesBase <> FNever constr
-R1398:1403 NS.TypesBase <> TNever constr
-R1416:1426 NS.TypesBase <> FStructural constr
-R1442:1452 NS.TypesBase <> TStructural constr
-R1464:1472 NS.TypesSimpleHelpers <> map_stype def
-R1474:1481 NS.TypesSimpleHelpers <> thinnify:27 def
-R1488:1495 NS.TypesBase <> FNominal constr
-R1506:1507 Coq.Init.Datatypes <> id def
-R1516:1523 NS.TypesBase <> TNominal constr
-R1535:1543 NS.TypesSimpleHelpers <> map_itype def
-R1545:1552 NS.TypesSimpleHelpers <> thinnify:27 def
-def 1575:1591 <> is_ttype_nullable
-R1597:1601 NS.TypesBase <> ttype ind
-binder 1594:1594 <> a:29
-R1605:1608 Coq.Init.Datatypes <> bool ind
-R1619:1619 NS.TypesSimpleHelpers <> a:29 var
-R1628:1631 NS.TypesBase <> TAny constr
-R1636:1639 Coq.Init.Datatypes <> true constr
-R1643:1648 NS.TypesBase <> TNever constr
-R1673:1683 NS.TypesBase <> TStructural constr
-R1710:1717 NS.TypesBase <> TNominal constr
-def 1759:1769 <> is_nullable
-R1775:1779 NS.TypesBase <> ftype ind
-binder 1772:1772 <> a:31
-R1783:1786 Coq.Init.Datatypes <> bool ind
-R1797:1797 NS.TypesSimpleHelpers <> a:31 var
-R1806:1809 NS.TypesBase <> FAny constr
-R1814:1817 Coq.Init.Datatypes <> true constr
-R1821:1826 NS.TypesBase <> FNever constr
-R1851:1861 NS.TypesBase <> FStructural constr
-R1888:1895 NS.TypesBase <> FNominal constr
-def 1941:1950 <> IsNullable
-R1956:1960 NS.TypesBase <> ftype ind
-binder 1953:1953 <> a:33
-R1978:1978 NS.TypesSimpleHelpers <> a:33 var
-R1987:1990 NS.TypesBase <> FAny constr
-R1995:1998 Coq.Init.Logic <> True ind
-R2002:2007 NS.TypesBase <> FNever constr
-R2021:2032 Coq.Bool.Bool <> Is_true def
-R2045:2055 NS.TypesBase <> FStructural constr
-R2071:2082 Coq.Bool.Bool <> Is_true def
-R2095:2102 NS.TypesBase <> FNominal constr
-R2122:2133 Coq.Bool.Bool <> Is_true def
-def 2161:2177 <> ttype_add_null_if
-R2186:2189 Coq.Init.Datatypes <> bool ind
-binder 2180:2183 <> cond:35
-R2196:2200 NS.TypesBase <> ttype ind
-binder 2193:2193 <> a:36
-R2204:2208 NS.TypesBase <> ttype ind
-R2219:2219 NS.TypesSimpleHelpers <> a:36 var
-R2228:2231 NS.TypesBase <> TAny constr
-R2236:2239 NS.TypesBase <> TAny constr
-R2243:2248 NS.TypesBase <> TNever constr
-R2262:2267 NS.TypesBase <> TNever constr
-R2274:2277 Coq.Init.Datatypes <> ::bool_scope:x_'||'_x not
-R2270:2273 NS.TypesSimpleHelpers <> cond:35 var
-R2290:2300 NS.TypesBase <> TStructural constr
-R2316:2326 NS.TypesBase <> TStructural constr
-R2333:2336 Coq.Init.Datatypes <> ::bool_scope:x_'||'_x not
-R2329:2332 NS.TypesSimpleHelpers <> cond:35 var
-R2351:2358 NS.TypesBase <> TNominal constr
-R2369:2370 Coq.Init.Datatypes <> id def
-R2375:2382 NS.TypesBase <> TNominal constr
-R2389:2392 Coq.Init.Datatypes <> ::bool_scope:x_'||'_x not
-R2385:2388 NS.TypesSimpleHelpers <> cond:35 var
-def 2423:2433 <> add_null_if
-R2442:2445 Coq.Init.Datatypes <> bool ind
-binder 2436:2439 <> cond:38
-R2452:2456 NS.TypesBase <> ftype ind
-binder 2449:2449 <> a:39
-R2460:2464 NS.TypesBase <> ftype ind
-R2475:2475 NS.TypesSimpleHelpers <> a:39 var
-R2484:2487 NS.TypesBase <> FAny constr
-R2492:2495 NS.TypesBase <> FAny constr
-R2499:2504 NS.TypesBase <> FNever constr
-R2518:2523 NS.TypesBase <> FNever constr
-R2530:2533 Coq.Init.Datatypes <> ::bool_scope:x_'||'_x not
-R2526:2529 NS.TypesSimpleHelpers <> cond:38 var
-R2546:2556 NS.TypesBase <> FStructural constr
-R2572:2582 NS.TypesBase <> FStructural constr
-R2589:2592 Coq.Init.Datatypes <> ::bool_scope:x_'||'_x not
-R2585:2588 NS.TypesSimpleHelpers <> cond:38 var
-R2607:2614 NS.TypesBase <> FNominal constr
-R2625:2626 Coq.Init.Datatypes <> id def
-R2638:2645 NS.TypesBase <> FNominal constr
-R2652:2655 Coq.Init.Datatypes <> ::bool_scope:x_'||'_x not
-R2648:2651 NS.TypesSimpleHelpers <> cond:38 var
-def 2693:2710 <> ttype_collapse_opt
-R2723:2726 Coq.Init.Datatypes <> bool ind
-binder 2713:2720 <> nullable:41
-R2733:2738 Coq.Init.Datatypes <> option ind
-R2740:2744 NS.TypesBase <> ttype ind
-binder 2730:2730 <> a:42
-R2748:2752 NS.TypesBase <> ttype ind
-R2763:2763 NS.TypesSimpleHelpers <> a:42 var
-R2772:2775 Coq.Init.Datatypes <> None constr
-R2780:2783 NS.TypesBase <> TAny constr
-R2787:2790 Coq.Init.Datatypes <> Some constr
-R2797:2797 NS.TypesSimpleHelpers <> a:42 var
-def 2816:2827 <> collapse_opt
-R2840:2843 Coq.Init.Datatypes <> bool ind
-binder 2830:2837 <> nullable:44
-R2850:2855 Coq.Init.Datatypes <> option ind
-R2857:2861 NS.TypesBase <> ftype ind
-binder 2847:2847 <> a:45
-R2865:2869 NS.TypesBase <> ftype ind
-R2880:2880 NS.TypesSimpleHelpers <> a:45 var
-R2889:2892 Coq.Init.Datatypes <> None constr
-R2897:2900 NS.TypesBase <> FAny constr
-R2904:2907 Coq.Init.Datatypes <> Some constr
-R2914:2914 NS.TypesSimpleHelpers <> a:45 var
-def 2933:2940 <> itype_id
-binder 2943:2946 <> type:47
-R2958:2962 NS.TypesBase <> itype ind
-R2964:2967 NS.TypesSimpleHelpers <> type:47 var
-binder 2955:2955 <> a:48
-R2971:2976 Coq.Strings.String <> string ind
-R2987:2987 NS.TypesSimpleHelpers <> a:48 var
-R2996:2997 NS.TypesBase <> It constr
-def 3031:3041 <> itype_targs
-binder 3044:3047 <> type:50
-R3059:3063 NS.TypesBase <> itype ind
-R3065:3068 NS.TypesSimpleHelpers <> type:50 var
-binder 3056:3056 <> a:51
-R3072:3075 Coq.Init.Datatypes <> list ind
-R3077:3080 NS.TypesSimpleHelpers <> type:50 var
-R3091:3091 NS.TypesSimpleHelpers <> a:51 var
-R3100:3101 NS.TypesBase <> It constr
-def 3137:3147 <> vtype_depth
-binder 3150:3153 <> type:53
-R3178:3181 Coq.Init.Logic <> ::type_scope:x_'->'_x not
-R3174:3177 NS.TypesSimpleHelpers <> type:53 var
-R3182:3184 Coq.Init.Datatypes <> nat ind
-binder 3162:3171 <> type_depth:54
-R3191:3195 NS.TypesBase <> vtype ind
-R3197:3200 NS.TypesSimpleHelpers <> type:53 var
-binder 3188:3188 <> a:55
-R3204:3206 Coq.Init.Datatypes <> nat ind
-R3217:3217 NS.TypesSimpleHelpers <> a:55 var
-R3226:3230 NS.TypesBase <> VVoid constr
-R3239:3240 NS.TypesBase <> Vt constr
-R3247:3256 NS.TypesSimpleHelpers <> type_depth:54 var
-R3258:3258 NS.TypesSimpleHelpers <> a:55 var
-def 3277:3287 <> otype_depth
-binder 3290:3293 <> type:57
-R3318:3321 Coq.Init.Logic <> ::type_scope:x_'->'_x not
-R3314:3317 NS.TypesSimpleHelpers <> type:57 var
-R3322:3324 Coq.Init.Datatypes <> nat ind
-binder 3302:3311 <> type_depth:58
-R3331:3335 NS.TypesBase <> otype ind
-R3337:3340 NS.TypesSimpleHelpers <> type:57 var
-binder 3328:3328 <> a:59
-R3344:3346 Coq.Init.Datatypes <> nat ind
-R3357:3357 NS.TypesSimpleHelpers <> a:59 var
-R3366:3366 NS.TypesBase <> O constr
-R3375:3384 NS.TypesSimpleHelpers <> type_depth:58 var
-R3386:3386 NS.TypesSimpleHelpers <> a:59 var
-def 3405:3416 <> tparam_depth
-binder 3419:3422 <> type:61
-R3447:3450 Coq.Init.Logic <> ::type_scope:x_'->'_x not
-R3443:3446 NS.TypesSimpleHelpers <> type:61 var
-R3451:3453 Coq.Init.Datatypes <> nat ind
-binder 3431:3440 <> type_depth:62
-R3460:3465 NS.TypesBase <> tparam ind
-R3467:3470 NS.TypesSimpleHelpers <> type:61 var
-binder 3457:3457 <> a:63
-R3474:3476 Coq.Init.Datatypes <> nat ind
-R3487:3487 NS.TypesSimpleHelpers <> a:63 var
-R3496:3501 NS.TypesBase <> TParam constr
-R3517:3524 NS.Misc <> list_max def
-R3527:3534 Coq.Lists.List <> map def
-R3536:3545 NS.TypesSimpleHelpers <> type_depth:62 var
-def 3572:3582 <> itype_depth
-binder 3585:3588 <> type:65
-R3613:3616 Coq.Init.Logic <> ::type_scope:x_'->'_x not
-R3609:3612 NS.TypesSimpleHelpers <> type:65 var
-R3617:3619 Coq.Init.Datatypes <> nat ind
-binder 3597:3606 <> type_depth:66
-R3626:3630 NS.TypesBase <> itype ind
-R3632:3635 NS.TypesSimpleHelpers <> type:65 var
-binder 3623:3623 <> a:67
-R3639:3641 Coq.Init.Datatypes <> nat ind
-R3652:3652 NS.TypesSimpleHelpers <> a:67 var
-R3661:3662 NS.TypesBase <> It constr
-R3675:3682 NS.Misc <> list_max def
-R3685:3692 Coq.Lists.List <> map def
-R3694:3703 NS.TypesSimpleHelpers <> type_depth:66 var
-def 3729:3739 <> stype_depth
-binder 3742:3745 <> type:69
-R3770:3773 Coq.Init.Logic <> ::type_scope:x_'->'_x not
-R3766:3769 NS.TypesSimpleHelpers <> type:69 var
-R3774:3776 Coq.Init.Datatypes <> nat ind
-binder 3754:3763 <> type_depth:70
-R3783:3787 NS.TypesBase <> stype ind
-R3789:3792 NS.TypesSimpleHelpers <> type:69 var
-binder 3780:3780 <> a:71
-R3796:3798 Coq.Init.Datatypes <> nat ind
-R3809:3809 NS.TypesSimpleHelpers <> a:71 var
-R3818:3820 NS.TypesBase <> SFn constr
-R3857:3864 NS.Misc <> list_max def
-R3888:3895 Coq.Init.Datatypes <> ::list_scope:x_'::'_x not
-R3872:3881 NS.TypesSimpleHelpers <> type_depth:70 var
-R3913:3920 Coq.Init.Datatypes <> ::list_scope:x_'::'_x not
-R3896:3905 NS.TypesSimpleHelpers <> type_depth:70 var
-R3947:3954 Coq.Init.Datatypes <> ::list_scope:x_'::'_x not
-R3921:3931 NS.TypesSimpleHelpers <> vtype_depth def
-R3933:3942 NS.TypesSimpleHelpers <> type_depth:70 var
-R3997:4004 Coq.Init.Datatypes <> ::list_scope:x_'++'_x not
-R3955:3962 Coq.Lists.List <> map def
-R3965:3976 NS.TypesSimpleHelpers <> tparam_depth def
-R3978:3987 NS.TypesSimpleHelpers <> type_depth:70 var
-R4005:4012 Coq.Lists.List <> map def
-R4015:4025 NS.TypesSimpleHelpers <> otype_depth def
-R4027:4036 NS.TypesSimpleHelpers <> type_depth:70 var
-R4054:4059 NS.TypesBase <> SArray constr
-R4069:4078 NS.TypesSimpleHelpers <> type_depth:70 var
-R4087:4092 NS.TypesBase <> STuple constr
-R4103:4110 NS.Misc <> list_max def
-R4113:4120 Coq.Lists.List <> map def
-R4123:4133 NS.TypesSimpleHelpers <> otype_depth def
-R4135:4144 NS.TypesSimpleHelpers <> type_depth:70 var
-R4156:4162 NS.TypesBase <> SObject constr
-R4174:4181 NS.Misc <> list_max def
-R4184:4191 Coq.Lists.List <> map def
-R4216:4219 NS.Misc <> :::x_'<<'_x not
-R4220:4222 Coq.Init.Datatypes <> snd def
-R4194:4204 NS.TypesSimpleHelpers <> otype_depth def
-R4206:4215 NS.TypesSimpleHelpers <> type_depth:70 var
-def 4248:4258 <> ttype_depth
-R4264:4268 NS.TypesBase <> ttype ind
-binder 4261:4261 <> a:73
-R4272:4274 Coq.Init.Datatypes <> nat ind
-R4279:4279 Coq.Init.Datatypes <> S constr
-R4289:4289 NS.TypesSimpleHelpers <> a:73 var
-R4298:4301 NS.TypesBase <> TAny constr
-R4310:4315 NS.TypesBase <> TNever constr
-R4326:4336 NS.TypesBase <> TStructural constr
-R4345:4355 NS.TypesSimpleHelpers <> stype_depth def
-R4357:4367 NS.TypesSimpleHelpers <> ttype_depth:74 def
-R4373:4380 NS.TypesBase <> TNominal constr
-R4384:4385 Coq.Init.Datatypes <> id def
-R4390:4400 NS.TypesSimpleHelpers <> itype_depth def
-R4402:4412 NS.TypesSimpleHelpers <> ttype_depth:74 def
-def 4433:4443 <> ftype_depth
-R4449:4453 NS.TypesBase <> ftype ind
-binder 4446:4446 <> a:76
-R4457:4459 Coq.Init.Datatypes <> nat ind
-R4464:4464 Coq.Init.Datatypes <> S constr
-R4474:4474 NS.TypesSimpleHelpers <> a:76 var
-R4483:4486 NS.TypesBase <> FAny constr
-R4495:4500 NS.TypesBase <> FNever constr
-R4511:4521 NS.TypesBase <> FStructural constr
-R4530:4540 NS.TypesSimpleHelpers <> stype_depth def
-R4542:4552 NS.TypesSimpleHelpers <> ftype_depth:77 def
-R4558:4565 NS.TypesBase <> FNominal constr
-R4569:4570 Coq.Init.Datatypes <> id def
-R4582:4589 NS.Misc <> list_max def
-R4618:4621 Coq.Init.Datatypes <> ::list_scope:x_'::'_x not
-R4592:4602 NS.TypesSimpleHelpers <> itype_depth def
-R4604:4614 NS.TypesSimpleHelpers <> ftype_depth:77 def
-R4660:4664 NS.Misc <> ::list_scope:x_'?::'_x not
-R4622:4631 Coq.Init.Datatypes <> option_map def
-R4634:4644 NS.TypesSimpleHelpers <> stype_depth def
-R4646:4656 NS.TypesSimpleHelpers <> ftype_depth:77 def
-R4665:4672 Coq.Lists.List <> map def
-R4675:4685 NS.TypesSimpleHelpers <> itype_depth def
-R4687:4697 NS.TypesSimpleHelpers <> ftype_depth:77 def
+R879:880 NS.TypesBase <> Ot constr
+R896:897 NS.TypesBase <> Ot constr
+R909:909 NS.TypesSimpleHelpers <> f:18 var
+R911:911 NS.TypesSimpleHelpers <> a:19 var
+def 931:939 <> map_stype
+binder 942:942 <> A:21
+binder 944:944 <> B:22
+R957:960 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R956:956 NS.TypesSimpleHelpers <> A:21 var
+R961:961 NS.TypesSimpleHelpers <> B:22 var
+binder 953:953 <> f:23
+R968:972 NS.TypesBase <> stype ind
+R974:974 NS.TypesSimpleHelpers <> A:21 var
+binder 965:965 <> a:24
+R978:982 NS.TypesBase <> stype ind
+R984:984 NS.TypesSimpleHelpers <> B:22 var
+R995:995 NS.TypesSimpleHelpers <> a:24 var
+R1004:1006 NS.TypesBase <> SFn constr
+R1043:1045 NS.TypesBase <> SFn constr
+R1135:1143 NS.TypesSimpleHelpers <> map_vtype def
+R1145:1145 NS.TypesSimpleHelpers <> f:23 var
+R1124:1124 NS.TypesSimpleHelpers <> f:23 var
+R1092:1099 Coq.Lists.List <> map def
+R1102:1110 NS.TypesSimpleHelpers <> map_otype def
+R1112:1112 NS.TypesSimpleHelpers <> f:23 var
+R1082:1082 NS.TypesSimpleHelpers <> f:23 var
+R1048:1055 Coq.Lists.List <> map def
+R1058:1067 NS.TypesSimpleHelpers <> map_tparam def
+R1069:1069 NS.TypesSimpleHelpers <> f:23 var
+R1154:1159 NS.TypesBase <> SArray constr
+R1169:1174 NS.TypesBase <> SArray constr
+R1177:1177 NS.TypesSimpleHelpers <> f:23 var
+R1187:1192 NS.TypesBase <> STuple constr
+R1203:1208 NS.TypesBase <> STuple constr
+R1211:1218 Coq.Lists.List <> map def
+R1221:1229 NS.TypesSimpleHelpers <> map_otype def
+R1231:1231 NS.TypesSimpleHelpers <> f:23 var
+R1243:1249 NS.TypesBase <> SObject constr
+R1261:1267 NS.TypesBase <> SObject constr
+R1270:1282 NS.Misc <> map_js_record def
+R1285:1293 NS.TypesSimpleHelpers <> map_otype def
+R1295:1295 NS.TypesSimpleHelpers <> f:23 var
+def 1321:1328 <> thinnify
+R1334:1338 NS.TypesBase <> ftype ind
+binder 1331:1331 <> a:26
+R1342:1346 NS.TypesBase <> ttype ind
+R1357:1357 NS.TypesSimpleHelpers <> a:26 var
+R1366:1369 NS.TypesBase <> FAny constr
+R1374:1377 NS.TypesBase <> TAny constr
+R1381:1386 NS.TypesBase <> FNever constr
+R1400:1405 NS.TypesBase <> TNever constr
+R1418:1428 NS.TypesBase <> FStructural constr
+R1444:1454 NS.TypesBase <> TStructural constr
+R1466:1474 NS.TypesSimpleHelpers <> map_stype def
+R1476:1483 NS.TypesSimpleHelpers <> thinnify:27 def
+R1490:1497 NS.TypesBase <> FNominal constr
+R1508:1509 Coq.Init.Datatypes <> id def
+R1518:1525 NS.TypesBase <> TNominal constr
+R1537:1545 NS.TypesSimpleHelpers <> map_itype def
+R1547:1554 NS.TypesSimpleHelpers <> thinnify:27 def
+def 1577:1593 <> is_ttype_nullable
+R1599:1603 NS.TypesBase <> ttype ind
+binder 1596:1596 <> a:29
+R1607:1610 Coq.Init.Datatypes <> bool ind
+R1621:1621 NS.TypesSimpleHelpers <> a:29 var
+R1630:1633 NS.TypesBase <> TAny constr
+R1638:1641 Coq.Init.Datatypes <> true constr
+R1645:1650 NS.TypesBase <> TNever constr
+R1675:1685 NS.TypesBase <> TStructural constr
+R1712:1719 NS.TypesBase <> TNominal constr
+def 1761:1771 <> is_nullable
+R1777:1781 NS.TypesBase <> ftype ind
+binder 1774:1774 <> a:31
+R1785:1788 Coq.Init.Datatypes <> bool ind
+R1799:1799 NS.TypesSimpleHelpers <> a:31 var
+R1808:1811 NS.TypesBase <> FAny constr
+R1816:1819 Coq.Init.Datatypes <> true constr
+R1823:1828 NS.TypesBase <> FNever constr
+R1853:1863 NS.TypesBase <> FStructural constr
+R1890:1897 NS.TypesBase <> FNominal constr
+def 1943:1952 <> IsNullable
+R1958:1962 NS.TypesBase <> ftype ind
+binder 1955:1955 <> a:33
+R1980:1980 NS.TypesSimpleHelpers <> a:33 var
+R1989:1992 NS.TypesBase <> FAny constr
+R1997:2000 Coq.Init.Logic <> True ind
+R2004:2009 NS.TypesBase <> FNever constr
+R2023:2034 Coq.Bool.Bool <> Is_true def
+R2047:2057 NS.TypesBase <> FStructural constr
+R2073:2084 Coq.Bool.Bool <> Is_true def
+R2097:2104 NS.TypesBase <> FNominal constr
+R2124:2135 Coq.Bool.Bool <> Is_true def
+def 2163:2179 <> ttype_add_null_if
+R2188:2191 Coq.Init.Datatypes <> bool ind
+binder 2182:2185 <> cond:35
+R2198:2202 NS.TypesBase <> ttype ind
+binder 2195:2195 <> a:36
+R2206:2210 NS.TypesBase <> ttype ind
+R2221:2221 NS.TypesSimpleHelpers <> a:36 var
+R2230:2233 NS.TypesBase <> TAny constr
+R2238:2241 NS.TypesBase <> TAny constr
+R2245:2250 NS.TypesBase <> TNever constr
+R2264:2269 NS.TypesBase <> TNever constr
+R2276:2279 Coq.Init.Datatypes <> ::bool_scope:x_'||'_x not
+R2272:2275 NS.TypesSimpleHelpers <> cond:35 var
+R2292:2302 NS.TypesBase <> TStructural constr
+R2318:2328 NS.TypesBase <> TStructural constr
+R2335:2338 Coq.Init.Datatypes <> ::bool_scope:x_'||'_x not
+R2331:2334 NS.TypesSimpleHelpers <> cond:35 var
+R2353:2360 NS.TypesBase <> TNominal constr
+R2371:2372 Coq.Init.Datatypes <> id def
+R2377:2384 NS.TypesBase <> TNominal constr
+R2391:2394 Coq.Init.Datatypes <> ::bool_scope:x_'||'_x not
+R2387:2390 NS.TypesSimpleHelpers <> cond:35 var
+def 2425:2435 <> add_null_if
+R2444:2447 Coq.Init.Datatypes <> bool ind
+binder 2438:2441 <> cond:38
+R2454:2458 NS.TypesBase <> ftype ind
+binder 2451:2451 <> a:39
+R2462:2466 NS.TypesBase <> ftype ind
+R2477:2477 NS.TypesSimpleHelpers <> a:39 var
+R2486:2489 NS.TypesBase <> FAny constr
+R2494:2497 NS.TypesBase <> FAny constr
+R2501:2506 NS.TypesBase <> FNever constr
+R2520:2525 NS.TypesBase <> FNever constr
+R2532:2535 Coq.Init.Datatypes <> ::bool_scope:x_'||'_x not
+R2528:2531 NS.TypesSimpleHelpers <> cond:38 var
+R2548:2558 NS.TypesBase <> FStructural constr
+R2574:2584 NS.TypesBase <> FStructural constr
+R2591:2594 Coq.Init.Datatypes <> ::bool_scope:x_'||'_x not
+R2587:2590 NS.TypesSimpleHelpers <> cond:38 var
+R2609:2616 NS.TypesBase <> FNominal constr
+R2627:2628 Coq.Init.Datatypes <> id def
+R2640:2647 NS.TypesBase <> FNominal constr
+R2654:2657 Coq.Init.Datatypes <> ::bool_scope:x_'||'_x not
+R2650:2653 NS.TypesSimpleHelpers <> cond:38 var
+def 2695:2712 <> ttype_collapse_opt
+R2725:2728 Coq.Init.Datatypes <> bool ind
+binder 2715:2722 <> nullable:41
+R2735:2740 Coq.Init.Datatypes <> option ind
+R2742:2746 NS.TypesBase <> ttype ind
+binder 2732:2732 <> a:42
+R2750:2754 NS.TypesBase <> ttype ind
+R2765:2765 NS.TypesSimpleHelpers <> a:42 var
+R2774:2777 Coq.Init.Datatypes <> None constr
+R2782:2785 NS.TypesBase <> TAny constr
+R2789:2792 Coq.Init.Datatypes <> Some constr
+R2799:2799 NS.TypesSimpleHelpers <> a:42 var
+def 2818:2829 <> collapse_opt
+R2842:2845 Coq.Init.Datatypes <> bool ind
+binder 2832:2839 <> nullable:44
+R2852:2857 Coq.Init.Datatypes <> option ind
+R2859:2863 NS.TypesBase <> ftype ind
+binder 2849:2849 <> a:45
+R2867:2871 NS.TypesBase <> ftype ind
+R2882:2882 NS.TypesSimpleHelpers <> a:45 var
+R2891:2894 Coq.Init.Datatypes <> None constr
+R2899:2902 NS.TypesBase <> FAny constr
+R2906:2909 Coq.Init.Datatypes <> Some constr
+R2916:2916 NS.TypesSimpleHelpers <> a:45 var
+def 2935:2942 <> itype_id
+binder 2945:2948 <> type:47
+R2960:2964 NS.TypesBase <> itype ind
+R2966:2969 NS.TypesSimpleHelpers <> type:47 var
+binder 2957:2957 <> a:48
+R2973:2978 Coq.Strings.String <> string ind
+R2989:2989 NS.TypesSimpleHelpers <> a:48 var
+R2998:2999 NS.TypesBase <> It constr
+def 3033:3043 <> itype_targs
+binder 3046:3049 <> type:50
+R3061:3065 NS.TypesBase <> itype ind
+R3067:3070 NS.TypesSimpleHelpers <> type:50 var
+binder 3058:3058 <> a:51
+R3074:3077 Coq.Init.Datatypes <> list ind
+R3079:3082 NS.TypesSimpleHelpers <> type:50 var
+R3093:3093 NS.TypesSimpleHelpers <> a:51 var
+R3102:3103 NS.TypesBase <> It constr
+def 3139:3149 <> vtype_depth
+binder 3152:3155 <> type:53
+R3180:3183 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R3176:3179 NS.TypesSimpleHelpers <> type:53 var
+R3184:3186 Coq.Init.Datatypes <> nat ind
+binder 3164:3173 <> type_depth:54
+R3193:3197 NS.TypesBase <> vtype ind
+R3199:3202 NS.TypesSimpleHelpers <> type:53 var
+binder 3190:3190 <> a:55
+R3206:3208 Coq.Init.Datatypes <> nat ind
+R3219:3219 NS.TypesSimpleHelpers <> a:55 var
+R3228:3232 NS.TypesBase <> VVoid constr
+R3241:3242 NS.TypesBase <> Vt constr
+R3249:3258 NS.TypesSimpleHelpers <> type_depth:54 var
+R3260:3260 NS.TypesSimpleHelpers <> a:55 var
+def 3279:3289 <> otype_depth
+binder 3292:3295 <> type:57
+R3320:3323 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R3316:3319 NS.TypesSimpleHelpers <> type:57 var
+R3324:3326 Coq.Init.Datatypes <> nat ind
+binder 3304:3313 <> type_depth:58
+R3333:3337 NS.TypesBase <> otype ind
+R3339:3342 NS.TypesSimpleHelpers <> type:57 var
+binder 3330:3330 <> a:59
+R3346:3348 Coq.Init.Datatypes <> nat ind
+R3359:3359 NS.TypesSimpleHelpers <> a:59 var
+R3368:3369 NS.TypesBase <> Ot constr
+R3378:3387 NS.TypesSimpleHelpers <> type_depth:58 var
+R3389:3389 NS.TypesSimpleHelpers <> a:59 var
+def 3408:3419 <> tparam_depth
+binder 3422:3425 <> type:61
+R3450:3453 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R3446:3449 NS.TypesSimpleHelpers <> type:61 var
+R3454:3456 Coq.Init.Datatypes <> nat ind
+binder 3434:3443 <> type_depth:62
+R3463:3468 NS.TypesBase <> tparam ind
+R3470:3473 NS.TypesSimpleHelpers <> type:61 var
+binder 3460:3460 <> a:63
+R3477:3479 Coq.Init.Datatypes <> nat ind
+R3490:3490 NS.TypesSimpleHelpers <> a:63 var
+R3499:3504 NS.TypesBase <> TParam constr
+R3520:3527 NS.Misc <> list_max def
+R3530:3537 Coq.Lists.List <> map def
+R3539:3548 NS.TypesSimpleHelpers <> type_depth:62 var
+def 3575:3585 <> itype_depth
+binder 3588:3591 <> type:65
+R3616:3619 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R3612:3615 NS.TypesSimpleHelpers <> type:65 var
+R3620:3622 Coq.Init.Datatypes <> nat ind
+binder 3600:3609 <> type_depth:66
+R3629:3633 NS.TypesBase <> itype ind
+R3635:3638 NS.TypesSimpleHelpers <> type:65 var
+binder 3626:3626 <> a:67
+R3642:3644 Coq.Init.Datatypes <> nat ind
+R3655:3655 NS.TypesSimpleHelpers <> a:67 var
+R3664:3665 NS.TypesBase <> It constr
+R3678:3685 NS.Misc <> list_max def
+R3688:3695 Coq.Lists.List <> map def
+R3697:3706 NS.TypesSimpleHelpers <> type_depth:66 var
+def 3732:3742 <> stype_depth
+binder 3745:3748 <> type:69
+R3773:3776 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R3769:3772 NS.TypesSimpleHelpers <> type:69 var
+R3777:3779 Coq.Init.Datatypes <> nat ind
+binder 3757:3766 <> type_depth:70
+R3786:3790 NS.TypesBase <> stype ind
+R3792:3795 NS.TypesSimpleHelpers <> type:69 var
+binder 3783:3783 <> a:71
+R3799:3801 Coq.Init.Datatypes <> nat ind
+R3812:3812 NS.TypesSimpleHelpers <> a:71 var
+R3821:3823 NS.TypesBase <> SFn constr
+R3860:3867 NS.Misc <> list_max def
+R3891:3898 Coq.Init.Datatypes <> ::list_scope:x_'::'_x not
+R3875:3884 NS.TypesSimpleHelpers <> type_depth:70 var
+R3916:3923 Coq.Init.Datatypes <> ::list_scope:x_'::'_x not
+R3899:3908 NS.TypesSimpleHelpers <> type_depth:70 var
+R3950:3957 Coq.Init.Datatypes <> ::list_scope:x_'::'_x not
+R3924:3934 NS.TypesSimpleHelpers <> vtype_depth def
+R3936:3945 NS.TypesSimpleHelpers <> type_depth:70 var
+R4000:4007 Coq.Init.Datatypes <> ::list_scope:x_'++'_x not
+R3958:3965 Coq.Lists.List <> map def
+R3968:3979 NS.TypesSimpleHelpers <> tparam_depth def
+R3981:3990 NS.TypesSimpleHelpers <> type_depth:70 var
+R4008:4015 Coq.Lists.List <> map def
+R4018:4028 NS.TypesSimpleHelpers <> otype_depth def
+R4030:4039 NS.TypesSimpleHelpers <> type_depth:70 var
+R4057:4062 NS.TypesBase <> SArray constr
+R4072:4081 NS.TypesSimpleHelpers <> type_depth:70 var
+R4090:4095 NS.TypesBase <> STuple constr
+R4106:4113 NS.Misc <> list_max def
+R4116:4123 Coq.Lists.List <> map def
+R4126:4136 NS.TypesSimpleHelpers <> otype_depth def
+R4138:4147 NS.TypesSimpleHelpers <> type_depth:70 var
+R4159:4165 NS.TypesBase <> SObject constr
+R4177:4184 NS.Misc <> list_max def
+R4187:4194 Coq.Lists.List <> map def
+R4219:4222 NS.Misc <> :::x_'<<'_x not
+R4223:4225 Coq.Init.Datatypes <> snd def
+R4197:4207 NS.TypesSimpleHelpers <> otype_depth def
+R4209:4218 NS.TypesSimpleHelpers <> type_depth:70 var
+def 4251:4261 <> ttype_depth
+R4267:4271 NS.TypesBase <> ttype ind
+binder 4264:4264 <> a:73
+R4275:4277 Coq.Init.Datatypes <> nat ind
+R4282:4282 Coq.Init.Datatypes <> S constr
+R4292:4292 NS.TypesSimpleHelpers <> a:73 var
+R4301:4304 NS.TypesBase <> TAny constr
+R4313:4318 NS.TypesBase <> TNever constr
+R4329:4339 NS.TypesBase <> TStructural constr
+R4348:4358 NS.TypesSimpleHelpers <> stype_depth def
+R4360:4370 NS.TypesSimpleHelpers <> ttype_depth:74 def
+R4376:4383 NS.TypesBase <> TNominal constr
+R4387:4388 Coq.Init.Datatypes <> id def
+R4393:4403 NS.TypesSimpleHelpers <> itype_depth def
+R4405:4415 NS.TypesSimpleHelpers <> ttype_depth:74 def
+def 4436:4446 <> ftype_depth
+R4452:4456 NS.TypesBase <> ftype ind
+binder 4449:4449 <> a:76
+R4460:4462 Coq.Init.Datatypes <> nat ind
+R4467:4467 Coq.Init.Datatypes <> S constr
+R4477:4477 NS.TypesSimpleHelpers <> a:76 var
+R4486:4489 NS.TypesBase <> FAny constr
+R4498:4503 NS.TypesBase <> FNever constr
+R4514:4524 NS.TypesBase <> FStructural constr
+R4533:4543 NS.TypesSimpleHelpers <> stype_depth def
+R4545:4555 NS.TypesSimpleHelpers <> ftype_depth:77 def
+R4561:4568 NS.TypesBase <> FNominal constr
+R4572:4573 Coq.Init.Datatypes <> id def
+R4585:4592 NS.Misc <> list_max def
+R4621:4624 Coq.Init.Datatypes <> ::list_scope:x_'::'_x not
+R4595:4605 NS.TypesSimpleHelpers <> itype_depth def
+R4607:4617 NS.TypesSimpleHelpers <> ftype_depth:77 def
+R4663:4667 NS.Misc <> ::list_scope:x_'?::'_x not
+R4625:4634 Coq.Init.Datatypes <> option_map def
+R4637:4647 NS.TypesSimpleHelpers <> stype_depth def
+R4649:4659 NS.TypesSimpleHelpers <> ftype_depth:77 def
+R4668:4675 Coq.Lists.List <> map def
+R4678:4688 NS.TypesSimpleHelpers <> itype_depth def
+R4690:4700 NS.TypesSimpleHelpers <> ftype_depth:77 def

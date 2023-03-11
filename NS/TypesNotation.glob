@@ -1,4 +1,4 @@
-DIGEST f94cd8d06eed6b2e699baa4bcc4dc357
+DIGEST c754435c3fd85b3c3807fed75198f7d6
 FNS.TypesNotation
 R116:133 Coq.Strings.String <> <> lib
 R151:163 Coq.Bool.Bool <> <> lib
@@ -1648,395 +1648,395 @@ R44669:44672 Coq.Init.Datatypes <> cons constr
 R44677:44679 Coq.Init.Datatypes <> nil constr
 R44640:44652 NS.TypesBase <> Contravariant constr
 not 44601:44601 <> :ttype_param::'con'_x_'<:'_x_'&'_'..'_'&'_x
-R44823:44823 NS.TypesBase <> O constr
-R44825:44829 Coq.Init.Datatypes <> false constr
+R44823:44824 NS.TypesBase <> Ot constr
+R44826:44830 Coq.Init.Datatypes <> false constr
 not 44815:44815 <> :ottype::x
-R44911:44911 NS.TypesBase <> O constr
-R44913:44916 Coq.Init.Datatypes <> true constr
-not 44901:44901 <> :ottype::'?'_x
-R45006:45006 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
-R45011:45012 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
-R45026:45026 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
-R45013:45013 NS.TypesBase <> O constr
-R45015:45019 Coq.Init.Datatypes <> false constr
-not 44988:44988 <> :ttype_field::x_':'_x
-R45148:45148 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
-R45153:45154 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
-R45167:45167 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
-R45155:45155 NS.TypesBase <> O constr
-R45157:45160 Coq.Init.Datatypes <> true constr
-not 45129:45129 <> :ttype_field::x_'?:'_x
-def 45269:45275 <> Integer
-def 45306:45312 <> Natural
-def 45343:45348 <> String
-def 45378:45382 <> test0
-R45385:45389 NS.TypesBase <> ttype ind
-R45394:45396 NS.TypesNotation <> ::ttype_scope:'[!'_x_'!]' not
-R45404:45406 NS.TypesNotation <> ::ttype_scope:'[!'_x_'!]' not
-R45397:-1 NS.TypesNotation <> :ttype_ident::x not
-R0:45403 NS.TypesNotation <> :ttype_ident::x not
-R45397:45403 NS.TypesNotation <> Natural ex
-def 45417:45421 <> test1
-R45424:45428 NS.TypesBase <> ttype ind
-binder 45437:45439 <> Foo:1
-R45460:45462 NS.TypesNotation <> ::ttype_scope:'[!'_x_'!]' not
-R45466:45468 NS.TypesNotation <> ::ttype_scope:'[!'_x_'!]' not
-R45463:-1 NS.TypesNotation <> :ttype_ident::x not
-R0:45465 NS.TypesNotation <> :ttype_ident::x not
-R45463:45465 NS.TypesNotation <> Foo:1 var
-def 45479:45483 <> test2
-R45486:45490 NS.TypesBase <> ttype ind
-binder 45499:45501 <> Bar:2
-R45522:45524 NS.TypesNotation <> ::ttype_scope:'[!'_x_'!]' not
-R45537:45539 NS.TypesNotation <> ::ttype_scope:'[!'_x_'!]' not
-R45528:45528 NS.TypesNotation <> :ttype::x_'<'_x_','_'..'_','_x_'>' not
-R45536:45536 NS.TypesNotation <> :ttype::x_'<'_x_','_'..'_','_x_'>' not
-R45525:-1 NS.TypesNotation <> :ttype_ident::x not
-R0:45527 NS.TypesNotation <> :ttype_ident::x not
-R45525:45527 NS.TypesNotation <> Bar:2 var
+R44912:44913 NS.TypesBase <> Ot constr
+R44915:44918 Coq.Init.Datatypes <> true constr
+not 44902:44902 <> :ottype::'?'_x
+R45008:45008 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R45013:45014 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R45029:45029 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R45015:45016 NS.TypesBase <> Ot constr
+R45018:45022 Coq.Init.Datatypes <> false constr
+not 44990:44990 <> :ttype_field::x_':'_x
+R45151:45151 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R45156:45157 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R45171:45171 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R45158:45159 NS.TypesBase <> Ot constr
+R45161:45164 Coq.Init.Datatypes <> true constr
+not 45132:45132 <> :ttype_field::x_'?:'_x
+def 45273:45279 <> Integer
+def 45310:45316 <> Natural
+def 45347:45352 <> String
+def 45382:45386 <> test0
+R45389:45393 NS.TypesBase <> ttype ind
+R45398:45400 NS.TypesNotation <> ::ttype_scope:'[!'_x_'!]' not
+R45408:45410 NS.TypesNotation <> ::ttype_scope:'[!'_x_'!]' not
+R45401:-1 NS.TypesNotation <> :ttype_ident::x not
+R0:45407 NS.TypesNotation <> :ttype_ident::x not
+R45401:45407 NS.TypesNotation <> Natural ex
+def 45421:45425 <> test1
+R45428:45432 NS.TypesBase <> ttype ind
+binder 45441:45443 <> Foo:1
+R45464:45466 NS.TypesNotation <> ::ttype_scope:'[!'_x_'!]' not
+R45470:45472 NS.TypesNotation <> ::ttype_scope:'[!'_x_'!]' not
+R45467:-1 NS.TypesNotation <> :ttype_ident::x not
+R0:45469 NS.TypesNotation <> :ttype_ident::x not
+R45467:45469 NS.TypesNotation <> Foo:1 var
+def 45483:45487 <> test2
+R45490:45494 NS.TypesBase <> ttype ind
+binder 45503:45505 <> Bar:2
+R45526:45528 NS.TypesNotation <> ::ttype_scope:'[!'_x_'!]' not
+R45541:45543 NS.TypesNotation <> ::ttype_scope:'[!'_x_'!]' not
+R45532:45532 NS.TypesNotation <> :ttype::x_'<'_x_','_'..'_','_x_'>' not
+R45540:45540 NS.TypesNotation <> :ttype::x_'<'_x_','_'..'_','_x_'>' not
 R45529:-1 NS.TypesNotation <> :ttype_ident::x not
-R0:45535 NS.TypesNotation <> :ttype_ident::x not
-R45529:45535 NS.TypesNotation <> Natural ex
-def 45550:45554 <> test3
-R45557:45561 NS.TypesBase <> ttype ind
-binder 45570:45572 <> Baz:3
-R45593:45595 NS.TypesNotation <> ::ttype_scope:'[!'_x_'!]' not
-R45616:45618 NS.TypesNotation <> ::ttype_scope:'[!'_x_'!]' not
-R45599:45599 NS.TypesNotation <> :ttype::x_'<'_x_','_'..'_','_x_'>' not
-R45606:45607 NS.TypesNotation <> :ttype::x_'<'_x_','_'..'_','_x_'>' not
-R45615:45615 NS.TypesNotation <> :ttype::x_'<'_x_','_'..'_','_x_'>' not
-R45596:-1 NS.TypesNotation <> :ttype_ident::x not
-R0:45598 NS.TypesNotation <> :ttype_ident::x not
-R45596:45598 NS.TypesNotation <> Baz:3 var
+R0:45531 NS.TypesNotation <> :ttype_ident::x not
+R45529:45531 NS.TypesNotation <> Bar:2 var
+R45533:-1 NS.TypesNotation <> :ttype_ident::x not
+R0:45539 NS.TypesNotation <> :ttype_ident::x not
+R45533:45539 NS.TypesNotation <> Natural ex
+def 45554:45558 <> test3
+R45561:45565 NS.TypesBase <> ttype ind
+binder 45574:45576 <> Baz:3
+R45597:45599 NS.TypesNotation <> ::ttype_scope:'[!'_x_'!]' not
+R45620:45622 NS.TypesNotation <> ::ttype_scope:'[!'_x_'!]' not
+R45603:45603 NS.TypesNotation <> :ttype::x_'<'_x_','_'..'_','_x_'>' not
+R45610:45611 NS.TypesNotation <> :ttype::x_'<'_x_','_'..'_','_x_'>' not
+R45619:45619 NS.TypesNotation <> :ttype::x_'<'_x_','_'..'_','_x_'>' not
 R45600:-1 NS.TypesNotation <> :ttype_ident::x not
-R0:45605 NS.TypesNotation <> :ttype_ident::x not
-R45600:45605 NS.TypesNotation <> String ex
-R45608:-1 NS.TypesNotation <> :ttype_ident::x not
-R0:45614 NS.TypesNotation <> :ttype_ident::x not
-R45608:45614 NS.TypesNotation <> Natural ex
-def 45629:45633 <> test4
-R45636:45640 NS.TypesBase <> ttype ind
-R45645:45647 NS.TypesNotation <> ::ttype_scope:'[!'_x_'!]' not
-R45657:45659 NS.TypesNotation <> ::ttype_scope:'[!'_x_'!]' not
-R45654:45656 NS.TypesNotation <> :ttype::x_'[]' not
-R45648:-1 NS.TypesNotation <> :ttype_ident::x not
-R0:45653 NS.TypesNotation <> :ttype_ident::x not
-R45648:45653 NS.TypesNotation <> String ex
-def 45670:45674 <> test5
-R45677:45681 NS.TypesBase <> ttype ind
-binder 45690:45692 <> Foo:4
-binder 45717:45719 <> Bar:5
-binder 45744:45746 <> Baz:6
-R45767:45769 NS.TypesNotation <> ::ttype_scope:'[!'_x_'!]' not
-R45785:45787 NS.TypesNotation <> ::ttype_scope:'[!'_x_'!]' not
-R45770:45770 NS.TypesNotation <> :ttype::'['_x_','_'..'_','_x_']' not
-R45774:45775 NS.TypesNotation <> :ttype::'['_x_','_'..'_','_x_']' not
-R45779:45780 NS.TypesNotation <> :ttype::'['_x_','_'..'_','_x_']' not
-R45784:45784 NS.TypesNotation <> :ttype::'['_x_','_'..'_','_x_']' not
-R45771:-1 NS.TypesNotation <> :ttype_ident::x not
-R0:45773 NS.TypesNotation <> :ttype_ident::x not
-R45771:45773 NS.TypesNotation <> Foo:4 var
-R45776:-1 NS.TypesNotation <> :ttype_ident::x not
-R0:45778 NS.TypesNotation <> :ttype_ident::x not
-R45776:45778 NS.TypesNotation <> Bar:5 var
-R45781:-1 NS.TypesNotation <> :ttype_ident::x not
-R0:45783 NS.TypesNotation <> :ttype_ident::x not
-R45781:45783 NS.TypesNotation <> Baz:6 var
-def 45798:45802 <> test6
-R45805:45809 NS.TypesBase <> ttype ind
-binder 45818:45820 <> Foo:7
-binder 45845:45847 <> Bar:8
-binder 45872:45874 <> Baz:9
-R45895:45897 NS.TypesNotation <> ::ttype_scope:'[!'_x_'!]' not
-R45916:45918 NS.TypesNotation <> ::ttype_scope:'[!'_x_'!]' not
-R45913:45915 NS.TypesNotation <> :ttype::x_'[]' not
-R45898:45898 NS.TypesNotation <> :ttype::'['_x_','_'..'_','_x_']' not
-R45902:45903 NS.TypesNotation <> :ttype::'['_x_','_'..'_','_x_']' not
-R45907:45908 NS.TypesNotation <> :ttype::'['_x_','_'..'_','_x_']' not
-R45912:45912 NS.TypesNotation <> :ttype::'['_x_','_'..'_','_x_']' not
-R45899:-1 NS.TypesNotation <> :ttype_ident::x not
-R0:45901 NS.TypesNotation <> :ttype_ident::x not
-R45899:45901 NS.TypesNotation <> Foo:7 var
-R45904:-1 NS.TypesNotation <> :ttype_ident::x not
-R0:45906 NS.TypesNotation <> :ttype_ident::x not
-R45904:45906 NS.TypesNotation <> Bar:8 var
-R45909:-1 NS.TypesNotation <> :ttype_ident::x not
-R0:45911 NS.TypesNotation <> :ttype_ident::x not
-R45909:45911 NS.TypesNotation <> Baz:9 var
-def 45929:45933 <> test7
-R45936:45940 NS.TypesBase <> ttype ind
-binder 45949:45951 <> Foo:10
-binder 45976:45978 <> Bar:11
-binder 46003:46005 <> Baz:12
-binder 46054:46056 <> foo:13
-binder 46081:46083 <> bar:14
-binder 46108:46110 <> baz:15
-R46155:46157 NS.TypesNotation <> ::ttype_scope:'[!'_x_'!]' not
-R46212:46214 NS.TypesNotation <> ::ttype_scope:'[!'_x_'!]' not
-R46209:46211 NS.TypesNotation <> :ttype::x_'[]' not
-R46158:46159 NS.TypesNotation <> :ttype::'{'_x_','_'..'_','_x_'}' not
-R46169:46170 NS.TypesNotation <> :ttype::'{'_x_','_'..'_','_x_'}' not
-R46184:46185 NS.TypesNotation <> :ttype::'{'_x_','_'..'_','_x_'}' not
-R46207:46208 NS.TypesNotation <> :ttype::'{'_x_','_'..'_','_x_'}' not
-R46163:46165 NS.TypesNotation <> :ttype_field::x_':'_x not
-R46160:-1 NS.TypesNotation <> :ttype_ident::x not
-R0:46162 NS.TypesNotation <> :ttype_ident::x not
-R46160:46162 NS.TypesNotation <> foo:13 var
-R46166:-1 NS.TypesNotation <> :ttype_ident::x not
-R0:46168 NS.TypesNotation <> :ttype_ident::x not
-R46166:46168 NS.TypesNotation <> Foo:10 var
-R46174:46176 NS.TypesNotation <> :ttype_field::x_':'_x not
-R46171:-1 NS.TypesNotation <> :ttype_ident::x not
-R0:46173 NS.TypesNotation <> :ttype_ident::x not
-R46171:46173 NS.TypesNotation <> bar:14 var
-R46177:46178 NS.TypesNotation <> :ttype::'['_x_','_'..'_','_x_']' not
-R46182:46183 NS.TypesNotation <> :ttype::'['_x_','_'..'_','_x_']' not
-R46179:-1 NS.TypesNotation <> :ttype_ident::x not
-R0:46181 NS.TypesNotation <> :ttype_ident::x not
-R46179:46181 NS.TypesNotation <> Bar:11 var
-R46189:46191 NS.TypesNotation <> :ttype_field::x_':'_x not
-R46186:-1 NS.TypesNotation <> :ttype_ident::x not
-R0:46188 NS.TypesNotation <> :ttype_ident::x not
-R46186:46188 NS.TypesNotation <> baz:15 var
-R46204:46206 NS.TypesNotation <> :ttype::x_'[]' not
-R46195:46196 NS.TypesNotation <> :ttype::x_'<'_x_','_'..'_','_x_'>' not
-R46203:46203 NS.TypesNotation <> :ttype::x_'<'_x_','_'..'_','_x_'>' not
-R46192:-1 NS.TypesNotation <> :ttype_ident::x not
-R0:46194 NS.TypesNotation <> :ttype_ident::x not
-R46192:46194 NS.TypesNotation <> Baz:12 var
-R46197:-1 NS.TypesNotation <> :ttype_ident::x not
-R0:46202 NS.TypesNotation <> :ttype_ident::x not
-R46197:46202 NS.TypesNotation <> String ex
-def 46341:46345 <> test8
-R46348:46352 NS.TypesBase <> ttype ind
-R46357:46359 NS.TypesNotation <> ::ttype_scope:'[!'_x_'!]' not
-R46371:46373 NS.TypesNotation <> ::ttype_scope:'[!'_x_'!]' not
-R46360:46370 NS.TypesNotation <> :ttype::'('_')'_'=>'_'Void' not
-def 46384:46388 <> test9
-R46391:46395 NS.TypesBase <> ttype ind
-R46400:46402 NS.TypesNotation <> ::ttype_scope:'[!'_x_'!]' not
-R46438:46440 NS.TypesNotation <> ::ttype_scope:'[!'_x_'!]' not
-R46403:46404 NS.TypesNotation <> :ttype::'('_x_','_'..'_','_x_','_'___'_x_')'_'=>'_x not
-R46412:46418 NS.TypesNotation <> :ttype::'('_x_','_'..'_','_x_','_'___'_x_')'_'=>'_x not
-R46426:46430 NS.TypesNotation <> :ttype::'('_x_','_'..'_','_x_','_'___'_x_')'_'=>'_x not
-R46405:-1 NS.TypesNotation <> :ttype_ident::x not
-R0:46411 NS.TypesNotation <> :ttype_ident::x not
-R46405:46411 NS.TypesNotation <> Integer ex
-R46419:-1 NS.TypesNotation <> :ttype_ident::x not
-R0:46425 NS.TypesNotation <> :ttype_ident::x not
-R46419:46425 NS.TypesNotation <> Integer ex
-R46437:46437 NS.TypesNotation <> :ttype::x_'?' not
-R46431:-1 NS.TypesNotation <> :ttype_ident::x not
-R0:46436 NS.TypesNotation <> :ttype_ident::x not
-R46431:46436 NS.TypesNotation <> String ex
-def 46451:46456 <> test10
-R46459:46463 NS.TypesBase <> ttype ind
-binder 46472:46474 <> Foo:16
-binder 46499:46501 <> foo:17
-R46547:46549 NS.TypesNotation <> ::ttype_scope:'[!'_x_'!]' not
-R46621:46623 NS.TypesNotation <> ::ttype_scope:'[!'_x_'!]' not
-R46550:46552 NS.TypesNotation <> :ttype::'('_'<'_x_','_'..'_','_x_'>'_'('_x_','_'..'_','_x_')'_'=>'_x_')?' not
-R46556:46557 NS.TypesNotation <> :ttype::'('_'<'_x_','_'..'_','_x_'>'_'('_x_','_'..'_','_x_')'_'=>'_x_')?' not
-R46567:46568 NS.TypesNotation <> :ttype::'('_'<'_x_','_'..'_','_x_'>'_'('_x_','_'..'_','_x_')'_'=>'_x_')?' not
-R46590:46594 NS.TypesNotation <> :ttype::'('_'<'_x_','_'..'_','_x_'>'_'('_x_','_'..'_','_x_')'_'=>'_x_')?' not
-R46618:46620 NS.TypesNotation <> :ttype::'('_'<'_x_','_'..'_','_x_'>'_'('_x_','_'..'_','_x_')'_'=>'_x_')?' not
-R46553:-1 NS.TypesNotation <> :ttype_ident::x not
-R0:46555 NS.TypesNotation <> :ttype_ident::x not
-R46553:46555 NS.TypesNotation <> Foo:16 var
-R46565:46566 NS.TypesNotation <> :ttype::x_'[]' not
-R46558:-1 NS.TypesNotation <> :ttype_ident::x not
-R0:46564 NS.TypesNotation <> :ttype_ident::x not
-R46558:46564 NS.TypesNotation <> Natural ex
-R46569:46570 NS.TypesNotation <> :ttype::'{'_x_','_'..'_','_x_'}' not
-R46588:46589 NS.TypesNotation <> :ttype::'{'_x_','_'..'_','_x_'}' not
-R46574:46576 NS.TypesNotation <> :ttype_field::x_':'_x not
-R46571:-1 NS.TypesNotation <> :ttype_ident::x not
-R0:46573 NS.TypesNotation <> :ttype_ident::x not
-R46571:46573 NS.TypesNotation <> foo:17 var
-R46580:46580 NS.TypesNotation <> :ttype::x_'<'_x_','_'..'_','_x_'>' not
-R46587:46587 NS.TypesNotation <> :ttype::x_'<'_x_','_'..'_','_x_'>' not
-R46577:-1 NS.TypesNotation <> :ttype_ident::x not
-R0:46579 NS.TypesNotation <> :ttype_ident::x not
-R46577:46579 NS.TypesNotation <> Foo:16 var
+R0:45602 NS.TypesNotation <> :ttype_ident::x not
+R45600:45602 NS.TypesNotation <> Baz:3 var
+R45604:-1 NS.TypesNotation <> :ttype_ident::x not
+R0:45609 NS.TypesNotation <> :ttype_ident::x not
+R45604:45609 NS.TypesNotation <> String ex
+R45612:-1 NS.TypesNotation <> :ttype_ident::x not
+R0:45618 NS.TypesNotation <> :ttype_ident::x not
+R45612:45618 NS.TypesNotation <> Natural ex
+def 45633:45637 <> test4
+R45640:45644 NS.TypesBase <> ttype ind
+R45649:45651 NS.TypesNotation <> ::ttype_scope:'[!'_x_'!]' not
+R45661:45663 NS.TypesNotation <> ::ttype_scope:'[!'_x_'!]' not
+R45658:45660 NS.TypesNotation <> :ttype::x_'[]' not
+R45652:-1 NS.TypesNotation <> :ttype_ident::x not
+R0:45657 NS.TypesNotation <> :ttype_ident::x not
+R45652:45657 NS.TypesNotation <> String ex
+def 45674:45678 <> test5
+R45681:45685 NS.TypesBase <> ttype ind
+binder 45694:45696 <> Foo:4
+binder 45721:45723 <> Bar:5
+binder 45748:45750 <> Baz:6
+R45771:45773 NS.TypesNotation <> ::ttype_scope:'[!'_x_'!]' not
+R45789:45791 NS.TypesNotation <> ::ttype_scope:'[!'_x_'!]' not
+R45774:45774 NS.TypesNotation <> :ttype::'['_x_','_'..'_','_x_']' not
+R45778:45779 NS.TypesNotation <> :ttype::'['_x_','_'..'_','_x_']' not
+R45783:45784 NS.TypesNotation <> :ttype::'['_x_','_'..'_','_x_']' not
+R45788:45788 NS.TypesNotation <> :ttype::'['_x_','_'..'_','_x_']' not
+R45775:-1 NS.TypesNotation <> :ttype_ident::x not
+R0:45777 NS.TypesNotation <> :ttype_ident::x not
+R45775:45777 NS.TypesNotation <> Foo:4 var
+R45780:-1 NS.TypesNotation <> :ttype_ident::x not
+R0:45782 NS.TypesNotation <> :ttype_ident::x not
+R45780:45782 NS.TypesNotation <> Bar:5 var
+R45785:-1 NS.TypesNotation <> :ttype_ident::x not
+R0:45787 NS.TypesNotation <> :ttype_ident::x not
+R45785:45787 NS.TypesNotation <> Baz:6 var
+def 45802:45806 <> test6
+R45809:45813 NS.TypesBase <> ttype ind
+binder 45822:45824 <> Foo:7
+binder 45849:45851 <> Bar:8
+binder 45876:45878 <> Baz:9
+R45899:45901 NS.TypesNotation <> ::ttype_scope:'[!'_x_'!]' not
+R45920:45922 NS.TypesNotation <> ::ttype_scope:'[!'_x_'!]' not
+R45917:45919 NS.TypesNotation <> :ttype::x_'[]' not
+R45902:45902 NS.TypesNotation <> :ttype::'['_x_','_'..'_','_x_']' not
+R45906:45907 NS.TypesNotation <> :ttype::'['_x_','_'..'_','_x_']' not
+R45911:45912 NS.TypesNotation <> :ttype::'['_x_','_'..'_','_x_']' not
+R45916:45916 NS.TypesNotation <> :ttype::'['_x_','_'..'_','_x_']' not
+R45903:-1 NS.TypesNotation <> :ttype_ident::x not
+R0:45905 NS.TypesNotation <> :ttype_ident::x not
+R45903:45905 NS.TypesNotation <> Foo:7 var
+R45908:-1 NS.TypesNotation <> :ttype_ident::x not
+R0:45910 NS.TypesNotation <> :ttype_ident::x not
+R45908:45910 NS.TypesNotation <> Bar:8 var
+R45913:-1 NS.TypesNotation <> :ttype_ident::x not
+R0:45915 NS.TypesNotation <> :ttype_ident::x not
+R45913:45915 NS.TypesNotation <> Baz:9 var
+def 45933:45937 <> test7
+R45940:45944 NS.TypesBase <> ttype ind
+binder 45953:45955 <> Foo:10
+binder 45980:45982 <> Bar:11
+binder 46007:46009 <> Baz:12
+binder 46058:46060 <> foo:13
+binder 46085:46087 <> bar:14
+binder 46112:46114 <> baz:15
+R46159:46161 NS.TypesNotation <> ::ttype_scope:'[!'_x_'!]' not
+R46216:46218 NS.TypesNotation <> ::ttype_scope:'[!'_x_'!]' not
+R46213:46215 NS.TypesNotation <> :ttype::x_'[]' not
+R46162:46163 NS.TypesNotation <> :ttype::'{'_x_','_'..'_','_x_'}' not
+R46173:46174 NS.TypesNotation <> :ttype::'{'_x_','_'..'_','_x_'}' not
+R46188:46189 NS.TypesNotation <> :ttype::'{'_x_','_'..'_','_x_'}' not
+R46211:46212 NS.TypesNotation <> :ttype::'{'_x_','_'..'_','_x_'}' not
+R46167:46169 NS.TypesNotation <> :ttype_field::x_':'_x not
+R46164:-1 NS.TypesNotation <> :ttype_ident::x not
+R0:46166 NS.TypesNotation <> :ttype_ident::x not
+R46164:46166 NS.TypesNotation <> foo:13 var
+R46170:-1 NS.TypesNotation <> :ttype_ident::x not
+R0:46172 NS.TypesNotation <> :ttype_ident::x not
+R46170:46172 NS.TypesNotation <> Foo:10 var
+R46178:46180 NS.TypesNotation <> :ttype_field::x_':'_x not
+R46175:-1 NS.TypesNotation <> :ttype_ident::x not
+R0:46177 NS.TypesNotation <> :ttype_ident::x not
+R46175:46177 NS.TypesNotation <> bar:14 var
+R46181:46182 NS.TypesNotation <> :ttype::'['_x_','_'..'_','_x_']' not
+R46186:46187 NS.TypesNotation <> :ttype::'['_x_','_'..'_','_x_']' not
+R46183:-1 NS.TypesNotation <> :ttype_ident::x not
+R0:46185 NS.TypesNotation <> :ttype_ident::x not
+R46183:46185 NS.TypesNotation <> Bar:11 var
+R46193:46195 NS.TypesNotation <> :ttype_field::x_':'_x not
+R46190:-1 NS.TypesNotation <> :ttype_ident::x not
+R0:46192 NS.TypesNotation <> :ttype_ident::x not
+R46190:46192 NS.TypesNotation <> baz:15 var
+R46208:46210 NS.TypesNotation <> :ttype::x_'[]' not
+R46199:46200 NS.TypesNotation <> :ttype::x_'<'_x_','_'..'_','_x_'>' not
+R46207:46207 NS.TypesNotation <> :ttype::x_'<'_x_','_'..'_','_x_'>' not
+R46196:-1 NS.TypesNotation <> :ttype_ident::x not
+R0:46198 NS.TypesNotation <> :ttype_ident::x not
+R46196:46198 NS.TypesNotation <> Baz:12 var
+R46201:-1 NS.TypesNotation <> :ttype_ident::x not
+R0:46206 NS.TypesNotation <> :ttype_ident::x not
+R46201:46206 NS.TypesNotation <> String ex
+def 46345:46349 <> test8
+R46352:46356 NS.TypesBase <> ttype ind
+R46361:46363 NS.TypesNotation <> ::ttype_scope:'[!'_x_'!]' not
+R46375:46377 NS.TypesNotation <> ::ttype_scope:'[!'_x_'!]' not
+R46364:46374 NS.TypesNotation <> :ttype::'('_')'_'=>'_'Void' not
+def 46388:46392 <> test9
+R46395:46399 NS.TypesBase <> ttype ind
+R46404:46406 NS.TypesNotation <> ::ttype_scope:'[!'_x_'!]' not
+R46442:46444 NS.TypesNotation <> ::ttype_scope:'[!'_x_'!]' not
+R46407:46408 NS.TypesNotation <> :ttype::'('_x_','_'..'_','_x_','_'___'_x_')'_'=>'_x not
+R46416:46422 NS.TypesNotation <> :ttype::'('_x_','_'..'_','_x_','_'___'_x_')'_'=>'_x not
+R46430:46434 NS.TypesNotation <> :ttype::'('_x_','_'..'_','_x_','_'___'_x_')'_'=>'_x not
+R46409:-1 NS.TypesNotation <> :ttype_ident::x not
+R0:46415 NS.TypesNotation <> :ttype_ident::x not
+R46409:46415 NS.TypesNotation <> Integer ex
+R46423:-1 NS.TypesNotation <> :ttype_ident::x not
+R0:46429 NS.TypesNotation <> :ttype_ident::x not
+R46423:46429 NS.TypesNotation <> Integer ex
+R46441:46441 NS.TypesNotation <> :ttype::x_'?' not
+R46435:-1 NS.TypesNotation <> :ttype_ident::x not
+R0:46440 NS.TypesNotation <> :ttype_ident::x not
+R46435:46440 NS.TypesNotation <> String ex
+def 46455:46460 <> test10
+R46463:46467 NS.TypesBase <> ttype ind
+binder 46476:46478 <> Foo:16
+binder 46503:46505 <> foo:17
+R46551:46553 NS.TypesNotation <> ::ttype_scope:'[!'_x_'!]' not
+R46625:46627 NS.TypesNotation <> ::ttype_scope:'[!'_x_'!]' not
+R46554:46556 NS.TypesNotation <> :ttype::'('_'<'_x_','_'..'_','_x_'>'_'('_x_','_'..'_','_x_')'_'=>'_x_')?' not
+R46560:46561 NS.TypesNotation <> :ttype::'('_'<'_x_','_'..'_','_x_'>'_'('_x_','_'..'_','_x_')'_'=>'_x_')?' not
+R46571:46572 NS.TypesNotation <> :ttype::'('_'<'_x_','_'..'_','_x_'>'_'('_x_','_'..'_','_x_')'_'=>'_x_')?' not
+R46594:46598 NS.TypesNotation <> :ttype::'('_'<'_x_','_'..'_','_x_'>'_'('_x_','_'..'_','_x_')'_'=>'_x_')?' not
+R46622:46624 NS.TypesNotation <> :ttype::'('_'<'_x_','_'..'_','_x_'>'_'('_x_','_'..'_','_x_')'_'=>'_x_')?' not
+R46557:-1 NS.TypesNotation <> :ttype_ident::x not
+R0:46559 NS.TypesNotation <> :ttype_ident::x not
+R46557:46559 NS.TypesNotation <> Foo:16 var
+R46569:46570 NS.TypesNotation <> :ttype::x_'[]' not
+R46562:-1 NS.TypesNotation <> :ttype_ident::x not
+R0:46568 NS.TypesNotation <> :ttype_ident::x not
+R46562:46568 NS.TypesNotation <> Natural ex
+R46573:46574 NS.TypesNotation <> :ttype::'{'_x_','_'..'_','_x_'}' not
+R46592:46593 NS.TypesNotation <> :ttype::'{'_x_','_'..'_','_x_'}' not
+R46578:46580 NS.TypesNotation <> :ttype_field::x_':'_x not
+R46575:-1 NS.TypesNotation <> :ttype_ident::x not
+R0:46577 NS.TypesNotation <> :ttype_ident::x not
+R46575:46577 NS.TypesNotation <> foo:17 var
+R46584:46584 NS.TypesNotation <> :ttype::x_'<'_x_','_'..'_','_x_'>' not
+R46591:46591 NS.TypesNotation <> :ttype::x_'<'_x_','_'..'_','_x_'>' not
 R46581:-1 NS.TypesNotation <> :ttype_ident::x not
-R0:46586 NS.TypesNotation <> :ttype_ident::x not
-R46581:46586 NS.TypesNotation <> String ex
-R46595:46595 NS.TypesNotation <> :ttype::'('_x_','_'..'_','_x_')'_'=>'_x not
-R46603:46607 NS.TypesNotation <> :ttype::'('_x_','_'..'_','_x_')'_'=>'_x not
-R46596:-1 NS.TypesNotation <> :ttype_ident::x not
-R0:46602 NS.TypesNotation <> :ttype_ident::x not
-R46596:46602 NS.TypesNotation <> Integer ex
-R46616:46617 NS.TypesNotation <> :ttype::x_'[]' not
-R46614:46615 NS.TypesNotation <> :ttype::x_'[]' not
-R46608:-1 NS.TypesNotation <> :ttype_ident::x not
-R0:46613 NS.TypesNotation <> :ttype_ident::x not
-R46608:46613 NS.TypesNotation <> String ex
-def 46635:46640 <> test11
-R46643:46647 NS.TypesBase <> ttype ind
-R46652:46654 NS.TypesNotation <> ::ttype_scope:'[!'_x_'!]' not
-R46677:46679 NS.TypesNotation <> ::ttype_scope:'[!'_x_'!]' not
-R46655:46655 NS.TypesNotation <> :ttype::'('_x_','_'..'_','_x_')'_'=>'_x not
-R46665:46669 NS.TypesNotation <> :ttype::'('_x_','_'..'_','_x_')'_'=>'_x not
-R46656:46657 NS.TypesNotation <> :ottype::'?'_x not
-R46658:-1 NS.TypesNotation <> :ttype_ident::x not
-R0:46664 NS.TypesNotation <> :ttype_ident::x not
-R46658:46664 NS.TypesNotation <> Integer ex
-R46676:46676 NS.TypesNotation <> :ttype::x_'?' not
-R46670:-1 NS.TypesNotation <> :ttype_ident::x not
-R0:46675 NS.TypesNotation <> :ttype_ident::x not
-R46670:46675 NS.TypesNotation <> String ex
-def 46690:46695 <> test12
-R46698:46702 NS.TypesBase <> ttype ind
-binder 46711:46713 <> Foo:18
-binder 46738:46740 <> foo:19
-R46786:46788 NS.TypesNotation <> ::ttype_scope:'[!'_x_'!]' not
-R46879:46881 NS.TypesNotation <> ::ttype_scope:'[!'_x_'!]' not
-R46789:46791 NS.TypesNotation <> :ttype::'('_'<'_x_','_'..'_','_x_'>'_'('_x_','_'..'_','_x_')'_'=>'_x_')?' not
-R46806:46807 NS.TypesNotation <> :ttype::'('_'<'_x_','_'..'_','_x_'>'_'('_x_','_'..'_','_x_')'_'=>'_x_')?' not
-R46817:46818 NS.TypesNotation <> :ttype::'('_'<'_x_','_'..'_','_x_'>'_'('_x_','_'..'_','_x_')'_'=>'_x_')?' not
-R46848:46852 NS.TypesNotation <> :ttype::'('_'<'_x_','_'..'_','_x_'>'_'('_x_','_'..'_','_x_')'_'=>'_x_')?' not
-R46876:46878 NS.TypesNotation <> :ttype::'('_'<'_x_','_'..'_','_x_'>'_'('_x_','_'..'_','_x_')'_'=>'_x_')?' not
-R46792:46795 NS.TypesNotation <> :ttype_param::'inv'_x_'<:'_x_'&'_'..'_'&'_x not
-R46799:46802 NS.TypesNotation <> :ttype_param::'inv'_x_'<:'_x_'&'_'..'_'&'_x not
-R46796:-1 NS.TypesNotation <> :ttype_ident::x not
-R0:46798 NS.TypesNotation <> :ttype_ident::x not
-R46796:46798 NS.TypesNotation <> Foo:18 var
-R46803:-1 NS.TypesNotation <> :ttype_ident::x not
-R0:46805 NS.TypesNotation <> :ttype_ident::x not
-R46803:46805 NS.TypesNotation <> Foo:18 var
-R46815:46816 NS.TypesNotation <> :ttype::x_'[]' not
-R46808:-1 NS.TypesNotation <> :ttype_ident::x not
-R0:46814 NS.TypesNotation <> :ttype_ident::x not
-R46808:46814 NS.TypesNotation <> Natural ex
-R46819:46820 NS.TypesNotation <> :ottype::'?'_x not
-R46821:46822 NS.TypesNotation <> :ttype::'{'_x_','_'..'_','_x_'}' not
-R46846:46847 NS.TypesNotation <> :ttype::'{'_x_','_'..'_','_x_'}' not
-R46826:46829 NS.TypesNotation <> :ttype_field::x_'?:'_x not
-R46823:-1 NS.TypesNotation <> :ttype_ident::x not
-R0:46825 NS.TypesNotation <> :ttype_ident::x not
-R46823:46825 NS.TypesNotation <> foo:19 var
-R46833:46833 NS.TypesNotation <> :ttype::x_'<'_x_','_'..'_','_x_'>' not
-R46845:46845 NS.TypesNotation <> :ttype::x_'<'_x_','_'..'_','_x_'>' not
-R46830:-1 NS.TypesNotation <> :ttype_ident::x not
-R0:46832 NS.TypesNotation <> :ttype_ident::x not
-R46830:46832 NS.TypesNotation <> Foo:18 var
-R46834:46834 NS.TypesNotation <> :ttype::'['_x_','_'..'_','_x_']' not
-R46843:46844 NS.TypesNotation <> :ttype::'['_x_','_'..'_','_x_']' not
-R46835:46836 NS.TypesNotation <> :ottype::'?'_x not
-R46837:-1 NS.TypesNotation <> :ttype_ident::x not
-R0:46842 NS.TypesNotation <> :ttype_ident::x not
-R46837:46842 NS.TypesNotation <> String ex
-R46853:46853 NS.TypesNotation <> :ttype::'('_x_','_'..'_','_x_')'_'=>'_x not
-R46861:46865 NS.TypesNotation <> :ttype::'('_x_','_'..'_','_x_')'_'=>'_x not
-R46854:-1 NS.TypesNotation <> :ttype_ident::x not
-R0:46860 NS.TypesNotation <> :ttype_ident::x not
-R46854:46860 NS.TypesNotation <> Integer ex
-R46874:46875 NS.TypesNotation <> :ttype::x_'[]' not
-R46872:46873 NS.TypesNotation <> :ttype::x_'[]' not
-R46866:-1 NS.TypesNotation <> :ttype_ident::x not
-R0:46871 NS.TypesNotation <> :ttype_ident::x not
-R46866:46871 NS.TypesNotation <> String ex
-def 46892:46897 <> test13
-R46900:46904 NS.TypesBase <> ttype ind
-binder 46913:46915 <> Foo:20
-binder 46940:46942 <> foo:21
-R46988:46990 NS.TypesNotation <> ::ttype_scope:'[!'_x_'!]' not
-R47095:47097 NS.TypesNotation <> ::ttype_scope:'[!'_x_'!]' not
-R46991:46993 NS.TypesNotation <> :ttype::'('_'<'_x_','_'..'_','_x_'>'_'('_x_','_'..'_','_x_')'_'=>'_x_')?' not
-R47022:47023 NS.TypesNotation <> :ttype::'('_'<'_x_','_'..'_','_x_'>'_'('_x_','_'..'_','_x_')'_'=>'_x_')?' not
-R47033:47034 NS.TypesNotation <> :ttype::'('_'<'_x_','_'..'_','_x_'>'_'('_x_','_'..'_','_x_')'_'=>'_x_')?' not
-R47064:47068 NS.TypesNotation <> :ttype::'('_'<'_x_','_'..'_','_x_'>'_'('_x_','_'..'_','_x_')'_'=>'_x_')?' not
-R47092:47094 NS.TypesNotation <> :ttype::'('_'<'_x_','_'..'_','_x_'>'_'('_x_','_'..'_','_x_')'_'=>'_x_')?' not
-R46994:46997 NS.TypesNotation <> :ttype_param::'inv'_x_'<:'_x_'&'_'..'_'&'_x not
-R47001:47004 NS.TypesNotation <> :ttype_param::'inv'_x_'<:'_x_'&'_'..'_'&'_x not
-R47016:47018 NS.TypesNotation <> :ttype_param::'inv'_x_'<:'_x_'&'_'..'_'&'_x not
-R46998:-1 NS.TypesNotation <> :ttype_ident::x not
-R0:47000 NS.TypesNotation <> :ttype_ident::x not
-R46998:47000 NS.TypesNotation <> Foo:20 var
-R47005:47015 NS.TypesNotation <> :ttype::'('_')'_'=>'_'Void' not
-R47019:-1 NS.TypesNotation <> :ttype_ident::x not
-R0:47021 NS.TypesNotation <> :ttype_ident::x not
-R47019:47021 NS.TypesNotation <> Foo:20 var
-R47031:47032 NS.TypesNotation <> :ttype::x_'[]' not
-R47024:-1 NS.TypesNotation <> :ttype_ident::x not
-R0:47030 NS.TypesNotation <> :ttype_ident::x not
-R47024:47030 NS.TypesNotation <> Natural ex
-R47035:47036 NS.TypesNotation <> :ottype::'?'_x not
-R47037:47038 NS.TypesNotation <> :ttype::'{'_x_','_'..'_','_x_'}' not
-R47062:47063 NS.TypesNotation <> :ttype::'{'_x_','_'..'_','_x_'}' not
-R47042:47045 NS.TypesNotation <> :ttype_field::x_'?:'_x not
-R47039:-1 NS.TypesNotation <> :ttype_ident::x not
-R0:47041 NS.TypesNotation <> :ttype_ident::x not
-R47039:47041 NS.TypesNotation <> foo:21 var
-R47049:47049 NS.TypesNotation <> :ttype::x_'<'_x_','_'..'_','_x_'>' not
-R47061:47061 NS.TypesNotation <> :ttype::x_'<'_x_','_'..'_','_x_'>' not
-R47046:-1 NS.TypesNotation <> :ttype_ident::x not
-R0:47048 NS.TypesNotation <> :ttype_ident::x not
-R47046:47048 NS.TypesNotation <> Foo:20 var
-R47050:47050 NS.TypesNotation <> :ttype::'['_x_','_'..'_','_x_']' not
-R47059:47060 NS.TypesNotation <> :ttype::'['_x_','_'..'_','_x_']' not
-R47051:47052 NS.TypesNotation <> :ottype::'?'_x not
-R47053:-1 NS.TypesNotation <> :ttype_ident::x not
-R0:47058 NS.TypesNotation <> :ttype_ident::x not
-R47053:47058 NS.TypesNotation <> String ex
-R47069:47069 NS.TypesNotation <> :ttype::'('_x_','_'..'_','_x_')'_'=>'_x not
-R47077:47081 NS.TypesNotation <> :ttype::'('_x_','_'..'_','_x_')'_'=>'_x not
-R47070:-1 NS.TypesNotation <> :ttype_ident::x not
-R0:47076 NS.TypesNotation <> :ttype_ident::x not
-R47070:47076 NS.TypesNotation <> Integer ex
-R47090:47091 NS.TypesNotation <> :ttype::x_'[]' not
-R47088:47089 NS.TypesNotation <> :ttype::x_'[]' not
-R47082:-1 NS.TypesNotation <> :ttype_ident::x not
-R0:47087 NS.TypesNotation <> :ttype_ident::x not
-R47082:47087 NS.TypesNotation <> String ex
-def 47108:47113 <> test14
-R47116:47120 NS.TypesBase <> ttype ind
-binder 47129:47131 <> Foo:22
-binder 47156:47158 <> foo:23
-R47204:47206 NS.TypesNotation <> ::ttype_scope:'[!'_x_'!]' not
-R47308:47310 NS.TypesNotation <> ::ttype_scope:'[!'_x_'!]' not
-R47207:47209 NS.TypesNotation <> :ttype::'('_'<'_x_','_'..'_','_x_'>'_'('_'this:'_x_','_x_','_'..'_','_x_')'_'=>'_x_')?' not
-R47224:47231 NS.TypesNotation <> :ttype::'('_'<'_x_','_'..'_','_x_'>'_'('_'this:'_x_','_x_','_'..'_','_x_')'_'=>'_x_')?' not
-R47241:47242 NS.TypesNotation <> :ttype::'('_'<'_x_','_'..'_','_x_'>'_'('_'this:'_x_','_x_','_'..'_','_x_')'_'=>'_x_')?' not
-R47272:47276 NS.TypesNotation <> :ttype::'('_'<'_x_','_'..'_','_x_'>'_'('_'this:'_x_','_x_','_'..'_','_x_')'_'=>'_x_')?' not
-R47305:47307 NS.TypesNotation <> :ttype::'('_'<'_x_','_'..'_','_x_'>'_'('_'this:'_x_','_x_','_'..'_','_x_')'_'=>'_x_')?' not
-R47210:47213 NS.TypesNotation <> :ttype_param::'inv'_x_'<:'_x_'&'_'..'_'&'_x not
-R47217:47220 NS.TypesNotation <> :ttype_param::'inv'_x_'<:'_x_'&'_'..'_'&'_x not
-R47214:-1 NS.TypesNotation <> :ttype_ident::x not
-R0:47216 NS.TypesNotation <> :ttype_ident::x not
-R47214:47216 NS.TypesNotation <> Foo:22 var
-R47221:-1 NS.TypesNotation <> :ttype_ident::x not
-R0:47223 NS.TypesNotation <> :ttype_ident::x not
-R47221:47223 NS.TypesNotation <> Foo:22 var
-R47239:47240 NS.TypesNotation <> :ttype::x_'[]' not
-R47232:-1 NS.TypesNotation <> :ttype_ident::x not
-R0:47238 NS.TypesNotation <> :ttype_ident::x not
-R47232:47238 NS.TypesNotation <> Natural ex
-R47243:47244 NS.TypesNotation <> :ottype::'?'_x not
-R47245:47246 NS.TypesNotation <> :ttype::'{'_x_','_'..'_','_x_'}' not
-R47270:47271 NS.TypesNotation <> :ttype::'{'_x_','_'..'_','_x_'}' not
-R47250:47253 NS.TypesNotation <> :ttype_field::x_'?:'_x not
-R47247:-1 NS.TypesNotation <> :ttype_ident::x not
-R0:47249 NS.TypesNotation <> :ttype_ident::x not
-R47247:47249 NS.TypesNotation <> foo:23 var
-R47257:47257 NS.TypesNotation <> :ttype::x_'<'_x_','_'..'_','_x_'>' not
-R47269:47269 NS.TypesNotation <> :ttype::x_'<'_x_','_'..'_','_x_'>' not
-R47254:-1 NS.TypesNotation <> :ttype_ident::x not
-R0:47256 NS.TypesNotation <> :ttype_ident::x not
-R47254:47256 NS.TypesNotation <> Foo:22 var
-R47258:47258 NS.TypesNotation <> :ttype::'['_x_','_'..'_','_x_']' not
-R47267:47268 NS.TypesNotation <> :ttype::'['_x_','_'..'_','_x_']' not
-R47259:47260 NS.TypesNotation <> :ottype::'?'_x not
-R47261:-1 NS.TypesNotation <> :ttype_ident::x not
-R0:47266 NS.TypesNotation <> :ttype_ident::x not
-R47261:47266 NS.TypesNotation <> String ex
-R47277:47282 NS.TypesNotation <> :ttype::'('_'___'_x_')'_'=>'_x not
-R47290:47294 NS.TypesNotation <> :ttype::'('_'___'_x_')'_'=>'_x not
-R47283:-1 NS.TypesNotation <> :ttype_ident::x not
-R0:47289 NS.TypesNotation <> :ttype_ident::x not
-R47283:47289 NS.TypesNotation <> Integer ex
-R47303:47304 NS.TypesNotation <> :ttype::x_'[]' not
-R47301:47302 NS.TypesNotation <> :ttype::x_'[]' not
-R47295:-1 NS.TypesNotation <> :ttype_ident::x not
-R0:47300 NS.TypesNotation <> :ttype_ident::x not
-R47295:47300 NS.TypesNotation <> String ex
+R0:46583 NS.TypesNotation <> :ttype_ident::x not
+R46581:46583 NS.TypesNotation <> Foo:16 var
+R46585:-1 NS.TypesNotation <> :ttype_ident::x not
+R0:46590 NS.TypesNotation <> :ttype_ident::x not
+R46585:46590 NS.TypesNotation <> String ex
+R46599:46599 NS.TypesNotation <> :ttype::'('_x_','_'..'_','_x_')'_'=>'_x not
+R46607:46611 NS.TypesNotation <> :ttype::'('_x_','_'..'_','_x_')'_'=>'_x not
+R46600:-1 NS.TypesNotation <> :ttype_ident::x not
+R0:46606 NS.TypesNotation <> :ttype_ident::x not
+R46600:46606 NS.TypesNotation <> Integer ex
+R46620:46621 NS.TypesNotation <> :ttype::x_'[]' not
+R46618:46619 NS.TypesNotation <> :ttype::x_'[]' not
+R46612:-1 NS.TypesNotation <> :ttype_ident::x not
+R0:46617 NS.TypesNotation <> :ttype_ident::x not
+R46612:46617 NS.TypesNotation <> String ex
+def 46639:46644 <> test11
+R46647:46651 NS.TypesBase <> ttype ind
+R46656:46658 NS.TypesNotation <> ::ttype_scope:'[!'_x_'!]' not
+R46681:46683 NS.TypesNotation <> ::ttype_scope:'[!'_x_'!]' not
+R46659:46659 NS.TypesNotation <> :ttype::'('_x_','_'..'_','_x_')'_'=>'_x not
+R46669:46673 NS.TypesNotation <> :ttype::'('_x_','_'..'_','_x_')'_'=>'_x not
+R46660:46661 NS.TypesNotation <> :ottype::'?'_x not
+R46662:-1 NS.TypesNotation <> :ttype_ident::x not
+R0:46668 NS.TypesNotation <> :ttype_ident::x not
+R46662:46668 NS.TypesNotation <> Integer ex
+R46680:46680 NS.TypesNotation <> :ttype::x_'?' not
+R46674:-1 NS.TypesNotation <> :ttype_ident::x not
+R0:46679 NS.TypesNotation <> :ttype_ident::x not
+R46674:46679 NS.TypesNotation <> String ex
+def 46694:46699 <> test12
+R46702:46706 NS.TypesBase <> ttype ind
+binder 46715:46717 <> Foo:18
+binder 46742:46744 <> foo:19
+R46790:46792 NS.TypesNotation <> ::ttype_scope:'[!'_x_'!]' not
+R46883:46885 NS.TypesNotation <> ::ttype_scope:'[!'_x_'!]' not
+R46793:46795 NS.TypesNotation <> :ttype::'('_'<'_x_','_'..'_','_x_'>'_'('_x_','_'..'_','_x_')'_'=>'_x_')?' not
+R46810:46811 NS.TypesNotation <> :ttype::'('_'<'_x_','_'..'_','_x_'>'_'('_x_','_'..'_','_x_')'_'=>'_x_')?' not
+R46821:46822 NS.TypesNotation <> :ttype::'('_'<'_x_','_'..'_','_x_'>'_'('_x_','_'..'_','_x_')'_'=>'_x_')?' not
+R46852:46856 NS.TypesNotation <> :ttype::'('_'<'_x_','_'..'_','_x_'>'_'('_x_','_'..'_','_x_')'_'=>'_x_')?' not
+R46880:46882 NS.TypesNotation <> :ttype::'('_'<'_x_','_'..'_','_x_'>'_'('_x_','_'..'_','_x_')'_'=>'_x_')?' not
+R46796:46799 NS.TypesNotation <> :ttype_param::'inv'_x_'<:'_x_'&'_'..'_'&'_x not
+R46803:46806 NS.TypesNotation <> :ttype_param::'inv'_x_'<:'_x_'&'_'..'_'&'_x not
+R46800:-1 NS.TypesNotation <> :ttype_ident::x not
+R0:46802 NS.TypesNotation <> :ttype_ident::x not
+R46800:46802 NS.TypesNotation <> Foo:18 var
+R46807:-1 NS.TypesNotation <> :ttype_ident::x not
+R0:46809 NS.TypesNotation <> :ttype_ident::x not
+R46807:46809 NS.TypesNotation <> Foo:18 var
+R46819:46820 NS.TypesNotation <> :ttype::x_'[]' not
+R46812:-1 NS.TypesNotation <> :ttype_ident::x not
+R0:46818 NS.TypesNotation <> :ttype_ident::x not
+R46812:46818 NS.TypesNotation <> Natural ex
+R46823:46824 NS.TypesNotation <> :ottype::'?'_x not
+R46825:46826 NS.TypesNotation <> :ttype::'{'_x_','_'..'_','_x_'}' not
+R46850:46851 NS.TypesNotation <> :ttype::'{'_x_','_'..'_','_x_'}' not
+R46830:46833 NS.TypesNotation <> :ttype_field::x_'?:'_x not
+R46827:-1 NS.TypesNotation <> :ttype_ident::x not
+R0:46829 NS.TypesNotation <> :ttype_ident::x not
+R46827:46829 NS.TypesNotation <> foo:19 var
+R46837:46837 NS.TypesNotation <> :ttype::x_'<'_x_','_'..'_','_x_'>' not
+R46849:46849 NS.TypesNotation <> :ttype::x_'<'_x_','_'..'_','_x_'>' not
+R46834:-1 NS.TypesNotation <> :ttype_ident::x not
+R0:46836 NS.TypesNotation <> :ttype_ident::x not
+R46834:46836 NS.TypesNotation <> Foo:18 var
+R46838:46838 NS.TypesNotation <> :ttype::'['_x_','_'..'_','_x_']' not
+R46847:46848 NS.TypesNotation <> :ttype::'['_x_','_'..'_','_x_']' not
+R46839:46840 NS.TypesNotation <> :ottype::'?'_x not
+R46841:-1 NS.TypesNotation <> :ttype_ident::x not
+R0:46846 NS.TypesNotation <> :ttype_ident::x not
+R46841:46846 NS.TypesNotation <> String ex
+R46857:46857 NS.TypesNotation <> :ttype::'('_x_','_'..'_','_x_')'_'=>'_x not
+R46865:46869 NS.TypesNotation <> :ttype::'('_x_','_'..'_','_x_')'_'=>'_x not
+R46858:-1 NS.TypesNotation <> :ttype_ident::x not
+R0:46864 NS.TypesNotation <> :ttype_ident::x not
+R46858:46864 NS.TypesNotation <> Integer ex
+R46878:46879 NS.TypesNotation <> :ttype::x_'[]' not
+R46876:46877 NS.TypesNotation <> :ttype::x_'[]' not
+R46870:-1 NS.TypesNotation <> :ttype_ident::x not
+R0:46875 NS.TypesNotation <> :ttype_ident::x not
+R46870:46875 NS.TypesNotation <> String ex
+def 46896:46901 <> test13
+R46904:46908 NS.TypesBase <> ttype ind
+binder 46917:46919 <> Foo:20
+binder 46944:46946 <> foo:21
+R46992:46994 NS.TypesNotation <> ::ttype_scope:'[!'_x_'!]' not
+R47099:47101 NS.TypesNotation <> ::ttype_scope:'[!'_x_'!]' not
+R46995:46997 NS.TypesNotation <> :ttype::'('_'<'_x_','_'..'_','_x_'>'_'('_x_','_'..'_','_x_')'_'=>'_x_')?' not
+R47026:47027 NS.TypesNotation <> :ttype::'('_'<'_x_','_'..'_','_x_'>'_'('_x_','_'..'_','_x_')'_'=>'_x_')?' not
+R47037:47038 NS.TypesNotation <> :ttype::'('_'<'_x_','_'..'_','_x_'>'_'('_x_','_'..'_','_x_')'_'=>'_x_')?' not
+R47068:47072 NS.TypesNotation <> :ttype::'('_'<'_x_','_'..'_','_x_'>'_'('_x_','_'..'_','_x_')'_'=>'_x_')?' not
+R47096:47098 NS.TypesNotation <> :ttype::'('_'<'_x_','_'..'_','_x_'>'_'('_x_','_'..'_','_x_')'_'=>'_x_')?' not
+R46998:47001 NS.TypesNotation <> :ttype_param::'inv'_x_'<:'_x_'&'_'..'_'&'_x not
+R47005:47008 NS.TypesNotation <> :ttype_param::'inv'_x_'<:'_x_'&'_'..'_'&'_x not
+R47020:47022 NS.TypesNotation <> :ttype_param::'inv'_x_'<:'_x_'&'_'..'_'&'_x not
+R47002:-1 NS.TypesNotation <> :ttype_ident::x not
+R0:47004 NS.TypesNotation <> :ttype_ident::x not
+R47002:47004 NS.TypesNotation <> Foo:20 var
+R47009:47019 NS.TypesNotation <> :ttype::'('_')'_'=>'_'Void' not
+R47023:-1 NS.TypesNotation <> :ttype_ident::x not
+R0:47025 NS.TypesNotation <> :ttype_ident::x not
+R47023:47025 NS.TypesNotation <> Foo:20 var
+R47035:47036 NS.TypesNotation <> :ttype::x_'[]' not
+R47028:-1 NS.TypesNotation <> :ttype_ident::x not
+R0:47034 NS.TypesNotation <> :ttype_ident::x not
+R47028:47034 NS.TypesNotation <> Natural ex
+R47039:47040 NS.TypesNotation <> :ottype::'?'_x not
+R47041:47042 NS.TypesNotation <> :ttype::'{'_x_','_'..'_','_x_'}' not
+R47066:47067 NS.TypesNotation <> :ttype::'{'_x_','_'..'_','_x_'}' not
+R47046:47049 NS.TypesNotation <> :ttype_field::x_'?:'_x not
+R47043:-1 NS.TypesNotation <> :ttype_ident::x not
+R0:47045 NS.TypesNotation <> :ttype_ident::x not
+R47043:47045 NS.TypesNotation <> foo:21 var
+R47053:47053 NS.TypesNotation <> :ttype::x_'<'_x_','_'..'_','_x_'>' not
+R47065:47065 NS.TypesNotation <> :ttype::x_'<'_x_','_'..'_','_x_'>' not
+R47050:-1 NS.TypesNotation <> :ttype_ident::x not
+R0:47052 NS.TypesNotation <> :ttype_ident::x not
+R47050:47052 NS.TypesNotation <> Foo:20 var
+R47054:47054 NS.TypesNotation <> :ttype::'['_x_','_'..'_','_x_']' not
+R47063:47064 NS.TypesNotation <> :ttype::'['_x_','_'..'_','_x_']' not
+R47055:47056 NS.TypesNotation <> :ottype::'?'_x not
+R47057:-1 NS.TypesNotation <> :ttype_ident::x not
+R0:47062 NS.TypesNotation <> :ttype_ident::x not
+R47057:47062 NS.TypesNotation <> String ex
+R47073:47073 NS.TypesNotation <> :ttype::'('_x_','_'..'_','_x_')'_'=>'_x not
+R47081:47085 NS.TypesNotation <> :ttype::'('_x_','_'..'_','_x_')'_'=>'_x not
+R47074:-1 NS.TypesNotation <> :ttype_ident::x not
+R0:47080 NS.TypesNotation <> :ttype_ident::x not
+R47074:47080 NS.TypesNotation <> Integer ex
+R47094:47095 NS.TypesNotation <> :ttype::x_'[]' not
+R47092:47093 NS.TypesNotation <> :ttype::x_'[]' not
+R47086:-1 NS.TypesNotation <> :ttype_ident::x not
+R0:47091 NS.TypesNotation <> :ttype_ident::x not
+R47086:47091 NS.TypesNotation <> String ex
+def 47112:47117 <> test14
+R47120:47124 NS.TypesBase <> ttype ind
+binder 47133:47135 <> Foo:22
+binder 47160:47162 <> foo:23
+R47208:47210 NS.TypesNotation <> ::ttype_scope:'[!'_x_'!]' not
+R47312:47314 NS.TypesNotation <> ::ttype_scope:'[!'_x_'!]' not
+R47211:47213 NS.TypesNotation <> :ttype::'('_'<'_x_','_'..'_','_x_'>'_'('_'this:'_x_','_x_','_'..'_','_x_')'_'=>'_x_')?' not
+R47228:47235 NS.TypesNotation <> :ttype::'('_'<'_x_','_'..'_','_x_'>'_'('_'this:'_x_','_x_','_'..'_','_x_')'_'=>'_x_')?' not
+R47245:47246 NS.TypesNotation <> :ttype::'('_'<'_x_','_'..'_','_x_'>'_'('_'this:'_x_','_x_','_'..'_','_x_')'_'=>'_x_')?' not
+R47276:47280 NS.TypesNotation <> :ttype::'('_'<'_x_','_'..'_','_x_'>'_'('_'this:'_x_','_x_','_'..'_','_x_')'_'=>'_x_')?' not
+R47309:47311 NS.TypesNotation <> :ttype::'('_'<'_x_','_'..'_','_x_'>'_'('_'this:'_x_','_x_','_'..'_','_x_')'_'=>'_x_')?' not
+R47214:47217 NS.TypesNotation <> :ttype_param::'inv'_x_'<:'_x_'&'_'..'_'&'_x not
+R47221:47224 NS.TypesNotation <> :ttype_param::'inv'_x_'<:'_x_'&'_'..'_'&'_x not
+R47218:-1 NS.TypesNotation <> :ttype_ident::x not
+R0:47220 NS.TypesNotation <> :ttype_ident::x not
+R47218:47220 NS.TypesNotation <> Foo:22 var
+R47225:-1 NS.TypesNotation <> :ttype_ident::x not
+R0:47227 NS.TypesNotation <> :ttype_ident::x not
+R47225:47227 NS.TypesNotation <> Foo:22 var
+R47243:47244 NS.TypesNotation <> :ttype::x_'[]' not
+R47236:-1 NS.TypesNotation <> :ttype_ident::x not
+R0:47242 NS.TypesNotation <> :ttype_ident::x not
+R47236:47242 NS.TypesNotation <> Natural ex
+R47247:47248 NS.TypesNotation <> :ottype::'?'_x not
+R47249:47250 NS.TypesNotation <> :ttype::'{'_x_','_'..'_','_x_'}' not
+R47274:47275 NS.TypesNotation <> :ttype::'{'_x_','_'..'_','_x_'}' not
+R47254:47257 NS.TypesNotation <> :ttype_field::x_'?:'_x not
+R47251:-1 NS.TypesNotation <> :ttype_ident::x not
+R0:47253 NS.TypesNotation <> :ttype_ident::x not
+R47251:47253 NS.TypesNotation <> foo:23 var
+R47261:47261 NS.TypesNotation <> :ttype::x_'<'_x_','_'..'_','_x_'>' not
+R47273:47273 NS.TypesNotation <> :ttype::x_'<'_x_','_'..'_','_x_'>' not
+R47258:-1 NS.TypesNotation <> :ttype_ident::x not
+R0:47260 NS.TypesNotation <> :ttype_ident::x not
+R47258:47260 NS.TypesNotation <> Foo:22 var
+R47262:47262 NS.TypesNotation <> :ttype::'['_x_','_'..'_','_x_']' not
+R47271:47272 NS.TypesNotation <> :ttype::'['_x_','_'..'_','_x_']' not
+R47263:47264 NS.TypesNotation <> :ottype::'?'_x not
+R47265:-1 NS.TypesNotation <> :ttype_ident::x not
+R0:47270 NS.TypesNotation <> :ttype_ident::x not
+R47265:47270 NS.TypesNotation <> String ex
+R47281:47286 NS.TypesNotation <> :ttype::'('_'___'_x_')'_'=>'_x not
+R47294:47298 NS.TypesNotation <> :ttype::'('_'___'_x_')'_'=>'_x not
+R47287:-1 NS.TypesNotation <> :ttype_ident::x not
+R0:47293 NS.TypesNotation <> :ttype_ident::x not
+R47287:47293 NS.TypesNotation <> Integer ex
+R47307:47308 NS.TypesNotation <> :ttype::x_'[]' not
+R47305:47306 NS.TypesNotation <> :ttype::x_'[]' not
+R47299:-1 NS.TypesNotation <> :ttype_ident::x not
+R0:47304 NS.TypesNotation <> :ttype_ident::x not
+R47299:47304 NS.TypesNotation <> String ex

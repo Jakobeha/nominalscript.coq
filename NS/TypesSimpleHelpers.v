@@ -28,7 +28,7 @@ end.
 
 Definition map_otype {A B: Set} (f: A -> B) (a: otype A): otype B :=
 match a with
-| O nullable a => O nullable (f a)
+| Ot nullable a => Ot nullable (f a)
 end.
 
 Definition map_stype {A B: Set} (f: A -> B) (a: stype A): stype B :=
@@ -117,7 +117,7 @@ end.
 
 Definition otype_depth {type: Set} (type_depth: type -> nat) (a: otype type): nat :=
 match a with
-| O _ a => type_depth a
+| Ot _ a => type_depth a
 end.
 
 Definition tparam_depth {type: Set} (type_depth: type -> nat) (a: tparam type): nat :=

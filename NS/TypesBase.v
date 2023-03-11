@@ -32,8 +32,8 @@ Arguments TParam {type} v name supers.
 
 (* Optional (different than nullable) type *)
 Inductive otype (type: Set): Set :=
-| O (optional: bool) (a: type).
-Arguments O {type} optional a.
+| Ot (optional: bool) (a: type).
+Arguments Ot {type} optional a.
 
 
 (* Structural type *)
@@ -70,6 +70,38 @@ Notation iftype := (itype ftype).
 Notation ftparam := (tparam ftype).
 Notation oftype := (otype ftype).
 Notation sftype := (stype ftype).
+
+Inductive IType_Forall {type: Set} (P: type -> Prop): itype type -> Prop :=
+| Forall_It : forall name targs, List.Forall P targs -> IType_Forall P (It name targs).
+Inductive VType_Forall {type: Set} (P: type -> Prop): vtype type -> Prop :=
+| Forall_VVoid : VType_Forall P VVoid
+| Forall_Vt : forall x, P x -> VType_Forall P (Vt x).
+Inductive OType_Forall {type: Set} (P: type -> Prop): otype type -> Prop :=
+| Forall_Ot : forall optional x, P x -> OType_Forall P (Ot optional x).
+Inductive TParam_Forall {type: Set} (P: type -> Prop): tparam type -> Prop :=
+| Forall_TParam : forall variance name supers, List.Forall P supers -> TParam_Forall P (TParam variance name supers).
+Inductive SType_Forall {type: Set} (P: type -> Prop): stype type -> Prop :=
+| Forall_SFn : forall tparams thisp params rparam ret,
+    List.Forall (TParam_Forall P) tparams -> P thisp -> List.Forall (OType_Forall P) params -> P rparam -> VType_Forall P ret ->
+    SType_Forall P (SFn tparams thisp params rparam ret)
+| Forall_SArray : forall elem, P elem -> SType_Forall P (SArray elem)
+| Forall_STuple : forall elems, List.Forall (OType_Forall P) elems -> SType_Forall P (STuple elems)
+| Forall_SObject : forall fields, List.Forall (OType_Forall P << snd) fields -> SType_Forall P (SObject fields).
+
+Axiom ttype_rec':
+  forall (P: ttype -> Prop)
+    (fAny: P TAny)
+    (fNever: forall nullable, P (TNever nullable))
+    (fStructural: forall nullable structure, SType_Forall P structure -> P (TStructural nullable structure))
+    (fNominal: forall nullable id, IType_Forall P id -> P (TNominal nullable id))
+    (x: ttype), P x.
+Axiom ftype_rec':
+  forall (P: ftype -> Prop)
+    (fAny: P FAny)
+    (fNever: forall nullable, P (FNever nullable))
+    (fStructural: forall nullable structure, SType_Forall P structure -> P (FStructural nullable structure))
+    (fNominal: forall nullable id sids structure, IType_Forall P id -> List.Forall (IType_Forall P) sids -> Option_Forall (SType_Forall P) structure -> P (FNominal nullable id sids structure))
+    (x: ftype), P x.
 
 Definition TNEVER: ttype := TNever false.
 Definition TNULL : ttype := TNever true.
