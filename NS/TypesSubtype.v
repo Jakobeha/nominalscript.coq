@@ -1,4 +1,4 @@
-
+(* -*- company-coq-local-symbols: (("U" . ?∪)); -*- *)
 (* Add LoadPath should not be necessary but it is *)
 Add LoadPath "." as NS.
 Add LoadPath "tlc/src" as TLC.
@@ -110,6 +110,10 @@ Qed.
 Theorem subtype_refl: forall {A: Set} (a b: A), a <: b -> a <: a.
 Admitted.
 
+Theorem subtype_refl': forall (a: ftype), a <: a.
+Admitted.
+Local Hint Immediate subtype_refl'.
+
 Theorem subtype_antisym: forall {A: Set} (a b: A), a <: b -> b :> a.
 Admitted.
 
@@ -140,21 +144,74 @@ Admitted.
 Theorem supertype_trans: forall {A: Set} (a b c: A), a :> b -> b :> c -> a :> c.
 Admitted.
 
+Axiom iftype_neq_ftype: iftype <> ftype.
+Axiom sftype_neq_ftype: sftype <> ftype.
+Axiom oftype_neq_ftype: oftype <> ftype.
+Axiom vftype_neq_ftype: vftype <> ftype.
+Axiom list_ftype_neq_ftype: list ftype <> ftype.
+Axiom list_iftype_neq_ftype: list iftype <> ftype.
+Axiom list_oftype_neq_ftype: list oftype <> ftype.
+
+Local Ltac by_contradiction H := contradiction H; fail.
+Local Ltac clear_obvious_eqs :=
+  repeat lazymatch goal with
+  | H : ?T = ?T |- _ => clear H
+  end.
+
+Ltac inv_cs H :=
+  inverts H;
+  try discriminate;
+  try by_contradiction iftype_neq_ftype;
+  try by_contradiction sftype_neq_ftype;
+  try by_contradiction oftype_neq_ftype;
+  try by_contradiction vftype_neq_ftype;
+  try by_contradiction list_ftype_neq_ftype;
+  try by_contradiction list_iftype_neq_ftype;
+  try by_contradiction list_oftype_neq_ftype;
+  clear_obvious_eqs.
+Ltac discr_cs H := inv_cs H; fail.
+
+
 Theorem union_never: forall (a: ftype), FNEVER U a = a.
 Proof.
   intros. split.
   - apply CSNeverL.
   - intros. revert H. destruct a; destruct b; simpl; intros;
-      try apply CSAny.
-    + destruct H.
+      try apply CSAny;
+      try discr_cs H.
+    + inv_cs H; try inverts H0; try inverts H1; try inverts H2; by_ auto.
+    + inv_cs H. inverts H0. by_ auto.
+    + inv_cs H. inverts H0. by_ auto.
+Qed.
 
-Theorem union_null: forall (a: ftype), IsNullable A -> FNULL U a = a.
+Theorem union_null: forall (a: ftype), IsNullable a -> FNULL U a = a.
+Proof.
+  intros. split.
+  - apply CSNullL. exact H.
+  - intros. rename H into H1, H0 into H. revert H. destruct a; destruct b; simpl; intros;
+      try apply CSAny;
+      try discr_cs H.
+    + inv_cs H; try inverts H0; try inverts H1; try inverts H2; by_ auto.
+    + inv_cs H. inverts H0. by_ auto.
+    + inv_cs H. inverts H0. by_ auto.
+Qed.
 
 Theorem union_any: forall (a: ftype), FAny U a = FAny.
-Admitted.
+Proof.
+  intros. split.
+  - apply CSAny.
+  - intros. revert H. destruct a; destruct b; simpl; intros;
+      try apply CSAny;
+      try discr_cs H.
+Qed.
 
 Theorem union_refl : forall {A: Set} (a b c: A), a U b = c -> a U a = a.
-Admitted.
+Proof.
+  intros. split.
+  - destruct H as [H0 H]. inv_cs H0.
+    + destruct a; destruct b;
+        try apply CSAny;
+        try (destruct nullable; [apply CSNullL; by_ simpl | apply CSNeverL]; fail).
 
 Theorem union_sym : forall {A: Set} (a b c: A), a U b = c -> b U a = c.
 Admitted.

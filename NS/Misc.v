@@ -5,6 +5,7 @@ Require Import Coq.Strings.String.
 Require Import Coq.Arith.PeanoNat.
 Require Import Coq.Arith.EqNat.
 Require Import Coq.Bool.Bool.
+Require Import Coq.Logic.Eqdep.
 
 Notation "a <| b" := (a b) (at level 102, right associativity, only parsing).
 Notation "a << b" := (fun x => a (b x)) (at level 101, right associativity, only parsing).
@@ -194,8 +195,15 @@ Ltac ind_list2 x y :=
   | [ |- forall x y, ?H ] => apply (list_ind2 (fun x y => H))
   end.
 
+Search existT.
+Print inj_pair2.
 Ltac by_ tactic := tactic; reflexivity.
-Ltac inv H := inversion H; subst; clear H.
+Ltac remove_existTs :=
+  repeat lazymatch goal with
+  | H : existT (fun x0 : Set => x0) ?T ?a = existT (fun x1 : Set => x1) ?T ?b |- _ => apply inj_pair2 in H
+  | H : existT (fun x0 : Set => x0) ?A ?a = existT (fun x1 : Set => x1) ?B ?b |- _ => apply eq_sigT_fst in H
+  end.
+Ltac inv H := inversion H; remove_existTs; subst; clear H; try discriminate.
 
 Ltac assert_specialize H :=
   let tH := type of H in
