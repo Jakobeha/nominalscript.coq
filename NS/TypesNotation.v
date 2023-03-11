@@ -20,19 +20,19 @@ Notation "{! x !}" := x (in custom ttype, x constr).
 Notation "'Any'" := TAny (in custom ttype).
 Notation "'Never'" := (TNever false) (in custom ttype).
 Notation "'Null'" := (TNever true) (in custom ttype).
-Notation "x" := (TNominal false (I x nil)) (in custom ttype at level 0, x custom ttype_ident).
-Notation "x ?" := (TNominal true (I x nil)) (in custom ttype at level 0, x custom ttype_ident).
+Notation "x" := (TNominal false (It x nil)) (in custom ttype at level 0, x custom ttype_ident).
+Notation "x ?" := (TNominal true (It x nil)) (in custom ttype at level 0, x custom ttype_ident).
 Notation "x < x0 >" :=
-  (TNominal false (I x (cons x0 nil)))
+  (TNominal false (It x (cons x0 nil)))
     (in custom ttype at level 0, x custom ttype_ident, x0 custom ttype at level 3).
 Notation "x < x0 > ?" :=
-  (TNominal true (I x (cons x0 nil)))
+  (TNominal true (It x (cons x0 nil)))
     (in custom ttype at level 0, x custom ttype_ident, x0 custom ttype at level 3).
 Notation "x < x0 , .. , xn >" :=
-  (TNominal false (I x (cons x0 .. (cons xn nil) .. )))
+  (TNominal false (It x (cons x0 .. (cons xn nil) .. )))
     (in custom ttype at level 0, x custom ttype_ident, x0 custom ttype at level 3, xn custom ttype at level 3).
 Notation "x < x0 , .. , xn > ?" :=
-  (TNominal true (I x (cons x0 .. (cons xn nil) .. )))
+  (TNominal true (It x (cons x0 .. (cons xn nil) .. )))
     (in custom ttype at level 0, x custom ttype_ident, x0 custom ttype at level 3, xn custom ttype at level 3).
 Notation "x []" := (TStructural false (SArray x)) (in custom ttype at level 2, x custom ttype).
 Notation "x [] ?" := (TStructural true (SArray x)) (in custom ttype at level 2, x custom ttype).
@@ -64,110 +64,110 @@ Notation "( ) => 'Void'" :=
   (TStructural false (SFn nil TAny nil TEMPTY VVoid))
     (in custom ttype at level 3).
 Notation "( ) => ret" :=
-  (TStructural false (SFn nil TAny nil TEMPTY (V ret)))
+  (TStructural false (SFn nil TAny nil TEMPTY (Vt ret)))
     (in custom ttype at level 3, ret custom ttype at level 3, right associativity).
 Notation "< x0 > ( ) => 'Void'" :=
   (TStructural false (SFn (cons x0 nil) TAny nil TEMPTY VVoid))
     (in custom ttype at level 3, x0 custom ttype_param).
 Notation "< x0 > ( ) => ret" :=
-  (TStructural false (SFn (cons x0 nil) TAny nil TEMPTY (V ret)))
+  (TStructural false (SFn (cons x0 nil) TAny nil TEMPTY (Vt ret)))
     (in custom ttype at level 3, x0 custom ttype_param, ret custom ttype at level 3, right associativity).
 Notation "< x0 , .. , xn > ( ) => 'Void'" :=
   (TStructural false (SFn (cons x0 .. (cons xn nil) .. ) TAny nil TEMPTY VVoid))
     (in custom ttype at level 3, x0 custom ttype_param, xn custom ttype_param).
 Notation "< x0 , .. , xn > ( ) => ret" :=
-  (TStructural false (SFn (cons x0 .. (cons xn nil) .. ) TAny nil TEMPTY (V ret)))
+  (TStructural false (SFn (cons x0 .. (cons xn nil) .. ) TAny nil TEMPTY (Vt ret)))
     (in custom ttype at level 3, x0 custom ttype_param, xn custom ttype_param, ret custom ttype at level 3, right associativity).
 Notation "( y0 ) => 'Void'" :=
   (TStructural false (SFn nil TAny (cons y0 nil) TEMPTY VVoid))
     (in custom ttype at level 3, y0 custom ottype at level 2).
 Notation "( y0 ) => ret" :=
-  (TStructural false (SFn nil TAny (cons y0 nil) TEMPTY (V ret)))
+  (TStructural false (SFn nil TAny (cons y0 nil) TEMPTY (Vt ret)))
     (in custom ttype at level 3, y0 custom ottype at level 2, ret custom ttype at level 3, right associativity).
 Notation "< x0 > ( y0 ) => 'Void'" :=
   (TStructural false (SFn (cons x0 nil) TAny (cons y0 nil) TEMPTY VVoid))
     (in custom ttype at level 3, x0 custom ttype_param, y0 custom ottype at level 2).
 Notation "< x0 > ( y0 ) => ret" :=
-  (TStructural false (SFn (cons x0 nil) TAny (cons y0 nil) TEMPTY (V ret)))
+  (TStructural false (SFn (cons x0 nil) TAny (cons y0 nil) TEMPTY (Vt ret)))
     (in custom ttype at level 3, x0 custom ttype_param, y0 custom ottype at level 2, ret custom ttype at level 3, right associativity).
 Notation "< x0 , .. , xn > ( y0 ) => 'Void'" :=
   (TStructural false (SFn (cons x0 .. (cons xn nil) .. ) TAny (cons y0 nil) TEMPTY VVoid))
     (in custom ttype at level 3, x0 custom ttype_param, xn custom ttype_param, y0 custom ottype at level 2).
 Notation "< x0 , .. , xn > ( y0 ) => ret" :=
-  (TStructural false (SFn (cons x0 .. (cons xn nil) .. ) TAny (cons y0 nil) TEMPTY (V ret)))
+  (TStructural false (SFn (cons x0 .. (cons xn nil) .. ) TAny (cons y0 nil) TEMPTY (Vt ret)))
     (in custom ttype at level 3, x0 custom ttype_param, xn custom ttype_param, y0 custom ottype at level 2, ret custom ttype at level 3,
         right associativity).
 Notation "( y0 , .. , yn ) => 'Void'" :=
   (TStructural false (SFn nil TAny (cons y0 .. (cons yn nil) .. ) TEMPTY VVoid))
     (in custom ttype at level 3, y0 custom ottype at level 2, yn custom ottype at level 2).
 Notation "( y0 , .. , yn ) => ret" :=
-  (TStructural false (SFn nil TAny (cons y0 .. (cons yn nil) .. ) TEMPTY (V ret)))
+  (TStructural false (SFn nil TAny (cons y0 .. (cons yn nil) .. ) TEMPTY (Vt ret)))
     (in custom ttype at level 3, y0 custom ottype at level 2, yn custom ottype at level 2, ret custom ttype at level 3, right associativity).
 Notation "< x0 > ( y0 , .. , yn ) => 'Void'" :=
   (TStructural false (SFn (cons x0 nil) TAny (cons y0 .. (cons yn nil) .. ) TEMPTY VVoid))
     (in custom ttype at level 3, x0 custom ttype_param, y0 custom ottype at level 2, yn custom ottype at level 2).
 Notation "< x0 > ( y0 , .. , yn ) => ret" :=
-  (TStructural false (SFn (cons x0 nil) TAny (cons y0 .. (cons yn nil) .. ) TEMPTY (V ret)))
+  (TStructural false (SFn (cons x0 nil) TAny (cons y0 .. (cons yn nil) .. ) TEMPTY (Vt ret)))
     (in custom ttype at level 3, x0 custom ttype_param, y0 custom ottype at level 2, yn custom ottype at level 2, ret custom ttype at level 3,
         right associativity).
 Notation "< x0 , .. , xn > ( y0 , .. , yn ) => 'Void'" :=
   (TStructural false (SFn (cons x0 .. (cons xn nil) .. ) TAny (cons y0 .. (cons yn nil) .. ) TEMPTY VVoid))
     (in custom ttype at level 3, x0 custom ttype_param, xn custom ttype_param, y0 custom ottype at level 2, yn custom ottype at level 2).
 Notation "< x0 , .. , xn > ( y0 , .. , yn ) => ret" :=
-  (TStructural false (SFn (cons x0 .. (cons xn nil) .. ) TAny (cons y0 .. (cons yn nil) .. ) TEMPTY (V ret)))
+  (TStructural false (SFn (cons x0 .. (cons xn nil) .. ) TAny (cons y0 .. (cons yn nil) .. ) TEMPTY (Vt ret)))
     (in custom ttype at level 3, x0 custom ttype_param, xn custom ttype_param, y0 custom ottype at level 2, yn custom ottype at level 2,
         ret custom ttype at level 3, right associativity).
 Notation "( '___' z ) => 'Void'" :=
   (TStructural false (SFn nil TAny nil z VVoid))
     (in custom ttype at level 3, z custom ttype at level 3).
 Notation "( '___' z ) => ret" :=
-  (TStructural false (SFn nil TAny nil z (V ret)))
+  (TStructural false (SFn nil TAny nil z (Vt ret)))
     (in custom ttype at level 3, z custom ttype at level 3, ret custom ttype at level 3, right associativity).
 Notation "< x0 > ( '___' z ) => 'Void'" :=
   (TStructural false (SFn (cons x0 nil) TAny nil z VVoid))
     (in custom ttype at level 3, x0 custom ttype_param, z custom ttype at level 3).
 Notation "< x0 > ( '___' z ) => ret" :=
-  (TStructural false (SFn (cons x0 nil) TAny nil z (V ret)))
+  (TStructural false (SFn (cons x0 nil) TAny nil z (Vt ret)))
     (in custom ttype at level 3, x0 custom ttype_param, z custom ttype at level 3, ret custom ttype at level 3, right associativity).
 Notation "< x0 , .. , xn > ( '___' z ) => 'Void'" :=
   (TStructural false (SFn (cons x0 .. (cons xn nil) .. ) TAny nil z VVoid))
     (in custom ttype at level 3, x0 custom ttype_param, xn custom ttype_param, z custom ttype at level 3).
 Notation "< x0 , .. , xn > ( '___' z ) => ret" :=
-  (TStructural false (SFn (cons x0 .. (cons xn nil) .. ) TAny nil z (V ret)))
+  (TStructural false (SFn (cons x0 .. (cons xn nil) .. ) TAny nil z (Vt ret)))
     (in custom ttype at level 3, x0 custom ttype_param, xn custom ttype_param, z custom ttype at level 3, ret custom ttype at level 3,
         right associativity).
 Notation "( y0 , '___' z ) => 'Void'" :=
   (TStructural false (SFn nil TAny (cons y0 nil) z VVoid))
     (in custom ttype at level 3, y0 custom ottype at level 2, z custom ttype at level 3).
 Notation "( y0 , '___' z ) => ret" :=
-  (TStructural false (SFn nil TAny (cons y0 nil) z (V ret)))
+  (TStructural false (SFn nil TAny (cons y0 nil) z (Vt ret)))
     (in custom ttype at level 3, y0 custom ottype at level 2, z custom ttype at level 3, ret custom ttype at level 3, right associativity).
 Notation "< x0 > ( y0 , '___' z ) => 'Void'" :=
   (TStructural false (SFn (cons x0 nil) TAny (cons y0 nil) z VVoid))
     (in custom ttype at level 3, x0 custom ttype_param, y0 custom ottype at level 2, z custom ttype at level 3).
 Notation "< x0 > ( y0 , '___' z ) => ret" :=
-  (TStructural false (SFn (cons x0 nil) TAny (cons y0 nil) z (V ret)))
+  (TStructural false (SFn (cons x0 nil) TAny (cons y0 nil) z (Vt ret)))
     (in custom ttype at level 3, x0 custom ttype_param, y0 custom ottype at level 2, z custom ttype at level 3, ret custom ttype at level 3,
         right associativity).
 Notation "< x0 , .. , xn > ( y0 , '___' z ) => 'Void'" :=
   (TStructural false (SFn (cons x0 .. (cons xn nil) .. ) TAny (cons y0 nil) z VVoid))
     (in custom ttype at level 3, x0 custom ttype_param, xn custom ttype_param, y0 custom ottype at level 2, z custom ttype at level 3).
 Notation "< x0 , .. , xn > ( y0 , '___' z ) => ret" :=
-  (TStructural false (SFn (cons x0 .. (cons xn nil) .. ) TAny (cons y0 nil) z (V ret)))
+  (TStructural false (SFn (cons x0 .. (cons xn nil) .. ) TAny (cons y0 nil) z (Vt ret)))
     (in custom ttype at level 3, x0 custom ttype_param, xn custom ttype_param, y0 custom ottype at level 2, z custom ttype at level 3,
         ret custom ttype at level 3, right associativity).
 Notation "( y0 , .. , yn , '___' z ) => 'Void'" :=
   (TStructural false (SFn nil TAny (cons y0 .. (cons yn nil) .. ) z VVoid))
     (in custom ttype at level 3, y0 custom ottype at level 2, yn custom ottype at level 2, z custom ttype at level 3).
 Notation "( y0 , .. , yn , '___' z ) => ret" :=
-  (TStructural false (SFn nil TAny (cons y0 .. (cons yn nil) .. ) z (V ret)))
+  (TStructural false (SFn nil TAny (cons y0 .. (cons yn nil) .. ) z (Vt ret)))
     (in custom ttype at level 3, y0 custom ottype at level 2, yn custom ottype at level 2, z custom ttype at level 3, ret custom ttype at level 3,
         right associativity).
 Notation "< x0 > ( y0 , .. , yn , '___' z ) => 'Void'" :=
   (TStructural false (SFn (cons x0 nil) TAny (cons y0 .. (cons yn nil) .. ) z VVoid))
     (in custom ttype at level 3, x0 custom ttype_param, y0 custom ottype at level 2, yn custom ottype at level 2, z custom ttype at level 3).
 Notation "< x0 > ( y0 , .. , yn , '___' z ) => ret" :=
-  (TStructural false (SFn (cons x0 nil) TAny (cons y0 .. (cons yn nil) .. ) z (V ret)))
+  (TStructural false (SFn (cons x0 nil) TAny (cons y0 .. (cons yn nil) .. ) z (Vt ret)))
     (in custom ttype at level 3, x0 custom ttype_param, y0 custom ottype at level 2, yn custom ottype at level 2, z custom ttype at level 3,
         ret custom ttype at level 3, right associativity).
 Notation "< x0 , .. , xn > ( y0 , .. , yn , '___' z ) => 'Void'" :=
@@ -175,117 +175,117 @@ Notation "< x0 , .. , xn > ( y0 , .. , yn , '___' z ) => 'Void'" :=
     (in custom ttype at level 3, x0 custom ttype_param, xn custom ttype_param, y0 custom ottype at level 2, yn custom ottype at level 2,
         z custom ttype at level 3).
 Notation "< x0 , .. , xn > ( y0 , .. , yn , '___' z ) => ret" :=
-  (TStructural false (SFn (cons x0 .. (cons xn nil) .. ) TAny (cons y0 .. (cons yn nil) .. ) z (V ret)))
+  (TStructural false (SFn (cons x0 .. (cons xn nil) .. ) TAny (cons y0 .. (cons yn nil) .. ) z (Vt ret)))
     (in custom ttype at level 3, x0 custom ttype_param, xn custom ttype_param, y0 custom ottype at level 2, yn custom ottype at level 2,
         z custom ttype at level 3, ret custom ttype at level 3, right associativity).
 Notation "( ( ) => 'Void' )?" :=
   (TStructural true (SFn nil TAny nil TEMPTY VVoid))
     (in custom ttype at level 3).
 Notation "( ( ) => ret )?" :=
-  (TStructural true (SFn nil TAny nil TEMPTY (V ret)))
+  (TStructural true (SFn nil TAny nil TEMPTY (Vt ret)))
     (in custom ttype at level 3, ret custom ttype at level 3, right associativity).
 Notation "( < x0 > ( ) => 'Void' )?" :=
   (TStructural true (SFn (cons x0 nil) TAny nil TEMPTY VVoid))
     (in custom ttype at level 3, x0 custom ttype_param).
 Notation "( < x0 > ( ) => ret )?" :=
-  (TStructural true (SFn (cons x0 nil) TAny nil TEMPTY (V ret)))
+  (TStructural true (SFn (cons x0 nil) TAny nil TEMPTY (Vt ret)))
     (in custom ttype at level 3, x0 custom ttype_param, ret custom ttype at level 3, right associativity).
 Notation "( < x0 , .. , xn > ( ) => 'Void' )?" :=
   (TStructural true (SFn (cons x0 .. (cons xn nil) .. ) TAny nil TEMPTY VVoid))
     (in custom ttype at level 3, x0 custom ttype_param, xn custom ttype_param).
 Notation "( < x0 , .. , xn > ( ) => ret )?" :=
-  (TStructural true (SFn (cons x0 .. (cons xn nil) .. ) TAny nil TEMPTY (V ret)))
+  (TStructural true (SFn (cons x0 .. (cons xn nil) .. ) TAny nil TEMPTY (Vt ret)))
     (in custom ttype at level 3, x0 custom ttype_param, xn custom ttype_param, ret custom ttype at level 3, right associativity).
 Notation "( ( y0 ) => 'Void' )?" :=
   (TStructural true (SFn nil TAny (cons y0 nil) TEMPTY VVoid))
     (in custom ttype at level 3, y0 custom ottype at level 2).
 Notation "( ( y0 ) => ret )?" :=
-  (TStructural true (SFn nil TAny (cons y0 nil) TEMPTY (V ret)))
+  (TStructural true (SFn nil TAny (cons y0 nil) TEMPTY (Vt ret)))
     (in custom ttype at level 3, y0 custom ottype at level 2, ret custom ttype at level 3, right associativity).
 Notation "( < x0 > ( y0 ) => 'Void' )?" :=
   (TStructural true (SFn (cons x0 nil) TAny (cons y0 nil) TEMPTY VVoid))
     (in custom ttype at level 3, x0 custom ttype_param, y0 custom ottype at level 2).
 Notation "( < x0 > ( y0 ) => ret )?" :=
-  (TStructural true (SFn (cons x0 nil) TAny (cons y0 nil) TEMPTY (V ret)))
+  (TStructural true (SFn (cons x0 nil) TAny (cons y0 nil) TEMPTY (Vt ret)))
     (in custom ttype at level 3, x0 custom ttype_param, y0 custom ottype at level 2, ret custom ttype at level 3, right associativity).
 Notation "( < x0 , .. , xn > ( y0 ) => 'Void' )?" :=
   (TStructural true (SFn (cons x0 .. (cons xn nil) .. ) TAny (cons y0 nil) TEMPTY VVoid))
     (in custom ttype at level 3, x0 custom ttype_param, xn custom ttype_param, y0 custom ottype at level 2).
 Notation "( < x0 , .. , xn > ( y0 ) => ret )?" :=
-  (TStructural true (SFn (cons x0 .. (cons xn nil) .. ) TAny (cons y0 nil) TEMPTY (V ret)))
+  (TStructural true (SFn (cons x0 .. (cons xn nil) .. ) TAny (cons y0 nil) TEMPTY (Vt ret)))
     (in custom ttype at level 3, x0 custom ttype_param, xn custom ttype_param, y0 custom ottype at level 2, ret custom ttype at level 3,
         right associativity).
 Notation "( ( y0 , .. , yn ) => 'Void' )?" :=
   (TStructural true (SFn nil TAny (cons y0 .. (cons yn nil) .. ) TEMPTY VVoid))
     (in custom ttype at level 3, y0 custom ottype at level 2, yn custom ottype at level 2).
 Notation "( ( y0 , .. , yn ) => ret )?" :=
-  (TStructural true (SFn nil TAny (cons y0 .. (cons yn nil) .. ) TEMPTY (V ret)))
+  (TStructural true (SFn nil TAny (cons y0 .. (cons yn nil) .. ) TEMPTY (Vt ret)))
     (in custom ttype at level 3, y0 custom ottype at level 2, yn custom ottype at level 2, ret custom ttype at level 3, right associativity).
 Notation "( < x0 > ( y0 , .. , yn ) => 'Void' )?" :=
   (TStructural true (SFn (cons x0 nil) TAny (cons y0 .. (cons yn nil) .. ) TEMPTY VVoid))
     (in custom ttype at level 3, x0 custom ttype_param, y0 custom ottype at level 2, yn custom ottype at level 2).
 Notation "( < x0 > ( y0 , .. , yn ) => ret )?" :=
-  (TStructural true (SFn (cons x0 nil) TAny (cons y0 .. (cons yn nil) .. ) TEMPTY (V ret)))
+  (TStructural true (SFn (cons x0 nil) TAny (cons y0 .. (cons yn nil) .. ) TEMPTY (Vt ret)))
     (in custom ttype at level 3, x0 custom ttype_param, y0 custom ottype at level 2, yn custom ottype at level 2, ret custom ttype at level 3,
         right associativity).
 Notation "( < x0 , .. , xn > ( y0 , .. , yn ) => 'Void' )?" :=
   (TStructural true (SFn (cons x0 .. (cons xn nil) .. ) TAny (cons y0 .. (cons yn nil) .. ) TEMPTY VVoid))
     (in custom ttype at level 3, x0 custom ttype_param, xn custom ttype_param, y0 custom ottype at level 2, yn custom ottype at level 2).
 Notation "( < x0 , .. , xn > ( y0 , .. , yn ) => ret )?" :=
-  (TStructural true (SFn (cons x0 .. (cons xn nil) .. ) TAny (cons y0 .. (cons yn nil) .. ) TEMPTY (V ret)))
+  (TStructural true (SFn (cons x0 .. (cons xn nil) .. ) TAny (cons y0 .. (cons yn nil) .. ) TEMPTY (Vt ret)))
     (in custom ttype at level 3, x0 custom ttype_param, xn custom ttype_param, y0 custom ottype at level 2, yn custom ottype at level 2,
         ret custom ttype at level 3, right associativity).
 Notation "( ( '___' z ) => 'Void' )?" :=
   (TStructural true (SFn nil TAny nil z VVoid))
     (in custom ttype at level 3, z custom ttype at level 3).
 Notation "( ( '___' z ) => ret )?" :=
-  (TStructural true (SFn nil TAny nil z (V ret)))
+  (TStructural true (SFn nil TAny nil z (Vt ret)))
     (in custom ttype at level 3, z custom ttype at level 3, ret custom ttype at level 3, right associativity).
 Notation "( < x0 > ( '___' z ) => 'Void' )?" :=
   (TStructural true (SFn (cons x0 nil) TAny nil z VVoid))
     (in custom ttype at level 3, x0 custom ttype_param, z custom ttype at level 3).
 Notation "( < x0 > ( '___' z ) => ret )?" :=
-  (TStructural true (SFn (cons x0 nil) TAny nil z (V ret)))
+  (TStructural true (SFn (cons x0 nil) TAny nil z (Vt ret)))
     (in custom ttype at level 3, x0 custom ttype_param, z custom ttype at level 3, ret custom ttype at level 3, right associativity).
 Notation "( < x0 , .. , xn > ( '___' z ) => 'Void' )?" :=
   (TStructural true (SFn (cons x0 .. (cons xn nil) .. ) TAny nil z VVoid))
     (in custom ttype at level 3, x0 custom ttype_param, xn custom ttype_param, z custom ttype at level 3).
 Notation "( < x0 , .. , xn > ( '___' z ) => ret )?" :=
-  (TStructural true (SFn (cons x0 .. (cons xn nil) .. ) TAny nil z (V ret)))
+  (TStructural true (SFn (cons x0 .. (cons xn nil) .. ) TAny nil z (Vt ret)))
     (in custom ttype at level 3, x0 custom ttype_param, xn custom ttype_param, z custom ttype at level 3, ret custom ttype at level 3,
         right associativity).
 Notation "( ( y0 , '___' z ) => 'Void' )?" :=
   (TStructural true (SFn nil TAny (cons y0 nil) z VVoid))
     (in custom ttype at level 3, y0 custom ottype at level 2, z custom ttype at level 3).
 Notation "( ( y0 , '___' z ) => ret )?" :=
-  (TStructural true (SFn nil TAny (cons y0 nil) z (V ret)))
+  (TStructural true (SFn nil TAny (cons y0 nil) z (Vt ret)))
     (in custom ttype at level 3, y0 custom ottype at level 2, z custom ttype at level 3, ret custom ttype at level 3, right associativity).
 Notation "( < x0 > ( y0 , '___' z ) => 'Void' )?" :=
   (TStructural true (SFn (cons x0 nil) TAny (cons y0 nil) z VVoid))
     (in custom ttype at level 3, x0 custom ttype_param, y0 custom ottype at level 2, z custom ttype at level 3).
 Notation "( < x0 > ( y0 , '___' z ) => ret )?" :=
-  (TStructural true (SFn (cons x0 nil) TAny (cons y0 nil) z (V ret)))
+  (TStructural true (SFn (cons x0 nil) TAny (cons y0 nil) z (Vt ret)))
     (in custom ttype at level 3, x0 custom ttype_param, y0 custom ottype at level 2, z custom ttype at level 3, ret custom ttype at level 3,
         right associativity).
 Notation "( < x0 , .. , xn > ( y0 , '___' z ) => 'Void' )?" :=
   (TStructural true (SFn (cons x0 .. (cons xn nil) .. ) TAny (cons y0 nil) z VVoid))
     (in custom ttype at level 3, x0 custom ttype_param, xn custom ttype_param, y0 custom ottype at level 2, z custom ttype at level 3).
 Notation "( < x0 , .. , xn > ( y0 , '___' z ) => ret )?" :=
-  (TStructural true (SFn (cons x0 .. (cons xn nil) .. ) TAny (cons y0 nil) z (V ret)))
+  (TStructural true (SFn (cons x0 .. (cons xn nil) .. ) TAny (cons y0 nil) z (Vt ret)))
     (in custom ttype at level 3, x0 custom ttype_param, xn custom ttype_param, y0 custom ottype at level 2, z custom ttype at level 3,
         ret custom ttype at level 3, right associativity).
 Notation "( ( y0 , .. , yn , '___' z ) => 'Void' )?" :=
   (TStructural true (SFn nil TAny (cons y0 .. (cons yn nil) .. ) z VVoid))
     (in custom ttype at level 3, y0 custom ottype at level 2, yn custom ottype at level 2, z custom ttype at level 3).
 Notation "( ( y0 , .. , yn , '___' z ) => ret )?" :=
-  (TStructural true (SFn nil TAny (cons y0 .. (cons yn nil) .. ) z (V ret)))
+  (TStructural true (SFn nil TAny (cons y0 .. (cons yn nil) .. ) z (Vt ret)))
     (in custom ttype at level 3, y0 custom ottype at level 2, yn custom ottype at level 2, z custom ttype at level 3, ret custom ttype at level 3,
         right associativity).
 Notation "( < x0 > ( y0 , .. , yn , '___' z ) => 'Void' )?" :=
   (TStructural true (SFn (cons x0 nil) TAny (cons y0 .. (cons yn nil) .. ) z VVoid))
     (in custom ttype at level 3, x0 custom ttype_param, y0 custom ottype at level 2, yn custom ottype at level 2, z custom ttype at level 3).
 Notation "( < x0 > ( y0 , .. , yn , '___' z ) => ret )?" :=
-  (TStructural true (SFn (cons x0 nil) TAny (cons y0 .. (cons yn nil) .. ) z (V ret)))
+  (TStructural true (SFn (cons x0 nil) TAny (cons y0 .. (cons yn nil) .. ) z (Vt ret)))
     (in custom ttype at level 3, x0 custom ttype_param, y0 custom ottype at level 2, yn custom ottype at level 2, z custom ttype at level 3,
         ret custom ttype at level 3, right associativity).
 Notation "( < x0 , .. , xn > ( y0 , .. , yn , '___' z ) => 'Void' )?" :=
@@ -293,117 +293,117 @@ Notation "( < x0 , .. , xn > ( y0 , .. , yn , '___' z ) => 'Void' )?" :=
     (in custom ttype at level 3, x0 custom ttype_param, xn custom ttype_param, y0 custom ottype at level 2, yn custom ottype at level 2,
         z custom ttype at level 3).
 Notation "( < x0 , .. , xn > ( y0 , .. , yn , '___' z ) => ret )?" :=
-  (TStructural true (SFn (cons x0 .. (cons xn nil) .. ) TAny (cons y0 .. (cons yn nil) .. ) z (V ret)))
+  (TStructural true (SFn (cons x0 .. (cons xn nil) .. ) TAny (cons y0 .. (cons yn nil) .. ) z (Vt ret)))
     (in custom ttype at level 3, x0 custom ttype_param, xn custom ttype_param, y0 custom ottype at level 2, yn custom ottype at level 2,
         z custom ttype at level 3, ret custom ttype at level 3, right associativity).
 Notation "( 'this:' t ) => 'Void'" :=
   (TStructural false (SFn nil t nil TEMPTY VVoid))
     (in custom ttype at level 3, t custom ttype at level 3).
 Notation "( 'this:' t ) => ret" :=
-  (TStructural false (SFn nil t nil TEMPTY (V ret)))
+  (TStructural false (SFn nil t nil TEMPTY (Vt ret)))
     (in custom ttype at level 3, ret custom ttype at level 3, right associativity, t custom ttype at level 3).
 Notation "< x0 > ( 'this:' t ) => 'Void'" :=
   (TStructural false (SFn (cons x0 nil) t nil TEMPTY VVoid))
     (in custom ttype at level 3, x0 custom ttype_param, t custom ttype at level 3).
 Notation "< x0 > ( 'this:' t ) => ret" :=
-  (TStructural false (SFn (cons x0 nil) t nil TEMPTY (V ret)))
+  (TStructural false (SFn (cons x0 nil) t nil TEMPTY (Vt ret)))
     (in custom ttype at level 3, x0 custom ttype_param, ret custom ttype at level 3, right associativity, t custom ttype at level 3).
 Notation "< x0 , .. , xn > ( 'this:' t ) => 'Void'" :=
   (TStructural false (SFn (cons x0 .. (cons xn nil) .. ) t nil TEMPTY VVoid))
     (in custom ttype at level 3, x0 custom ttype_param, xn custom ttype_param, t custom ttype at level 3).
 Notation "< x0 , .. , xn > ( 'this:' t ) => ret" :=
-  (TStructural false (SFn (cons x0 .. (cons xn nil) .. ) t nil TEMPTY (V ret)))
+  (TStructural false (SFn (cons x0 .. (cons xn nil) .. ) t nil TEMPTY (Vt ret)))
     (in custom ttype at level 3, x0 custom ttype_param, xn custom ttype_param, ret custom ttype at level 3, right associativity, t custom ttype at level 3).
 Notation "( 'this:' t , y0 ) => 'Void'" :=
   (TStructural false (SFn nil t (cons y0 nil) TEMPTY VVoid))
     (in custom ttype at level 3, y0 custom ottype at level 2, t custom ttype at level 3).
 Notation "( 'this:' t , y0 ) => ret" :=
-  (TStructural false (SFn nil t (cons y0 nil) TEMPTY (V ret)))
+  (TStructural false (SFn nil t (cons y0 nil) TEMPTY (Vt ret)))
     (in custom ttype at level 3, y0 custom ottype at level 2, ret custom ttype at level 3, right associativity, t custom ttype at level 3).
 Notation "< x0 > ( 'this:' t , y0 ) => 'Void'" :=
   (TStructural false (SFn (cons x0 nil) t (cons y0 nil) TEMPTY VVoid))
     (in custom ttype at level 3, x0 custom ttype_param, y0 custom ottype at level 2, t custom ttype at level 3).
 Notation "< x0 > ( 'this:' t , y0 ) => ret" :=
-  (TStructural false (SFn (cons x0 nil) t (cons y0 nil) TEMPTY (V ret)))
+  (TStructural false (SFn (cons x0 nil) t (cons y0 nil) TEMPTY (Vt ret)))
     (in custom ttype at level 3, x0 custom ttype_param, y0 custom ottype at level 2, ret custom ttype at level 3, right associativity, t custom ttype at level 3).
 Notation "< x0 , .. , xn > ( 'this:' t , y0 ) => 'Void'" :=
   (TStructural false (SFn (cons x0 .. (cons xn nil) .. ) t (cons y0 nil) TEMPTY VVoid))
     (in custom ttype at level 3, x0 custom ttype_param, xn custom ttype_param, y0 custom ottype at level 2, t custom ttype at level 3).
 Notation "< x0 , .. , xn > ( 'this:' t , y0 ) => ret" :=
-  (TStructural false (SFn (cons x0 .. (cons xn nil) .. ) t (cons y0 nil) TEMPTY (V ret)))
+  (TStructural false (SFn (cons x0 .. (cons xn nil) .. ) t (cons y0 nil) TEMPTY (Vt ret)))
     (in custom ttype at level 3, x0 custom ttype_param, xn custom ttype_param, y0 custom ottype at level 2, ret custom ttype at level 3,
         right associativity, t custom ttype at level 3).
 Notation "( y0 , .. , yn ) => 'Void'" :=
   (TStructural false (SFn nil TAny (cons y0 .. (cons yn nil) .. ) TEMPTY VVoid))
     (in custom ttype at level 3, y0 custom ottype at level 2, yn custom ottype at level 2).
 Notation "( y0 , .. , yn ) => ret" :=
-  (TStructural false (SFn nil TAny (cons y0 .. (cons yn nil) .. ) TEMPTY (V ret)))
+  (TStructural false (SFn nil TAny (cons y0 .. (cons yn nil) .. ) TEMPTY (Vt ret)))
     (in custom ttype at level 3, y0 custom ottype at level 2, yn custom ottype at level 2, ret custom ttype at level 3, right associativity).
 Notation "< x0 > ( 'this:' t , y0 , .. , yn ) => 'Void'" :=
   (TStructural false (SFn (cons x0 nil) t (cons y0 .. (cons yn nil) .. ) TEMPTY VVoid))
     (in custom ttype at level 3, x0 custom ttype_param, y0 custom ottype at level 2, yn custom ottype at level 2, t custom ttype at level 3).
 Notation "< x0 > ( 'this:' t , y0 , .. , yn ) => ret" :=
-  (TStructural false (SFn (cons x0 nil) t (cons y0 .. (cons yn nil) .. ) TEMPTY (V ret)))
+  (TStructural false (SFn (cons x0 nil) t (cons y0 .. (cons yn nil) .. ) TEMPTY (Vt ret)))
     (in custom ttype at level 3, x0 custom ttype_param, y0 custom ottype at level 2, yn custom ottype at level 2, ret custom ttype at level 3,
         right associativity, t custom ttype at level 3).
 Notation "< x0 , .. , xn > ( 'this:' t , y0 , .. , yn ) => 'Void'" :=
   (TStructural false (SFn (cons x0 .. (cons xn nil) .. ) t (cons y0 .. (cons yn nil) .. ) TEMPTY VVoid))
     (in custom ttype at level 3, x0 custom ttype_param, xn custom ttype_param, y0 custom ottype at level 2, yn custom ottype at level 2, t custom ttype at level 3).
 Notation "< x0 , .. , xn > ( 'this:' t , y0 , .. , yn ) => ret" :=
-  (TStructural false (SFn (cons x0 .. (cons xn nil) .. ) t (cons y0 .. (cons yn nil) .. ) TEMPTY (V ret)))
+  (TStructural false (SFn (cons x0 .. (cons xn nil) .. ) t (cons y0 .. (cons yn nil) .. ) TEMPTY (Vt ret)))
     (in custom ttype at level 3, x0 custom ttype_param, xn custom ttype_param, y0 custom ottype at level 2, yn custom ottype at level 2,
         ret custom ttype at level 3, right associativity, t custom ttype at level 3).
 Notation "( 'this:' t , '___' z ) => 'Void'" :=
   (TStructural false (SFn nil t nil z VVoid))
     (in custom ttype at level 3, z custom ttype at level 3, t custom ttype at level 3).
 Notation "( 'this:' t , '___' z ) => ret" :=
-  (TStructural false (SFn nil t nil z (V ret)))
+  (TStructural false (SFn nil t nil z (Vt ret)))
     (in custom ttype at level 3, z custom ttype at level 3, ret custom ttype at level 3, right associativity, t custom ttype at level 3).
 Notation "< x0 > ( 'this:' t , '___' z ) => 'Void'" :=
   (TStructural false (SFn (cons x0 nil) t nil z VVoid))
     (in custom ttype at level 3, x0 custom ttype_param, z custom ttype at level 3, t custom ttype at level 3).
 Notation "< x0 > ( 'this:' t , '___' z ) => ret" :=
-  (TStructural false (SFn (cons x0 nil) t nil z (V ret)))
+  (TStructural false (SFn (cons x0 nil) t nil z (Vt ret)))
     (in custom ttype at level 3, x0 custom ttype_param, z custom ttype at level 3, ret custom ttype at level 3, right associativity, t custom ttype at level 3).
 Notation "< x0 , .. , xn > ( 'this:' t , '___' z ) => 'Void'" :=
   (TStructural false (SFn (cons x0 .. (cons xn nil) .. ) t nil z VVoid))
     (in custom ttype at level 3, x0 custom ttype_param, xn custom ttype_param, z custom ttype at level 3, t custom ttype at level 3).
 Notation "< x0 , .. , xn > ( 'this:' t , '___' z ) => ret" :=
-  (TStructural false (SFn (cons x0 .. (cons xn nil) .. ) t nil z (V ret)))
+  (TStructural false (SFn (cons x0 .. (cons xn nil) .. ) t nil z (Vt ret)))
     (in custom ttype at level 3, x0 custom ttype_param, xn custom ttype_param, z custom ttype at level 3, ret custom ttype at level 3,
         right associativity, t custom ttype at level 3).
 Notation "( 'this:' t , y0 , '___' z ) => 'Void'" :=
   (TStructural false (SFn nil t (cons y0 nil) z VVoid))
     (in custom ttype at level 3, y0 custom ottype at level 2, z custom ttype at level 3, t custom ttype at level 3).
 Notation "( 'this:' t , y0 , '___' z ) => ret" :=
-  (TStructural false (SFn nil t (cons y0 nil) z (V ret)))
+  (TStructural false (SFn nil t (cons y0 nil) z (Vt ret)))
     (in custom ttype at level 3, y0 custom ottype at level 2, z custom ttype at level 3, ret custom ttype at level 3, right associativity, t custom ttype at level 3).
 Notation "< x0 > ( 'this:' t , y0 , '___' z ) => 'Void'" :=
   (TStructural false (SFn (cons x0 nil) t (cons y0 nil) z VVoid))
     (in custom ttype at level 3, x0 custom ttype_param, y0 custom ottype at level 2, z custom ttype at level 3, t custom ttype at level 3).
 Notation "< x0 > ( 'this:' t , y0 , '___' z ) => ret" :=
-  (TStructural false (SFn (cons x0 nil) t (cons y0 nil) z (V ret)))
+  (TStructural false (SFn (cons x0 nil) t (cons y0 nil) z (Vt ret)))
     (in custom ttype at level 3, x0 custom ttype_param, y0 custom ottype at level 2, z custom ttype at level 3, ret custom ttype at level 3,
         right associativity, t custom ttype at level 3).
 Notation "< x0 , .. , xn > ( 'this:' t , y0 , '___' z ) => 'Void'" :=
   (TStructural false (SFn (cons x0 .. (cons xn nil) .. ) t (cons y0 nil) z VVoid))
     (in custom ttype at level 3, x0 custom ttype_param, xn custom ttype_param, y0 custom ottype at level 2, z custom ttype at level 3, t custom ttype at level 3).
 Notation "< x0 , .. , xn > ( 'this:' t , y0 , '___' z ) => ret" :=
-  (TStructural false (SFn (cons x0 .. (cons xn nil) .. ) t (cons y0 nil) z (V ret)))
+  (TStructural false (SFn (cons x0 .. (cons xn nil) .. ) t (cons y0 nil) z (Vt ret)))
     (in custom ttype at level 3, x0 custom ttype_param, xn custom ttype_param, y0 custom ottype at level 2, z custom ttype at level 3,
         ret custom ttype at level 3, right associativity, t custom ttype at level 3).
 Notation "( 'this:' t , y0 , .. , yn , '___' z ) => 'Void'" :=
   (TStructural false (SFn nil t (cons y0 .. (cons yn nil) .. ) z VVoid))
     (in custom ttype at level 3, y0 custom ottype at level 2, yn custom ottype at level 2, z custom ttype at level 3, t custom ttype at level 3).
 Notation "( 'this:' t , y0 , .. , yn , '___' z ) => ret" :=
-  (TStructural false (SFn nil t (cons y0 .. (cons yn nil) .. ) z (V ret)))
+  (TStructural false (SFn nil t (cons y0 .. (cons yn nil) .. ) z (Vt ret)))
     (in custom ttype at level 3, y0 custom ottype at level 2, yn custom ottype at level 2, z custom ttype at level 3, ret custom ttype at level 3,
         right associativity, t custom ttype at level 3).
 Notation "< x0 > ( 'this:' t , y0 , .. , yn , '___' z ) => 'Void'" :=
   (TStructural false (SFn (cons x0 nil) t (cons y0 .. (cons yn nil) .. ) z VVoid))
     (in custom ttype at level 3, x0 custom ttype_param, y0 custom ottype at level 2, yn custom ottype at level 2, z custom ttype at level 3, t custom ttype at level 3).
 Notation "< x0 > ( 'this:' t , y0 , .. , yn , '___' z ) => ret" :=
-  (TStructural false (SFn (cons x0 nil) t (cons y0 .. (cons yn nil) .. ) z (V ret)))
+  (TStructural false (SFn (cons x0 nil) t (cons y0 .. (cons yn nil) .. ) z (Vt ret)))
     (in custom ttype at level 3, x0 custom ttype_param, y0 custom ottype at level 2, yn custom ottype at level 2, z custom ttype at level 3,
         ret custom ttype at level 3, right associativity, t custom ttype at level 3).
 Notation "< x0 , .. , xn > ( 'this:' t , y0 , .. , yn , '___' z ) => 'Void'" :=
@@ -411,117 +411,117 @@ Notation "< x0 , .. , xn > ( 'this:' t , y0 , .. , yn , '___' z ) => 'Void'" :=
     (in custom ttype at level 3, x0 custom ttype_param, xn custom ttype_param, y0 custom ottype at level 2, yn custom ottype at level 2,
         z custom ttype at level 3, t custom ttype at level 3).
 Notation "< x0 , .. , xn > ( 'this:' t , y0 , .. , yn , '___' z ) => ret" :=
-  (TStructural false (SFn (cons x0 .. (cons xn nil) .. ) t (cons y0 .. (cons yn nil) .. ) z (V ret)))
+  (TStructural false (SFn (cons x0 .. (cons xn nil) .. ) t (cons y0 .. (cons yn nil) .. ) z (Vt ret)))
     (in custom ttype at level 3, x0 custom ttype_param, xn custom ttype_param, y0 custom ottype at level 2, yn custom ottype at level 2,
         z custom ttype at level 3, ret custom ttype at level 3, right associativity, t custom ttype at level 3).
 Notation "( ( 'this:' t ) => 'Void' )?" :=
   (TStructural true (SFn nil t nil TEMPTY VVoid))
     (in custom ttype at level 3, t custom ttype at level 3).
 Notation "( ( 'this:' t ) => ret )?" :=
-  (TStructural true (SFn nil t nil TEMPTY (V ret)))
+  (TStructural true (SFn nil t nil TEMPTY (Vt ret)))
     (in custom ttype at level 3, ret custom ttype at level 3, right associativity, t custom ttype at level 3).
 Notation "( < x0 > ( 'this:' t ) => 'Void' )?" :=
   (TStructural true (SFn (cons x0 nil) t nil TEMPTY VVoid))
     (in custom ttype at level 3, x0 custom ttype_param, t custom ttype at level 3).
 Notation "( < x0 > ( 'this:' t ) => ret )?" :=
-  (TStructural true (SFn (cons x0 nil) t nil TEMPTY (V ret)))
+  (TStructural true (SFn (cons x0 nil) t nil TEMPTY (Vt ret)))
     (in custom ttype at level 3, x0 custom ttype_param, ret custom ttype at level 3, right associativity, t custom ttype at level 3).
 Notation "( < x0 , .. , xn > ( 'this:' t ) => 'Void' )?" :=
   (TStructural true (SFn (cons x0 .. (cons xn nil) .. ) t nil TEMPTY VVoid))
     (in custom ttype at level 3, x0 custom ttype_param, xn custom ttype_param, t custom ttype at level 3).
 Notation "( < x0 , .. , xn > ( 'this:' t ) => ret )?" :=
-  (TStructural true (SFn (cons x0 .. (cons xn nil) .. ) t nil TEMPTY (V ret)))
+  (TStructural true (SFn (cons x0 .. (cons xn nil) .. ) t nil TEMPTY (Vt ret)))
     (in custom ttype at level 3, x0 custom ttype_param, xn custom ttype_param, ret custom ttype at level 3, right associativity, t custom ttype at level 3).
 Notation "( ( 'this:' t , y0 ) => 'Void' )?" :=
   (TStructural true (SFn nil t (cons y0 nil) TEMPTY VVoid))
     (in custom ttype at level 3, y0 custom ottype at level 2, t custom ttype at level 3).
 Notation "( ( 'this:' t , y0 ) => ret )?" :=
-  (TStructural true (SFn nil t (cons y0 nil) TEMPTY (V ret)))
+  (TStructural true (SFn nil t (cons y0 nil) TEMPTY (Vt ret)))
     (in custom ttype at level 3, y0 custom ottype at level 2, ret custom ttype at level 3, right associativity, t custom ttype at level 3).
 Notation "( < x0 > ( 'this:' t , y0 ) => 'Void' )?" :=
   (TStructural true (SFn (cons x0 nil) t (cons y0 nil) TEMPTY VVoid))
     (in custom ttype at level 3, x0 custom ttype_param, y0 custom ottype at level 2, t custom ttype at level 3).
 Notation "( < x0 > ( 'this:' t , y0 ) => ret )?" :=
-  (TStructural true (SFn (cons x0 nil) t (cons y0 nil) TEMPTY (V ret)))
+  (TStructural true (SFn (cons x0 nil) t (cons y0 nil) TEMPTY (Vt ret)))
     (in custom ttype at level 3, x0 custom ttype_param, y0 custom ottype at level 2, ret custom ttype at level 3, right associativity, t custom ttype at level 3).
 Notation "( < x0 , .. , xn > ( 'this:' t , y0 ) => 'Void' )?" :=
   (TStructural true (SFn (cons x0 .. (cons xn nil) .. ) t (cons y0 nil) TEMPTY VVoid))
     (in custom ttype at level 3, x0 custom ttype_param, xn custom ttype_param, y0 custom ottype at level 2, t custom ttype at level 3).
 Notation "( < x0 , .. , xn > ( 'this:' t , y0 ) => ret )?" :=
-  (TStructural true (SFn (cons x0 .. (cons xn nil) .. ) t (cons y0 nil) TEMPTY (V ret)))
+  (TStructural true (SFn (cons x0 .. (cons xn nil) .. ) t (cons y0 nil) TEMPTY (Vt ret)))
     (in custom ttype at level 3, x0 custom ttype_param, xn custom ttype_param, y0 custom ottype at level 2, ret custom ttype at level 3,
         right associativity, t custom ttype at level 3).
 Notation "( ( 'this:' t , y0 , .. , yn ) => 'Void' )?" :=
   (TStructural true (SFn nil t (cons y0 .. (cons yn nil) .. ) TEMPTY VVoid))
     (in custom ttype at level 3, y0 custom ottype at level 2, yn custom ottype at level 2, t custom ttype at level 3).
 Notation "( ( 'this:' t , y0 , .. , yn ) => ret )?" :=
-  (TStructural true (SFn nil t (cons y0 .. (cons yn nil) .. ) TEMPTY (V ret)))
+  (TStructural true (SFn nil t (cons y0 .. (cons yn nil) .. ) TEMPTY (Vt ret)))
     (in custom ttype at level 3, y0 custom ottype at level 2, yn custom ottype at level 2, ret custom ttype at level 3, right associativity, t custom ttype at level 3).
 Notation "( < x0 > ( 'this:' t , y0 , .. , yn ) => 'Void' )?" :=
   (TStructural true (SFn (cons x0 nil) t (cons y0 .. (cons yn nil) .. ) TEMPTY VVoid))
     (in custom ttype at level 3, x0 custom ttype_param, y0 custom ottype at level 2, yn custom ottype at level 2, t custom ttype at level 3).
 Notation "( < x0 > ( 'this:' t , y0 , .. , yn ) => ret )?" :=
-  (TStructural true (SFn (cons x0 nil) t (cons y0 .. (cons yn nil) .. ) TEMPTY (V ret)))
+  (TStructural true (SFn (cons x0 nil) t (cons y0 .. (cons yn nil) .. ) TEMPTY (Vt ret)))
     (in custom ttype at level 3, x0 custom ttype_param, y0 custom ottype at level 2, yn custom ottype at level 2, ret custom ttype at level 3,
         right associativity, t custom ttype at level 3).
 Notation "( < x0 , .. , xn > ( 'this:' t , y0 , .. , yn ) => 'Void' )?" :=
   (TStructural true (SFn (cons x0 .. (cons xn nil) .. ) t (cons y0 .. (cons yn nil) .. ) TEMPTY VVoid))
     (in custom ttype at level 3, x0 custom ttype_param, xn custom ttype_param, y0 custom ottype at level 2, yn custom ottype at level 2, t custom ttype at level 3).
 Notation "( < x0 , .. , xn > ( 'this:' t , y0 , .. , yn ) => ret )?" :=
-  (TStructural true (SFn (cons x0 .. (cons xn nil) .. ) t (cons y0 .. (cons yn nil) .. ) TEMPTY (V ret)))
+  (TStructural true (SFn (cons x0 .. (cons xn nil) .. ) t (cons y0 .. (cons yn nil) .. ) TEMPTY (Vt ret)))
     (in custom ttype at level 3, x0 custom ttype_param, xn custom ttype_param, y0 custom ottype at level 2, yn custom ottype at level 2,
         ret custom ttype at level 3, right associativity, t custom ttype at level 3).
 Notation "( ( 'this:' t , '___' z ) => 'Void' )?" :=
   (TStructural true (SFn nil t nil z VVoid))
     (in custom ttype at level 3, z custom ttype at level 3, t custom ttype at level 3).
 Notation "( ( 'this:' t , '___' z ) => ret )?" :=
-  (TStructural true (SFn nil t nil z (V ret)))
+  (TStructural true (SFn nil t nil z (Vt ret)))
     (in custom ttype at level 3, z custom ttype at level 3, ret custom ttype at level 3, right associativity, t custom ttype at level 3).
 Notation "( < x0 > ( 'this:' t , '___' z ) => 'Void' )?" :=
   (TStructural true (SFn (cons x0 nil) t nil z VVoid))
     (in custom ttype at level 3, x0 custom ttype_param, z custom ttype at level 3, t custom ttype at level 3).
 Notation "( < x0 > ( 'this:' t , '___' z ) => ret )?" :=
-  (TStructural true (SFn (cons x0 nil) t nil z (V ret)))
+  (TStructural true (SFn (cons x0 nil) t nil z (Vt ret)))
     (in custom ttype at level 3, x0 custom ttype_param, z custom ttype at level 3, ret custom ttype at level 3, right associativity, t custom ttype at level 3).
 Notation "( < x0 , .. , xn > ( 'this:' t , '___' z ) => 'Void' )?" :=
   (TStructural true (SFn (cons x0 .. (cons xn nil) .. ) t nil z VVoid))
     (in custom ttype at level 3, x0 custom ttype_param, xn custom ttype_param, z custom ttype at level 3, t custom ttype at level 3).
 Notation "( < x0 , .. , xn > ( 'this:' t , '___' z ) => ret )?" :=
-  (TStructural true (SFn (cons x0 .. (cons xn nil) .. ) t nil z (V ret)))
+  (TStructural true (SFn (cons x0 .. (cons xn nil) .. ) t nil z (Vt ret)))
     (in custom ttype at level 3, x0 custom ttype_param, xn custom ttype_param, z custom ttype at level 3, ret custom ttype at level 3,
         right associativity, t custom ttype at level 3).
 Notation "( ( 'this:' t , y0 , '___' z ) => 'Void' )?" :=
   (TStructural true (SFn nil t (cons y0 nil) z VVoid))
     (in custom ttype at level 3, y0 custom ottype at level 2, z custom ttype at level 3, t custom ttype at level 3).
 Notation "( ( 'this:' t , y0 , '___' z ) => ret )?" :=
-  (TStructural true (SFn nil t (cons y0 nil) z (V ret)))
+  (TStructural true (SFn nil t (cons y0 nil) z (Vt ret)))
     (in custom ttype at level 3, y0 custom ottype at level 2, z custom ttype at level 3, ret custom ttype at level 3, right associativity, t custom ttype at level 3).
 Notation "( < x0 > ( 'this:' t , y0 , '___' z ) => 'Void' )?" :=
   (TStructural true (SFn (cons x0 nil) t (cons y0 nil) z VVoid))
     (in custom ttype at level 3, x0 custom ttype_param, y0 custom ottype at level 2, z custom ttype at level 3, t custom ttype at level 3).
 Notation "( < x0 > ( 'this:' t , y0 , '___' z ) => ret )?" :=
-  (TStructural true (SFn (cons x0 nil) t (cons y0 nil) z (V ret)))
+  (TStructural true (SFn (cons x0 nil) t (cons y0 nil) z (Vt ret)))
     (in custom ttype at level 3, x0 custom ttype_param, y0 custom ottype at level 2, z custom ttype at level 3, ret custom ttype at level 3,
         right associativity, t custom ttype at level 3).
 Notation "( < x0 , .. , xn > ( 'this:' t , y0 , '___' z ) => 'Void' )?" :=
   (TStructural true (SFn (cons x0 .. (cons xn nil) .. ) t (cons y0 nil) z VVoid))
     (in custom ttype at level 3, x0 custom ttype_param, xn custom ttype_param, y0 custom ottype at level 2, z custom ttype at level 3, t custom ttype at level 3).
 Notation "( < x0 , .. , xn > ( 'this:' t , y0 , '___' z ) => ret )?" :=
-  (TStructural true (SFn (cons x0 .. (cons xn nil) .. ) t (cons y0 nil) z (V ret)))
+  (TStructural true (SFn (cons x0 .. (cons xn nil) .. ) t (cons y0 nil) z (Vt ret)))
     (in custom ttype at level 3, x0 custom ttype_param, xn custom ttype_param, y0 custom ottype at level 2, z custom ttype at level 3,
         ret custom ttype at level 3, right associativity, t custom ttype at level 3).
 Notation "( ( 'this:' t , y0 , .. , yn , '___' z ) => 'Void' )?" :=
   (TStructural true (SFn nil t (cons y0 .. (cons yn nil) .. ) z VVoid))
     (in custom ttype at level 3, y0 custom ottype at level 2, yn custom ottype at level 2, z custom ttype at level 3, t custom ttype at level 3).
 Notation "( ( 'this:' t , y0 , .. , yn , '___' z ) => ret )?" :=
-  (TStructural true (SFn nil t (cons y0 .. (cons yn nil) .. ) z (V ret)))
+  (TStructural true (SFn nil t (cons y0 .. (cons yn nil) .. ) z (Vt ret)))
     (in custom ttype at level 3, y0 custom ottype at level 2, yn custom ottype at level 2, z custom ttype at level 3, ret custom ttype at level 3,
         right associativity, t custom ttype at level 3).
 Notation "( < x0 > ( 'this:' t , y0 , .. , yn , '___' z ) => 'Void' )?" :=
   (TStructural true (SFn (cons x0 nil) t (cons y0 .. (cons yn nil) .. ) z VVoid))
     (in custom ttype at level 3, x0 custom ttype_param, y0 custom ottype at level 2, yn custom ottype at level 2, z custom ttype at level 3, t custom ttype at level 3).
 Notation "( < x0 > ( 'this:' t , y0 , .. , yn , '___' z ) => ret )?" :=
-  (TStructural true (SFn (cons x0 nil) t (cons y0 .. (cons yn nil) .. ) z (V ret)))
+  (TStructural true (SFn (cons x0 nil) t (cons y0 .. (cons yn nil) .. ) z (Vt ret)))
     (in custom ttype at level 3, x0 custom ttype_param, y0 custom ottype at level 2, yn custom ottype at level 2, z custom ttype at level 3,
         ret custom ttype at level 3, right associativity, t custom ttype at level 3).
 Notation "( < x0 , .. , xn > ( 'this:' t , y0 , .. , yn , '___' z ) => 'Void' )?" :=
@@ -529,7 +529,7 @@ Notation "( < x0 , .. , xn > ( 'this:' t , y0 , .. , yn , '___' z ) => 'Void' )?
     (in custom ttype at level 3, x0 custom ttype_param, xn custom ttype_param, y0 custom ottype at level 2, yn custom ottype at level 2,
         z custom ttype at level 3, t custom ttype at level 3).
 Notation "( < x0 , .. , xn > ( 'this:' t , y0 , .. , yn , '___' z ) => ret )?" :=
-  (TStructural true (SFn (cons x0 .. (cons xn nil) .. ) t (cons y0 .. (cons yn nil) .. ) z (V ret)))
+  (TStructural true (SFn (cons x0 .. (cons xn nil) .. ) t (cons y0 .. (cons yn nil) .. ) z (Vt ret)))
     (in custom ttype at level 3, x0 custom ttype_param, xn custom ttype_param, y0 custom ottype at level 2, yn custom ottype at level 2,
         z custom ttype at level 3, ret custom ttype at level 3, right associativity, t custom ttype at level 3).
 (* Unfortunately coq doesn't let us quote strings directly, because usually it shallow embeds the binders / ids *)

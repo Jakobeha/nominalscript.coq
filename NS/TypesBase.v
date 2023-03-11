@@ -10,14 +10,14 @@ From NS Require Import Misc.
 (* Return (void-able) type *)
 Inductive vtype (type: Set): Set :=
 | VVoid
-| V (a: type).
+| Vt (a: type).
 Arguments VVoid {type}.
-Arguments V {type} a.
+Arguments Vt {type} a.
 
 (* Nominal (identifer) type *)
 Inductive itype (type: Set): Set :=
-| I (name: string) (targs: list type).
-Arguments I {type} name targs.
+| It (name: string) (targs: list type).
+Arguments It {type} name targs.
 
 Inductive variance: Set :=
 | Invariant

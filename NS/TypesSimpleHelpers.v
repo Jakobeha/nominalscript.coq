@@ -12,13 +12,13 @@ From NS Require Import TypesNotation.
 
 Definition map_itype {A B: Set} (f: A -> B) (a: itype A): itype B :=
 match a with
-| I name targs => I name (List.map f targs)
+| It name targs => It name (List.map f targs)
 end.
 
 Definition map_vtype {A B: Set} (f: A -> B) (a: vtype A): vtype B :=
 match a with
 | VVoid => VVoid
-| V a => V (f a)
+| Vt a => Vt (f a)
 end.
 
 Definition map_tparam {A B: Set} (f: A -> B) (a: tparam A): tparam B :=
@@ -101,18 +101,18 @@ end.
 
 Definition itype_id {type: Set} (a: itype type): string :=
 match a with
-| I name _ => name
+| It name _ => name
 end.
 
 Definition itype_targs {type: Set} (a: itype type): list type :=
 match a with
-| I _ targs => targs
+| It _ targs => targs
 end.
 
 Definition vtype_depth {type: Set} (type_depth: type -> nat) (a: vtype type): nat :=
 match a with
 | VVoid => 0
-| V a => type_depth a
+| Vt a => type_depth a
 end.
 
 Definition otype_depth {type: Set} (type_depth: type -> nat) (a: otype type): nat :=
@@ -127,7 +127,7 @@ end.
 
 Definition itype_depth {type: Set} (type_depth: type -> nat) (a: itype type): nat :=
 match a with
-| I _ targs => list_max (List.map type_depth targs)
+| It _ targs => list_max (List.map type_depth targs)
 end.
 
 Definition stype_depth {type: Set} (type_depth: type -> nat) (a: stype type): nat :=
