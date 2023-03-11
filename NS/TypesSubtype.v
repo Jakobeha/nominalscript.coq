@@ -47,7 +47,7 @@ Inductive CommonSupertype : forall {A: Set}, A -> A -> A -> Prop :=
 | US_Tuple           : forall (esl esr esu: list (otype ftype)),      esl U esr <: esu -> STuple esl  U STuple esr  <: STuple esu
 | US_Object          : forall (fsl fsr fsu: js_record (otype ftype)), fsl U fsr <: fsu -> SObject fsl U SObject fsr <: SObject fsu
 (* with CommonSupertype_otype : otype ftype -> otype ftype -> otype ftype -> Prop := *)
-| US_OType           : forall (ol or ou: bool) (lhs rhs uni: ftype), ol || or <= ou -> lhs U rhs <: uni -> O ol lhs U O or rhs <: O ou uni
+| US_OType           : forall (ol or ou: bool) (lhs rhs uni: ftype), ol || or <= ou -> lhs U rhs <: uni -> Ot ol lhs U Ot or rhs <: Ot ou uni
 (* with CommonSupertype_void : vtype ftype -> vtype ftype -> vtype ftype -> Prop := *)
 | US_Void            : @VVoid ftype U VVoid <: VVoid
 | US_NotVoid         : forall (lhs rhs uni: ftype), lhs U rhs <: uni -> Vt lhs U Vt rhs <: Vt uni
@@ -130,7 +130,7 @@ with CommonSubtype : forall {A: Set}, A -> A -> A -> Prop :=
 | IS_Tuple           : forall (esl esr esu: list (otype ftype)),      esl I esr :> esu -> STuple esl  I STuple esr  :> STuple esu
 | IS_Object          : forall (fsl fsr fsu: js_record (otype ftype)), fsl I fsr :> fsu -> SObject fsl I SObject fsr :> SObject fsu
 (* with CommonSupertype_otype : otype ftype -> otype ftype -> otype ftype -> Prop := *)
-| IS_OType           : forall (ol or ou: bool) (lhs rhs uni: ftype), ol && or >= ou -> lhs I rhs :> uni -> O ol lhs I O or rhs :> O ou uni
+| IS_OType           : forall (ol or ou: bool) (lhs rhs uni: ftype), ol && or >= ou -> lhs I rhs :> uni -> Ot ol lhs I Ot or rhs :> Ot ou uni
 (* with CommonSupertype_void : vtype ftype -> vtype ftype -> vtype ftype -> Prop := *)
 | IS_Void            : @VVoid ftype I VVoid :> VVoid
 | IS_NotVoid         : forall (lhs rhs uni: ftype), lhs I rhs :> uni -> Vt lhs I Vt rhs :> Vt uni
@@ -190,6 +190,38 @@ with CommonSubtype : forall {A: Set}, A -> A -> A -> Prop :=
 | IS_BivariantR      : forall (lhs: variance), lhs I Bivariant :> lhs
 where "a 'I' b :> c" := (CommonSubtype a b c)
 .
+
+Inductive HasRelation : Set -> Prop :=
+| FTypeHasRelation       : HasRelation ftype
+| IFTypeHasRelation      : HasRelation iftype
+| SFTypeHasRelation      : HasRelation sftype
+| OFTypeHasRelation      : HasRelation oftype
+| VFTypeHasRelation      : HasRelation vftype
+| FTParamHasRelation     : HasRelation ftparam
+| VarianceHasRelation    : HasRelation variance
+| ListFTypeHasRelation   : HasRelation (list ftype)
+| ListIFTypeHasRelation  : HasRelation (list iftype)
+| ListOFTypeHasRelation  : HasRelation (list oftype)
+| ListFTParamHasRelation : HasRelation (list ftparam)
+| JSRecordHasRelation    : HasRelation (js_record ftype)
+| RevHasRelation         : HasRelation Rev
+| SupersHasRelation      : HasRelation Supers.
+
+Axiom iftype_neq_ftype: iftype <> ftype.
+Axiom sftype_neq_ftype: sftype <> ftype.
+Axiom oftype_neq_ftype: oftype <> ftype.
+Axiom vftype_neq_ftype: vftype <> ftype.
+Axiom ftparam_neq_ftype: ftparam <> ftype.
+Axiom variance_neq_ftype: variance <> ftype.
+Axiom list_ftype_neq_ftype: list ftype <> ftype.
+Axiom list_iftype_neq_ftype: list iftype <> ftype.
+Axiom list_oftype_neq_ftype: list oftype <> ftype.
+Axiom list_ftparam_neq_ftype: list ftparam <> ftype.
+Axiom js_record_neq_ftype: js_record ftype <> ftype.
+Axiom list_js_record_neq_ftype: list (js_record ftype) <> ftype.
+Axiom Rev_neq_ftype: Rev <> ftype.
+Axiom Supers_neq_ftype: Supers <> ftype.
+
 
 Inductive HasVariance {A: Set} : A -> A -> variance -> Prop :=
 | IsBivariant     : forall (lhs rhs uni: A), lhs U rhs <: uni -> HasVariance lhs rhs Bivariant
@@ -270,21 +302,6 @@ Admitted.
 Theorem supertype_trans: forall {A: Set} (a b c: A), a :> b -> b :> c -> a :> c.
 Admitted.
 
-Axiom iftype_neq_ftype: iftype <> ftype.
-Axiom sftype_neq_ftype: sftype <> ftype.
-Axiom oftype_neq_ftype: oftype <> ftype.
-Axiom vftype_neq_ftype: vftype <> ftype.
-Axiom ftparam_neq_ftype: ftparam <> ftype.
-Axiom variance_neq_ftype: variance <> ftype.
-Axiom list_ftype_neq_ftype: list ftype <> ftype.
-Axiom list_iftype_neq_ftype: list iftype <> ftype.
-Axiom list_oftype_neq_ftype: list oftype <> ftype.
-Axiom list_ftparam_neq_ftype: list ftparam <> ftype.
-Axiom js_record_neq_ftype: js_record ftype <> ftype.
-Axiom list_js_record_neq_ftype: list (js_record ftype) <> ftype.
-Axiom Rev_neq_ftype: Rev <> ftype.
-Axiom Supers_neq_ftype: Supers <> ftype.
-
 Local Ltac by_contradiction H := contradiction H; fail.
 Local Ltac clear_obvious_eqs :=
   repeat lazymatch goal with
@@ -347,17 +364,35 @@ Qed.
 
 Print ftype_ind.
 
-Theorem union_refl : forall {A: Set} (a b c: A), a U b = c -> a U a = a.
+Theorem union_intersect_refl : forall {A: Set} {_: HasRelation A} (a: A), a U a = a /\ a I a = a.
 Proof.
-  intros. split.
-  - destruct H as [H0 H]. inv_cs H0.
-    + induction a.
-      * apply US_Any.
-      * destruct nullable; [apply US_NullL; by_ simpl | apply US_NeverL].
-      * apply US_Struct; [destruct nullable; simpl; reflexivity |]. induction structure.
-        --  apply US_Fn. induction tparams.
-            ++  apply IS_NilTParam.
-            ++  apply IS_ConsTParam. Focus 2.
+  intros. inverts H.
+  - induction a using ftype_rec'.
+    * split; split; [apply US_Any | intros; inv_cs H; apply US_Any | apply IS_AnyL | intros; apply supertype_any].
+    * split; split; destruct nullable.
+      + apply US_NullL; by_ simpl.
+      + apply US_NeverL.
+      + intros. inv_cs H; [apply US_Any | |]; apply US_NullL; exact H2.
+      + intros. inv_cs H; [apply US_Any | |]; apply US_NeverL.
+      + apply IS_Null; by_ simpl.
+      + apply IS_Never.
+      + intros; inv_cs H; [apply IS_Never | apply IS_Null; exact H3].
+      + intros; inv_cs H; [apply IS_Never | apply IS_Null; [exact H3 | by_ simpl]].
+    * apply US_Struct; [destruct nullable; simpl; reflexivity |]. destruct structure; inverts H0.
+      --  apply US_Fn. destruct tparams; inverts H6.
+          ++  apply IS_NilTParam.
+          ++  apply IS_ConsTParam.
+              **  destruct t; inverts H2. apply IS_TParam.
+                  --- destruct v.
+                      +++ apply IS_Invariant.
+                      +++ apply IS_Covariant.
+                      +++ apply IS_Contravariant.
+                      +++ apply IS_BivariantL.
+                  --- destruct supers; inverts H1.
+                      +++ apply IS_IntSupersNil.
+                      +++ eapply IS_IntSupersInL; [apply List.Add_head | |].
+                          *** apply H4.
+                  ---
 
 
 Theorem union_sym : forall {A: Set} (a b c: A), a U b = c -> b U a = c.
