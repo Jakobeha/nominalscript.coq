@@ -7,6 +7,7 @@ Require Import Coq.Strings.String.
 Require Import Coq.Arith.PeanoNat.
 Require Import Coq.Arith.EqNat.
 Require Import Coq.Bool.Bool.
+Require Import Coq.Program.Equality.
 From NS Require Import Misc.
 From NS Require Import TypesBase.
 From NS Require Import TypesNotation.
@@ -15,11 +16,84 @@ From NS Require Import TypesSimpleHelpers.
 Inductive Rev := Rev_ (a: list (otype ftype)).
 Inductive Supers := Supers_ (a: list ftype).
 
+Local Notation list_ftype := (list ftype) (only parsing).
+Local Notation list_iftype := (list iftype) (only parsing).
+Local Notation list_oftype := (list oftype) (only parsing).
+Local Notation list_ftparam := (list ftparam) (only parsing).
+Local Notation js_record_ftype := (js_record ftype) (only parsing).
+Local Notation js_record_oftype := (js_record oftype) (only parsing).
+Local Notation option_sftype := (option sftype) (only parsing).
+
+Inductive RelationType : Set :=
+| ftype_RelationType
+| iftype_RelationType
+| sftype_RelationType
+| oftype_RelationType
+| vftype_RelationType
+| ftparam_RelationType
+| variance_RelationType
+| list_ftype_RelationType
+| list_iftype_RelationType
+| list_oftype_RelationType
+| list_ftparam_RelationType
+| js_record_ftype_RelationType
+| js_record_oftype_RelationType
+| option_sftype_RelationType
+| Rev_RelationType
+| Supers_RelationType.
+Class HasRelation (A: Set) := { relation_type : RelationType }.
+Global Instance ftype_HasRelation : HasRelation ftype := { relation_type := ftype_RelationType }.
+Global Instance iftype_HasRelation : HasRelation iftype := { relation_type := iftype_RelationType }.
+Global Instance sftype_HasRelation : HasRelation sftype := { relation_type := sftype_RelationType }.
+Global Instance oftype_HasRelation : HasRelation oftype := { relation_type := oftype_RelationType }.
+Global Instance vftype_HasRelation : HasRelation vftype := { relation_type := vftype_RelationType }.
+Global Instance ftparam_HasRelation : HasRelation ftparam := { relation_type := ftparam_RelationType }.
+Global Instance variance_HasRelation : HasRelation variance := { relation_type := variance_RelationType }.
+Global Instance list_ftype_HasRelation : HasRelation list_ftype := { relation_type := list_ftype_RelationType }.
+Global Instance list_iftype_HasRelation : HasRelation list_iftype := { relation_type := list_iftype_RelationType }.
+Global Instance list_oftype_HasRelation : HasRelation list_oftype := { relation_type := list_oftype_RelationType }.
+Global Instance list_ftparam_HasRelation : HasRelation list_ftparam := { relation_type := list_ftparam_RelationType }.
+Global Instance js_record_ftype_HasRelation : HasRelation js_record_ftype := { relation_type := js_record_ftype_RelationType }.
+Global Instance js_record_oftype_HasRelation : HasRelation js_record_oftype := { relation_type := js_record_oftype_RelationType }.
+Global Instance option_sftype_HasRelation : HasRelation option_sftype := { relation_type := option_sftype_RelationType }.
+Global Instance Rev_HasRelation : HasRelation Rev := { relation_type := Rev_RelationType }.
+Global Instance Supers_HasRelation : HasRelation Supers := { relation_type := Supers_RelationType }.
+Axiom relation_type_eq : forall {A B: Set} {h1: HasRelation A} {h2: HasRelation B},
+    (@relation_type A h1 = @relation_type B h2 -> A = B /\ h1 ~= h2) /\
+    (A = B \/ h1 ~= h2 -> @relation_type A h1 = @relation_type B h2).
+Lemma relation_type_eq0 : forall {A: Set} {h: HasRelation A},
+  (ftype_RelationType = @relation_type A h -> A = ftype /\ h ~= ftype_HasRelation) /\
+  (iftype_RelationType = @relation_type A h -> A = iftype /\ h ~= iftype_HasRelation) /\
+  (sftype_RelationType = @relation_type A h -> A = sftype /\ h ~= sftype_HasRelation) /\
+  (oftype_RelationType = @relation_type A h -> A = oftype /\ h ~= oftype_HasRelation) /\
+  (vftype_RelationType = @relation_type A h -> A = vftype /\ h ~= vftype_HasRelation) /\
+  (ftparam_RelationType = @relation_type A h -> A = ftparam /\ h ~= ftparam_HasRelation) /\
+  (variance_RelationType = @relation_type A h -> A = variance /\ h ~= variance_HasRelation) /\
+  (list_ftype_RelationType = @relation_type A h -> A = list_ftype /\ h ~= list_ftype_HasRelation) /\
+  (list_iftype_RelationType = @relation_type A h -> A = list_iftype /\ h ~= list_iftype_HasRelation) /\
+  (list_oftype_RelationType = @relation_type A h -> A = list_oftype /\ h ~= list_oftype_HasRelation) /\
+  (list_ftparam_RelationType = @relation_type A h -> A = list_ftparam /\ h ~= list_ftparam_HasRelation) /\
+  (js_record_ftype_RelationType = @relation_type A h -> A = js_record_ftype /\ h ~= js_record_ftype_HasRelation) /\
+  (js_record_oftype_RelationType = @relation_type A h -> A = js_record_oftype /\ h ~= js_record_oftype_HasRelation) /\
+  (option_sftype_RelationType = @relation_type A h -> A = option_sftype /\ h ~= option_sftype_HasRelation) /\
+  (Rev_RelationType = @relation_type A h -> A = Rev /\ h ~= Rev_HasRelation) /\
+  (Supers_RelationType = @relation_type A h -> A = Supers /\ h ~= Supers_HasRelation).
+Proof.
+  repeat split; intros; apply relation_type_eq; simpl; symmetry; exact H.
+Qed.
+Lemma relation_type_eq1 : forall {A B: Set} {h1: HasRelation A} {h2: HasRelation B},
+    A = B -> @relation_type A h1 = @relation_type B h2.
+Proof.
+  intros. apply relation_type_eq. left. exact H.
+Qed.
+Ltac destruct_relation_type A h :=
+  remember (@relation_type A h) as hRel eqn:hEq; destruct hRel; apply relation_type_eq0 in hEq; destruct hEq; subst.
+
 Local Notation "a <= b" := (Bool.le a b) : bool_scope.
 Local Notation "a >= b" := (Bool.le b a) : bool_scope.
 Reserved Notation "a 'U' b '<:' c" (at level 60, b at next level, no associativity).
 Reserved Notation "a 'I' b ':>' c" (at level 60, b at next level, no associativity).
-Inductive CommonSupertype : forall {A: Set}, A -> A -> A -> Prop :=
+Inductive CommonSupertype : forall {A: Set} {h: HasRelation A}, A -> A -> A -> Prop :=
 | US_Any             : forall (lhs rhs: ftype), lhs U rhs <: FAny
 | US_NeverL          : forall (rhs: ftype), FNEVER U rhs <: rhs
 | US_NeverR          : forall (lhs: ftype), lhs U FNEVER <: lhs
@@ -90,11 +164,11 @@ Inductive CommonSupertype : forall {A: Set}, A -> A -> A -> Prop :=
      List.Add xr xsr xsr' -> xl U xr <: xu -> xsl U xsr <: xsu -> Supers_ (cons xl xsl) U Supers_ xsr' <: Supers_ (cons xu xsu)
 | US_IntSupersInL    : forall (xl xr xu: ftype) (xsl xsr xsl' xsu: list ftype),
      List.Add xl xsl xsl' -> xl U xr <: xu -> xsl U xsr <: xsu -> Supers_ xsl' U Supers_ (cons xr xsr) <: Supers_ (cons xu xsu)
-(* with CommonSupertype_js_record : js_record ftype -> js_record ftype -> js_record ftype -> Prop *)
-| US_JSNil           : @nil (js_record ftype) U nil <: nil
-| US_JSInR           : forall (name: string) (vl vr vu: ftype) (vls vrs vrs' vus: js_record ftype),
+(* with CommonSupertype_js_record : js_record oftype -> js_record oftype -> js_record oftype -> Prop *)
+| US_JSNil           : @nil (string * oftype) U nil <: nil
+| US_JSInR           : forall (name: string) (vl vr vu: oftype) (vls vrs vrs' vus: js_record oftype),
     List.Add (name, vr) vrs vrs' -> vl U vr <: vu -> vls U vrs <: vus -> cons (name, vl) vls U vrs' <: cons (name, vu) vus
-| US_JSInL           : forall (name: string) (vl vr vu: ftype) (vls vls' vrs vus: js_record ftype),
+| US_JSInL           : forall (name: string) (vl vr vu: oftype) (vls vls' vrs vus: js_record oftype),
     List.Add (name, vl) vls vls' -> vl U vr <: vu -> vls U vrs <: vus -> vls' U cons (name, vr) vrs <: cons (name, vu) vus
 (* with CommonSupertype_variance : variance -> variance -> variance -> Prop *)
 | US_Bivariant       : forall (lhs rhs: variance), lhs U rhs <: Bivariant
@@ -176,11 +250,11 @@ with CommonSubtype : forall {A: Set}, A -> A -> A -> Prop :=
      List.Add xr xsr xsr' -> xl I xr :> xu -> xsl I xsr :> xsu -> Supers_ (cons xl xsl) I Supers_ xsr' :> Supers_ (cons xu xsu)
 | IS_IntSupersInL    : forall (xl xr xu: ftype) (xsl xsr xsl' xsu: list ftype),
      List.Add xl xsl xsl' -> xl I xr :> xu -> xsl I xsr :> xsu -> Supers_ xsl' I Supers_ (cons xr xsr) :> Supers_ (cons xu xsu)
-(* with CommonSupertype_js_record : js_record ftype -> js_record ftype -> js_record ftype -> Prop *)
-| IS_JSNil           : @nil (js_record ftype) I nil :> nil
-| IS_JSInR           : forall (name: string) (vl vr vu: ftype) (vls vrs vrs' vus: js_record ftype),
+(* with CommonSupertype_js_record : js_record oftype -> js_record oftype -> js_record oftype -> Prop *)
+| IS_JSNil           : @nil (string * ftype) I nil :> nil
+| IS_JSInR           : forall (name: string) (vl vr vu: oftype) (vls vrs vrs' vus: js_record oftype),
     List.Add (name, vr) vrs vrs' -> vl I vr :> vu -> vls I vrs :> vus -> cons (name, vl) vls I vrs' :> cons (name, vu) vus
-| IS_JSInL           : forall (name: string) (vl vr vu: ftype) (vls vls' vrs vus: js_record ftype),
+| IS_JSInL           : forall (name: string) (vl vr vu: oftype) (vls vls' vrs vus: js_record oftype),
     List.Add (name, vl) vls vls' -> vl I vr :> vu -> vls I vrs :> vus -> vls' I cons (name, vr) vrs :> cons (name, vu) vus
 (* with CommonSupertype_variance : variance -> variance -> variance -> Prop *)
 | IS_Invariant       : forall (lhs rhs: variance), lhs I rhs :> Invariant
@@ -191,62 +265,30 @@ with CommonSubtype : forall {A: Set}, A -> A -> A -> Prop :=
 where "a 'I' b :> c" := (CommonSubtype a b c)
 .
 
-Inductive HasRelation : Set -> Prop :=
-| FTypeHasRelation       : HasRelation ftype
-| IFTypeHasRelation      : HasRelation iftype
-| SFTypeHasRelation      : HasRelation sftype
-| OFTypeHasRelation      : HasRelation oftype
-| VFTypeHasRelation      : HasRelation vftype
-| FTParamHasRelation     : HasRelation ftparam
-| VarianceHasRelation    : HasRelation variance
-| ListFTypeHasRelation   : HasRelation (list ftype)
-| ListIFTypeHasRelation  : HasRelation (list iftype)
-| ListOFTypeHasRelation  : HasRelation (list oftype)
-| ListFTParamHasRelation : HasRelation (list ftparam)
-| JSRecordHasRelation    : HasRelation (js_record ftype)
-| RevHasRelation         : HasRelation Rev
-| SupersHasRelation      : HasRelation Supers.
-
-Axiom iftype_neq_ftype: iftype <> ftype.
-Axiom sftype_neq_ftype: sftype <> ftype.
-Axiom oftype_neq_ftype: oftype <> ftype.
-Axiom vftype_neq_ftype: vftype <> ftype.
-Axiom ftparam_neq_ftype: ftparam <> ftype.
-Axiom variance_neq_ftype: variance <> ftype.
-Axiom list_ftype_neq_ftype: list ftype <> ftype.
-Axiom list_iftype_neq_ftype: list iftype <> ftype.
-Axiom list_oftype_neq_ftype: list oftype <> ftype.
-Axiom list_ftparam_neq_ftype: list ftparam <> ftype.
-Axiom js_record_neq_ftype: js_record ftype <> ftype.
-Axiom list_js_record_neq_ftype: list (js_record ftype) <> ftype.
-Axiom Rev_neq_ftype: Rev <> ftype.
-Axiom Supers_neq_ftype: Supers <> ftype.
-
-
-Inductive HasVariance {A: Set} : A -> A -> variance -> Prop :=
+Inductive HasVariance {A: Set} {h: HasRelation A} : A -> A -> variance -> Prop :=
 | IsBivariant     : forall (lhs rhs uni: A), lhs U rhs <: uni -> HasVariance lhs rhs Bivariant
 | IsCovariant     : forall (lhs rhs    : A), lhs U rhs <: rhs -> HasVariance lhs rhs Covariant
 | IsContravariant : forall (lhs rhs    : A), lhs U rhs <: lhs -> HasVariance lhs rhs Contravariant
 | IsInvariant     : forall (a          : A), a U a <: a       -> HasVariance a   a   Invariant
 .
 
-Definition IsSubtype {A: Set} (lhs rhs: A): Prop := lhs U rhs <: rhs.
+Definition IsSubtype {A: Set} {h: HasRelation A} (lhs rhs: A): Prop := lhs U rhs <: rhs.
 Notation "lhs '<:' rhs" := (IsSubtype lhs rhs) (at level 63, no associativity).
 
-Definition IsSupertype {A: Set} (lhs rhs: A): Prop := lhs I rhs :> rhs.
+Definition IsSupertype {A: Set} {h: HasRelation A} (lhs rhs: A): Prop := lhs I rhs :> rhs.
 Notation "lhs ':>' rhs" := (IsSupertype lhs rhs) (at level 63, no associativity).
 
-Definition IsBounded {A: Set} (x min max: A): Prop := min U x <: x /\ x U max <: max.
+Definition IsBounded {A: Set} {h: HasRelation A} (x min max: A): Prop := min U x <: x /\ x U max <: max.
 Notation "min '<:' x '<:' max" := (IsBounded x min max) (at level 64, no associativity).
 
-Definition IsBoundedAlt {A: Set} (x min max: A): Prop := min I x :> min /\ x I max :> x.
+Definition IsBoundedAlt {A: Set} {h: HasRelation A} (x min max: A): Prop := min I x :> min /\ x I max :> x.
 Notation "max ':>' x ':>' min" := (IsBoundedAlt x min max) (at level 64, no associativity).
 
-Definition Union {A: Set} (lhs rhs a: A): Prop := lhs U rhs <: a /\ forall b, lhs U rhs <: b -> a <: b.
-Notation "lhs 'U' rhs '=' a" := (Union lhs rhs a) (at level 57, rhs at next level, no associativity).
+Definition Union {A: Set} {h: HasRelation A} (lhs rhs a: A): Prop := lhs U rhs <: a /\ forall b, lhs U rhs <: b -> a <: b.
+Notation "lhs 'U' rhs '=' a" := (Union lhs rhs a) (at level 60, rhs at next level, no associativity).
 
-Definition Intersect {A: Set} (lhs rhs a: A): Prop := lhs I rhs :> a /\ forall b, lhs I rhs :> b -> a :> b.
-Notation "lhs 'I' rhs '=' a" := (Intersect lhs rhs a) (at level 57, rhs at next level, no associativity).
+Definition Intersect {A: Set} {h: HasRelation A} (lhs rhs a: A): Prop := lhs I rhs :> a /\ forall b, lhs I rhs :> b -> a :> b.
+Notation "lhs 'I' rhs '=' a" := (Intersect lhs rhs a) (at level 60, rhs at next level, no associativity).
 
 From TLC Require Import LibTactics.
 
@@ -265,17 +307,17 @@ Proof.
   intros. apply US_Any.
 Qed.
 
-Theorem subtype_refl: forall {A: Set} (a b: A), a <: b -> a <: a.
+Theorem subtype_refl: forall {A: Set} {h: HasRelation A} (a b: A), a <: b -> a <: a.
 Admitted.
 
 Theorem subtype_refl': forall (a: ftype), a <: a.
 Admitted.
 Local Hint Immediate subtype_refl'.
 
-Theorem subtype_antisym: forall {A: Set} (a b: A), a <: b -> b :> a.
+Theorem subtype_antisym: forall {A: Set} {h: HasRelation A} (a b: A), a <: b -> b :> a.
 Admitted.
 
-Theorem subtype_trans: forall {A: Set} (a b c: A), a <: b -> b <: c -> a <: c.
+Theorem subtype_trans: forall {A: Set} {h: HasRelation A} (a b c: A), a <: b -> b <: c -> a <: c.
 Admitted.
 
 Theorem supertype_never: forall (a: ftype), a :> FNEVER.
@@ -293,16 +335,20 @@ Proof.
   intros. apply IS_AnyL.
 Qed.
 
-Theorem supertype_refl: forall {A: Set} (a b: A), a :> b -> a :> a.
+Theorem supertype_refl: forall {A: Set} {h: HasRelation A} (a b: A), a :> b -> a :> a.
 Admitted.
 
-Theorem supertype_antisym: forall {A: Set} (a b: A), a :> b -> b <: a.
+Theorem supertype_antisym: forall {A: Set} {h: HasRelation A} (a b: A), a :> b -> b <: a.
 Admitted.
 
-Theorem supertype_trans: forall {A: Set} (a b c: A), a :> b -> b :> c -> a :> c.
+Theorem supertype_trans: forall {A: Set} {h: HasRelation A} (a b c: A), a :> b -> b :> c -> a :> c.
 Admitted.
 
 Local Ltac by_contradiction H := contradiction H; fail.
+Local Ltac clear_relation_neqs :=
+  repeat match goal with
+  | H : ?T1 = ?T2 |- _ => apply relation_type_eq1 in H; simpl in H; discriminate H
+  end.
 Local Ltac clear_obvious_eqs :=
   repeat lazymatch goal with
   | H : ?T = ?T |- _ => clear H
@@ -311,23 +357,9 @@ Local Ltac clear_obvious_eqs :=
 Ltac inv_cs H :=
   inverts H;
   try discriminate;
-  try by_contradiction iftype_neq_ftype;
-  try by_contradiction sftype_neq_ftype;
-  try by_contradiction oftype_neq_ftype;
-  try by_contradiction vftype_neq_ftype;
-  try by_contradiction ftparam_neq_ftype;
-  try by_contradiction variance_neq_ftype;
-  try by_contradiction list_ftype_neq_ftype;
-  try by_contradiction list_iftype_neq_ftype;
-  try by_contradiction list_oftype_neq_ftype;
-  try by_contradiction list_ftparam_neq_ftype;
-  try by_contradiction Rev_neq_ftype;
-  try by_contradiction Supers_neq_ftype;
-  try by_contradiction js_record_neq_ftype;
-  try by_contradiction list_js_record_neq_ftype;
+  clear_relation_neqs;
   clear_obvious_eqs.
 Ltac discr_cs H := inv_cs H; fail.
-
 
 Theorem union_never: forall (a: ftype), FNEVER U a = a.
 Proof.
@@ -364,39 +396,66 @@ Qed.
 
 Print ftype_ind.
 
-Theorem union_intersect_refl : forall {A: Set} {_: HasRelation A} (a: A), a U a = a /\ a I a = a.
+Local Ltac induction' H :=
+  lazymatch H with
+  | Rev_ ?t => induction t
+  | Supers_ ?t => destruct t
+  | ?t => induction t
+  end.
+
+Local Ltac constructor' :=
+  constructor + match goal with
+  | |- context[(?x :: ?xs)%list] => destruct x; econstructor; [apply List.Add_head | |]
+  | |- _ => fail "no constructor"
+  end.
+
+Local Ltac inv_ap0 Constr H t :=
+  tryif apply Constr then (
+    apply List.Forall_rev in H; remember (List.rev _) as t2 eqn:H0; clear H0;
+      induction t2; inverts H; constructor
+  ) else (
+    induction' t; inverts H; constructor'; try discriminate
+  ).
+
+Local Ltac inv_ap :=
+  lazymatch goal with
+  | H : ?P |- ?P => exact H
+  | H : ?t U ?t = ?t /\ ?t I ?t = ?t |- ?t U ?t <: ?t => destruct H as [[H _] _]; exact H
+  | H : ?t U ?t = ?t /\ ?t I ?t = ?t |- ?t I ?t :> ?t => destruct H as [_ [H _]]; exact H
+  | |- (?t && ?t >= ?t)%bool => destruct t; simpl; reflexivity
+  | |- (?t || ?t <= ?t)%bool => destruct t; simpl; reflexivity
+  | IH : ?Q -> ?P |- ?P => apply IH
+  | H : ?P (snd (_, ?t)) |- _ => simpl in H
+  | H : ?P ?t |- ?t U ?t <: ?t => inv_ap0 US_OTypes H t
+  | H : ?P ?t |- ?t I ?t :> ?t => inv_ap0 IS_OTypes H t
+  | |- ?t U ?t <: ?t => induction' t; constructor
+  | |- ?t I ?t :> ?t => induction' t; constructor
+  | |- ?v U ?v <: ?v => fail "todo handle"
+  | |- ?v I ?v :> ?v => fail "todo handle"
+  end.
+
+Theorem union_intersect_refl : forall {A: Set} {h: HasRelation A} (a: A), a U a = a /\ a I a = a.
 Proof.
-  intros. inverts H.
+  intros; destruct_relation_type A h.
   - induction a using ftype_rec'.
-    * split; split; [apply US_Any | intros; inv_cs H; apply US_Any | apply IS_AnyL | intros; apply supertype_any].
-    * split; split; destruct nullable.
-      + apply US_NullL; by_ simpl.
-      + apply US_NeverL.
-      + intros. inv_cs H; [apply US_Any | |]; apply US_NullL; exact H2.
-      + intros. inv_cs H; [apply US_Any | |]; apply US_NeverL.
-      + apply IS_Null; by_ simpl.
-      + apply IS_Never.
-      + intros; inv_cs H; [apply IS_Never | apply IS_Null; exact H3].
-      + intros; inv_cs H; [apply IS_Never | apply IS_Null; [exact H3 | by_ simpl]].
-    * apply US_Struct; [destruct nullable; simpl; reflexivity |]. destruct structure; inverts H0.
-      --  apply US_Fn. destruct tparams; inverts H6.
-          ++  apply IS_NilTParam.
-          ++  apply IS_ConsTParam.
-              **  destruct t; inverts H2. apply IS_TParam.
-                  --- destruct v.
-                      +++ apply IS_Invariant.
-                      +++ apply IS_Covariant.
-                      +++ apply IS_Contravariant.
-                      +++ apply IS_BivariantL.
-                  --- destruct supers; inverts H1.
-                      +++ apply IS_IntSupersNil.
-                      +++ eapply IS_IntSupersInL; [apply List.Add_head | |].
-                          *** apply H4.
-                  ---
+    * split; split; intros; try constructor; inv_cs H; constructor.
+    * split; split; destruct nullable; intros;
+        try inv_cs H;
+        constructor;
+        try (simpl; reflexivity);
+        try exact H3.
+    * split; split; intros; try constructor;
+        try (destruct nullable; simpl; reflexivity).
+      + repeat inv_ap.
+      + induction' b; try constructor;
+          destruct nullable; destruct nullable0; simpl; try (reflexivity + inv_cs H0; inverts H1; inverts H2; inverts H3; simpl in H4; discriminate);
+          inverts H.
+        induction' structure0; try constructor. etc.
 
-
-Theorem union_sym : forall {A: Set} (a b c: A), a U b = c -> b U a = c.
+Theorem union_insersect_sym : forall {A: Set} {h: HasRelation A} (a b c: A),
+    (a U b = c -> b U a = c) /\ (a I b = c -> b I a = c).
 Admitted.
 
-Theorem union_trans : forall {A: Set} (a b c x y z: A), a U b = x -> b U c = y -> (a U c = z <-> x U y = z).
+Theorem union_intersecttrans : forall {A: Set} {h: HasRelation A} (a b c x y z: A),
+    (a U b = x -> b U c = y -> (a U c = z <-> x U y = z)) /\ (a I b = x -> b I c = y -> (a I c = z <-> x I y = z)).
 Admitted.
