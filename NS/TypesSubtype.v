@@ -434,6 +434,65 @@ Local Ltac inv_ap :=
   | |- ?v I ?v :> ?v => fail "todo handle"
   end.
 
+Local Ltac invert_eqs :=
+  repeat lazymatch goal with
+  | H : ?f ?a ?a0 ?a1 ?a2 ?a3 ?a4 ?a5 = ?f ?b ?b0 ?b1 ?b2 ?b3 ?b4 ?b5 |- _ => inverts H
+  | H : ?f ?a ?a0 ?a1 ?a2 ?a3 ?a4 = ?f ?b ?b0 ?b1 ?b2 ?b3 ?b4 |- _ => inverts H
+  | H : ?f ?a ?a0 ?a1 ?a2 ?a3 = ?f ?b ?b0 ?b1 ?b2 ?b3 |- _ => inverts H
+  | H : ?f ?a ?a0 ?a1 ?a2 = ?f ?b ?b0 ?b1 ?b2 |- _ => inverts H
+  | H : ?f ?a ?a0 ?a1 = ?f ?b ?b0 ?b1 |- _ => inverts H
+  | H : ?f ?a ?a0 = ?f ?b ?b0 |- _ => inverts H
+  | H : ?f ?a = ?f ?b |- _ => inverts H
+  end.
+
+Local Ltac destruct_nullable H :=
+  repeat lazymatch goal with | H : bool |- _ => destruct H end;
+  simpl; try (reflexivity + inv_cs H; invert_eqs; simpl in *; discriminate).
+
+Local Ltac inv_cs' H :=
+  inv_cs H; invert_eqs; simpl in *; clear_obvious_eqs.
+
+Local Ltac revert_with t :=
+  repeat lazymatch goal with
+  | H : context[t] |- _ => revert H
+  end.
+
+Local Ltac destruct2' a b :=
+  (revert_with a; ind_list2 a b; intros) +
+    (destruct a; destruct b).
+
+Local Ltac destruct2 a b :=
+  lazymatch a with
+  | Supers_ ?a => match b with Supers_ ?b => destruct2' a b end
+  | Rev_ ?a => lazymatch b with Rev_ ?b => destruct2' a b end
+  | _ => destruct2' a b
+  end.
+
+Local Ltac ap_inv0 H H0 t t2 :=
+  destruct2 t t2; inverts H; inv_cs' H0; try constructor.
+
+Local Ltac ap_inv :=
+  lazymatch goal with
+  | H : ?t U ?t = ?t /\ ?t I ?t = ?t |- ?t U ?t <: ?t => destruct H as [[H _] _]; exact H
+  | H : ?t U ?t = ?t /\ ?t I ?t = ?t |- ?t I ?t :> ?t => destruct H as [_ [H _]]; exact H
+  | H : ?t U ?t = ?t /\ ?t I ?t = ?t |- ?t U ?t2 <: ?t2 => destruct H as [[_ H] _]; apply H; assumption
+  | H : ?t U ?t = ?t /\ ?t I ?t = ?t |- ?t I ?t2 :> ?t2 => destruct H as [_ [_ H]]; apply H; assumption
+  | IH : ?Q -> ?Q0 -> ?P |- ?P => apply IH; assumption
+  | H : ?P ?t |- ?t U ?t <: ?t => inverts H; constructor
+  | H : ?P ?t |- ?t I ?t :> ?t => inverts H; constructor
+  | H : ?P ?t, H0 : ?t U ?t <: ?t2 |- ?t U ?t2 <: ?t2 => ap_inv0 H H0 t t2
+  | H : ?P ?t, H0 : ?t I ?t :> ?t2 |- ?t I ?t2 :> ?t2 => ap_inv0 H H0 t t2
+  | H0 : ?t U ?t <: ?t2 |- ?t U ?t2 <: ?t2 => destruct2 t t2; inv_cs' H0; constructor
+  | H0 : ?t I ?t :> ?t2 |- ?t I ?t2 :> ?t2 => destruct2 t t2; inv_cs' H0; constructor
+  | |- ?t U ?t2 <: ?t2 => destruct2 t t2; constructor
+  | |- ?t I ?t2 :> ?t2 => destruct2 t t2; constructor
+  | |- (?t && ?t >= ?t)%bool => destruct t; simpl; reflexivity
+  | |- (?t || ?t <= ?t)%bool => destruct t; simpl; reflexivity
+  | |- (?t && ?t2 >= ?t2)%bool => destruct2 t t2; simpl in *; reflexivity + discriminate
+  | |- (?t || ?t2 <= ?t2)%bool => destruct2 t t2; simpl in *; reflexivity + discriminate
+  end.
+
+
 Theorem union_intersect_refl : forall {A: Set} {h: HasRelation A} (a: A), a U a = a /\ a I a = a.
 Proof.
   intros; destruct_relation_type A h.
@@ -447,8 +506,53 @@ Proof.
     * split; split; intros; try constructor;
         try (destruct nullable; simpl; reflexivity).
       + repeat inv_ap.
-      + induction' b; try constructor;
-          destruct nullable; destruct nullable0; simpl; try (reflexivity + inv_cs H0; inverts H1; inverts H2; inverts H3; simpl in H4; discriminate);
+      + destruct b; try constructor; destruct_nullable H0; inv_cs' H0.
+        ap_inv. ap_inv. ap_inv. ap_inv. ap_inv. ap_inv. ap_inv.
+        inv_cs' H4; constructor; apply List.Forall_rev in H8;
+          remember (List.rev params) as params'; remember (List.rev params0) as params0';
+          destruct2 params' params0'; try constructor; inv_cs' H5;
+          try (elim params0'; constructor; assumption); inverts H8.
+        ap_inv. ap_inv. ap_inv. ap_inv. ap_inv. ap_inv. ap_inv. ap_inv. ap_inv.
+        ap_inv. destruct2 optional optional0; simpl; try reflexivity.
+
+        [constructor | constructor | |]. constructor.
+
+          inverts H8; [simpl in *; subst |].
+        destruct2 params params0; inverts H8; inv_cs' H4. try constructor.
+        constructor. simpl
+
+        revert_with tparams; ind_list2 tparams tparams0; intros;
+          inverts H6; inv_cs' H2; try constructor.
+        revert_with tparams; ind_list2 tparams tparams0; intros;
+          try constructor; inv_cs' H5; inv_cs' H3; inverts H6.
+        destruct x; destruct y; inverts H2; inv_cs' H5; try constructor.
+        destruct v; destruct v0; inv_cs' H15; try constructor.
+        revert_with supers; ind_list2 supers supers0; intros;
+          try constructor; inv_cs' H16.
+        rename H into IH; apply IH; try constructor; assumption.
+        destruct H7 as [_ [_ H7]]; apply H7; inv_cs' H5; assumption.
+
+
+
+        inverts H. destruct
+        ap_inv. inv_cs' H5.  ap_inv. ap_inv. ap_inv. ap_inv. ap_inv. ap_inv. ap_inv. ap_inv. ap_inv. ap_inv. ap_inv.
+        ap_inv. revert_with tparams0. ind_list2 tparams0 tparams1.
+        ap_inv.
+
+        ap_inv. ap_inv. ap_inv. ap_inv. ap_inv. ap_inv. ap_inv. ap_inv. ap_inv. ap_inv. ap_inv. ap_inv.
+        ap_inv.
+        ap_inv.
+        induction' structure; destruct structure0.
+
+
+
+        ap_inv. ap_inv. ap_inv. ap_inv. ap_inv. ap_inv. ap_inv. ap_inv. ap_inv. ap_inv.
+        ap_inv. ap_inv. ap_inv.
+        induction b; try constructor;
+          destruct_nullable H0.
+        ap_inv. ap_inv.
+        induction' b; try constructor;
+          destruct_nullable H0.
           inverts H.
         induction' structure0; try constructor. etc.
 
