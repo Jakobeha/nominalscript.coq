@@ -195,8 +195,29 @@ Ltac ind_list2 x y :=
   | [ |- forall x y, ?H ] => apply (list_ind2 (fun x y => H))
   end.
 
-Search existT.
-Print inj_pair2.
+Lemma list_ind2_alt: forall {A B: Type} (P: list A -> list B -> Prop),
+    P nil nil ->
+    (forall x xs ys, P xs ys -> P (cons x xs) ys) ->
+    (forall y xs ys, P xs ys -> P xs (cons y ys)) ->
+    forall xs ys, P xs ys.
+Proof.
+  intros A B P P0 Px Py xs.
+  induction xs; intros ys; induction ys.
+  - exact P0.
+  - apply Py.
+    exact IHys.
+  - apply Px.
+    exact (IHxs nil).
+  - apply Py.
+    exact IHys.
+Qed.
+
+Ltac ind_list2_alt x y :=
+  revert x y;
+  match goal with
+  | [ |- forall x y, ?H ] => apply (list_ind2_alt (fun x y => H))
+  end.
+
 Ltac by_ tactic := tactic; reflexivity.
 Ltac remove_existTs :=
   repeat lazymatch goal with

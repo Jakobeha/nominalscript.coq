@@ -94,6 +94,7 @@ Local Notation "a >= b" := (Bool.le b a) : bool_scope.
 Reserved Notation "a 'U' b '<:' c" (at level 60, b at next level, no associativity).
 Reserved Notation "a 'I' b ':>' c" (at level 60, b at next level, no associativity).
 Inductive CommonSupertype : forall {A: Set} {h: HasRelation A}, A -> A -> A -> Prop :=
+| US_Trans           : forall (a b c d e: ftype), a U b <: c -> c U d <: e -> a U b <: e
 | US_Any             : forall (lhs rhs: ftype), lhs U rhs <: FAny
 | US_NeverL          : forall (rhs: ftype), FNEVER U rhs <: rhs
 | US_NeverR          : forall (lhs: ftype), lhs U FNEVER <: lhs
@@ -178,6 +179,7 @@ Inductive CommonSupertype : forall {A: Set} {h: HasRelation A}, A -> A -> A -> P
 | US_InvariantR      : forall (lhs: variance), lhs U Invariant <: lhs
 where "a 'U' b '<:' c" := (CommonSupertype a b c)
 with CommonSubtype : forall {A: Set}, A -> A -> A -> Prop :=
+| IS_Trans           : forall (a b c d e: ftype), a I b :> c -> c I d :> e -> a I b :> e
 | IS_Never           : forall (lhs rhs: ftype), lhs I rhs :> FNEVER
 | IS_Null            : forall (lhs rhs: ftype), IsNullable lhs -> IsNullable rhs -> lhs I rhs :> FNULL
 | IS_AnyL            : forall (rhs: ftype), FAny I rhs :> rhs
@@ -292,6 +294,75 @@ Notation "lhs 'I' rhs '=' a" := (Intersect lhs rhs a) (at level 60, rhs at next 
 
 From TLC Require Import LibTactics.
 
+Local Ltac clear_relation_neqs :=
+  repeat match goal with
+  | H : ?T1 = ?T2 |- _ => apply relation_type_eq1 in H; simpl in H; discriminate H
+  end.
+Local Ltac clear_obvious_eqs :=
+  repeat lazymatch goal with
+  | H : ?T = ?T |- _ => clear H
+  | H : True |- _ => clear H
+  end.
+
+Local Ltac invert_eqs :=
+  repeat lazymatch goal with
+  | H : ?f ?a ?a0 ?a1 ?a2 ?a3 ?a4 ?a5 = ?f ?b ?b0 ?b1 ?b2 ?b3 ?b4 ?b5 |- _ => inverts H
+  | H : ?f ?a ?a0 ?a1 ?a2 ?a3 ?a4 = ?f ?b ?b0 ?b1 ?b2 ?b3 ?b4 |- _ => inverts H
+  | H : ?f ?a ?a0 ?a1 ?a2 ?a3 = ?f ?b ?b0 ?b1 ?b2 ?b3 |- _ => inverts H
+  | H : ?f ?a ?a0 ?a1 ?a2 = ?f ?b ?b0 ?b1 ?b2 |- _ => inverts H
+  | H : ?f ?a ?a0 ?a1 = ?f ?b ?b0 ?b1 |- _ => inverts H
+  | H : ?f ?a ?a0 = ?f ?b ?b0 |- _ => inverts H
+  | H : ?f ?a = ?f ?b |- _ => inverts H
+  end.
+
+Ltac inv_cs H :=
+  inverts H;
+  try discriminate;
+  clear_relation_neqs;
+  clear_obvious_eqs.
+Ltac discr_cs H := inv_cs H; fail.
+
+Local Ltac induction' H :=
+  lazymatch H with
+  | Rev_ ?t => induction t
+  | Supers_ ?t => destruct t
+  | ?t => induction t
+  end.
+
+Local Ltac constructor1 :=
+  exactly_once constructor.
+
+Local Ltac constructor' :=
+  constructor + match goal with
+  | |- context[(?x :: ?xs)%list] => destruct x; econstructor; [apply List.Add_head | |]
+  | |- _ => fail "no constructor"
+  end.
+
+Local Ltac inv_con0 Constr H t :=
+  tryif apply Constr then (
+    apply List.Forall_rev in H; remember (List.rev _) as t2 eqn:H0; clear H0;
+      induction t2; inverts H; constructor
+  ) else (
+    induction' t; inverts H; constructor'; try discriminate
+  ).
+
+Local Ltac inv_con :=
+  lazymatch goal with
+  | H : ?P |- ?P => exact H
+  | H : ?t U ?t = ?t /\ ?t I ?t = ?t |- ?t U ?t <: ?t => destruct H as [[H _] _]; exact H
+  | H : ?t U ?t = ?t /\ ?t I ?t = ?t |- ?t I ?t :> ?t => destruct H as [_ [H _]]; exact H
+  | |- (?t && ?t >= ?t)%bool => destruct t; simpl; reflexivity
+  | |- (?t || ?t <= ?t)%bool => destruct t; simpl; reflexivity
+  | IH : ?Q -> ?P |- ?P => apply IH
+  | H : ?P (snd (_, ?t)) |- _ => simpl in H
+  | H : ?P ?t |- ?t U ?t <: ?t => inv_con0 US_OTypes H t
+  | H : ?P ?t |- ?t I ?t :> ?t => inv_con0 IS_OTypes H t
+  | |- ?t U ?t <: ?t => induction' t; constructor
+  | |- ?t I ?t :> ?t => induction' t; constructor
+  | |- ?v U ?v <: ?v => fail "todo handle"
+  | |- ?v I ?v :> ?v => fail "todo handle"
+  end.
+
 Theorem subtype_never: forall (a: ftype), FNEVER <: a.
 Proof.
   intros. apply US_NeverL.
@@ -306,6 +377,19 @@ Theorem subtype_any: forall (a: ftype), a <: FAny.
 Proof.
   intros. apply US_Any.
 Qed.
+
+Theorem subtype_alt: forall {A: Set} {h: HasRelation A} (a b: A), a <: b -> a U a <: b.
+Proof.
+  intros; destruct_relation_type A h.
+  - revert a H; induction b using ftype_rec; intros;
+      inv_cs H; try constructor;
+      try destruct nullable; try destruct nl; simpl in *; invert_eqs; clear_obvious_eqs; try (constructor || discriminate).
+        try constructor; simpl in *; try (constructor || discriminate); clear_obvious_eqs; invert_eqs;
+      idtac. Focus 8.
+    + destruct nullable; try discriminate.
+    + inv_cs H; constructor.
+
+    inv_cs H
 
 Theorem subtype_refl: forall {A: Set} {h: HasRelation A} (a b: A), a <: b -> a <: a.
 Admitted.
@@ -343,23 +427,6 @@ Admitted.
 
 Theorem supertype_trans: forall {A: Set} {h: HasRelation A} (a b c: A), a :> b -> b :> c -> a :> c.
 Admitted.
-
-Local Ltac by_contradiction H := contradiction H; fail.
-Local Ltac clear_relation_neqs :=
-  repeat match goal with
-  | H : ?T1 = ?T2 |- _ => apply relation_type_eq1 in H; simpl in H; discriminate H
-  end.
-Local Ltac clear_obvious_eqs :=
-  repeat lazymatch goal with
-  | H : ?T = ?T |- _ => clear H
-  end.
-
-Ltac inv_cs H :=
-  inverts H;
-  try discriminate;
-  clear_relation_neqs;
-  clear_obvious_eqs.
-Ltac discr_cs H := inv_cs H; fail.
 
 Theorem union_never: forall (a: ftype), FNEVER U a = a.
 Proof.
@@ -434,17 +501,6 @@ Local Ltac inv_ap :=
   | |- ?v I ?v :> ?v => fail "todo handle"
   end.
 
-Local Ltac invert_eqs :=
-  repeat lazymatch goal with
-  | H : ?f ?a ?a0 ?a1 ?a2 ?a3 ?a4 ?a5 = ?f ?b ?b0 ?b1 ?b2 ?b3 ?b4 ?b5 |- _ => inverts H
-  | H : ?f ?a ?a0 ?a1 ?a2 ?a3 ?a4 = ?f ?b ?b0 ?b1 ?b2 ?b3 ?b4 |- _ => inverts H
-  | H : ?f ?a ?a0 ?a1 ?a2 ?a3 = ?f ?b ?b0 ?b1 ?b2 ?b3 |- _ => inverts H
-  | H : ?f ?a ?a0 ?a1 ?a2 = ?f ?b ?b0 ?b1 ?b2 |- _ => inverts H
-  | H : ?f ?a ?a0 ?a1 = ?f ?b ?b0 ?b1 |- _ => inverts H
-  | H : ?f ?a ?a0 = ?f ?b ?b0 |- _ => inverts H
-  | H : ?f ?a = ?f ?b |- _ => inverts H
-  end.
-
 Local Ltac destruct_nullable H :=
   repeat lazymatch goal with | H : bool |- _ => destruct H end;
   simpl; try (reflexivity + inv_cs H; invert_eqs; simpl in *; discriminate).
@@ -458,7 +514,7 @@ Local Ltac revert_with t :=
   end.
 
 Local Ltac destruct2' a b :=
-  (revert_with a; ind_list2 a b; intros) +
+  (revert_with a; revert_with b; ind_list2 a b; intros) +
     (destruct a; destruct b).
 
 Local Ltac destruct2 a b :=
@@ -468,8 +524,16 @@ Local Ltac destruct2 a b :=
   | _ => destruct2' a b
   end.
 
+Local Ltac ap_inv0_oftype H H0 params params0 :=
+  inv_cs' H0; constructor; apply List.Forall_rev in H;
+    remember (List.rev params) as params' eqn:Heqparams'; remember (List.rev params0) as params0' eqn:Heqparams0';
+    clear Heqparams'; clear Heqparams0'; clear params; clear params0.
+
 Local Ltac ap_inv0 H H0 t t2 :=
-  destruct2 t t2; inverts H; inv_cs' H0; try constructor.
+  match type of t with
+  | list oftype => ap_inv0_oftype H H0 t t2
+  | _ => destruct2 t t2; inverts H; inv_cs' H0; try constructor
+  end.
 
 Local Ltac ap_inv :=
   lazymatch goal with
@@ -477,9 +541,13 @@ Local Ltac ap_inv :=
   | H : ?t U ?t = ?t /\ ?t I ?t = ?t |- ?t I ?t :> ?t => destruct H as [_ [H _]]; exact H
   | H : ?t U ?t = ?t /\ ?t I ?t = ?t |- ?t U ?t2 <: ?t2 => destruct H as [[_ H] _]; apply H; assumption
   | H : ?t U ?t = ?t /\ ?t I ?t = ?t |- ?t I ?t2 :> ?t2 => destruct H as [_ [_ H]]; apply H; assumption
-  | IH : ?Q -> ?Q0 -> ?P |- ?P => apply IH; assumption
+  | IH : ?Q -> ?Q0 -> ?Q1 -> ?P |- ?P => apply IH; try assumption
+  | IH : ?Q -> ?Q0 -> ?P |- ?P => apply IH; try assumption
+  | IH : ?Q -> ?P |- ?P => apply IH; try assumption
   | H : ?P ?t |- ?t U ?t <: ?t => inverts H; constructor
   | H : ?P ?t |- ?t I ?t :> ?t => inverts H; constructor
+  | H : ?P ?t, H0 : Rev_ ?t U Rev_ ?t <: Rev_ ?t2 |- Rev_ ?t U Rev_ ?t2 <: Rev_ ?t2 => ap_inv0 H H0 t t2
+  | H : ?P ?t, H0 : Rev_ ?t I Rev_ ?t :> Rev_ ?t2 |- Rev_ ?t I Rev_ ?t2 :> Rev_ ?t2 => ap_inv0 H H0 t t2
   | H : ?P ?t, H0 : ?t U ?t <: ?t2 |- ?t U ?t2 <: ?t2 => ap_inv0 H H0 t t2
   | H : ?P ?t, H0 : ?t I ?t :> ?t2 |- ?t I ?t2 :> ?t2 => ap_inv0 H H0 t t2
   | H0 : ?t U ?t <: ?t2 |- ?t U ?t2 <: ?t2 => destruct2 t t2; inv_cs' H0; constructor
@@ -488,8 +556,8 @@ Local Ltac ap_inv :=
   | |- ?t I ?t2 :> ?t2 => destruct2 t t2; constructor
   | |- (?t && ?t >= ?t)%bool => destruct t; simpl; reflexivity
   | |- (?t || ?t <= ?t)%bool => destruct t; simpl; reflexivity
-  | |- (?t && ?t2 >= ?t2)%bool => destruct2 t t2; simpl in *; reflexivity + discriminate
-  | |- (?t || ?t2 <= ?t2)%bool => destruct2 t t2; simpl in *; reflexivity + discriminate
+  | |- (?t && ?t2 >= ?t2)%bool => destruct2 t t2; simpl in *; try (reflexivity + discriminate); clear_obvious_eqs
+  | |- (?t || ?t2 <= ?t2)%bool => destruct2 t t2; simpl in *; try (reflexivity + discriminate); clear_obvious_eqs
   end.
 
 
@@ -507,13 +575,23 @@ Proof.
         try (destruct nullable; simpl; reflexivity).
       + repeat inv_ap.
       + destruct b; try constructor; destruct_nullable H0; inv_cs' H0.
-        ap_inv. ap_inv. ap_inv. ap_inv. ap_inv. ap_inv. ap_inv.
-        inv_cs' H4; constructor; apply List.Forall_rev in H8;
-          remember (List.rev params) as params'; remember (List.rev params0) as params0';
-          destruct2 params' params0'; try constructor; inv_cs' H5;
-          try (elim params0'; constructor; assumption); inverts H8.
-        ap_inv. ap_inv. ap_inv. ap_inv. ap_inv. ap_inv. ap_inv. ap_inv. ap_inv.
-        ap_inv. destruct2 optional optional0; simpl; try reflexivity.
+        ap_inv. ap_inv. ap_inv. ap_inv. ap_inv. ap_inv. ap_inv. ap_inv.
+        revert_with params'; ind_list2_alt params' params0'; intros; inverts H8;
+          [apply IS_NilOType |  | |].
+          [apply IS_NilOType | inv_cs' H5 | apply IS_ConsOTypeR; apply H; [apply List.Forall_nil | inv_cs' H5; assumption] | inv_cs' H5].
+          apply IS_ConsOType; [ap_inv; ap_inv | apply H; assumption].
+          apply IS_ConsOTypeL.
+        inverts H4; inv_cs' H5.
+        destruct optional; destruct optional0;
+          try (apply IS_ConsOType; [constructor; [simpl; reflexivity | ap_inv] | ]).
+          try (apply IS_ConsOType; [inverts H4; constructor; [reflexivity | ] |]).
+          inverts H8; inv_cs' H5.
+        ap_inv.
+        ap_inv. ap_inv. ap_inv.
+        ap_inv.
+        ap_inv. ap_inv. ap_inv.
+        apply H; try assumption. inv_cs' H14.
+
 
         [constructor | constructor | |]. constructor.
 
