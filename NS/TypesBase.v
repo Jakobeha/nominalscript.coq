@@ -86,7 +86,7 @@ Inductive SType_Forall {type: Set} (P: type -> Prop): stype type -> Prop :=
     SType_Forall P (SFn tparams thisp params rparam ret)
 | Forall_SArray : forall elem, P elem -> SType_Forall P (SArray elem)
 | Forall_STuple : forall elems, List.Forall (OType_Forall P) elems -> SType_Forall P (STuple elems)
-| Forall_SObject : forall fields, List.Forall (OType_Forall P << snd) fields -> SType_Forall P (SObject fields).
+| Forall_SObject : forall fields, JsRecordForall (OType_Forall P) fields -> SType_Forall P (SObject fields).
 
 Axiom ttype_rec':
   forall (P: ttype -> Prop)

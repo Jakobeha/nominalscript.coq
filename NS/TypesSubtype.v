@@ -113,6 +113,9 @@ Inductive CommonSupertype : forall {A: Set} {h: HasRelation A}, A -> A -> A -> P
     FNominal nl idl idsl sl U FNominal nr idr idsr sr <: FNominal nu idu idsu su
 | US_NomCommonStruct : forall (nl nr nu: bool) (idl idr: itype ftype) (idsl idsr: list (itype ftype)) (sl sr su: stype ftype),
     nl || nr <= nu -> sl U sr <: su -> FNominal nl idl idsl (Some sl) U FNominal nr idr idsr (Some sr) <: FStructural nu su
+(* with CommonSupertype_opt_struct : option sftype -> option sftype -> option sftype -> Prop := *)
+| US_StructNone      : forall (lhs rhs: option sftype), lhs U rhs <: None
+| US_StructSome      : forall (lhs rhs uni: sftype), lhs U rhs <: uni -> Some lhs U Some rhs <: Some uni
 (* with CommonSupertype_ident : itype ftype -> itype ftype -> itype ftype -> Prop := *)
 | US_Ident           : forall (name: string) (tal tar tau: list ftype), tal U tar <: tau -> It name tal U It name tar <: It name tau
 (* with CommonSupertype_struct : stype ftype -> stype ftype -> stype ftype -> Prop := *)
@@ -190,6 +193,11 @@ with CommonSubtype : forall {A: Set}, A -> A -> A -> Prop :=
 | IS_Nom             : forall (nl nr nu: bool) (idl idr idu: itype ftype) (idsl idsr idsu: list (itype ftype)) (sl sr su: option (stype ftype)),
     nl && nr >= nu -> cons idl idsl I cons idr idsr :> cons idu idsu -> sl I sr :> su ->
     FNominal nl idl idsl sl I FNominal nr idr idsr sr :> FNominal nu idu idsu su
+(* with CommonSubtype_opt_struct : option sftype -> option sftype -> option sftype -> Prop := *)
+| IS_StructNoneNone  : forall (uni: option sftype), @None sftype I None :> uni
+| IS_StructNoneSome  : forall (lhs: sftype), Some lhs I None :> Some lhs
+| IS_StructSomeNone  : forall (rhs: sftype), None I Some rhs :> Some rhs
+| IS_StructSomeSome  : forall (lhs rhs uni: sftype), lhs I rhs :> uni -> Some lhs I Some rhs :> Some uni
 (* with CommonSupertype_ident : itype ftype -> itype ftype -> itype ftype -> Prop := *)
 | IS_Ident           : forall (name: string) (tal tar tau: list ftype), tal I tar :> tau -> It name tal I It name tar :> It name tau
 (* with CommonSupertype_struct : stype ftype -> stype ftype -> stype ftype -> Prop := *)
@@ -316,11 +324,20 @@ Local Ltac ind0 a :=
   | FNever ?nullable => ind0 nullable
   | FStructural ?nullable ?structure => ind0 nullable
   | FNominal ?nullable ?id ?super_ids ?structure => ind0 nullable
-  | ?a => induction a using js_record_ind || induction a
+  | ?a => induction a
   end.
 
-Local Ltac inv_con0 CS Inv a :=
+Local Ltac inv_con_js_record CS Inv a :=
+  induction a using js_record_ind; once (try constructor).
+
+Local Ltac inv_con1 CS Inv a :=
   ind0 a; if_some inv_cs CS; if_some inv Inv; try constructor; simpl; try (reflexivity || discriminate).
+
+Local Ltac inv_con0 CS Inv a :=
+  lazymatch type of a with
+  | js_record _ => inv_con_js_record CS Inv a
+  | _ => inv_con1 CS Inv a
+  end.
 
 Local Ltac inv_con :=
   lazymatch goal with
@@ -329,8 +346,11 @@ Local Ltac inv_con :=
   | IH : ?Q -> ?Q0 -> ?Q1 -> ?P |- ?P => apply IH
   | IH : ?Q -> ?Q0 -> ?P |- ?P => apply IH
   | IH : ?Q -> ?P |- ?P => apply IH
+  | Inv : JsRecordForall _ _, H : exists (kx : string) (vx : oftype), _ |- _ => destruct H as [kx [vx H]]; destruct (JsRecordAdd_Forall H Inv); econstructor; try exact H
   | Inv : ?P ?a |- Supers_ ?a I Supers_ ?a :> Supers_ ?a => inv_con0 None (Some Inv) a
   | Inv : ?P ?a |- Supers_ ?a U Supers_ ?a <: Supers_ ?a => inv_con0 None (Some Inv) a
+  | Inv : ?P ?a |- Some ?a I Some ?a :> Some ?a => inv_con0 None (Some Inv) a
+  | Inv : ?P ?a |- Some ?a U Some ?a <: Some ?a => inv_con0 None (Some Inv) a
   | |- ?nullable && ?nullable >= ?nullable => destruct nullable; simpl; reflexivity
   | |- ?nullable || ?nullable <= ?nullable => destruct nullable; simpl; reflexivity
   | CS : ?a I ?a :> ?a /\ ?a U ?a <: ?a |- ?a I ?a :> ?a => destruct CS as [CS _]; exact CS
@@ -343,21 +363,14 @@ Local Ltac inv_con :=
 
 Theorem subtype_supertype_refl: forall {A: Set} {h: HasRelation A} (a: A), a :> a /\ a <: a.
 Proof.
-  intros; destruct_relation_type A h.
-  - induction a using ftype_rec'; intros; split; unfold IsSubtype, IsSupertype in *.
-    inv_con. inv_con. inv_con. inv_con. inv_con. inv_con. inv_con. inv_con. inv_con.
-    inv_con. inv_con. inv_con. inv_con. inv_con. inv_con. inv_con. inv_con. inv_con.
-    inv_con. inv_con. inv_con. inv_con. inv_con. inv_con. inv_con. inv_con. inv_con.
-    inv_con. inv_con. induction fields using js_record_ind; try constructor.
-    destruct H as [xs [H [H0 | H0]]].
+  intros.
+  match goal with
+  | a: ?A, h: HasRelation ?A |- context H [?a] => pose (H := context H [ftype])
 
-    inv_con. apply IS_JSNil.
-    inv_con. inv_con. inv_con. inv_con. inv_con.
-    inv_con.
-      try constructor; try destruct nullable; simpl; try reflexivity; try constructor; simpl; try reflexivity.
-    inv_con. inv_con. inv_con. inv_con. inv_con. inv_con. inv_con. inv_cs H6.
-
-    inv_con.
+  destruct_relation_type A h.
+  - induction a using ftype_rec'; intros; split; unfold IsSubtype, IsSupertype in *;
+    repeat inv_con.
+  -
 
 Local Ltac contstructor0 :=
   constructor || match goal with
