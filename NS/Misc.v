@@ -405,12 +405,12 @@ Qed.
 
 Lemma js_record_ind : forall {A: Set} (P: js_record A -> Prop),
     P nil ->
-    (forall xs', (exists kx vx xs, ~JsRecordHasKey kx xs -> P xs /\ JsRecordAdd kx vx xs xs') -> P xs') ->
+    (forall kx vx xs', (exists xs, ~JsRecordHasKey kx xs -> P xs /\ JsRecordAdd kx vx xs xs') -> P xs') ->
     forall xs, P xs.
 Proof.
   intros A P P0 Pn xs.
   induction xs using list_add_ind; intros; [exact P0 |]; destruct H as [[kx vx] [xs [H0 H1]]].
-  eapply Pn. do 3 eexists. intros. split; [exact H0 |]. split; [exact H1 | exact H].
+  eapply Pn. eexists. intros. split; [exact H0 |]. split; [exact H1 | exact H].
 Qed.
 
 Lemma JsRecordAdd_HasKey : forall {A: Set} (kx: string) (vx: A) (xs xs': js_record A),
@@ -423,22 +423,22 @@ Qed.
 
 Lemma js_record_ind2 : forall {A: Set} (P: js_record A -> js_record A -> Prop),
     P nil nil ->
-    (forall xs', (exists kx vx xs, ~JsRecordHasKey kx xs -> P xs nil /\ JsRecordAdd kx vx xs xs') -> P xs' nil) ->
-    (forall ys', (exists ky vy ys, ~JsRecordHasKey ky ys -> P nil ys /\ JsRecordAdd ky vy ys ys') -> P nil ys') ->
-    (forall xs' ys', (exists kx vx ky vy xs ys, ~JsRecordHasKey kx xs -> ~JsRecordHasKey ky ys -> P xs ys /\ JsRecordAdd kx vx xs xs' /\ JsRecordAdd ky vy ys ys') -> P xs' ys') ->
+    (forall kx vx xs', (exists xs, ~JsRecordHasKey kx xs -> P xs nil /\ JsRecordAdd kx vx xs xs') -> P xs' nil) ->
+    (forall ky vy ys', (exists ys, ~JsRecordHasKey ky ys -> P nil ys /\ JsRecordAdd ky vy ys ys') -> P nil ys') ->
+    (forall kx vx ky vy xs' ys', (exists xs ys, ~JsRecordHasKey kx xs -> ~JsRecordHasKey ky ys -> P xs ys /\ JsRecordAdd kx vx xs xs' /\ JsRecordAdd ky vy ys ys') -> P xs' ys') ->
     forall xs ys, P xs ys.
 Proof.
   intros A P P0 Px Py Pxy xs. induction xs; intros; induction ys.
   - exact P0.
-  - destruct a as [ky vy]. apply Py. exists ky. exists vy. exists ys. split; [| split].
+  - destruct a as [ky vy]. eapply Py. exists ys. split; [| split].
     + exact IHys.
     + apply List.Add_head.
     + exact H.
-  - destruct a as [kx vx]. apply Px. exists kx. exists vx. exists xs. split; [| split].
+  - destruct a as [kx vx]. eapply Px. exists xs. split; [| split].
     + exact (IHxs nil).
     + apply List.Add_head.
     + exact H.
-  - destruct a as [kx vx]. destruct a0 as [ky vy]. apply Pxy. exists kx. exists vx. exists ky. exists vy. exists xs. exists ys. intros. split; [| split; split].
+  - destruct a as [kx vx]. destruct a0 as [ky vy]. eapply Pxy. exists xs. exists ys. intros. split; [| split; split].
     + exact (IHxs ys).
     + apply List.Add_head.
     + exact H.
