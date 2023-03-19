@@ -335,66 +335,140 @@ Proof.
   intros. apply US_Any.
 Qed.
 
-Local Ltac ind0 a :=
+Local Ltac ind1 a :=
   lazymatch a with
   | FAny => idtac
-  | FNever ?nullable => ind0 nullable
-  | FStructural ?nullable ?structure => ind0 nullable
-  | FNominal ?nullable ?id ?super_ids ?structure => ind0 nullable
-  | ?a => induction a
+  | FNever ?nullable => destruct nullable
+  | FStructural ?nullable ?structure => destruct nullable
+  | FNominal ?nullable ?id ?super_ids ?structure => destruct nullable
+  | Supers_ ?a => induction a
+  | Some ?a => induction a
+  | ?a => tryif is_var a then induction a else idtac
   end.
 
-Local Ltac inv_con_js_record CS Inv a :=
+Local Ltac ind2' a b :=
+  (revert_with a; revert_with b; ind_list2 a b; intros) || (ind1 a; ind1 b).
+
+Local Ltac ind2 a b :=
+  lazymatch constr:((a, b)) with
+  | (FAny, FAny) => idtac
+  | (FNever ?na, FNever ?nb) => destruct na; destruct nb
+  | (FStructural ?na ?sa, FStructural ?nb ?sb) => destruct na; destruct nb
+  | (FNominal ?na ?ida ?sidsa ?sa, FStructural ?nb ?idb ?sidsb ?sb) => destruct na; destruct nb
+  | (Supers_ ?a, Supers_ ?b) => ind2' a b
+  | (Some ?a, Some ?b) => ind2' a b
+  | (?a, ?b) => ind2' a b
+  end.
+
+Local Ltac ind0 a b c :=
+  lazymatch constr:((a, b, c)) with
+  | (?a, ?a, ?a) => ind1 a
+  | (?a, ?b, ?b) => ind2 a b
+  | (?b, ?a, ?b) => ind2 b a
+  | (?a, ?b, ?c) => ind1 c
+  end.
+
+Local Ltac inv_con_js_record0 a b c :=
+  (* TODO: Handle case with b and c *)
   induction a using js_record_ind; once (try constructor).
 
-Local Ltac inv_con1 CS Inv a :=
-  ind0 a; if_some inv_cs CS; if_some inv Inv; try constructor; simpl; try (reflexivity || discriminate).
+Local Ltac inv_con_js_record1 H :=
+  destruct H as [kx [vx H]]; lazymatch goal with
+  | Inv : JsRecordForall _ _ |- _ => destruct (JsRecordAdd_Forall H Inv)
+  | |- _ => idtac
+  end; econstructor; try exact H.
 
-Local Ltac inv_con0 CS Inv a :=
+Local Ltac constr_eq_any3 d a b c :=
+  first [constr_eq_strict d a | constr_eq_strict d b | constr_eq_strict d c].
+
+Local Ltac constr_eq_any33 d e f a b c :=
+  first [constr_eq_any3 d a b c | constr_eq_any3 e a b c | constr_eq_any3 f a b c].
+
+Local Ltac inv_con1 a b c :=
+  let CS := fresh "CS" in let Inv := fresh "Inv" in
+  match goal with
+  | CS' : ?d U ?e <: ?f |- _ => constr_eq_any33 d e f a b c; rename CS' into CS
+  | CS' : ?d I ?e :> ?f |- _ => constr_eq_any33 d e f a b c; rename CS' into CS
+  | _ => idtac
+  end;
+  match goal with
+  | Inv' : ?P ?d |- _ => assert_fails (constr_eq_strict Inv' CS); constr_eq_any3 d a b c; rename Inv' into Inv
+  | _ => idtac
+  end;
+  once (ind0 a b c; try (inv Inv); try (inv_cs CS));
+  try constructor; clear_relation_neqs; invert_eqs; simpl; try (reflexivity || discriminate).
+
+Local Ltac inv_con0 a b c :=
   lazymatch type of a with
-  | js_record _ => inv_con_js_record CS Inv a
-  | _ => inv_con1 CS Inv a
+  | js_record _ => inv_con_js_record0 a b c
+  | _ => inv_con1 a b c
   end.
 
 Local Ltac inv_con :=
   lazymatch goal with
-  | H : ?P |- ?P => exact H
+  | G : ?P |- ?P => exact G
+  | G : ?P /\ ?Q |- ?P => destruct G as [G _]; exact G
+  | G : ?P /\ ?Q |- ?Q => destruct G as [_ G]; exact G
   | IH : ?Q -> ?Q0 -> ?Q1 -> ?Q2 -> ?P |- ?P => apply IH
   | IH : ?Q -> ?Q0 -> ?Q1 -> ?P |- ?P => apply IH
   | IH : ?Q -> ?Q0 -> ?P |- ?P => apply IH
   | IH : ?Q -> ?P |- ?P => apply IH
-  | Inv : JsRecordForall _ _, H : exists (kx : string) (vx : oftype), _ |- _ => destruct H as [kx [vx H]]; destruct (JsRecordAdd_Forall H Inv); econstructor; try exact H
-  | Inv : ?P ?a |- Supers_ ?a I Supers_ ?a :> Supers_ ?a => inv_con0 None (Some Inv) a
-  | Inv : ?P ?a |- Supers_ ?a U Supers_ ?a <: Supers_ ?a => inv_con0 None (Some Inv) a
-  | Inv : ?P ?a |- Some ?a I Some ?a :> Some ?a => inv_con0 None (Some Inv) a
-  | Inv : ?P ?a |- Some ?a U Some ?a <: Some ?a => inv_con0 None (Some Inv) a
-  | H : exists (kx : string) (vx : oftype), _ |- _ => destruct H as [kx [vx H]]; econstructor; try exact H
-  | |- Supers_ ?a I Supers_ ?a :> Supers_ ?a => inv_con0 None None a
-  | |- Supers_ ?a U Supers_ ?a <: Supers_ ?a => inv_con0 None None a
-  | |- Some ?a I Some ?a :> Some ?a => inv_con0 None None a
-  | |- Some ?a U Some ?a <: Some ?a => inv_con0 None None a
-  | |- ?nullable && ?nullable >= ?nullable => destruct nullable; simpl; reflexivity
-  | |- ?nullable || ?nullable <= ?nullable => destruct nullable; simpl; reflexivity
-  | CS : ?a I ?a :> ?a /\ ?a U ?a <: ?a |- ?a I ?a :> ?a => destruct CS as [CS _]; exact CS
-  | CS : ?a I ?a :> ?a /\ ?a U ?a <: ?a |- ?a U ?a <: ?a => destruct CS as [_ CS]; exact CS
-  | Inv : ?P ?a |- ?a I ?a :> ?a => inv_con0 None (Some Inv) a
-  | Inv : ?P ?a |- ?a U ?a <: ?a => inv_con0 None (Some Inv) a
-  | |- ?a I ?a :> ?a => inv_con0 None None a
-  | |- ?a U ?a <: ?a => inv_con0 None None a
+  | H : ((?x :: ?xs) ++ ?xsu)%list = (?x :: ?xs)%list |- _ => inv H; lazymatch goal with | H : (?xs ++ ?xsu)%list = ?xs |- _ => rewrite H in *; clear H; clear xsu end
+  | H : exists (kx : string) (vx : oftype), _ |- _ => inv_con_js_record1 H
+  | |- ?n0 && ?n1 >= ?n2 => ind0 n0 n1 n2; simpl; reflexivity
+  | |- ?n0 || ?n1 <= ?n2 => ind0 n0 n1 n2; simpl; reflexivity
+  | |- ?n0 && ?n1 = ?n2 => ind0 n0 n1 n2; simpl; reflexivity || discriminate
+  | |- Is_true ?nullable => destruct nullable; reflexivity || discriminate
+  | |- ?a I ?b :> ?c => inv_con0 a b c
+  | |- ?a U ?b <: ?c => inv_con0 a b c
   end.
 
 Local Ltac inv_con' :=
   match goal with
-  | CS : forall (a: ftype), a I a :> a /\ a U a <: a |- ?a I ?a :> ?a => specialize (CS a); destruct CS as [CS _]; exact CS
-  | CS : forall (a: ftype), a I a :> a /\ a U a <: a |- ?a U ?a <: ?a => specialize (CS a); destruct CS as [_ CS]; exact CS
+  | G : forall (a: ftype), a I a :> a /\ a U a <: a |- ?a I ?a :> ?a => specialize (G a); destruct G as [G _]; exact G
+  | G : forall (a: ftype), a I a :> a /\ a U a <: a |- ?a U ?a <: ?a => specialize (G a); destruct G as [_ G]; exact G
   | |- _ => inv_con
   end.
+
+
+Local Ltac inv_con'0 :=
+  lazymatch goal with
+  | G : forall (a: ftype), (?b U a <: a -> a I ?b :> ?b) /\ (?b I a :> a -> a U ?b <: ?b) |- ?a I ?b :> ?b => specialize (G a); destruct G as [G _]; apply G
+  | G : forall (a: ftype), (?b U a <: a -> a I ?b :> ?b) /\ (?b I a :> a -> a U ?b <: ?b) |- ?a U ?b <: ?b => specialize (G a); destruct G as [_ G]; apply G
+  | |- _ => inv_con
+  end.
+
+Local Ltac repeat' tac := timeout 10 (repeat tac).
+
+Theorem subtype_supertype_antisym: forall {A: Set} {h: HasRelation A} (a b: A),
+    (a <: b -> b :> a) /\ (a :> b -> b <: a).
+  apply prove_relation_by_ftype2.
+  - induction a using ftype_rec'; intros; split; intros; unfold IsSubtype, IsSupertype in *.
+    inv_con. inv_con. inv_con. inv_con. inv_con. inv_con. inv_con. inv_con. inv_con. inv_con.
+    inv_con. inv_con. inv_con. inv_con. inv_con. inv_con. inv_con. inv_con. inv_con. inv_con.
+    inv_con. inv_con. inv_con. inv_con'0. inv_con. inv_con. inv_con.
+    inv_con. specialize (H6 thisp).
+  try constructor; clear_relation_neqs; invert_eqs; simpl; try (reflexivity || discriminate).
+    Print CommonSupertype.
+    inv_con. inv_con. inv_con. inv_con. inv_con.
+    inv_con.
+
+    inv_con. inv_con. inv_con. inv_con. inv_con. inv_con. inv_con.
+    inv_con. inv_con.
 
 Theorem subtype_supertype_refl: forall {A: Set} {h: HasRelation A} (a: A), a :> a /\ a <: a.
 Proof.
   apply prove_relation_by_ftype1.
   - induction a using ftype_rec'; intros; split; unfold IsSubtype, IsSupertype in *; repeat inv_con.
   - intros; split; unfold IsSubtype, IsSupertype in *; destruct_relation_type A h; repeat inv_con'.
+Qed.
+
+Admitted.
+
+Theorem subtype_supertype_trans: forall {A: Set} {h: HasRelation A} (a b c: A),
+    (a <: b -> b <: c -> a <: c) /\ (a :> b -> b :> c -> a :> c).
+Admitted.
+
 
 Local Ltac contstructor0 :=
   constructor || match goal with
@@ -502,12 +576,6 @@ Proof.
     + inv_cs H; constructor.
 
     inv_cs H
-
-Theorem subtype_antisym: forall {A: Set} {h: HasRelation A} (a b: A), a <: b -> b :> a.
-Admitted.
-
-Theorem subtype_trans: forall {A: Set} {h: HasRelation A} (a b c: A), a <: b -> b <: c -> a <: c.
-Admitted.
 
 Theorem supertype_never: forall (a: ftype), a :> FNEVER.
 Proof.
