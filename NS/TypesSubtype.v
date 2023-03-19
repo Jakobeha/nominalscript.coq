@@ -94,12 +94,14 @@ Local Notation "a >= b" := (Bool.le b a) : bool_scope.
 Reserved Notation "a 'U' b '<:' c" (at level 60, b at next level, no associativity).
 Reserved Notation "a 'I' b ':>' c" (at level 60, b at next level, no associativity).
 Inductive CommonSupertype : forall {A: Set} {h: HasRelation A}, A -> A -> A -> Prop :=
-| US_Trans           : forall (a b c d e: ftype), a U b <: c -> c U d <: e -> a U b <: e
 | US_Any             : forall (lhs rhs: ftype), lhs U rhs <: FAny
+| US_Never           : forall (a: ftype), FNEVER U FNEVER <: a
 | US_NeverL          : forall (rhs: ftype), FNEVER U rhs <: rhs
 | US_NeverR          : forall (lhs: ftype), lhs U FNEVER <: lhs
+| US_Null            : forall (a: ftype), IsNullable a -> FNULL U FNULL <: a
 | US_NullL           : forall (rhs: ftype), IsNullable rhs -> FNULL U rhs <: rhs
 | US_NullR           : forall (lhs: ftype), IsNullable lhs -> lhs U FNULL <: lhs
+| US_NeverNull       : FNEVER U FNEVER <: FNULL
 | US_Struct          : forall (nl nr nu: bool) (sl sr su: stype ftype),
     nl || nr <= nu -> sl U sr <: su -> FStructural nl sl U FStructural nr sr <: FStructural nu su
 | US_NomStruct       : forall (nl nr nu: bool) (idl: itype ftype) (idsl: list (itype ftype)) (sl sr su: stype ftype),
@@ -136,11 +138,14 @@ Inductive CommonSupertype : forall {A: Set} {h: HasRelation A}, A -> A -> A -> P
     xl U xr <: xu -> xsl U xsr <: xsu -> cons xl xsl U cons xr xsr <: cons xu xsu
 (* with CommonSupertype_zip_tparam : list tparam -> list tparam -> list tparam -> Prop := *)
 | US_NilTParam       : @nil (tparam ftype) U nil <: nil
-| US_ConsTParam     : forall (xl xr xu: tparam ftype) (xsl xsr xsu: list (tparam ftype)),
+| US_ConsTParam      : forall (xl xr xu: tparam ftype) (xsl xsr xsu: list (tparam ftype)),
     xl U xr <: xu -> xsl U xsr <: xsu -> cons xl xsl U cons xr xsr <: cons xu xsu
 (* with CommonSupertype_zip_otype : list (otype ftype) -> list (otype ftype) -> list (otype ftype) -> Prop := *)
-| US_OTypes          : forall (xsl xsr xsu: list (otype ftype)),
-    Rev_ (List.rev xsl) U Rev_ (List.rev xsr) <: Rev_ (List.rev xsu) -> xsl U xsr <: xsu
+| US_NilOType        : forall (xsu: list (otype ftype)), xsu U xsu <: nil
+| US_NilOTypeL       : forall (xsl xsu: list (otype ftype)), (xsu ++ xsl)%list U xsu <: xsu
+| US_NilOTypeR       : forall (xsr xsu: list (otype ftype)), xsu U (xsu ++ xsr)%list <: xsu
+| US_ConsOType       : forall (xl xr xu: otype ftype) (xsl xsr xsu: list (otype ftype)),
+    xl U xr <: xu -> xsl U xsr <: xsu -> cons xl xsl U cons xr xsr <: cons xu xsu
 (* with CommonSupertype_intersect_itype : list (itype ftype) -> list (itype ftype) -> list (itype ftype) -> Prop := *)
 | US_IntersectNil    : forall (idsl idsr: list (itype ftype)), idsl U idsr <: nil
 | US_IntersectConsL  : forall (idl: itype ftype) (idsl idsr idsu: list (itype ftype)), cons idl idsl U idsr <: idsu
@@ -149,14 +154,6 @@ Inductive CommonSupertype : forall {A: Set} {h: HasRelation A}, A -> A -> A -> P
      List.Add idr idsr idsr' -> idl U idr <: idu -> idsl U idsr <: idsu -> cons idl idsl U idsr' <: cons idu idsu
 | US_IntersectInL    : forall (idl idr idu: itype ftype) (idsl idsr idsl' idsu: list (itype ftype)),
      List.Add idl idsl idsl' -> idl U idr <: idu -> idsl U idsr <: idsu -> idsl' U cons idr idsr <: cons idu idsu
-(* with CommonSupertype_zip_otype_rev : Rev (list (otype ftype)) -> Rev (list (otype ftype)) -> Rev (list (otype ftype)) -> Prop := *)
-| US_NilOType        : Rev_ (@nil (otype ftype)) U Rev_ nil <: Rev_ nil
-| US_ConsOType       : forall (xl xr xu: otype ftype) (xsl xsr xsu: list (otype ftype)),
-    xl U xr <: xu -> Rev_ xsl U Rev_ xsr <: Rev_ xsu -> Rev_ (cons xl xsl) U Rev_ (cons xr xsr) <: Rev_ (cons xu xsu)
-| US_ConsOTypeL      : forall (xsl xsr xsu: list (otype ftype)) (xl: otype ftype),
-    Rev_ xsl U Rev_ xsr <: Rev_ xsu -> Rev_ (cons xl xsl) U Rev_ xsr <: Rev_ xsu
-| US_ConsOTypeR      : forall (xsl xsr xsu: list (otype ftype)) (xr: otype ftype),
-    Rev_ xsl U Rev_ xsr <: Rev_ xsu -> Rev_ xsl U Rev_ (cons xr xsr) <: Rev_ xsu
 (* with CommonSupertype_intersect_ftype_supers : Supers (list ftype) -> Supers (list ftype) -> Supers (list ftype) -> Prop := *)
 | US_IntSupersNil    : Supers_ (@nil ftype) U Supers_ nil <: Supers_ nil
 | US_IntSupersConsL  : forall (xl: ftype) (xsl xsr xsu: list ftype), Supers_ (cons xl xsl) U Supers_ xsr <: Supers_ xsu
@@ -167,10 +164,9 @@ Inductive CommonSupertype : forall {A: Set} {h: HasRelation A}, A -> A -> A -> P
      List.Add xl xsl xsl' -> xl U xr <: xu -> xsl U xsr <: xsu -> Supers_ xsl' U Supers_ (cons xr xsr) <: Supers_ (cons xu xsu)
 (* with CommonSupertype_js_record : js_record oftype -> js_record oftype -> js_record oftype -> Prop *)
 | US_JSNil           : @nil (string * oftype) U nil <: nil
-| US_JSInR           : forall (name: string) (vl vr vu: oftype) (vls vrs vrs' vus: js_record oftype),
-    List.Add (name, vr) vrs vrs' -> vl U vr <: vu -> vls U vrs <: vus -> cons (name, vl) vls U vrs' <: cons (name, vu) vus
-| US_JSInL           : forall (name: string) (vl vr vu: oftype) (vls vls' vrs vus: js_record oftype),
-    List.Add (name, vl) vls vls' -> vl U vr <: vu -> vls U vrs <: vus -> vls' U cons (name, vr) vrs <: cons (name, vu) vus
+| US_JSAdd           : forall (name: string) (vl vr vu: oftype) (vls vls' vrs vrs' vus vus': js_record oftype),
+    JsRecordAdd name vl vls vls' -> JsRecordAdd name vr vrs vrs' -> JsRecordAdd name vu vus vus' ->
+    vl U vr <: vu -> vls U vrs <: vus -> vls' U vrs' <: vus'
 (* with CommonSupertype_variance : variance -> variance -> variance -> Prop *)
 | US_Bivariant       : forall (lhs rhs: variance), lhs U rhs <: Bivariant
 | US_Covariant       : Covariant U Covariant <: Covariant
@@ -179,7 +175,6 @@ Inductive CommonSupertype : forall {A: Set} {h: HasRelation A}, A -> A -> A -> P
 | US_InvariantR      : forall (lhs: variance), lhs U Invariant <: lhs
 where "a 'U' b '<:' c" := (CommonSupertype a b c)
 with CommonSubtype : forall {A: Set}, A -> A -> A -> Prop :=
-| IS_Trans           : forall (a b c d e: ftype), a I b :> c -> c I d :> e -> a I b :> e
 | IS_Never           : forall (lhs rhs: ftype), lhs I rhs :> FNEVER
 | IS_Null            : forall (lhs rhs: ftype), IsNullable lhs -> IsNullable rhs -> lhs I rhs :> FNULL
 | IS_AnyL            : forall (rhs: ftype), FAny I rhs :> rhs
@@ -223,8 +218,11 @@ with CommonSubtype : forall {A: Set}, A -> A -> A -> Prop :=
 | IS_ConsTParam     : forall (xl xr xu: tparam ftype) (xsl xsr xsu: list (tparam ftype)),
     xl I xr :> xu -> xsl I xsr :> xsu -> cons xl xsl I cons xr xsr :> cons xu xsu
 (* with CommonSupertype_zip_otype : list (otype ftype) -> list (otype ftype) -> list (otype ftype) -> Prop := *)
-| IS_OTypes          : forall (xsl xsr xsu: list (otype ftype)),
-    Rev_ (List.rev xsl) I Rev_ (List.rev xsr) :> Rev_ (List.rev xsu) -> xsl I xsr :> xsu
+| IS_NilOType         : forall (xsu: list (otype ftype)), nil I nil :> xsu
+| IS_NilOTypeL        : forall (xsl xsu: list (otype ftype)), xsl I nil :> (xsl ++ xsu)%list
+| IS_NilOTypeR        : forall (xsr xsu: list (otype ftype)), nil I xsr :> (xsr ++ xsu)%list
+| IS_ConsOType        : forall (xl xr xu: otype ftype) (xsl xsr xsu: list (otype ftype)),
+    xl I xr :> xu -> xsl I xsr :> xsu -> cons xl xsl I cons xr xsr :> cons xu xsu
 (* with CommonSupertype_intersect_itype : list (itype ftype) -> list (itype ftype) -> list (itype ftype) -> Prop := *)
 | IS_IntersectNil    : forall (idsu: list (itype ftype)), nil I nil :> idsu
 | IS_IntersectConsL  : forall (idu: itype ftype) (idsl idsr idsu: list (itype ftype)), cons idu idsl I idsr :> cons idu idsu
@@ -233,16 +231,6 @@ with CommonSubtype : forall {A: Set}, A -> A -> A -> Prop :=
      List.Add idr idsr idsr' -> idl I idr :> idu -> idsl I idsr :> idsu -> cons idl idsl I idsr' :> cons idu idsu
 | IS_IntersectInL    : forall (idl idr idu: itype ftype) (idsl idsr idsl' idsu: list (itype ftype)),
      List.Add idl idsl idsl' -> idl I idr :> idu -> idsl I idsr :> idsu -> idsl' I cons idr idsr :> cons idu idsu
-(* with CommonSupertype_zip_otype_rev : Rev (list (otype ftype)) -> Rev (list (otype ftype)) -> Rev (list (otype ftype)) -> Prop := *)
-| IS_NilOType        : Rev_ (@nil (otype ftype)) I Rev_ nil :> Rev_ nil
-| IS_ConsOType       : forall (xl xr xu: otype ftype) (xsl xsr xsu: list (otype ftype)),
-    xl I xr :> xu -> Rev_ xsl I Rev_ xsr :> Rev_ xsu -> Rev_ (cons xl xsl) I Rev_ (cons xr xsr) :> Rev_ (cons xu xsu)
-| IS_ConsOTypeL      : forall (xsl xsr xsu: list (otype ftype)) (xu: otype ftype),
-    Rev_ xsl I Rev_ xsr :> Rev_ xsu -> Rev_ (cons xu xsl) I Rev_ xsr :> Rev_ (cons xu xsu)
-| IS_ConsOTypeR      : forall (xsl xsr xsu: list (otype ftype)) (xu: otype ftype),
-    Rev_ xsl I Rev_ xsr :> Rev_ xsu -> Rev_ xsl I Rev_ (cons xu xsr) :> Rev_ (cons xu xsu)
-| IS_ConsOTypeU      : forall (xsl xsr xsu: list (otype ftype)) (xu: otype ftype),
-    Rev_ xsl I Rev_ xsr :> Rev_ xsu -> Rev_ xsl I Rev_ xsr :> Rev_ (cons xu xsu)
 (* with CommonSupertype_intersect_ftype_supers : Supers (list ftype) -> Supers (list ftype) -> Supers (list ftype) -> Prop := *)
 | IS_IntSupersNil    : Supers_ (@nil ftype) I Supers_ nil :> Supers_ nil
 | IS_IntSupersConsL  : forall (xu: ftype) (xsl xsr xsu: list ftype), Supers_ (cons xu xsl) I Supers_ xsr :> Supers_ (cons xu xsu)
@@ -253,15 +241,15 @@ with CommonSubtype : forall {A: Set}, A -> A -> A -> Prop :=
 | IS_IntSupersInL    : forall (xl xr xu: ftype) (xsl xsr xsl' xsu: list ftype),
      List.Add xl xsl xsl' -> xl I xr :> xu -> xsl I xsr :> xsu -> Supers_ xsl' I Supers_ (cons xr xsr) :> Supers_ (cons xu xsu)
 (* with CommonSupertype_js_record : js_record oftype -> js_record oftype -> js_record oftype -> Prop *)
-| IS_JSNil           : @nil (string * ftype) I nil :> nil
-| IS_JSInR           : forall (name: string) (vl vr vu: oftype) (vls vrs vrs' vus: js_record oftype),
-    List.Add (name, vr) vrs vrs' -> vl I vr :> vu -> vls I vrs :> vus -> cons (name, vl) vls I vrs' :> cons (name, vu) vus
-| IS_JSInL           : forall (name: string) (vl vr vu: oftype) (vls vls' vrs vus: js_record oftype),
-    List.Add (name, vl) vls vls' -> vl I vr :> vu -> vls I vrs :> vus -> vls' I cons (name, vr) vrs :> cons (name, vu) vus
+| IS_JSNil           : @nil (string * oftype) I nil :> nil
+| IS_JSAdd           : forall (name: string) (vl vr vu: oftype) (vls vls' vrs vrs' vus vus': js_record oftype),
+    JsRecordAdd name vl vls vls' -> JsRecordAdd name vr vrs vrs' -> JsRecordAdd name vu vus vus' ->
+    vl I vr :> vu -> vls I vrs :> vus -> vls' I vrs' :> vus'
 (* with CommonSupertype_variance : variance -> variance -> variance -> Prop *)
 | IS_Invariant       : forall (lhs rhs: variance), lhs I rhs :> Invariant
 | IS_Covariant       : Covariant I Covariant :> Covariant
 | IS_Contravariant   : Contravariant I Contravariant :> Contravariant
+| IS_Bivariant       : forall (a: variance), Bivariant I Bivariant :> a
 | IS_BivariantL      : forall (rhs: variance), Bivariant I rhs :> rhs
 | IS_BivariantR      : forall (lhs: variance), lhs I Bivariant :> lhs
 where "a 'I' b :> c" := (CommonSubtype a b c)
@@ -292,76 +280,20 @@ Notation "lhs 'U' rhs '=' a" := (Union lhs rhs a) (at level 60, rhs at next leve
 Definition Intersect {A: Set} {h: HasRelation A} (lhs rhs a: A): Prop := lhs I rhs :> a /\ forall b, lhs I rhs :> b -> a :> b.
 Notation "lhs 'I' rhs '=' a" := (Intersect lhs rhs a) (at level 60, rhs at next level, no associativity).
 
-From TLC Require Import LibTactics.
-
 Local Ltac clear_relation_neqs :=
   repeat match goal with
   | H : ?T1 = ?T2 |- _ => apply relation_type_eq1 in H; simpl in H; discriminate H
   end.
-Local Ltac clear_obvious_eqs :=
-  repeat lazymatch goal with
-  | H : ?T = ?T |- _ => clear H
-  | H : True |- _ => clear H
-  end.
-
-Local Ltac invert_eqs :=
-  repeat lazymatch goal with
-  | H : ?f ?a ?a0 ?a1 ?a2 ?a3 ?a4 ?a5 = ?f ?b ?b0 ?b1 ?b2 ?b3 ?b4 ?b5 |- _ => inverts H
-  | H : ?f ?a ?a0 ?a1 ?a2 ?a3 ?a4 = ?f ?b ?b0 ?b1 ?b2 ?b3 ?b4 |- _ => inverts H
-  | H : ?f ?a ?a0 ?a1 ?a2 ?a3 = ?f ?b ?b0 ?b1 ?b2 ?b3 |- _ => inverts H
-  | H : ?f ?a ?a0 ?a1 ?a2 = ?f ?b ?b0 ?b1 ?b2 |- _ => inverts H
-  | H : ?f ?a ?a0 ?a1 = ?f ?b ?b0 ?b1 |- _ => inverts H
-  | H : ?f ?a ?a0 = ?f ?b ?b0 |- _ => inverts H
-  | H : ?f ?a = ?f ?b |- _ => inverts H
-  end.
 
 Ltac inv_cs H :=
-  inverts H;
-  try discriminate;
+  inv H;
+  fix_js_record_existTs;
   clear_relation_neqs;
-  clear_obvious_eqs.
+  clear_obvious;
+  subst;
+  invert_eqs;
+  try discriminate.
 Ltac discr_cs H := inv_cs H; fail.
-
-Local Ltac induction' H :=
-  lazymatch H with
-  | Rev_ ?t => induction t
-  | Supers_ ?t => destruct t
-  | ?t => induction t
-  end.
-
-Local Ltac constructor1 :=
-  exactly_once constructor.
-
-Local Ltac constructor' :=
-  constructor + match goal with
-  | |- context[(?x :: ?xs)%list] => destruct x; econstructor; [apply List.Add_head | |]
-  | |- _ => fail "no constructor"
-  end.
-
-Local Ltac inv_con0 Constr H t :=
-  tryif apply Constr then (
-    apply List.Forall_rev in H; remember (List.rev _) as t2 eqn:H0; clear H0;
-      induction t2; inverts H; constructor
-  ) else (
-    induction' t; inverts H; constructor'; try discriminate
-  ).
-
-Local Ltac inv_con :=
-  lazymatch goal with
-  | H : ?P |- ?P => exact H
-  | H : ?t U ?t = ?t /\ ?t I ?t = ?t |- ?t U ?t <: ?t => destruct H as [[H _] _]; exact H
-  | H : ?t U ?t = ?t /\ ?t I ?t = ?t |- ?t I ?t :> ?t => destruct H as [_ [H _]]; exact H
-  | |- (?t && ?t >= ?t)%bool => destruct t; simpl; reflexivity
-  | |- (?t || ?t <= ?t)%bool => destruct t; simpl; reflexivity
-  | IH : ?Q -> ?P |- ?P => apply IH
-  | H : ?P (snd (_, ?t)) |- _ => simpl in H
-  | H : ?P ?t |- ?t U ?t <: ?t => inv_con0 US_OTypes H t
-  | H : ?P ?t |- ?t I ?t :> ?t => inv_con0 IS_OTypes H t
-  | |- ?t U ?t <: ?t => induction' t; constructor
-  | |- ?t I ?t :> ?t => induction' t; constructor
-  | |- ?v U ?v <: ?v => fail "todo handle"
-  | |- ?v I ?v :> ?v => fail "todo handle"
-  end.
 
 Theorem subtype_never: forall (a: ftype), FNEVER <: a.
 Proof.
@@ -378,25 +310,162 @@ Proof.
   intros. apply US_Any.
 Qed.
 
-Theorem subtype_alt: forall {A: Set} {h: HasRelation A} (a b: A), a <: b -> a U a <: b.
+Local Ltac ind0 a :=
+  lazymatch a with
+  | FAny => idtac
+  | FNever ?nullable => ind0 nullable
+  | FStructural ?nullable ?structure => ind0 nullable
+  | FNominal ?nullable ?id ?super_ids ?structure => ind0 nullable
+  | ?a => induction a using js_record_ind || induction a
+  end.
+
+Local Ltac inv_con0 CS Inv a :=
+  ind0 a; if_some inv_cs CS; if_some inv Inv; try constructor; simpl; try (reflexivity || discriminate).
+
+Local Ltac inv_con :=
+  lazymatch goal with
+  | H : ?P |- ?P => exact H
+  | IH : ?Q -> ?Q0 -> ?Q1 -> ?Q2 -> ?P |- ?P => apply IH
+  | IH : ?Q -> ?Q0 -> ?Q1 -> ?P |- ?P => apply IH
+  | IH : ?Q -> ?Q0 -> ?P |- ?P => apply IH
+  | IH : ?Q -> ?P |- ?P => apply IH
+  | Inv : ?P ?a |- Supers_ ?a I Supers_ ?a :> Supers_ ?a => inv_con0 None (Some Inv) a
+  | Inv : ?P ?a |- Supers_ ?a U Supers_ ?a <: Supers_ ?a => inv_con0 None (Some Inv) a
+  | |- ?nullable && ?nullable >= ?nullable => destruct nullable; simpl; reflexivity
+  | |- ?nullable || ?nullable <= ?nullable => destruct nullable; simpl; reflexivity
+  | CS : ?a I ?a :> ?a /\ ?a U ?a <: ?a |- ?a I ?a :> ?a => destruct CS as [CS _]; exact CS
+  | CS : ?a I ?a :> ?a /\ ?a U ?a <: ?a |- ?a U ?a <: ?a => destruct CS as [_ CS]; exact CS
+  | Inv : ?P ?a |- ?a I ?a :> ?a => inv_con0 None (Some Inv) a
+  | Inv : ?P ?a |- ?a U ?a <: ?a => inv_con0 None (Some Inv) a
+  | |- ?a I ?a :> ?a => inv_con0 None None a
+  | |- ?a U ?a <: ?a => inv_con0 None None a
+  end.
+
+Theorem subtype_supertype_refl: forall {A: Set} {h: HasRelation A} (a: A), a :> a /\ a <: a.
 Proof.
   intros; destruct_relation_type A h.
-  - revert a H; induction b using ftype_rec; intros;
+  - induction a using ftype_rec'; intros; split; unfold IsSubtype, IsSupertype in *.
+    inv_con. inv_con. inv_con. inv_con. inv_con. inv_con. inv_con. inv_con. inv_con.
+    inv_con. inv_con. inv_con. inv_con. inv_con. inv_con. inv_con. inv_con. inv_con.
+    inv_con. inv_con. inv_con. inv_con. inv_con. inv_con. inv_con. inv_con. inv_con.
+    inv_con. inv_con. inv_con.
+    destruct H as [kx [vx [xs H]]]. econstructor; eapply proj2. eapply H.
+
+    inv_con. apply IS_JSNil.
+    inv_con. inv_con. inv_con. inv_con. inv_con.
+    inv_con.
+      try constructor; try destruct nullable; simpl; try reflexivity; try constructor; simpl; try reflexivity.
+    inv_con. inv_con. inv_con. inv_con. inv_con. inv_con. inv_con. inv_cs H6.
+
+    inv_con.
+
+Local Ltac contstructor0 :=
+  constructor || match goal with
+  | |- context[(?x :: ?xs)%list] => destruct x; econstructor; [apply List.Add_head | |]
+  | |- _ => fail "no constructor"
+  end.
+
+Local Ltac induction1 a b :=
+  (revert_with a; revert_with b; ind_js_record2 a b; intros) ||
+  (revert_with a; revert_with b; ind_list2 a b; intros) ||
+  (destruct a).
+
+Local Ltac induction0 a b :=
+  lazymatch a with
+  | Rev_ ?a => lazymatch b with Rev_ ?b => induction1 a b end
+  | Supers_ ?a => destruct a
+  | ?a => induction1 a b
+  end.
+
+Local Ltac destruct_nullable :=
+  lazymatch goal with
+  | |- FNever ?nullable U FNever ?nullable <: _ => destruct nullable
+  | |- FNever ?nullable I FNever ?nullable :> _ => destruct nullable
+  end.
+
+Local Ltac inv_con0 Inv H a b :=
+  induction0 a b; try inv Inv; inv_cs H; try destruct_nullable;
+  (reflexivity || assumption || discriminate || contradiction || econstructor || idtac "constructor failed").
+
+Local Ltac inv_con :=
+  lazymatch goal with
+  | |- ?a U ?a <: ?a => apply subtype_refl
+  | Ind : forall a : ftype, (a <: ?b -> a U a <: ?b) /\ (a :> ?b -> a I a :> ?b) |- ?a U ?a <: ?b =>
+      specialize (Ind a); destruct Ind as [Ind _]; apply Ind; try assumption
+  | Ind : forall a : ftype, (a <: ?b -> a U a <: ?b) /\ (a :> ?b -> a I a :> ?b) |- ?a I ?a :> ?b =>
+      specialize (Ind a); destruct Ind as [_ Ind]; apply Ind; try assumption
+  | IH : ?Q -> ?Q0 -> ?Q1 -> ?Q2 -> ?P |- ?P => apply IH
+  | IH : ?Q -> ?Q0 -> ?Q1 -> ?P |- ?P => apply IH
+  | IH : ?Q -> ?Q0 -> ?P |- ?P => apply IH
+  | IH : ?Q -> ?P |- ?P => apply IH
+  | Inv : ?P ?b, H : ?a U ?b <: ?b |- ?a U ?a <: ?b => inv_con0 Inv H a b
+  | Inv : ?P ?b, H : ?a I ?b :> ?b |- ?a I ?a :> ?b => inv_con0 Inv H a b
+  | H : ?a U ?b <: ?b |- ?a U ?a <: ?b => inv_con0 True H a b
+  | H : ?a I ?b :> ?b |- ?a I ?a :> ?b => inv_con0 True H a b
+  | H : ?a <: ?b |- ?a U ?a <: ?b => inv_con0 True H a b
+  | H : ?a :> ?b |- ?a I ?a :> ?b => inv_con0 True H a b
+  | Inv : ?P ?b |- ?a U ?a <: ?b => destruct a; inverts Inv; constructor
+  | Inv : ?P ?b |- ?a I ?a :> ?b => destruct a; inverts Inv; constructor
+  | |- (?t >= ?t2 || ?t2)%bool => destruct t; destruct t2
+  | |- (?t <= ?t2 && ?t2)%bool => destruct t; destruct t2
+  | |- ?a U ?b <: ?b => constructor
+  | |- ?a U ?a <: ?b => fail "todo handle"
+  | |- ?a I ?a :> ?b => fail "todo handle"
+(*
+  | H : ?P |- ?P => exact H
+  | H : ?t U ?t = ?t /\ ?t I ?t = ?t |- ?t U ?t <: ?t => destruct H as [[H _] _]; exact H
+  | H : ?t U ?t = ?t /\ ?t I ?t = ?t |- ?t I ?t :> ?t => destruct H as [_ [H _]]; exact H
+  | |- (?t && ?t >= ?t)%bool => destruct t; simpl; reflexivity
+  | |- (?t || ?t <= ?t)%bool => destruct t; simpl; reflexivity
+  | IH : ?Q -> ?P |- ?P => apply IH
+  | H : ?P (snd (_, ?t)) |- _ => simpl in H
+  | H : ?P ?t |- ?t U ?t <: ?t => inv_con0 US_OTypes H t
+  | H : ?P ?t |- ?t I ?t :> ?t => inv_con0 IS_OTypes H t
+  | |- ?t U ?t <: ?t => induction' t; constructor
+  | |- ?t I ?t :> ?t => induction' t; constructor
+  | |- ?v U ?v <: ?v => fail "todo handle"
+  | |- ?v I ?v :> ?v => fail "todo handle" *)
+  end; cleanup.
+
+
+Theorem subtype_alt: forall {A: Set} {h: HasRelation A} (a b: A),
+    (a <: b -> a U a <: b) /\ (a :> b -> a I a :> b).
+Proof.
+  intros; destruct_relation_type A h.
+  - revert a. induction b using ftype_rec'; split; intros;
       inv_cs H; try constructor;
-      try destruct nullable; try destruct nl; simpl in *; invert_eqs; clear_obvious_eqs; try (constructor || discriminate).
-        try constructor; simpl in *; try (constructor || discriminate); clear_obvious_eqs; invert_eqs;
+        try (destruct nullable; simpl in *; try constructor; (reflexivity || contradiction || discriminate || assumption)).
+      repeat inv_con.
+      repeat inv_con.
+      repeat inv_con.
+      inv_con. inv_con. inv_con.
+      + inv_cs H3; try constructor.
+        destruct (JsRecordAdd_forall H6 H1), (JsRecordAdd_forall H6 H1). simpl in H, H2. inverts H. inverts H2. rename x into vr.
+        econstructor; [exact H5 | | exact H7 | | ].
+        2: {
+          exact
+        }
+        inv_con. inv_con. inv_con.
+        inv_con. inv_con. inv_con.
+      + econstructor.
+      + inverts H1; [econstructor; [apply List.Add_head | repeat inv_con | repeat inv_con] |].
+        inverts H7.
+        induction H8. inv_cs H7. cleanup.
+        econstructor. apply List.Add_cons. Print List.
+
+      +
+      + revert_with params'; ind_list2_alt params0' params'; intros.
+        * exact H9.
+        * inv_cs H9; cleanup.
+
+      try destruct nullable; try constructor.
+      try destruct nullable; try destruct nl; simpl in *; invert_eqs; clear_obvious; try (constructor || discriminate).
+        try constructor; simpl in *; try (constructor || discriminate); clear_obvious; invert_eqs;
       idtac. Focus 8.
     + destruct nullable; try discriminate.
     + inv_cs H; constructor.
 
     inv_cs H
-
-Theorem subtype_refl: forall {A: Set} {h: HasRelation A} (a b: A), a <: b -> a <: a.
-Admitted.
-
-Theorem subtype_refl': forall (a: ftype), a <: a.
-Admitted.
-Local Hint Immediate subtype_refl'.
 
 Theorem subtype_antisym: forall {A: Set} {h: HasRelation A} (a b: A), a <: b -> b :> a.
 Admitted.
@@ -419,7 +488,7 @@ Proof.
   intros. apply IS_AnyL.
 Qed.
 
-Theorem supertype_refl: forall {A: Set} {h: HasRelation A} (a b: A), a :> b -> a :> a.
+Theorem supertype_refl: forall {A: Set} {h: HasRelation A} (a: A), a :> a.
 Admitted.
 
 Theorem supertype_antisym: forall {A: Set} {h: HasRelation A} (a b: A), a :> b -> b <: a.
@@ -470,7 +539,7 @@ Local Ltac induction' H :=
   | ?t => induction t
   end.
 
-Local Ltac constructor' :=
+Local Ltac contstructor0 :=
   constructor + match goal with
   | |- context[(?x :: ?xs)%list] => destruct x; econstructor; [apply List.Add_head | |]
   | |- _ => fail "no constructor"
@@ -481,7 +550,7 @@ Local Ltac inv_ap0 Constr H t :=
     apply List.Forall_rev in H; remember (List.rev _) as t2 eqn:H0; clear H0;
       induction t2; inverts H; constructor
   ) else (
-    induction' t; inverts H; constructor'; try discriminate
+    induction' t; inverts H; contstructor0; try discriminate
   ).
 
 Local Ltac inv_ap :=
@@ -506,7 +575,7 @@ Local Ltac destruct_nullable H :=
   simpl; try (reflexivity + inv_cs H; invert_eqs; simpl in *; discriminate).
 
 Local Ltac inv_cs' H :=
-  inv_cs H; invert_eqs; simpl in *; clear_obvious_eqs.
+  inv_cs H; invert_eqs; simpl in *; clear_obvious.
 
 Local Ltac revert_with t :=
   repeat lazymatch goal with
@@ -556,8 +625,8 @@ Local Ltac ap_inv :=
   | |- ?t I ?t2 :> ?t2 => destruct2 t t2; constructor
   | |- (?t && ?t >= ?t)%bool => destruct t; simpl; reflexivity
   | |- (?t || ?t <= ?t)%bool => destruct t; simpl; reflexivity
-  | |- (?t && ?t2 >= ?t2)%bool => destruct2 t t2; simpl in *; try (reflexivity + discriminate); clear_obvious_eqs
-  | |- (?t || ?t2 <= ?t2)%bool => destruct2 t t2; simpl in *; try (reflexivity + discriminate); clear_obvious_eqs
+  | |- (?t && ?t2 >= ?t2)%bool => destruct2 t t2; simpl in *; try (reflexivity + discriminate); clear_obvious
+  | |- (?t || ?t2 <= ?t2)%bool => destruct2 t t2; simpl in *; try (reflexivity + discriminate); clear_obvious
   end.
 
 
