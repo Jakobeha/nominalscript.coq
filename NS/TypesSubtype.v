@@ -13,7 +13,6 @@ From NS Require Import TypesBase.
 From NS Require Import TypesNotation.
 From NS Require Import TypesSimpleHelpers.
 
-Inductive Rev := Rev_ (a: list (otype ftype)).
 Inductive Supers := Supers_ (a: list ftype).
 
 Local Notation list_ftype := (list ftype) (only parsing).
@@ -36,10 +35,8 @@ Inductive RelationType : Set :=
 | list_iftype_RelationType
 | list_oftype_RelationType
 | list_ftparam_RelationType
-| js_record_ftype_RelationType
 | js_record_oftype_RelationType
 | option_sftype_RelationType
-| Rev_RelationType
 | Supers_RelationType.
 Class HasRelation (A: Set) := { relation_type : RelationType }.
 Global Instance ftype_HasRelation : HasRelation ftype := { relation_type := ftype_RelationType }.
@@ -53,10 +50,8 @@ Global Instance list_ftype_HasRelation : HasRelation list_ftype := { relation_ty
 Global Instance list_iftype_HasRelation : HasRelation list_iftype := { relation_type := list_iftype_RelationType }.
 Global Instance list_oftype_HasRelation : HasRelation list_oftype := { relation_type := list_oftype_RelationType }.
 Global Instance list_ftparam_HasRelation : HasRelation list_ftparam := { relation_type := list_ftparam_RelationType }.
-Global Instance js_record_ftype_HasRelation : HasRelation js_record_ftype := { relation_type := js_record_ftype_RelationType }.
 Global Instance js_record_oftype_HasRelation : HasRelation js_record_oftype := { relation_type := js_record_oftype_RelationType }.
 Global Instance option_sftype_HasRelation : HasRelation option_sftype := { relation_type := option_sftype_RelationType }.
-Global Instance Rev_HasRelation : HasRelation Rev := { relation_type := Rev_RelationType }.
 Global Instance Supers_HasRelation : HasRelation Supers := { relation_type := Supers_RelationType }.
 Axiom relation_type_eq : forall {A B: Set} {h1: HasRelation A} {h2: HasRelation B},
     (@relation_type A h1 = @relation_type B h2 -> A = B /\ h1 ~= h2) /\
@@ -73,10 +68,8 @@ Lemma relation_type_eq0 : forall {A: Set} {h: HasRelation A},
   (list_iftype_RelationType = @relation_type A h -> A = list_iftype /\ h ~= list_iftype_HasRelation) /\
   (list_oftype_RelationType = @relation_type A h -> A = list_oftype /\ h ~= list_oftype_HasRelation) /\
   (list_ftparam_RelationType = @relation_type A h -> A = list_ftparam /\ h ~= list_ftparam_HasRelation) /\
-  (js_record_ftype_RelationType = @relation_type A h -> A = js_record_ftype /\ h ~= js_record_ftype_HasRelation) /\
   (js_record_oftype_RelationType = @relation_type A h -> A = js_record_oftype /\ h ~= js_record_oftype_HasRelation) /\
   (option_sftype_RelationType = @relation_type A h -> A = option_sftype /\ h ~= option_sftype_HasRelation) /\
-  (Rev_RelationType = @relation_type A h -> A = Rev /\ h ~= Rev_HasRelation) /\
   (Supers_RelationType = @relation_type A h -> A = Supers /\ h ~= Supers_HasRelation).
 Proof.
   repeat split; intros; apply relation_type_eq; simpl; symmetry; exact H.
@@ -288,6 +281,30 @@ Notation "lhs 'U' rhs '=' a" := (Union lhs rhs a) (at level 60, rhs at next leve
 Definition Intersect {A: Set} {h: HasRelation A} (lhs rhs a: A): Prop := lhs I rhs :> a /\ forall b, lhs I rhs :> b -> a :> b.
 Notation "lhs 'I' rhs '=' a" := (Intersect lhs rhs a) (at level 60, rhs at next level, no associativity).
 
+Theorem prove_relation_by_ftype1: forall (P: forall {A: Set} {h: HasRelation A}, A -> Prop),
+    (forall (a: ftype), @P ftype ftype_HasRelation a) ->
+    (forall {A: Set} {h: HasRelation A} (a: A), (forall (a: ftype), @P ftype ftype_HasRelation a) -> @P A h a) ->
+    forall {A: Set} {h: HasRelation A} (a: A), @P A h a.
+Proof.
+  intros; destruct_relation_type A h; exact (H a) || (apply H0; exact H).
+Qed.
+
+Theorem prove_relation_by_ftype2: forall (P: forall {A: Set} {h: HasRelation A}, A -> A -> Prop),
+    (forall (a b: ftype), @P ftype ftype_HasRelation a b) ->
+    (forall {A: Set} {h: HasRelation A} (a b: A), (forall (a b: ftype), @P ftype ftype_HasRelation a b) -> @P A h a b) ->
+    forall {A: Set} {h: HasRelation A} (a b: A), @P A h a b.
+Proof.
+  intros; destruct_relation_type A h; exact (H a b) || (apply H0; exact H).
+Qed.
+
+Theorem prove_relation_by_ftype3: forall (P: forall {A: Set} {h: HasRelation A}, A -> A -> A -> Prop),
+    (forall (a b c: ftype), @P ftype ftype_HasRelation a b c) ->
+    (forall {A: Set} {h: HasRelation A} (a b c: A), (forall (a b c: ftype), @P ftype ftype_HasRelation a b c) -> @P A h a b c) ->
+    forall {A: Set} {h: HasRelation A} (a b c: A), @P A h a b c.
+Proof.
+  intros; destruct_relation_type A h; exact (H a b c) || (apply H0; exact H).
+Qed.
+
 Local Ltac clear_relation_neqs :=
   repeat match goal with
   | H : ?T1 = ?T2 |- _ => apply relation_type_eq1 in H; simpl in H; discriminate H
@@ -351,6 +368,11 @@ Local Ltac inv_con :=
   | Inv : ?P ?a |- Supers_ ?a U Supers_ ?a <: Supers_ ?a => inv_con0 None (Some Inv) a
   | Inv : ?P ?a |- Some ?a I Some ?a :> Some ?a => inv_con0 None (Some Inv) a
   | Inv : ?P ?a |- Some ?a U Some ?a <: Some ?a => inv_con0 None (Some Inv) a
+  | H : exists (kx : string) (vx : oftype), _ |- _ => destruct H as [kx [vx H]]; econstructor; try exact H
+  | |- Supers_ ?a I Supers_ ?a :> Supers_ ?a => inv_con0 None None a
+  | |- Supers_ ?a U Supers_ ?a <: Supers_ ?a => inv_con0 None None a
+  | |- Some ?a I Some ?a :> Some ?a => inv_con0 None None a
+  | |- Some ?a U Some ?a <: Some ?a => inv_con0 None None a
   | |- ?nullable && ?nullable >= ?nullable => destruct nullable; simpl; reflexivity
   | |- ?nullable || ?nullable <= ?nullable => destruct nullable; simpl; reflexivity
   | CS : ?a I ?a :> ?a /\ ?a U ?a <: ?a |- ?a I ?a :> ?a => destruct CS as [CS _]; exact CS
@@ -361,16 +383,18 @@ Local Ltac inv_con :=
   | |- ?a U ?a <: ?a => inv_con0 None None a
   end.
 
+Local Ltac inv_con' :=
+  match goal with
+  | CS : forall (a: ftype), a I a :> a /\ a U a <: a |- ?a I ?a :> ?a => specialize (CS a); destruct CS as [CS _]; exact CS
+  | CS : forall (a: ftype), a I a :> a /\ a U a <: a |- ?a U ?a <: ?a => specialize (CS a); destruct CS as [_ CS]; exact CS
+  | |- _ => inv_con
+  end.
+
 Theorem subtype_supertype_refl: forall {A: Set} {h: HasRelation A} (a: A), a :> a /\ a <: a.
 Proof.
-  intros.
-  match goal with
-  | a: ?A, h: HasRelation ?A |- context H [?a] => pose (H := context H [ftype])
-
-  destruct_relation_type A h.
-  - induction a using ftype_rec'; intros; split; unfold IsSubtype, IsSupertype in *;
-    repeat inv_con.
-  -
+  apply prove_relation_by_ftype1.
+  - induction a using ftype_rec'; intros; split; unfold IsSubtype, IsSupertype in *; repeat inv_con.
+  - intros; split; unfold IsSubtype, IsSupertype in *; destruct_relation_type A h; repeat inv_con'.
 
 Local Ltac contstructor0 :=
   constructor || match goal with
@@ -385,7 +409,6 @@ Local Ltac induction1 a b :=
 
 Local Ltac induction0 a b :=
   lazymatch a with
-  | Rev_ ?a => lazymatch b with Rev_ ?b => induction1 a b end
   | Supers_ ?a => destruct a
   | ?a => induction1 a b
   end.
