@@ -387,6 +387,14 @@ Proof.
   split; [eapply JsRecordNoDup_alt0 | eapply JsRecordNoDup_alt1]; [exact H | exact H0 | exact H | exact H0].
 Qed.
 
+Theorem JsRecordAdd_HasKey : forall {A: Set} (kx: string) (vx: A) (xs xs': js_record A),
+    JsRecordAdd kx vx xs xs' -> JsRecordHasKey kx xs'.
+Proof.
+  intros. inv H. eapply List.Add_in in add. assert (List.In (kx, vx) ((kx, vx) :: xs)%list).
+    simpl. left. reflexivity.
+  rewrite <- add in H. clear add. rewrite JsRecordHasKey_alt, List.Forall_forall. intros H0. specialize (H0 (kx, vx) H). simpl in H0. contradiction (H0 eq_refl).
+Qed.
+
 Theorem js_record_destruct : forall {A: Set} (xs: js_record A),
     xs = nil \/ forall kx vx, JsRecordHasKey kx xs \/ exists xs', JsRecordAdd kx vx xs xs'.
 Proof.
@@ -406,44 +414,36 @@ Qed.
 
 Theorem js_record_ind : forall {A: Set} (P: js_record A -> Prop),
     P nil ->
-    (forall kx vx xs', (exists xs, P xs /\ (JsRecordHasKey kx xs \/ JsRecordAdd kx vx xs xs')) -> P xs') ->
+    (forall kx vx xs', (exists xs, P xs /\ (JsRecordHasKey kx xs' \/ JsRecordAdd kx vx xs xs')) -> P xs') ->
     forall xs, P xs.
 Proof.
   intros A P P0 Pn xs.
   induction xs using list_add_ind; intros; [exact P0 |]; destruct H as [[kx vx] [xs [H0 H1]]].
   eapply Pn. eexists. split; [exact H0 |].
-  destruct (JsRecordHasKey_dec kx xs); [left; exact H | right].
-  split; [exact H1 | exact H].
-Qed.
-
-Theorem JsRecordAdd_HasKey : forall {A: Set} (kx: string) (vx: A) (xs xs': js_record A),
-    JsRecordAdd kx vx xs xs' -> JsRecordHasKey kx xs'.
-Proof.
-  intros. inv H. eapply List.Add_in in add. assert (List.In (kx, vx) ((kx, vx) :: xs)%list).
-    simpl. left. reflexivity.
-  rewrite <- add in H. clear add. rewrite JsRecordHasKey_alt, List.Forall_forall. intros H0. specialize (H0 (kx, vx) H). simpl in H0. contradiction (H0 eq_refl).
+  destruct (JsRecordHasKey_dec kx xs'); [left; exact H | right].
+  split; [exact H1 |]. eapply JsRecordHasKey_neg_Add0; [exact H | exact H1].
 Qed.
 
 Theorem js_record_ind2 : forall {A: Set} (P: js_record A -> js_record A -> Prop),
     P nil nil ->
-    (forall kx vx xs', (exists xs, P xs nil /\ (JsRecordHasKey kx xs \/ JsRecordAdd kx vx xs xs')) -> P xs' nil) ->
-    (forall ky vy ys', (exists ys, P nil ys /\ (JsRecordHasKey ky ys \/ JsRecordAdd ky vy ys ys')) -> P nil ys') ->
-    (forall kx vx ky vy xs' ys', (exists xs ys, P xs ys /\ (JsRecordHasKey kx xs \/ JsRecordAdd kx vx xs xs') /\ (JsRecordHasKey ky ys \/ JsRecordAdd ky vy ys ys')) -> P xs' ys') ->
+    (forall kx vx xs', (exists xs, P xs nil /\ (JsRecordHasKey kx xs' \/ JsRecordAdd kx vx xs xs')) -> P xs' nil) ->
+    (forall ky vy ys', (exists ys, P nil ys /\ (JsRecordHasKey ky ys' \/ JsRecordAdd ky vy ys ys')) -> P nil ys') ->
+    (forall kx vx ky vy xs' ys', (exists xs ys, P xs ys /\ (JsRecordHasKey kx xs' \/ JsRecordAdd kx vx xs xs') /\ (JsRecordHasKey ky ys' \/ JsRecordAdd ky vy ys ys')) -> P xs' ys') ->
     forall xs ys, P xs ys.
 Proof.
   intros A P P0 Px Py Pxy xs. induction xs; intros; induction ys.
   - exact P0.
   - destruct a as [ky vy]. eapply Py. exists ys. split; [exact IHys |].
-    destruct (JsRecordHasKey_dec ky ys); [left; exact H | right].
-    split; [apply List.Add_head | exact H].
+    destruct (JsRecordHasKey_dec ky ((ky, vy) :: ys)%list); [left; exact H | right].
+    split; [apply List.Add_head |]. eapply JsRecordHasKey_neg_Add0; [exact H | apply List.Add_head].
   - destruct a as [kx vx]. eapply Px. exists xs. split; [exact (IHxs nil) |].
-    destruct (JsRecordHasKey_dec kx xs); [left; exact H | right].
-    split; [apply List.Add_head | exact H].
+    destruct (JsRecordHasKey_dec kx ((kx, vx) :: xs)%list); [left; exact H | right].
+    split; [apply List.Add_head |]. eapply JsRecordHasKey_neg_Add0; [exact H | apply List.Add_head].
   - destruct a as [kx vx]. destruct a0 as [ky vy]. eapply Pxy. exists xs. exists ys. split; [exact (IHxs ys) | split].
-    + destruct (JsRecordHasKey_dec kx xs); [left; exact H | right].
-      split; [apply List.Add_head | exact H].
-    + destruct (JsRecordHasKey_dec ky ys); [left; exact H | right].
-      split; [apply List.Add_head | exact H].
+    + destruct (JsRecordHasKey_dec kx ((kx, vx) :: xs)%list); [left; exact H | right].
+      split; [apply List.Add_head |]. eapply JsRecordHasKey_neg_Add0; [exact H | apply List.Add_head].
+    + destruct (JsRecordHasKey_dec ky ((ky, vy) :: ys)%list); [left; exact H | right].
+      split; [apply List.Add_head |]. eapply JsRecordHasKey_neg_Add0; [exact H | apply List.Add_head].
 Qed.
 
 Ltac ind_js_record2 x y :=

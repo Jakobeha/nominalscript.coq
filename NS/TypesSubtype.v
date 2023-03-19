@@ -348,9 +348,8 @@ Proof.
     inv_con. inv_con. inv_con. inv_con. inv_con. inv_con. inv_con. inv_con. inv_con.
     inv_con. inv_con. inv_con. inv_con. inv_con. inv_con. inv_con. inv_con. inv_con.
     inv_con. inv_con. inv_con. inv_con. inv_con. inv_con. inv_con. inv_con. inv_con.
-    inv_con. inv_con. inv_con.
-    destruct H as [xs H].
-    destruct H as [kx [vx [xs H]]]. econstructor; eapply proj2. eapply H.
+    inv_con. inv_con. induction fields using js_record_ind; try constructor.
+    destruct H as [xs [H [H0 | H0]]].
 
     inv_con. apply IS_JSNil.
     inv_con. inv_con. inv_con. inv_con. inv_con.
