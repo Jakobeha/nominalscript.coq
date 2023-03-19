@@ -349,6 +349,7 @@ Proof.
     inv_con. inv_con. inv_con. inv_con. inv_con. inv_con. inv_con. inv_con. inv_con.
     inv_con. inv_con. inv_con. inv_con. inv_con. inv_con. inv_con. inv_con. inv_con.
     inv_con. inv_con. inv_con.
+    destruct H as [xs H].
     destruct H as [kx [vx [xs H]]]. econstructor; eapply proj2. eapply H.
 
     inv_con. apply IS_JSNil.

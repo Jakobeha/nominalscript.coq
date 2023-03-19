@@ -1,4 +1,4 @@
-DIGEST d152582d0d41ae9849658fbeae670772
+DIGEST f7b4b24d0eec85189ae650719afd81c1
 FNS.Misc
 R116:133 Coq.Strings.String <> <> lib
 R151:168 Coq.Arith.PeanoNat <> <> lib
@@ -570,918 +570,906 @@ R4907:4907 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
 R4901:4902 NS.Misc <> kx:138 var
 R4905:4906 NS.Misc <> vx:139 var
 R4912:4913 NS.Misc <> xs:140 var
-prf 4930:4937 <> nat_ind2
-R4954:4957 Coq.Init.Logic <> ::type_scope:x_'->'_x not
-R4951:4953 Coq.Init.Datatypes <> nat ind
-R4961:4964 Coq.Init.Logic <> ::type_scope:x_'->'_x not
-R4958:4960 Coq.Init.Datatypes <> nat ind
-binder 4948:4948 <> P:141
-R4981:4988 Coq.Init.Logic <> ::type_scope:x_'->'_x not
-R4976:4976 NS.Misc <> P:141 var
-R4989:4989 Coq.Init.Logic <> ::type_scope:x_'->'_x not
-R5018:5026 Coq.Init.Logic <> ::type_scope:x_'->'_x not
-binder 4997:4997 <> x:142
-R5005:5008 Coq.Init.Logic <> ::type_scope:x_'->'_x not
-R5000:5000 NS.Misc <> P:141 var
-R5002:5002 NS.Misc <> x:142 var
-R5009:5009 NS.Misc <> P:141 var
-R5012:5012 Coq.Init.Datatypes <> S constr
-R5014:5014 NS.Misc <> x:142 var
-R5027:5027 Coq.Init.Logic <> ::type_scope:x_'->'_x not
-R5056:5064 Coq.Init.Logic <> ::type_scope:x_'->'_x not
-binder 5035:5035 <> y:143
-R5043:5046 Coq.Init.Logic <> ::type_scope:x_'->'_x not
-R5038:5038 NS.Misc <> P:141 var
-R5042:5042 NS.Misc <> y:143 var
-R5047:5047 NS.Misc <> P:141 var
-R5052:5052 Coq.Init.Datatypes <> S constr
-R5054:5054 NS.Misc <> y:143 var
-R5065:5065 Coq.Init.Logic <> ::type_scope:x_'->'_x not
-R5100:5108 Coq.Init.Logic <> ::type_scope:x_'->'_x not
-binder 5073:5073 <> x:144
-binder 5075:5075 <> y:145
-R5083:5086 Coq.Init.Logic <> ::type_scope:x_'->'_x not
-R5078:5078 NS.Misc <> P:141 var
-R5082:5082 NS.Misc <> y:145 var
-R5080:5080 NS.Misc <> x:144 var
-R5087:5087 NS.Misc <> P:141 var
-R5096:5096 Coq.Init.Datatypes <> S constr
-R5098:5098 NS.Misc <> y:145 var
-R5090:5090 Coq.Init.Datatypes <> S constr
-R5092:5092 NS.Misc <> x:144 var
-binder 5116:5116 <> x:146
-binder 5118:5118 <> y:147
-R5121:5121 NS.Misc <> P:141 var
-R5125:5125 NS.Misc <> y:147 var
-R5123:5123 NS.Misc <> x:146 var
-binder 5385:5385 <> x:148
-binder 5387:5387 <> y:149
-binder 5385:5385 <> x:150
-binder 5387:5387 <> y:151
-R5405:5412 NS.Misc <> nat_ind2 thm
-binder 5419:5419 <> x:152
-binder 5421:5421 <> y:153
-prf 5444:5452 <> list_ind2
-binder 5463:5463 <> A:154
-binder 5465:5465 <> B:155
-R5484:5487 Coq.Init.Logic <> ::type_scope:x_'->'_x not
-R5478:5481 Coq.Init.Datatypes <> list ind
-R5483:5483 NS.Misc <> A:154 var
-R5494:5497 Coq.Init.Logic <> ::type_scope:x_'->'_x not
-R5488:5491 Coq.Init.Datatypes <> list ind
-R5493:5493 NS.Misc <> B:155 var
-binder 5475:5475 <> P:156
-R5518:5525 Coq.Init.Logic <> ::type_scope:x_'->'_x not
-R5509:5509 NS.Misc <> P:156 var
+prf 4932:4939 <> nat_ind2
+R4956:4959 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R4953:4955 Coq.Init.Datatypes <> nat ind
+R4963:4966 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R4960:4962 Coq.Init.Datatypes <> nat ind
+binder 4950:4950 <> P:141
+R4983:4990 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R4978:4978 NS.Misc <> P:141 var
+R4991:4991 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R5020:5028 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+binder 4999:4999 <> x:142
+R5007:5010 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R5002:5002 NS.Misc <> P:141 var
+R5004:5004 NS.Misc <> x:142 var
+R5011:5011 NS.Misc <> P:141 var
+R5014:5014 Coq.Init.Datatypes <> S constr
+R5016:5016 NS.Misc <> x:142 var
+R5029:5029 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R5058:5066 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+binder 5037:5037 <> y:143
+R5045:5048 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R5040:5040 NS.Misc <> P:141 var
+R5044:5044 NS.Misc <> y:143 var
+R5049:5049 NS.Misc <> P:141 var
+R5054:5054 Coq.Init.Datatypes <> S constr
+R5056:5056 NS.Misc <> y:143 var
+R5067:5067 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R5102:5110 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+binder 5075:5075 <> x:144
+binder 5077:5077 <> y:145
+R5085:5088 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R5080:5080 NS.Misc <> P:141 var
+R5084:5084 NS.Misc <> y:145 var
+R5082:5082 NS.Misc <> x:144 var
+R5089:5089 NS.Misc <> P:141 var
+R5098:5098 Coq.Init.Datatypes <> S constr
+R5100:5100 NS.Misc <> y:145 var
+R5092:5092 Coq.Init.Datatypes <> S constr
+R5094:5094 NS.Misc <> x:144 var
+binder 5118:5118 <> x:146
+binder 5120:5120 <> y:147
+R5123:5123 NS.Misc <> P:141 var
+R5127:5127 NS.Misc <> y:147 var
+R5125:5125 NS.Misc <> x:146 var
+binder 5387:5387 <> x:148
+binder 5389:5389 <> y:149
+binder 5387:5387 <> x:150
+binder 5389:5389 <> y:151
+R5407:5414 NS.Misc <> nat_ind2 thm
+binder 5421:5421 <> x:152
+binder 5423:5423 <> y:153
+prf 5448:5456 <> list_ind2
+binder 5467:5467 <> A:154
+binder 5469:5469 <> B:155
+R5488:5491 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R5482:5485 Coq.Init.Datatypes <> list ind
+R5487:5487 NS.Misc <> A:154 var
+R5498:5501 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R5492:5495 Coq.Init.Datatypes <> list ind
+R5497:5497 NS.Misc <> B:155 var
+binder 5479:5479 <> P:156
+R5522:5529 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R5513:5513 NS.Misc <> P:156 var
+R5519:5521 Coq.Init.Datatypes <> nil constr
 R5515:5517 Coq.Init.Datatypes <> nil constr
-R5511:5513 Coq.Init.Datatypes <> nil constr
-R5526:5526 Coq.Init.Logic <> ::type_scope:x_'->'_x not
-R5569:5577 Coq.Init.Logic <> ::type_scope:x_'->'_x not
-binder 5534:5534 <> x:157
-binder 5536:5537 <> xs:158
-R5548:5551 Coq.Init.Logic <> ::type_scope:x_'->'_x not
-R5540:5540 NS.Misc <> P:156 var
-R5545:5547 Coq.Init.Datatypes <> nil constr
-R5542:5543 NS.Misc <> xs:158 var
-R5552:5552 NS.Misc <> P:156 var
-R5566:5568 Coq.Init.Datatypes <> nil constr
-R5555:5558 Coq.Init.Datatypes <> cons constr
-R5562:5563 NS.Misc <> xs:158 var
-R5560:5560 NS.Misc <> x:157 var
-R5578:5578 Coq.Init.Logic <> ::type_scope:x_'->'_x not
-R5621:5629 Coq.Init.Logic <> ::type_scope:x_'->'_x not
-binder 5586:5586 <> y:159
-binder 5588:5589 <> ys:160
-R5600:5603 Coq.Init.Logic <> ::type_scope:x_'->'_x not
-R5592:5592 NS.Misc <> P:156 var
-R5598:5599 NS.Misc <> ys:160 var
-R5594:5596 Coq.Init.Datatypes <> nil constr
-R5604:5604 NS.Misc <> P:156 var
-R5611:5614 Coq.Init.Datatypes <> cons constr
-R5618:5619 NS.Misc <> ys:160 var
-R5616:5616 NS.Misc <> y:159 var
-R5606:5608 Coq.Init.Datatypes <> nil constr
-R5630:5630 Coq.Init.Logic <> ::type_scope:x_'->'_x not
-R5685:5693 Coq.Init.Logic <> ::type_scope:x_'->'_x not
-binder 5638:5638 <> x:161
-binder 5640:5640 <> y:162
-binder 5642:5643 <> xs:163
-binder 5645:5646 <> ys:164
-R5656:5659 Coq.Init.Logic <> ::type_scope:x_'->'_x not
-R5649:5649 NS.Misc <> P:156 var
-R5654:5655 NS.Misc <> ys:164 var
-R5651:5652 NS.Misc <> xs:163 var
-R5660:5660 NS.Misc <> P:156 var
-R5675:5678 Coq.Init.Datatypes <> cons constr
-R5682:5683 NS.Misc <> ys:164 var
-R5680:5680 NS.Misc <> y:162 var
-R5663:5666 Coq.Init.Datatypes <> cons constr
-R5670:5671 NS.Misc <> xs:163 var
-R5668:5668 NS.Misc <> x:161 var
-binder 5701:5702 <> xs:165
-binder 5704:5705 <> ys:166
-R5708:5708 NS.Misc <> P:156 var
-R5713:5714 NS.Misc <> ys:166 var
-R5710:5711 NS.Misc <> xs:165 var
-R5871:5873 Coq.Init.Datatypes <> nil constr
-R5871:5873 Coq.Init.Datatypes <> nil constr
-binder 5989:5989 <> x:167
-binder 5991:5991 <> y:168
-binder 5989:5989 <> x:169
-binder 5991:5991 <> y:170
-R6009:6017 NS.Misc <> list_ind2 thm
-binder 6024:6024 <> x:171
-binder 6026:6026 <> y:172
-prf 6049:6061 <> list_ind2_alt
-binder 6072:6072 <> A:173
-binder 6074:6074 <> B:174
-R6093:6096 Coq.Init.Logic <> ::type_scope:x_'->'_x not
-R6087:6090 Coq.Init.Datatypes <> list ind
-R6092:6092 NS.Misc <> A:173 var
-R6103:6106 Coq.Init.Logic <> ::type_scope:x_'->'_x not
-R6097:6100 Coq.Init.Datatypes <> list ind
-R6102:6102 NS.Misc <> B:174 var
-binder 6084:6084 <> P:175
-R6127:6134 Coq.Init.Logic <> ::type_scope:x_'->'_x not
-R6118:6118 NS.Misc <> P:175 var
-R6124:6126 Coq.Init.Datatypes <> nil constr
-R6120:6122 Coq.Init.Datatypes <> nil constr
-R6135:6135 Coq.Init.Logic <> ::type_scope:x_'->'_x not
-R6179:6187 Coq.Init.Logic <> ::type_scope:x_'->'_x not
-binder 6143:6143 <> x:176
-binder 6145:6146 <> xs:177
-binder 6148:6149 <> ys:178
-R6159:6162 Coq.Init.Logic <> ::type_scope:x_'->'_x not
-R6152:6152 NS.Misc <> P:175 var
-R6157:6158 NS.Misc <> ys:178 var
-R6154:6155 NS.Misc <> xs:177 var
-R6163:6163 NS.Misc <> P:175 var
-R6177:6178 NS.Misc <> ys:178 var
-R6166:6169 Coq.Init.Datatypes <> cons constr
-R6173:6174 NS.Misc <> xs:177 var
-R6171:6171 NS.Misc <> x:176 var
-R6188:6188 Coq.Init.Logic <> ::type_scope:x_'->'_x not
-R6232:6240 Coq.Init.Logic <> ::type_scope:x_'->'_x not
-binder 6196:6196 <> y:179
-binder 6198:6199 <> xs:180
-binder 6201:6202 <> ys:181
-R6212:6215 Coq.Init.Logic <> ::type_scope:x_'->'_x not
-R6205:6205 NS.Misc <> P:175 var
-R6210:6211 NS.Misc <> ys:181 var
-R6207:6208 NS.Misc <> xs:180 var
-R6216:6216 NS.Misc <> P:175 var
-R6222:6225 Coq.Init.Datatypes <> cons constr
-R6229:6230 NS.Misc <> ys:181 var
-R6227:6227 NS.Misc <> y:179 var
-R6218:6219 NS.Misc <> xs:180 var
-binder 6248:6249 <> xs:182
-binder 6251:6252 <> ys:183
-R6255:6255 NS.Misc <> P:175 var
-R6260:6261 NS.Misc <> ys:183 var
-R6257:6258 NS.Misc <> xs:182 var
-R6414:6416 Coq.Init.Datatypes <> nil constr
-R6414:6416 Coq.Init.Datatypes <> nil constr
-binder 6530:6530 <> x:184
-binder 6532:6532 <> y:185
-binder 6530:6530 <> x:186
-binder 6532:6532 <> y:187
-R6550:6562 NS.Misc <> list_ind2_alt thm
-binder 6569:6569 <> x:188
-binder 6571:6571 <> y:189
-R6721:6723 Coq.Init.Logic <> ::type_scope:x_'='_x not
-R6688:6693 Coq.Init.Specif <> existT constr
-binder 6700:6701 <> x0:190
-R6712:6713 NS.Misc <> x0:190 var
-R6724:6729 Coq.Init.Specif <> existT constr
-binder 6736:6737 <> x1:191
-R6748:6749 NS.Misc <> x1:191 var
-R6721:6723 Coq.Init.Logic <> ::type_scope:x_'='_x not
-R6688:6693 Coq.Init.Specif <> existT constr
-binder 6700:6701 <> x0:192
-R6712:6713 NS.Misc <> x0:192 var
-R6724:6729 Coq.Init.Specif <> existT constr
-binder 6736:6737 <> x1:193
-R6748:6749 NS.Misc <> x1:193 var
-R6828:6830 Coq.Init.Logic <> ::type_scope:x_'='_x not
-R6795:6800 Coq.Init.Specif <> existT constr
-binder 6807:6808 <> x0:194
-R6819:6820 NS.Misc <> x0:194 var
-R6831:6836 Coq.Init.Specif <> existT constr
-binder 6843:6844 <> x1:195
-R6855:6856 NS.Misc <> x1:195 var
-R6828:6830 Coq.Init.Logic <> ::type_scope:x_'='_x not
-R6795:6800 Coq.Init.Specif <> existT constr
-binder 6807:6808 <> x0:196
-R6819:6820 NS.Misc <> x0:196 var
-R6831:6836 Coq.Init.Specif <> existT constr
-binder 6843:6844 <> x1:197
-R6855:6856 NS.Misc <> x1:197 var
-R6879:6889 Coq.Logic.EqdepFacts <> eq_sigT_fst thm
-R6772:6780 Coq.Logic.Eqdep EqdepTheory inj_pair2 thm
-R7021:7024 Coq.Init.Datatypes <> None constr
-R7021:7024 Coq.Init.Datatypes <> None constr
-R7038:7041 Coq.Init.Datatypes <> None constr
-R7038:7041 Coq.Init.Datatypes <> None constr
-R7054:7057 Coq.Init.Datatypes <> Some constr
-R7054:7057 Coq.Init.Datatypes <> Some constr
-R7228:7238 Coq.Init.Logic <> ::type_scope:x_'='_x not
-R7185:7190 Coq.Init.Specif <> existT constr
-R7212:7220 NS.Misc <> js_record def
-binder 7197:7197 <> x:198
-R7208:7208 NS.Misc <> x:198 var
-R7239:7244 Coq.Init.Specif <> existT constr
-R7266:7269 Coq.Init.Datatypes <> list ind
-R7278:7280 Coq.Init.Datatypes <> ::type_scope:x_'*'_x not
-R7272:7277 Coq.Strings.String <> string ind
-binder 7251:7251 <> x:199
-R7262:7262 NS.Misc <> x:199 var
-R7228:7238 Coq.Init.Logic <> ::type_scope:x_'='_x not
-R7185:7190 Coq.Init.Specif <> existT constr
-R7212:7220 NS.Misc <> js_record def
-binder 7197:7197 <> x:200
-R7208:7208 NS.Misc <> x:200 var
-R7239:7244 Coq.Init.Specif <> existT constr
-R7266:7269 Coq.Init.Datatypes <> list ind
-R7278:7280 Coq.Init.Datatypes <> ::type_scope:x_'*'_x not
-R7272:7277 Coq.Strings.String <> string ind
-binder 7251:7251 <> x:201
-R7262:7262 NS.Misc <> x:201 var
-R7411:7421 Coq.Init.Logic <> ::type_scope:x_'='_x not
-R7362:7367 Coq.Init.Specif <> existT constr
-R7389:7392 Coq.Init.Datatypes <> list ind
-R7401:7403 Coq.Init.Datatypes <> ::type_scope:x_'*'_x not
-R7395:7400 Coq.Strings.String <> string ind
-binder 7374:7374 <> x:202
-R7385:7385 NS.Misc <> x:202 var
-R7422:7427 Coq.Init.Specif <> existT constr
-R7449:7457 NS.Misc <> js_record def
-binder 7434:7434 <> x:203
-R7445:7445 NS.Misc <> x:203 var
-R7411:7421 Coq.Init.Logic <> ::type_scope:x_'='_x not
-R7362:7367 Coq.Init.Specif <> existT constr
-R7389:7392 Coq.Init.Datatypes <> list ind
-R7401:7403 Coq.Init.Datatypes <> ::type_scope:x_'*'_x not
-R7395:7400 Coq.Strings.String <> string ind
-binder 7374:7374 <> x:204
-R7385:7385 NS.Misc <> x:204 var
-R7422:7427 Coq.Init.Specif <> existT constr
-R7449:7457 NS.Misc <> js_record def
-binder 7434:7434 <> x:205
-R7445:7445 NS.Misc <> x:205 var
-R7487:7495 NS.Misc <> js_record def
-R7509:7517 Coq.Logic.Eqdep EqdepTheory inj_pair2 thm
-R7310:7318 NS.Misc <> js_record def
-R7332:7340 Coq.Logic.Eqdep EqdepTheory inj_pair2 thm
-R7600:7602 Coq.Init.Logic <> ::type_scope:x_'='_x not
-R7600:7602 Coq.Init.Logic <> ::type_scope:x_'='_x not
-R7630:7633 Coq.Init.Logic <> True ind
-R7630:7633 Coq.Init.Logic <> True ind
-R7744:7746 Coq.Init.Logic <> ::type_scope:x_'='_x not
-R7744:7746 Coq.Init.Logic <> ::type_scope:x_'='_x not
-R7824:7826 Coq.Init.Logic <> ::type_scope:x_'='_x not
-R7824:7826 Coq.Init.Logic <> ::type_scope:x_'='_x not
-R7896:7898 Coq.Init.Logic <> ::type_scope:x_'='_x not
-R7896:7898 Coq.Init.Logic <> ::type_scope:x_'='_x not
-R7960:7962 Coq.Init.Logic <> ::type_scope:x_'='_x not
-R7960:7962 Coq.Init.Logic <> ::type_scope:x_'='_x not
-R8016:8018 Coq.Init.Logic <> ::type_scope:x_'='_x not
-R8016:8018 Coq.Init.Logic <> ::type_scope:x_'='_x not
-R8064:8066 Coq.Init.Logic <> ::type_scope:x_'='_x not
-R8064:8066 Coq.Init.Logic <> ::type_scope:x_'='_x not
-R8104:8106 Coq.Init.Logic <> ::type_scope:x_'='_x not
-R8104:8106 Coq.Init.Logic <> ::type_scope:x_'='_x not
-R8137:8139 Coq.Init.Logic <> ::type_scope:x_'='_x not
-R8140:8142 Coq.Init.Datatypes <> nil constr
-R8137:8139 Coq.Init.Logic <> ::type_scope:x_'='_x not
-R8140:8142 Coq.Init.Datatypes <> nil constr
-R8356:8359 Coq.Init.Logic <> ::type_scope:x_'->'_x not
-R8356:8359 Coq.Init.Logic <> ::type_scope:x_'->'_x not
-prf 8621:8632 <> list_add_ind
-binder 8644:8644 <> A:206
-R8663:8666 Coq.Init.Logic <> ::type_scope:x_'->'_x not
-R8657:8660 Coq.Init.Datatypes <> list ind
-R8662:8662 NS.Misc <> A:206 var
-binder 8654:8654 <> P:207
-R8683:8690 Coq.Init.Logic <> ::type_scope:x_'->'_x not
-R8678:8678 NS.Misc <> P:207 var
-R8680:8682 Coq.Init.Datatypes <> nil constr
-R8691:8691 Coq.Init.Logic <> ::type_scope:x_'->'_x not
-R8753:8761 Coq.Init.Logic <> ::type_scope:x_'->'_x not
-binder 8699:8701 <> xs':208
-R8704:8704 Coq.Init.Logic <> ::type_scope:x_'->'_x not
-R8743:8747 Coq.Init.Logic <> ::type_scope:x_'->'_x not
-R8705:8711 Coq.Init.Logic <> ::type_scope:'exists'_x_'..'_x_','_x not
-R8716:8717 Coq.Init.Logic <> ::type_scope:'exists'_x_'..'_x_','_x not
-binder 8712:8712 <> x:209
-binder 8714:8715 <> xs:210
-R8722:8725 Coq.Init.Logic <> ::type_scope:x_'/\'_x not
-R8718:8718 NS.Misc <> P:207 var
-R8720:8721 NS.Misc <> xs:210 var
-R8726:8733 Coq.Lists.List <> Add ind
-R8740:8742 NS.Misc <> xs':208 var
-R8737:8738 NS.Misc <> xs:210 var
-R8735:8735 NS.Misc <> x:209 var
-R8748:8748 NS.Misc <> P:207 var
-R8750:8752 NS.Misc <> xs':208 var
-binder 8769:8770 <> xs:211
-R8773:8773 NS.Misc <> P:207 var
-R8775:8776 NS.Misc <> xs:211 var
-R8898:8910 Coq.Lists.List <> Add_head constr
-R8898:8910 Coq.Lists.List <> Add_head constr
-R8975:8975 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
-R8980:8981 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
-R8983:8983 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
-binder 8976:8979 <> key':212
-binder 8975:8983 <> pat:213
-R8991:8994 Coq.Init.Logic <> ::type_scope:x_'<>'_x not
-R8995:8998 NS.Misc <> key':212 var
-R9021:9023 Coq.Init.Datatypes <> ::type_scope:x_'*'_x not
-R9015:9020 Coq.Strings.String <> string ind
-binder 9012:9012 <> x:214
-R9030:9032 Coq.Init.Logic <> not def
-R9041:9041 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
-R9046:9047 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
-R9049:9049 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
-binder 9042:9045 <> key':215
-binder 9041:9049 <> pat:216
-R9057:9059 Coq.Init.Logic <> ::type_scope:x_'='_x not
-R9060:9063 NS.Misc <> key':215 var
-R9066:9066 NS.Misc <> x:214 var
-R9089:9113 Coq.Logic.FunctionalExtensionality <> functional_extensionality thm
-R9152:9173 Coq.Lists.List <> Forall_Exists_neg thm
-prf 9190:9207 <> JsRecordHasKey_dec
-binder 9218:9218 <> A:217
-R9232:9237 Coq.Strings.String <> string ind
-binder 9227:9229 <> key:218
-R9245:9253 NS.Misc <> js_record def
-R9255:9255 NS.Misc <> A:217 var
-binder 9241:9242 <> xs:219
-R9284:9287 Coq.Init.Logic <> ::type_scope:x_'\/'_x not
-R9263:9276 NS.Misc <> JsRecordHasKey def
-R9282:9283 NS.Misc <> xs:219 var
-R9278:9280 NS.Misc <> key:218 var
-R9288:9290 Coq.Init.Logic <> not def
-R9293:9306 NS.Misc <> JsRecordHasKey def
-R9312:9313 NS.Misc <> xs:219 var
-R9308:9310 NS.Misc <> key:218 var
-R9408:9417 Coq.Strings.String <> string_dec def
-R9408:9417 Coq.Strings.String <> string_dec def
-R9452:9470 Coq.Lists.List <> Exists_cons_hd constr
-R9452:9470 Coq.Lists.List <> Exists_cons_hd constr
-R9537:9555 Coq.Lists.List <> Exists_cons_tl constr
-R9537:9555 Coq.Lists.List <> Exists_cons_tl constr
-R9636:9642 Coq.Init.Logic <> eq_refl constr
-R9636:9642 Coq.Init.Logic <> eq_refl constr
-prf 9694:9711 <> JsRecordHasKey_neg
-binder 9722:9722 <> A:220
-R9736:9741 Coq.Strings.String <> string ind
-binder 9731:9733 <> key:221
-R9749:9757 NS.Misc <> js_record def
-R9759:9759 NS.Misc <> A:220 var
-binder 9745:9746 <> xs:222
-R9794:9798 Coq.Init.Logic <> ::type_scope:x_'<->'_x not
-R9767:9769 Coq.Init.Logic <> not def
-R9772:9785 NS.Misc <> JsRecordHasKey def
-R9791:9792 NS.Misc <> xs:222 var
-R9787:9789 NS.Misc <> key:221 var
-R9799:9809 Coq.Lists.List <> Forall ind
-R9843:9844 NS.Misc <> xs:222 var
-R9817:9817 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
-R9822:9823 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
-R9825:9825 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
-binder 9818:9821 <> key':223
-binder 9817:9825 <> pat:224
-R9833:9836 Coq.Init.Logic <> ::type_scope:x_'<>'_x not
-R9830:9832 NS.Misc <> key:221 var
-R9837:9840 NS.Misc <> key':223 var
-prf 9927:9944 <> JsRecordHasKey_alt
-binder 9955:9955 <> A:225
-R9969:9974 Coq.Strings.String <> string ind
-binder 9964:9966 <> key:226
-R9982:9990 NS.Misc <> js_record def
-R9992:9992 NS.Misc <> A:225 var
-binder 9978:9979 <> xs:227
-R10021:10025 Coq.Init.Logic <> ::type_scope:x_'<->'_x not
-R10000:10013 NS.Misc <> JsRecordHasKey def
-R10019:10020 NS.Misc <> xs:227 var
-R10015:10017 NS.Misc <> key:226 var
-R10026:10028 Coq.Init.Logic <> not def
-R10031:10041 Coq.Lists.List <> Forall ind
-R10075:10076 NS.Misc <> xs:227 var
-R10049:10049 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
-R10054:10055 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
-R10057:10057 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
-binder 10050:10053 <> key':228
-binder 10049:10057 <> pat:229
-R10065:10068 Coq.Init.Logic <> ::type_scope:x_'<>'_x not
-R10062:10064 NS.Misc <> key:226 var
-R10069:10072 NS.Misc <> key':228 var
-R10184:10200 Coq.Logic.Decidable <> not_not thm
-R10210:10228 Coq.Logic.Decidable <> decidable def
-R10238:10255 NS.Misc <> JsRecordHasKey_dec thm
-R10184:10200 Coq.Logic.Decidable <> not_not thm
-R10238:10255 NS.Misc <> JsRecordHasKey_dec thm
-prf 10281:10302 <> JsRecordHasKey_neg_Add
-binder 10314:10314 <> A:230
-R10329:10334 Coq.Strings.String <> string ind
-binder 10323:10325 <> kx':231
-R10343:10351 NS.Misc <> js_record def
-R10353:10353 NS.Misc <> A:230 var
-binder 10338:10340 <> xs':232
-R10387:10392 Coq.Init.Logic <> ::type_scope:x_'->'_x not
-R10359:10361 Coq.Init.Logic <> not def
-R10364:10377 NS.Misc <> JsRecordHasKey def
-R10383:10385 NS.Misc <> xs':232 var
-R10379:10381 NS.Misc <> kx':231 var
-R10405:10410 Coq.Strings.String <> string ind
-binder 10401:10402 <> kx:233
-R10418:10418 NS.Misc <> A:230 var
-binder 10414:10415 <> vx:234
-R10426:10434 NS.Misc <> js_record def
-R10436:10436 NS.Misc <> A:230 var
-binder 10422:10423 <> xs:235
-R10466:10471 Coq.Init.Logic <> ::type_scope:x_'->'_x not
-R10442:10449 Coq.Lists.List <> Add ind
-R10463:10465 NS.Misc <> xs':232 var
-R10460:10461 NS.Misc <> xs:235 var
-R10451:10451 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
-R10454:10455 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
-R10458:10458 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
-R10452:10453 NS.Misc <> kx:233 var
-R10456:10457 NS.Misc <> vx:234 var
-R10481:10484 Coq.Init.Logic <> ::type_scope:x_'/\'_x not
-R10475:10478 Coq.Init.Logic <> ::type_scope:x_'<>'_x not
-R10472:10474 NS.Misc <> kx':231 var
-R10479:10480 NS.Misc <> kx:233 var
-R10485:10487 Coq.Init.Logic <> not def
-R10490:10503 NS.Misc <> JsRecordHasKey def
-R10509:10510 NS.Misc <> xs:235 var
-R10505:10507 NS.Misc <> kx':231 var
-R10580:10597 NS.Misc <> JsRecordHasKey_neg thm
-R10580:10597 NS.Misc <> JsRecordHasKey_neg thm
-R10580:10597 NS.Misc <> JsRecordHasKey_neg thm
-R10580:10597 NS.Misc <> JsRecordHasKey_neg thm
-R10580:10597 NS.Misc <> JsRecordHasKey_neg thm
-R10721:10738 Coq.Lists.List <> Forall_forall thm
-R10766:10776 Coq.Lists.List <> Add_in thm
-R10795:10804 Coq.Lists.List <> in_eq thm
-R10806:10806 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
-R10809:10810 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
-R10813:10813 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
-R10892:10898 Coq.Init.Logic <> eq_refl constr
-R10721:10738 Coq.Lists.List <> Forall_forall thm
-R10721:10738 Coq.Lists.List <> Forall_forall thm
-R10766:10776 Coq.Lists.List <> Add_in thm
-R10795:10804 Coq.Lists.List <> in_eq thm
-R10806:10806 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
-R10809:10810 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
-R10813:10813 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
-R10892:10898 Coq.Init.Logic <> eq_refl constr
-R10914:10929 Coq.Lists.List <> Forall_cons constr
-R10914:10929 Coq.Lists.List <> Forall_cons constr
-R10957:10974 NS.Misc <> JsRecordHasKey_neg thm
-R10984:10988 Coq.Init.Logic <> proj2 thm
-R10957:10974 NS.Misc <> JsRecordHasKey_neg thm
-R10957:10974 NS.Misc <> JsRecordHasKey_neg thm
-R10984:10988 Coq.Init.Logic <> proj2 thm
-prf 11032:11054 <> JsRecordHasKey_neg_Add0
-binder 11066:11066 <> A:236
-R11081:11086 Coq.Strings.String <> string ind
-binder 11075:11077 <> kx':237
-R11095:11103 NS.Misc <> js_record def
-R11105:11105 NS.Misc <> A:236 var
-binder 11090:11092 <> xs':238
-R11139:11144 Coq.Init.Logic <> ::type_scope:x_'->'_x not
-R11111:11113 Coq.Init.Logic <> not def
-R11116:11129 NS.Misc <> JsRecordHasKey def
-R11135:11137 NS.Misc <> xs':238 var
-R11131:11133 NS.Misc <> kx':237 var
-R11157:11162 Coq.Strings.String <> string ind
-binder 11153:11154 <> kx:239
-R11170:11170 NS.Misc <> A:236 var
-binder 11166:11167 <> vx:240
-R11178:11186 NS.Misc <> js_record def
-R11188:11188 NS.Misc <> A:236 var
-binder 11174:11175 <> xs:241
-R11218:11223 Coq.Init.Logic <> ::type_scope:x_'->'_x not
-R11194:11201 Coq.Lists.List <> Add ind
-R11215:11217 NS.Misc <> xs':238 var
-R11212:11213 NS.Misc <> xs:241 var
-R11203:11203 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
-R11206:11207 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
-R11210:11210 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
-R11204:11205 NS.Misc <> kx:239 var
-R11208:11209 NS.Misc <> vx:240 var
-R11224:11226 Coq.Init.Logic <> not def
-R11229:11242 NS.Misc <> JsRecordHasKey def
-R11248:11249 NS.Misc <> xs:241 var
-R11244:11246 NS.Misc <> kx':237 var
-R11277:11281 Coq.Init.Logic <> proj2 thm
-R11291:11312 NS.Misc <> JsRecordHasKey_neg_Add thm
-R11277:11281 Coq.Init.Logic <> proj2 thm
-R11291:11312 NS.Misc <> JsRecordHasKey_neg_Add thm
-prf 11349:11366 <> JsRecordNoDup_alt0
-binder 11378:11378 <> A:242
-R11392:11400 NS.Misc <> js_record def
-R11402:11402 NS.Misc <> A:242 var
-binder 11387:11389 <> xs':243
-R11425:11430 Coq.Init.Logic <> ::type_scope:x_'->'_x not
-R11408:11420 NS.Misc <> JsRecordNoDup ind
-R11422:11424 NS.Misc <> xs':243 var
-R11443:11448 Coq.Strings.String <> string ind
-binder 11439:11440 <> kx:244
-R11456:11456 NS.Misc <> A:242 var
-binder 11452:11453 <> vx:245
-R11464:11472 NS.Misc <> js_record def
-R11474:11474 NS.Misc <> A:242 var
-binder 11460:11461 <> xs:246
-R11504:11509 Coq.Init.Logic <> ::type_scope:x_'->'_x not
-R11480:11487 Coq.Lists.List <> Add ind
-R11501:11503 NS.Misc <> xs':243 var
-R11498:11499 NS.Misc <> xs:246 var
-R11489:11489 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
-R11492:11493 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
-R11496:11496 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
-R11490:11491 NS.Misc <> kx:244 var
-R11494:11495 NS.Misc <> vx:245 var
-R11510:11522 NS.Misc <> JsRecordNoDup ind
-R11524:11525 NS.Misc <> xs:246 var
-R11613:11629 NS.Misc <> JsRecordNoDupCons constr
-R11613:11629 NS.Misc <> JsRecordNoDupCons constr
-R11682:11704 NS.Misc <> JsRecordHasKey_neg_Add0 thm
-R11682:11704 NS.Misc <> JsRecordHasKey_neg_Add0 thm
-prf 11733:11750 <> JsRecordNoDup_alt1
-binder 11762:11762 <> A:247
-R11776:11784 NS.Misc <> js_record def
-R11786:11786 NS.Misc <> A:247 var
-binder 11771:11773 <> xs':248
-R11809:11814 Coq.Init.Logic <> ::type_scope:x_'->'_x not
-R11792:11804 NS.Misc <> JsRecordNoDup ind
-R11806:11808 NS.Misc <> xs':248 var
-R11827:11832 Coq.Strings.String <> string ind
-binder 11823:11824 <> kx:249
-R11840:11840 NS.Misc <> A:247 var
-binder 11836:11837 <> vx:250
-R11848:11856 NS.Misc <> js_record def
-R11858:11858 NS.Misc <> A:247 var
-binder 11844:11845 <> xs:251
-R11888:11893 Coq.Init.Logic <> ::type_scope:x_'->'_x not
-R11864:11871 Coq.Lists.List <> Add ind
-R11885:11887 NS.Misc <> xs':248 var
-R11882:11883 NS.Misc <> xs:251 var
-R11873:11873 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
-R11876:11877 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
-R11880:11880 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
-R11874:11875 NS.Misc <> kx:249 var
-R11878:11879 NS.Misc <> vx:250 var
-R11894:11896 Coq.Init.Logic <> not def
-R11899:11912 NS.Misc <> JsRecordHasKey def
-R11917:11918 NS.Misc <> xs:251 var
-R11914:11915 NS.Misc <> kx:249 var
-R12009:12026 NS.Misc <> JsRecordHasKey_neg thm
-R12035:12050 Coq.Lists.List <> Forall_cons constr
-R12009:12026 NS.Misc <> JsRecordHasKey_neg thm
-R12009:12026 NS.Misc <> JsRecordHasKey_neg thm
-R12035:12050 Coq.Lists.List <> Forall_cons constr
-R12088:12105 NS.Misc <> JsRecordHasKey_neg thm
-R12108:12125 Coq.Lists.List <> Forall_forall thm
-R12151:12161 Coq.Lists.List <> Add_in thm
-R12180:12189 Coq.Lists.List <> in_eq thm
-R12191:12191 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
-R12195:12196 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
-R12199:12199 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
-R12278:12284 Coq.Init.Logic <> eq_refl constr
-R12088:12105 NS.Misc <> JsRecordHasKey_neg thm
-R12088:12105 NS.Misc <> JsRecordHasKey_neg thm
-R12108:12125 Coq.Lists.List <> Forall_forall thm
-R12108:12125 Coq.Lists.List <> Forall_forall thm
-R12151:12161 Coq.Lists.List <> Add_in thm
-R12180:12189 Coq.Lists.List <> in_eq thm
-R12191:12191 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
-R12195:12196 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
-R12199:12199 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
-R12278:12284 Coq.Init.Logic <> eq_refl constr
-R12303:12320 NS.Misc <> JsRecordHasKey_neg thm
-R12303:12320 NS.Misc <> JsRecordHasKey_neg thm
-R12303:12320 NS.Misc <> JsRecordHasKey_neg thm
-prf 12372:12388 <> JsRecordNoDup_alt
-binder 12400:12400 <> A:252
-R12413:12418 Coq.Strings.String <> string ind
-binder 12409:12410 <> kx:253
-R12426:12426 NS.Misc <> A:252 var
-binder 12422:12423 <> vx:254
-R12438:12446 NS.Misc <> js_record def
-R12448:12448 NS.Misc <> A:252 var
-binder 12430:12431 <> xs:255
-binder 12433:12435 <> xs':256
-R12471:12476 Coq.Init.Logic <> ::type_scope:x_'->'_x not
-R12454:12466 NS.Misc <> JsRecordNoDup ind
-R12468:12470 NS.Misc <> xs':256 var
-R12501:12506 Coq.Init.Logic <> ::type_scope:x_'->'_x not
-R12477:12484 Coq.Lists.List <> Add ind
-R12498:12500 NS.Misc <> xs':256 var
-R12495:12496 NS.Misc <> xs:255 var
-R12486:12486 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
-R12489:12490 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
-R12493:12493 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
-R12487:12488 NS.Misc <> kx:253 var
-R12491:12492 NS.Misc <> vx:254 var
-R12523:12526 Coq.Init.Logic <> ::type_scope:x_'/\'_x not
-R12507:12519 NS.Misc <> JsRecordNoDup ind
-R12521:12522 NS.Misc <> xs:255 var
-R12527:12529 Coq.Init.Logic <> not def
-R12532:12545 NS.Misc <> JsRecordHasKey def
-R12550:12551 NS.Misc <> xs:255 var
-R12547:12548 NS.Misc <> kx:253 var
-R12579:12596 NS.Misc <> JsRecordNoDup_alt0 thm
-R12607:12624 NS.Misc <> JsRecordNoDup_alt1 thm
-R12579:12596 NS.Misc <> JsRecordNoDup_alt0 thm
-R12607:12624 NS.Misc <> JsRecordNoDup_alt1 thm
-prf 12683:12700 <> js_record_destruct
-binder 12712:12712 <> A:257
-R12725:12733 NS.Misc <> js_record def
-R12735:12735 NS.Misc <> A:257 var
-binder 12721:12722 <> xs:258
-R12751:12754 Coq.Init.Logic <> ::type_scope:x_'\/'_x not
-R12745:12747 Coq.Init.Logic <> ::type_scope:x_'='_x not
-R12743:12744 NS.Misc <> xs:258 var
-R12748:12750 Coq.Init.Datatypes <> nil constr
-binder 12762:12763 <> kx:259
-binder 12765:12766 <> vx:260
-R12791:12794 Coq.Init.Logic <> ::type_scope:x_'->'_x not
-R12769:12770 Coq.Init.Logic <> ::type_scope:'~'_x not
-R12771:12784 NS.Misc <> JsRecordHasKey def
-R12789:12790 NS.Misc <> xs:258 var
-R12786:12787 NS.Misc <> kx:259 var
-R12795:12801 Coq.Init.Logic <> ::type_scope:'exists'_x_'..'_x_','_x not
-R12805:12806 Coq.Init.Logic <> ::type_scope:'exists'_x_'..'_x_','_x not
-binder 12802:12804 <> xs':261
-R12807:12817 NS.Misc <> JsRecordAdd ind
-R12828:12830 NS.Misc <> xs':261 var
-R12825:12826 NS.Misc <> xs:258 var
-R12822:12823 NS.Misc <> vx:260 var
-R12819:12820 NS.Misc <> kx:259 var
-R12962:12971 Coq.Strings.String <> string_dec def
-R12962:12971 Coq.Strings.String <> string_dec def
-R13015:13033 Coq.Lists.List <> Exists_cons_hd constr
-R13015:13033 Coq.Lists.List <> Exists_cons_hd constr
-R13071:13074 Coq.Init.Datatypes <> ::list_scope:x_'::'_x not
-R13063:13063 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
-R13066:13067 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
-R13070:13070 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
-R13085:13088 Coq.Init.Datatypes <> ::list_scope:x_'::'_x not
-R13075:13075 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
-R13079:13080 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
-R13084:13084 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
-R13089:13091 Coq.Init.Datatypes <> nil constr
-R13071:13074 Coq.Init.Datatypes <> ::list_scope:x_'::'_x not
-R13063:13063 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
-R13066:13067 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
-R13070:13070 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
-R13085:13088 Coq.Init.Datatypes <> ::list_scope:x_'::'_x not
-R13075:13075 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
-R13079:13080 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
-R13084:13084 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
-R13089:13091 Coq.Init.Datatypes <> nil constr
-R13121:13133 Coq.Lists.List <> Add_head constr
-R13121:13133 Coq.Lists.List <> Add_head constr
-R13181:13187 Coq.Init.Logic <> eq_refl constr
-R13181:13187 Coq.Init.Logic <> eq_refl constr
-R13243:13244 Coq.Init.Logic <> ::type_scope:'~'_x not
-R13245:13258 NS.Misc <> JsRecordHasKey def
-R13243:13244 Coq.Init.Logic <> ::type_scope:'~'_x not
-R13245:13258 NS.Misc <> JsRecordHasKey def
-R13306:13324 Coq.Lists.List <> Exists_cons_tl constr
-R13306:13324 Coq.Lists.List <> Exists_cons_tl constr
-R13334:13347 NS.Misc <> JsRecordHasKey def
-R13430:13433 Coq.Init.Datatypes <> ::list_scope:x_'::'_x not
-R13420:13420 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
-R13424:13425 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
-R13429:13429 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
-R13430:13433 Coq.Init.Datatypes <> ::list_scope:x_'::'_x not
-R13420:13420 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
-R13424:13425 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
-R13429:13429 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
-R13471:13483 Coq.Lists.List <> Add_cons constr
-R13471:13483 Coq.Lists.List <> Add_cons constr
-prf 13523:13535 <> js_record_ind
-binder 13547:13547 <> A:262
-R13570:13573 Coq.Init.Logic <> ::type_scope:x_'->'_x not
-R13559:13567 NS.Misc <> js_record def
-R13569:13569 NS.Misc <> A:262 var
-binder 13556:13556 <> P:263
-R13590:13597 Coq.Init.Logic <> ::type_scope:x_'->'_x not
-R13585:13585 NS.Misc <> P:263 var
-R13587:13589 Coq.Init.Datatypes <> nil constr
-R13598:13598 Coq.Init.Logic <> ::type_scope:x_'->'_x not
-R13696:13704 Coq.Init.Logic <> ::type_scope:x_'->'_x not
-binder 13606:13608 <> xs':264
-R13611:13611 Coq.Init.Logic <> ::type_scope:x_'->'_x not
-R13686:13690 Coq.Init.Logic <> ::type_scope:x_'->'_x not
-R13612:13618 Coq.Init.Logic <> ::type_scope:'exists'_x_'..'_x_','_x not
-R13627:13628 Coq.Init.Logic <> ::type_scope:'exists'_x_'..'_x_','_x not
-binder 13619:13620 <> kx:265
-binder 13622:13623 <> vx:266
-binder 13625:13626 <> xs:267
-R13650:13653 Coq.Init.Logic <> ::type_scope:x_'->'_x not
-R13629:13629 Coq.Init.Logic <> ::type_scope:'~'_x not
-R13630:13643 NS.Misc <> JsRecordHasKey def
-R13648:13649 NS.Misc <> xs:267 var
-R13645:13646 NS.Misc <> kx:265 var
-R13658:13661 Coq.Init.Logic <> ::type_scope:x_'/\'_x not
-R13654:13654 NS.Misc <> P:263 var
-R13656:13657 NS.Misc <> xs:267 var
-R13662:13672 NS.Misc <> JsRecordAdd ind
-R13683:13685 NS.Misc <> xs':264 var
-R13680:13681 NS.Misc <> xs:267 var
-R13677:13678 NS.Misc <> vx:266 var
-R13674:13675 NS.Misc <> kx:265 var
-R13691:13691 NS.Misc <> P:263 var
-R13693:13695 NS.Misc <> xs':264 var
-binder 13712:13713 <> xs:268
-R13716:13716 NS.Misc <> P:263 var
-R13718:13719 NS.Misc <> xs:268 var
-R13773:13784 NS.Misc <> list_add_ind thm
-R13773:13784 NS.Misc <> list_add_ind thm
-prf 13944:13961 <> JsRecordAdd_HasKey
-binder 13973:13973 <> A:269
-R13986:13991 Coq.Strings.String <> string ind
-binder 13982:13983 <> kx:270
-R13999:13999 NS.Misc <> A:269 var
-binder 13995:13996 <> vx:271
-R14011:14019 NS.Misc <> js_record def
-R14021:14021 NS.Misc <> A:269 var
-binder 14003:14004 <> xs:272
-binder 14006:14008 <> xs':273
-R14053:14056 Coq.Init.Logic <> ::type_scope:x_'->'_x not
-R14029:14039 NS.Misc <> JsRecordAdd ind
-R14050:14052 NS.Misc <> xs':273 var
-R14047:14048 NS.Misc <> xs:272 var
-R14044:14045 NS.Misc <> vx:271 var
-R14041:14042 NS.Misc <> kx:270 var
-R14057:14070 NS.Misc <> JsRecordHasKey def
-R14075:14077 NS.Misc <> xs':273 var
-R14072:14073 NS.Misc <> kx:270 var
-R14111:14121 Coq.Lists.List <> Add_in thm
-R14111:14121 Coq.Lists.List <> Add_in thm
-R14139:14145 Coq.Lists.List <> In def
-R14165:14168 Coq.Init.Datatypes <> ::list_scope:x_'::'_x not
-R14157:14157 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
-R14160:14161 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
-R14164:14164 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
-R14147:14147 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
-R14150:14151 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
-R14154:14154 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
-R14139:14145 Coq.Lists.List <> In def
-R14165:14168 Coq.Init.Datatypes <> ::list_scope:x_'::'_x not
-R14157:14157 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
-R14160:14161 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
-R14164:14164 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
-R14147:14147 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
-R14150:14151 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
-R14154:14154 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
-R14252:14269 NS.Misc <> JsRecordHasKey_alt thm
-R14272:14289 Coq.Lists.List <> Forall_forall thm
-R14252:14269 NS.Misc <> JsRecordHasKey_alt thm
-R14252:14269 NS.Misc <> JsRecordHasKey_alt thm
-R14272:14289 Coq.Lists.List <> Forall_forall thm
-R14272:14289 Coq.Lists.List <> Forall_forall thm
-R14318:14318 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
-R14321:14322 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
-R14325:14325 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
-R14318:14318 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
-R14321:14322 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
-R14325:14325 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
-R14362:14368 Coq.Init.Logic <> eq_refl constr
-R14362:14368 Coq.Init.Logic <> eq_refl constr
-prf 14384:14397 <> js_record_ind2
-binder 14409:14409 <> A:274
-R14432:14435 Coq.Init.Logic <> ::type_scope:x_'->'_x not
-R14421:14429 NS.Misc <> js_record def
-R14431:14431 NS.Misc <> A:274 var
-R14447:14450 Coq.Init.Logic <> ::type_scope:x_'->'_x not
-R14436:14444 NS.Misc <> js_record def
-R14446:14446 NS.Misc <> A:274 var
-binder 14418:14418 <> P:275
-R14471:14478 Coq.Init.Logic <> ::type_scope:x_'->'_x not
-R14462:14462 NS.Misc <> P:275 var
-R14468:14470 Coq.Init.Datatypes <> nil constr
-R14464:14466 Coq.Init.Datatypes <> nil constr
-R14479:14479 Coq.Init.Logic <> ::type_scope:x_'->'_x not
-R14585:14593 Coq.Init.Logic <> ::type_scope:x_'->'_x not
-binder 14487:14489 <> xs':276
-R14492:14492 Coq.Init.Logic <> ::type_scope:x_'->'_x not
-R14571:14575 Coq.Init.Logic <> ::type_scope:x_'->'_x not
-R14493:14499 Coq.Init.Logic <> ::type_scope:'exists'_x_'..'_x_','_x not
-R14508:14509 Coq.Init.Logic <> ::type_scope:'exists'_x_'..'_x_','_x not
-binder 14500:14501 <> kx:277
-binder 14503:14504 <> vx:278
-binder 14506:14507 <> xs:279
-R14531:14534 Coq.Init.Logic <> ::type_scope:x_'->'_x not
-R14510:14510 Coq.Init.Logic <> ::type_scope:'~'_x not
-R14511:14524 NS.Misc <> JsRecordHasKey def
-R14529:14530 NS.Misc <> xs:279 var
-R14526:14527 NS.Misc <> kx:277 var
-R14543:14546 Coq.Init.Logic <> ::type_scope:x_'/\'_x not
-R14535:14535 NS.Misc <> P:275 var
-R14540:14542 Coq.Init.Datatypes <> nil constr
-R14537:14538 NS.Misc <> xs:279 var
-R14547:14557 NS.Misc <> JsRecordAdd ind
-R14568:14570 NS.Misc <> xs':276 var
-R14565:14566 NS.Misc <> xs:279 var
-R14562:14563 NS.Misc <> vx:278 var
-R14559:14560 NS.Misc <> kx:277 var
-R14576:14576 NS.Misc <> P:275 var
-R14582:14584 Coq.Init.Datatypes <> nil constr
-R14578:14580 NS.Misc <> xs':276 var
-R14594:14594 Coq.Init.Logic <> ::type_scope:x_'->'_x not
-R14700:14708 Coq.Init.Logic <> ::type_scope:x_'->'_x not
-binder 14602:14604 <> ys':280
-R14607:14607 Coq.Init.Logic <> ::type_scope:x_'->'_x not
-R14686:14690 Coq.Init.Logic <> ::type_scope:x_'->'_x not
-R14608:14614 Coq.Init.Logic <> ::type_scope:'exists'_x_'..'_x_','_x not
-R14623:14624 Coq.Init.Logic <> ::type_scope:'exists'_x_'..'_x_','_x not
-binder 14615:14616 <> ky:281
-binder 14618:14619 <> vy:282
-binder 14621:14622 <> ys:283
-R14646:14649 Coq.Init.Logic <> ::type_scope:x_'->'_x not
-R14625:14625 Coq.Init.Logic <> ::type_scope:'~'_x not
-R14626:14639 NS.Misc <> JsRecordHasKey def
-R14644:14645 NS.Misc <> ys:283 var
-R14641:14642 NS.Misc <> ky:281 var
-R14658:14661 Coq.Init.Logic <> ::type_scope:x_'/\'_x not
-R14650:14650 NS.Misc <> P:275 var
-R14656:14657 NS.Misc <> ys:283 var
-R14652:14654 Coq.Init.Datatypes <> nil constr
-R14662:14672 NS.Misc <> JsRecordAdd ind
-R14683:14685 NS.Misc <> ys':280 var
-R14680:14681 NS.Misc <> ys:283 var
-R14677:14678 NS.Misc <> vy:282 var
-R14674:14675 NS.Misc <> ky:281 var
-R14691:14691 NS.Misc <> P:275 var
-R14697:14699 NS.Misc <> ys':280 var
-R14693:14695 Coq.Init.Datatypes <> nil constr
-R14709:14709 Coq.Init.Logic <> ::type_scope:x_'->'_x not
-R14880:14888 Coq.Init.Logic <> ::type_scope:x_'->'_x not
-binder 14717:14719 <> xs':284
-binder 14721:14723 <> ys':285
-R14726:14726 Coq.Init.Logic <> ::type_scope:x_'->'_x not
-R14866:14870 Coq.Init.Logic <> ::type_scope:x_'->'_x not
-R14727:14733 Coq.Init.Logic <> ::type_scope:'exists'_x_'..'_x_','_x not
-R14751:14752 Coq.Init.Logic <> ::type_scope:'exists'_x_'..'_x_','_x not
-binder 14734:14735 <> kx:286
-binder 14737:14738 <> vx:287
-binder 14740:14741 <> ky:288
-binder 14743:14744 <> vy:289
-binder 14746:14747 <> xs:290
-binder 14749:14750 <> ys:291
-R14774:14777 Coq.Init.Logic <> ::type_scope:x_'->'_x not
-R14753:14753 Coq.Init.Logic <> ::type_scope:'~'_x not
-R14754:14767 NS.Misc <> JsRecordHasKey def
-R14772:14773 NS.Misc <> xs:290 var
-R14769:14770 NS.Misc <> kx:286 var
-R14799:14802 Coq.Init.Logic <> ::type_scope:x_'->'_x not
-R14778:14778 Coq.Init.Logic <> ::type_scope:'~'_x not
-R14779:14792 NS.Misc <> JsRecordHasKey def
-R14797:14798 NS.Misc <> ys:291 var
-R14794:14795 NS.Misc <> ky:288 var
-R14810:14813 Coq.Init.Logic <> ::type_scope:x_'/\'_x not
-R14803:14803 NS.Misc <> P:275 var
-R14808:14809 NS.Misc <> ys:291 var
-R14805:14806 NS.Misc <> xs:290 var
-R14838:14841 Coq.Init.Logic <> ::type_scope:x_'/\'_x not
-R14814:14824 NS.Misc <> JsRecordAdd ind
-R14835:14837 NS.Misc <> xs':284 var
-R14832:14833 NS.Misc <> xs:290 var
-R14829:14830 NS.Misc <> vx:287 var
-R14826:14827 NS.Misc <> kx:286 var
-R14842:14852 NS.Misc <> JsRecordAdd ind
-R14863:14865 NS.Misc <> ys':285 var
-R14860:14861 NS.Misc <> ys:291 var
-R14857:14858 NS.Misc <> vy:289 var
-R14854:14855 NS.Misc <> ky:288 var
-R14871:14871 NS.Misc <> P:275 var
-R14877:14879 NS.Misc <> ys':285 var
-R14873:14875 NS.Misc <> xs':284 var
-binder 14896:14897 <> xs:292
-binder 14899:14900 <> ys:293
-R14903:14903 NS.Misc <> P:275 var
-R14908:14909 NS.Misc <> ys:293 var
-R14905:14906 NS.Misc <> xs:292 var
-R15117:15129 Coq.Lists.List <> Add_head constr
-R15117:15129 Coq.Lists.List <> Add_head constr
-R15253:15255 Coq.Init.Datatypes <> nil constr
-R15253:15255 Coq.Init.Datatypes <> nil constr
-R15271:15283 Coq.Lists.List <> Add_head constr
-R15271:15283 Coq.Lists.List <> Add_head constr
-R15497:15509 Coq.Lists.List <> Add_head constr
-R15497:15509 Coq.Lists.List <> Add_head constr
-R15539:15551 Coq.Lists.List <> Add_head constr
-R15539:15551 Coq.Lists.List <> Add_head constr
-binder 15651:15651 <> x:294
-binder 15653:15653 <> y:295
-binder 15651:15651 <> x:296
-binder 15653:15653 <> y:297
-R15671:15684 NS.Misc <> js_record_ind2 thm
-binder 15691:15691 <> x:298
-binder 15693:15693 <> y:299
+R5530:5530 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R5573:5581 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+binder 5538:5538 <> x:157
+binder 5540:5541 <> xs:158
+R5552:5555 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R5544:5544 NS.Misc <> P:156 var
+R5549:5551 Coq.Init.Datatypes <> nil constr
+R5546:5547 NS.Misc <> xs:158 var
+R5556:5556 NS.Misc <> P:156 var
+R5570:5572 Coq.Init.Datatypes <> nil constr
+R5559:5562 Coq.Init.Datatypes <> cons constr
+R5566:5567 NS.Misc <> xs:158 var
+R5564:5564 NS.Misc <> x:157 var
+R5582:5582 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R5625:5633 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+binder 5590:5590 <> y:159
+binder 5592:5593 <> ys:160
+R5604:5607 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R5596:5596 NS.Misc <> P:156 var
+R5602:5603 NS.Misc <> ys:160 var
+R5598:5600 Coq.Init.Datatypes <> nil constr
+R5608:5608 NS.Misc <> P:156 var
+R5615:5618 Coq.Init.Datatypes <> cons constr
+R5622:5623 NS.Misc <> ys:160 var
+R5620:5620 NS.Misc <> y:159 var
+R5610:5612 Coq.Init.Datatypes <> nil constr
+R5634:5634 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R5689:5697 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+binder 5642:5642 <> x:161
+binder 5644:5644 <> y:162
+binder 5646:5647 <> xs:163
+binder 5649:5650 <> ys:164
+R5660:5663 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R5653:5653 NS.Misc <> P:156 var
+R5658:5659 NS.Misc <> ys:164 var
+R5655:5656 NS.Misc <> xs:163 var
+R5664:5664 NS.Misc <> P:156 var
+R5679:5682 Coq.Init.Datatypes <> cons constr
+R5686:5687 NS.Misc <> ys:164 var
+R5684:5684 NS.Misc <> y:162 var
+R5667:5670 Coq.Init.Datatypes <> cons constr
+R5674:5675 NS.Misc <> xs:163 var
+R5672:5672 NS.Misc <> x:161 var
+binder 5705:5706 <> xs:165
+binder 5708:5709 <> ys:166
+R5712:5712 NS.Misc <> P:156 var
+R5717:5718 NS.Misc <> ys:166 var
+R5714:5715 NS.Misc <> xs:165 var
+R5875:5877 Coq.Init.Datatypes <> nil constr
+R5875:5877 Coq.Init.Datatypes <> nil constr
+binder 5993:5993 <> x:167
+binder 5995:5995 <> y:168
+binder 5993:5993 <> x:169
+binder 5995:5995 <> y:170
+R6013:6021 NS.Misc <> list_ind2 thm
+binder 6028:6028 <> x:171
+binder 6030:6030 <> y:172
+prf 6055:6067 <> list_ind2_alt
+binder 6078:6078 <> A:173
+binder 6080:6080 <> B:174
+R6099:6102 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R6093:6096 Coq.Init.Datatypes <> list ind
+R6098:6098 NS.Misc <> A:173 var
+R6109:6112 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R6103:6106 Coq.Init.Datatypes <> list ind
+R6108:6108 NS.Misc <> B:174 var
+binder 6090:6090 <> P:175
+R6133:6140 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R6124:6124 NS.Misc <> P:175 var
+R6130:6132 Coq.Init.Datatypes <> nil constr
+R6126:6128 Coq.Init.Datatypes <> nil constr
+R6141:6141 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R6185:6193 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+binder 6149:6149 <> x:176
+binder 6151:6152 <> xs:177
+binder 6154:6155 <> ys:178
+R6165:6168 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R6158:6158 NS.Misc <> P:175 var
+R6163:6164 NS.Misc <> ys:178 var
+R6160:6161 NS.Misc <> xs:177 var
+R6169:6169 NS.Misc <> P:175 var
+R6183:6184 NS.Misc <> ys:178 var
+R6172:6175 Coq.Init.Datatypes <> cons constr
+R6179:6180 NS.Misc <> xs:177 var
+R6177:6177 NS.Misc <> x:176 var
+R6194:6194 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R6238:6246 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+binder 6202:6202 <> y:179
+binder 6204:6205 <> xs:180
+binder 6207:6208 <> ys:181
+R6218:6221 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R6211:6211 NS.Misc <> P:175 var
+R6216:6217 NS.Misc <> ys:181 var
+R6213:6214 NS.Misc <> xs:180 var
+R6222:6222 NS.Misc <> P:175 var
+R6228:6231 Coq.Init.Datatypes <> cons constr
+R6235:6236 NS.Misc <> ys:181 var
+R6233:6233 NS.Misc <> y:179 var
+R6224:6225 NS.Misc <> xs:180 var
+binder 6254:6255 <> xs:182
+binder 6257:6258 <> ys:183
+R6261:6261 NS.Misc <> P:175 var
+R6266:6267 NS.Misc <> ys:183 var
+R6263:6264 NS.Misc <> xs:182 var
+R6420:6422 Coq.Init.Datatypes <> nil constr
+R6420:6422 Coq.Init.Datatypes <> nil constr
+binder 6536:6536 <> x:184
+binder 6538:6538 <> y:185
+binder 6536:6536 <> x:186
+binder 6538:6538 <> y:187
+R6556:6568 NS.Misc <> list_ind2_alt thm
+binder 6575:6575 <> x:188
+binder 6577:6577 <> y:189
+R6727:6729 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R6694:6699 Coq.Init.Specif <> existT constr
+binder 6706:6707 <> x0:190
+R6718:6719 NS.Misc <> x0:190 var
+R6730:6735 Coq.Init.Specif <> existT constr
+binder 6742:6743 <> x1:191
+R6754:6755 NS.Misc <> x1:191 var
+R6727:6729 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R6694:6699 Coq.Init.Specif <> existT constr
+binder 6706:6707 <> x0:192
+R6718:6719 NS.Misc <> x0:192 var
+R6730:6735 Coq.Init.Specif <> existT constr
+binder 6742:6743 <> x1:193
+R6754:6755 NS.Misc <> x1:193 var
+R6834:6836 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R6801:6806 Coq.Init.Specif <> existT constr
+binder 6813:6814 <> x0:194
+R6825:6826 NS.Misc <> x0:194 var
+R6837:6842 Coq.Init.Specif <> existT constr
+binder 6849:6850 <> x1:195
+R6861:6862 NS.Misc <> x1:195 var
+R6834:6836 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R6801:6806 Coq.Init.Specif <> existT constr
+binder 6813:6814 <> x0:196
+R6825:6826 NS.Misc <> x0:196 var
+R6837:6842 Coq.Init.Specif <> existT constr
+binder 6849:6850 <> x1:197
+R6861:6862 NS.Misc <> x1:197 var
+R6885:6895 Coq.Logic.EqdepFacts <> eq_sigT_fst thm
+R6778:6786 Coq.Logic.Eqdep EqdepTheory inj_pair2 thm
+R7027:7030 Coq.Init.Datatypes <> None constr
+R7027:7030 Coq.Init.Datatypes <> None constr
+R7044:7047 Coq.Init.Datatypes <> None constr
+R7044:7047 Coq.Init.Datatypes <> None constr
+R7060:7063 Coq.Init.Datatypes <> Some constr
+R7060:7063 Coq.Init.Datatypes <> Some constr
+R7234:7244 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R7191:7196 Coq.Init.Specif <> existT constr
+R7218:7226 NS.Misc <> js_record def
+binder 7203:7203 <> x:198
+R7214:7214 NS.Misc <> x:198 var
+R7245:7250 Coq.Init.Specif <> existT constr
+R7272:7275 Coq.Init.Datatypes <> list ind
+R7284:7286 Coq.Init.Datatypes <> ::type_scope:x_'*'_x not
+R7278:7283 Coq.Strings.String <> string ind
+binder 7257:7257 <> x:199
+R7268:7268 NS.Misc <> x:199 var
+R7234:7244 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R7191:7196 Coq.Init.Specif <> existT constr
+R7218:7226 NS.Misc <> js_record def
+binder 7203:7203 <> x:200
+R7214:7214 NS.Misc <> x:200 var
+R7245:7250 Coq.Init.Specif <> existT constr
+R7272:7275 Coq.Init.Datatypes <> list ind
+R7284:7286 Coq.Init.Datatypes <> ::type_scope:x_'*'_x not
+R7278:7283 Coq.Strings.String <> string ind
+binder 7257:7257 <> x:201
+R7268:7268 NS.Misc <> x:201 var
+R7417:7427 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R7368:7373 Coq.Init.Specif <> existT constr
+R7395:7398 Coq.Init.Datatypes <> list ind
+R7407:7409 Coq.Init.Datatypes <> ::type_scope:x_'*'_x not
+R7401:7406 Coq.Strings.String <> string ind
+binder 7380:7380 <> x:202
+R7391:7391 NS.Misc <> x:202 var
+R7428:7433 Coq.Init.Specif <> existT constr
+R7455:7463 NS.Misc <> js_record def
+binder 7440:7440 <> x:203
+R7451:7451 NS.Misc <> x:203 var
+R7417:7427 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R7368:7373 Coq.Init.Specif <> existT constr
+R7395:7398 Coq.Init.Datatypes <> list ind
+R7407:7409 Coq.Init.Datatypes <> ::type_scope:x_'*'_x not
+R7401:7406 Coq.Strings.String <> string ind
+binder 7380:7380 <> x:204
+R7391:7391 NS.Misc <> x:204 var
+R7428:7433 Coq.Init.Specif <> existT constr
+R7455:7463 NS.Misc <> js_record def
+binder 7440:7440 <> x:205
+R7451:7451 NS.Misc <> x:205 var
+R7493:7501 NS.Misc <> js_record def
+R7515:7523 Coq.Logic.Eqdep EqdepTheory inj_pair2 thm
+R7316:7324 NS.Misc <> js_record def
+R7338:7346 Coq.Logic.Eqdep EqdepTheory inj_pair2 thm
+R7606:7608 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R7606:7608 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R7636:7639 Coq.Init.Logic <> True ind
+R7636:7639 Coq.Init.Logic <> True ind
+R7750:7752 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R7750:7752 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R7830:7832 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R7830:7832 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R7902:7904 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R7902:7904 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R7966:7968 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R7966:7968 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R8022:8024 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R8022:8024 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R8070:8072 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R8070:8072 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R8110:8112 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R8110:8112 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R8143:8145 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R8146:8148 Coq.Init.Datatypes <> nil constr
+R8143:8145 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R8146:8148 Coq.Init.Datatypes <> nil constr
+R8362:8365 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R8362:8365 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+prf 8627:8638 <> list_add_ind
+binder 8650:8650 <> A:206
+R8669:8672 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R8663:8666 Coq.Init.Datatypes <> list ind
+R8668:8668 NS.Misc <> A:206 var
+binder 8660:8660 <> P:207
+R8689:8696 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R8684:8684 NS.Misc <> P:207 var
+R8686:8688 Coq.Init.Datatypes <> nil constr
+R8697:8697 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R8759:8767 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+binder 8705:8707 <> xs':208
+R8710:8710 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R8749:8753 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R8711:8717 Coq.Init.Logic <> ::type_scope:'exists'_x_'..'_x_','_x not
+R8722:8723 Coq.Init.Logic <> ::type_scope:'exists'_x_'..'_x_','_x not
+binder 8718:8718 <> x:209
+binder 8720:8721 <> xs:210
+R8728:8731 Coq.Init.Logic <> ::type_scope:x_'/\'_x not
+R8724:8724 NS.Misc <> P:207 var
+R8726:8727 NS.Misc <> xs:210 var
+R8732:8739 Coq.Lists.List <> Add ind
+R8746:8748 NS.Misc <> xs':208 var
+R8743:8744 NS.Misc <> xs:210 var
+R8741:8741 NS.Misc <> x:209 var
+R8754:8754 NS.Misc <> P:207 var
+R8756:8758 NS.Misc <> xs':208 var
+binder 8775:8776 <> xs:211
+R8779:8779 NS.Misc <> P:207 var
+R8781:8782 NS.Misc <> xs:211 var
+R8904:8916 Coq.Lists.List <> Add_head constr
+R8904:8916 Coq.Lists.List <> Add_head constr
+R8981:8981 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R8986:8987 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R8989:8989 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+binder 8982:8985 <> key':212
+binder 8981:8989 <> pat:213
+R8997:9000 Coq.Init.Logic <> ::type_scope:x_'<>'_x not
+R9001:9004 NS.Misc <> key':212 var
+R9027:9029 Coq.Init.Datatypes <> ::type_scope:x_'*'_x not
+R9021:9026 Coq.Strings.String <> string ind
+binder 9018:9018 <> x:214
+R9036:9038 Coq.Init.Logic <> not def
+R9047:9047 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R9052:9053 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R9055:9055 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+binder 9048:9051 <> key':215
+binder 9047:9055 <> pat:216
+R9063:9065 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R9066:9069 NS.Misc <> key':215 var
+R9072:9072 NS.Misc <> x:214 var
+R9095:9119 Coq.Logic.FunctionalExtensionality <> functional_extensionality thm
+R9158:9179 Coq.Lists.List <> Forall_Exists_neg thm
+prf 9196:9213 <> JsRecordHasKey_dec
+binder 9224:9224 <> A:217
+R9238:9243 Coq.Strings.String <> string ind
+binder 9233:9235 <> key:218
+R9251:9259 NS.Misc <> js_record def
+R9261:9261 NS.Misc <> A:217 var
+binder 9247:9248 <> xs:219
+R9290:9293 Coq.Init.Logic <> ::type_scope:x_'\/'_x not
+R9269:9282 NS.Misc <> JsRecordHasKey def
+R9288:9289 NS.Misc <> xs:219 var
+R9284:9286 NS.Misc <> key:218 var
+R9294:9296 Coq.Init.Logic <> not def
+R9299:9312 NS.Misc <> JsRecordHasKey def
+R9318:9319 NS.Misc <> xs:219 var
+R9314:9316 NS.Misc <> key:218 var
+R9414:9423 Coq.Strings.String <> string_dec def
+R9414:9423 Coq.Strings.String <> string_dec def
+R9458:9476 Coq.Lists.List <> Exists_cons_hd constr
+R9458:9476 Coq.Lists.List <> Exists_cons_hd constr
+R9543:9561 Coq.Lists.List <> Exists_cons_tl constr
+R9543:9561 Coq.Lists.List <> Exists_cons_tl constr
+R9642:9648 Coq.Init.Logic <> eq_refl constr
+R9642:9648 Coq.Init.Logic <> eq_refl constr
+prf 9700:9717 <> JsRecordHasKey_neg
+binder 9728:9728 <> A:220
+R9742:9747 Coq.Strings.String <> string ind
+binder 9737:9739 <> key:221
+R9755:9763 NS.Misc <> js_record def
+R9765:9765 NS.Misc <> A:220 var
+binder 9751:9752 <> xs:222
+R9800:9804 Coq.Init.Logic <> ::type_scope:x_'<->'_x not
+R9773:9775 Coq.Init.Logic <> not def
+R9778:9791 NS.Misc <> JsRecordHasKey def
+R9797:9798 NS.Misc <> xs:222 var
+R9793:9795 NS.Misc <> key:221 var
+R9805:9815 Coq.Lists.List <> Forall ind
+R9849:9850 NS.Misc <> xs:222 var
+R9823:9823 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R9828:9829 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R9831:9831 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+binder 9824:9827 <> key':223
+binder 9823:9831 <> pat:224
+R9839:9842 Coq.Init.Logic <> ::type_scope:x_'<>'_x not
+R9836:9838 NS.Misc <> key:221 var
+R9843:9846 NS.Misc <> key':223 var
+prf 9933:9950 <> JsRecordHasKey_alt
+binder 9961:9961 <> A:225
+R9975:9980 Coq.Strings.String <> string ind
+binder 9970:9972 <> key:226
+R9988:9996 NS.Misc <> js_record def
+R9998:9998 NS.Misc <> A:225 var
+binder 9984:9985 <> xs:227
+R10027:10031 Coq.Init.Logic <> ::type_scope:x_'<->'_x not
+R10006:10019 NS.Misc <> JsRecordHasKey def
+R10025:10026 NS.Misc <> xs:227 var
+R10021:10023 NS.Misc <> key:226 var
+R10032:10034 Coq.Init.Logic <> not def
+R10037:10047 Coq.Lists.List <> Forall ind
+R10081:10082 NS.Misc <> xs:227 var
+R10055:10055 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R10060:10061 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R10063:10063 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+binder 10056:10059 <> key':228
+binder 10055:10063 <> pat:229
+R10071:10074 Coq.Init.Logic <> ::type_scope:x_'<>'_x not
+R10068:10070 NS.Misc <> key:226 var
+R10075:10078 NS.Misc <> key':228 var
+R10190:10206 Coq.Logic.Decidable <> not_not thm
+R10216:10234 Coq.Logic.Decidable <> decidable def
+R10244:10261 NS.Misc <> JsRecordHasKey_dec thm
+R10190:10206 Coq.Logic.Decidable <> not_not thm
+R10244:10261 NS.Misc <> JsRecordHasKey_dec thm
+prf 10289:10310 <> JsRecordHasKey_neg_Add
+binder 10322:10322 <> A:230
+R10337:10342 Coq.Strings.String <> string ind
+binder 10331:10333 <> kx':231
+R10351:10359 NS.Misc <> js_record def
+R10361:10361 NS.Misc <> A:230 var
+binder 10346:10348 <> xs':232
+R10395:10400 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R10367:10369 Coq.Init.Logic <> not def
+R10372:10385 NS.Misc <> JsRecordHasKey def
+R10391:10393 NS.Misc <> xs':232 var
+R10387:10389 NS.Misc <> kx':231 var
+R10413:10418 Coq.Strings.String <> string ind
+binder 10409:10410 <> kx:233
+R10426:10426 NS.Misc <> A:230 var
+binder 10422:10423 <> vx:234
+R10434:10442 NS.Misc <> js_record def
+R10444:10444 NS.Misc <> A:230 var
+binder 10430:10431 <> xs:235
+R10474:10479 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R10450:10457 Coq.Lists.List <> Add ind
+R10471:10473 NS.Misc <> xs':232 var
+R10468:10469 NS.Misc <> xs:235 var
+R10459:10459 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R10462:10463 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R10466:10466 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R10460:10461 NS.Misc <> kx:233 var
+R10464:10465 NS.Misc <> vx:234 var
+R10489:10492 Coq.Init.Logic <> ::type_scope:x_'/\'_x not
+R10483:10486 Coq.Init.Logic <> ::type_scope:x_'<>'_x not
+R10480:10482 NS.Misc <> kx':231 var
+R10487:10488 NS.Misc <> kx:233 var
+R10493:10495 Coq.Init.Logic <> not def
+R10498:10511 NS.Misc <> JsRecordHasKey def
+R10517:10518 NS.Misc <> xs:235 var
+R10513:10515 NS.Misc <> kx':231 var
+R10588:10605 NS.Misc <> JsRecordHasKey_neg thm
+R10588:10605 NS.Misc <> JsRecordHasKey_neg thm
+R10588:10605 NS.Misc <> JsRecordHasKey_neg thm
+R10588:10605 NS.Misc <> JsRecordHasKey_neg thm
+R10588:10605 NS.Misc <> JsRecordHasKey_neg thm
+R10729:10746 Coq.Lists.List <> Forall_forall thm
+R10774:10784 Coq.Lists.List <> Add_in thm
+R10803:10812 Coq.Lists.List <> in_eq thm
+R10814:10814 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R10817:10818 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R10821:10821 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R10900:10906 Coq.Init.Logic <> eq_refl constr
+R10729:10746 Coq.Lists.List <> Forall_forall thm
+R10729:10746 Coq.Lists.List <> Forall_forall thm
+R10774:10784 Coq.Lists.List <> Add_in thm
+R10803:10812 Coq.Lists.List <> in_eq thm
+R10814:10814 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R10817:10818 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R10821:10821 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R10900:10906 Coq.Init.Logic <> eq_refl constr
+R10922:10937 Coq.Lists.List <> Forall_cons constr
+R10922:10937 Coq.Lists.List <> Forall_cons constr
+R10965:10982 NS.Misc <> JsRecordHasKey_neg thm
+R10992:10996 Coq.Init.Logic <> proj2 thm
+R10965:10982 NS.Misc <> JsRecordHasKey_neg thm
+R10965:10982 NS.Misc <> JsRecordHasKey_neg thm
+R10992:10996 Coq.Init.Logic <> proj2 thm
+prf 11044:11066 <> JsRecordHasKey_neg_Add0
+binder 11078:11078 <> A:236
+R11093:11098 Coq.Strings.String <> string ind
+binder 11087:11089 <> kx':237
+R11107:11115 NS.Misc <> js_record def
+R11117:11117 NS.Misc <> A:236 var
+binder 11102:11104 <> xs':238
+R11151:11156 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R11123:11125 Coq.Init.Logic <> not def
+R11128:11141 NS.Misc <> JsRecordHasKey def
+R11147:11149 NS.Misc <> xs':238 var
+R11143:11145 NS.Misc <> kx':237 var
+R11169:11174 Coq.Strings.String <> string ind
+binder 11165:11166 <> kx:239
+R11182:11182 NS.Misc <> A:236 var
+binder 11178:11179 <> vx:240
+R11190:11198 NS.Misc <> js_record def
+R11200:11200 NS.Misc <> A:236 var
+binder 11186:11187 <> xs:241
+R11230:11235 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R11206:11213 Coq.Lists.List <> Add ind
+R11227:11229 NS.Misc <> xs':238 var
+R11224:11225 NS.Misc <> xs:241 var
+R11215:11215 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R11218:11219 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R11222:11222 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R11216:11217 NS.Misc <> kx:239 var
+R11220:11221 NS.Misc <> vx:240 var
+R11236:11238 Coq.Init.Logic <> not def
+R11241:11254 NS.Misc <> JsRecordHasKey def
+R11260:11261 NS.Misc <> xs:241 var
+R11256:11258 NS.Misc <> kx':237 var
+R11289:11293 Coq.Init.Logic <> proj2 thm
+R11303:11324 NS.Misc <> JsRecordHasKey_neg_Add thm
+R11289:11293 Coq.Init.Logic <> proj2 thm
+R11303:11324 NS.Misc <> JsRecordHasKey_neg_Add thm
+prf 11361:11378 <> JsRecordNoDup_alt0
+binder 11390:11390 <> A:242
+R11404:11412 NS.Misc <> js_record def
+R11414:11414 NS.Misc <> A:242 var
+binder 11399:11401 <> xs':243
+R11437:11442 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R11420:11432 NS.Misc <> JsRecordNoDup ind
+R11434:11436 NS.Misc <> xs':243 var
+R11455:11460 Coq.Strings.String <> string ind
+binder 11451:11452 <> kx:244
+R11468:11468 NS.Misc <> A:242 var
+binder 11464:11465 <> vx:245
+R11476:11484 NS.Misc <> js_record def
+R11486:11486 NS.Misc <> A:242 var
+binder 11472:11473 <> xs:246
+R11516:11521 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R11492:11499 Coq.Lists.List <> Add ind
+R11513:11515 NS.Misc <> xs':243 var
+R11510:11511 NS.Misc <> xs:246 var
+R11501:11501 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R11504:11505 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R11508:11508 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R11502:11503 NS.Misc <> kx:244 var
+R11506:11507 NS.Misc <> vx:245 var
+R11522:11534 NS.Misc <> JsRecordNoDup ind
+R11536:11537 NS.Misc <> xs:246 var
+R11625:11641 NS.Misc <> JsRecordNoDupCons constr
+R11625:11641 NS.Misc <> JsRecordNoDupCons constr
+R11694:11716 NS.Misc <> JsRecordHasKey_neg_Add0 thm
+R11694:11716 NS.Misc <> JsRecordHasKey_neg_Add0 thm
+prf 11745:11762 <> JsRecordNoDup_alt1
+binder 11774:11774 <> A:247
+R11788:11796 NS.Misc <> js_record def
+R11798:11798 NS.Misc <> A:247 var
+binder 11783:11785 <> xs':248
+R11821:11826 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R11804:11816 NS.Misc <> JsRecordNoDup ind
+R11818:11820 NS.Misc <> xs':248 var
+R11839:11844 Coq.Strings.String <> string ind
+binder 11835:11836 <> kx:249
+R11852:11852 NS.Misc <> A:247 var
+binder 11848:11849 <> vx:250
+R11860:11868 NS.Misc <> js_record def
+R11870:11870 NS.Misc <> A:247 var
+binder 11856:11857 <> xs:251
+R11900:11905 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R11876:11883 Coq.Lists.List <> Add ind
+R11897:11899 NS.Misc <> xs':248 var
+R11894:11895 NS.Misc <> xs:251 var
+R11885:11885 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R11888:11889 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R11892:11892 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R11886:11887 NS.Misc <> kx:249 var
+R11890:11891 NS.Misc <> vx:250 var
+R11906:11908 Coq.Init.Logic <> not def
+R11911:11924 NS.Misc <> JsRecordHasKey def
+R11929:11930 NS.Misc <> xs:251 var
+R11926:11927 NS.Misc <> kx:249 var
+R12021:12038 NS.Misc <> JsRecordHasKey_neg thm
+R12047:12062 Coq.Lists.List <> Forall_cons constr
+R12021:12038 NS.Misc <> JsRecordHasKey_neg thm
+R12021:12038 NS.Misc <> JsRecordHasKey_neg thm
+R12047:12062 Coq.Lists.List <> Forall_cons constr
+R12100:12117 NS.Misc <> JsRecordHasKey_neg thm
+R12120:12137 Coq.Lists.List <> Forall_forall thm
+R12163:12173 Coq.Lists.List <> Add_in thm
+R12192:12201 Coq.Lists.List <> in_eq thm
+R12203:12203 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R12207:12208 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R12211:12211 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R12290:12296 Coq.Init.Logic <> eq_refl constr
+R12100:12117 NS.Misc <> JsRecordHasKey_neg thm
+R12100:12117 NS.Misc <> JsRecordHasKey_neg thm
+R12120:12137 Coq.Lists.List <> Forall_forall thm
+R12120:12137 Coq.Lists.List <> Forall_forall thm
+R12163:12173 Coq.Lists.List <> Add_in thm
+R12192:12201 Coq.Lists.List <> in_eq thm
+R12203:12203 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R12207:12208 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R12211:12211 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R12290:12296 Coq.Init.Logic <> eq_refl constr
+R12315:12332 NS.Misc <> JsRecordHasKey_neg thm
+R12315:12332 NS.Misc <> JsRecordHasKey_neg thm
+R12315:12332 NS.Misc <> JsRecordHasKey_neg thm
+prf 12386:12402 <> JsRecordNoDup_alt
+binder 12414:12414 <> A:252
+R12427:12432 Coq.Strings.String <> string ind
+binder 12423:12424 <> kx:253
+R12440:12440 NS.Misc <> A:252 var
+binder 12436:12437 <> vx:254
+R12452:12460 NS.Misc <> js_record def
+R12462:12462 NS.Misc <> A:252 var
+binder 12444:12445 <> xs:255
+binder 12447:12449 <> xs':256
+R12485:12490 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R12468:12480 NS.Misc <> JsRecordNoDup ind
+R12482:12484 NS.Misc <> xs':256 var
+R12515:12520 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R12491:12498 Coq.Lists.List <> Add ind
+R12512:12514 NS.Misc <> xs':256 var
+R12509:12510 NS.Misc <> xs:255 var
+R12500:12500 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R12503:12504 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R12507:12507 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R12501:12502 NS.Misc <> kx:253 var
+R12505:12506 NS.Misc <> vx:254 var
+R12537:12540 Coq.Init.Logic <> ::type_scope:x_'/\'_x not
+R12521:12533 NS.Misc <> JsRecordNoDup ind
+R12535:12536 NS.Misc <> xs:255 var
+R12541:12543 Coq.Init.Logic <> not def
+R12546:12559 NS.Misc <> JsRecordHasKey def
+R12564:12565 NS.Misc <> xs:255 var
+R12561:12562 NS.Misc <> kx:253 var
+R12593:12610 NS.Misc <> JsRecordNoDup_alt0 thm
+R12621:12638 NS.Misc <> JsRecordNoDup_alt1 thm
+R12593:12610 NS.Misc <> JsRecordNoDup_alt0 thm
+R12621:12638 NS.Misc <> JsRecordNoDup_alt1 thm
+prf 12699:12716 <> js_record_destruct
+binder 12728:12728 <> A:257
+R12741:12749 NS.Misc <> js_record def
+R12751:12751 NS.Misc <> A:257 var
+binder 12737:12738 <> xs:258
+R12767:12770 Coq.Init.Logic <> ::type_scope:x_'\/'_x not
+R12761:12763 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R12759:12760 NS.Misc <> xs:258 var
+R12764:12766 Coq.Init.Datatypes <> nil constr
+binder 12778:12779 <> kx:259
+binder 12781:12782 <> vx:260
+R12805:12808 Coq.Init.Logic <> ::type_scope:x_'\/'_x not
+R12785:12798 NS.Misc <> JsRecordHasKey def
+R12803:12804 NS.Misc <> xs:258 var
+R12800:12801 NS.Misc <> kx:259 var
+R12809:12815 Coq.Init.Logic <> ::type_scope:'exists'_x_'..'_x_','_x not
+R12819:12820 Coq.Init.Logic <> ::type_scope:'exists'_x_'..'_x_','_x not
+binder 12816:12818 <> xs':261
+R12821:12831 NS.Misc <> JsRecordAdd ind
+R12842:12844 NS.Misc <> xs':261 var
+R12839:12840 NS.Misc <> xs:258 var
+R12836:12837 NS.Misc <> vx:260 var
+R12833:12834 NS.Misc <> kx:259 var
+R12952:12961 Coq.Strings.String <> string_dec def
+R12952:12961 Coq.Strings.String <> string_dec def
+R12995:13013 Coq.Lists.List <> Exists_cons_hd constr
+R12995:13013 Coq.Lists.List <> Exists_cons_hd constr
+R13098:13110 Coq.Lists.List <> Add_head constr
+R13098:13110 Coq.Lists.List <> Add_head constr
+R13156:13162 Coq.Init.Logic <> eq_refl constr
+R13156:13162 Coq.Init.Logic <> eq_refl constr
+R13246:13264 Coq.Lists.List <> Exists_cons_tl constr
+R13246:13264 Coq.Lists.List <> Exists_cons_tl constr
+R13325:13328 Coq.Init.Datatypes <> ::list_scope:x_'::'_x not
+R13315:13315 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R13319:13320 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R13324:13324 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R13325:13328 Coq.Init.Datatypes <> ::list_scope:x_'::'_x not
+R13315:13315 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R13319:13320 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R13324:13324 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R13372:13384 Coq.Lists.List <> Add_cons constr
+R13372:13384 Coq.Lists.List <> Add_cons constr
+R13459:13465 Coq.Init.Logic <> eq_refl constr
+R13459:13465 Coq.Init.Logic <> eq_refl constr
+prf 13496:13508 <> js_record_ind
+binder 13520:13520 <> A:262
+R13543:13546 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R13532:13540 NS.Misc <> js_record def
+R13542:13542 NS.Misc <> A:262 var
+binder 13529:13529 <> P:263
+R13563:13570 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R13558:13558 NS.Misc <> P:263 var
+R13560:13562 Coq.Init.Datatypes <> nil constr
+R13571:13571 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R13670:13678 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+binder 13579:13580 <> kx:264
+binder 13582:13583 <> vx:265
+binder 13585:13587 <> xs':266
+R13590:13590 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R13660:13664 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R13591:13597 Coq.Init.Logic <> ::type_scope:'exists'_x_'..'_x_','_x not
+R13600:13601 Coq.Init.Logic <> ::type_scope:'exists'_x_'..'_x_','_x not
+binder 13598:13599 <> xs:267
+R13606:13610 Coq.Init.Logic <> ::type_scope:x_'/\'_x not
+R13659:13659 Coq.Init.Logic <> ::type_scope:x_'/\'_x not
+R13602:13602 NS.Misc <> P:263 var
+R13604:13605 NS.Misc <> xs:267 var
+R13631:13634 Coq.Init.Logic <> ::type_scope:x_'\/'_x not
+R13611:13624 NS.Misc <> JsRecordHasKey def
+R13629:13630 NS.Misc <> xs:267 var
+R13626:13627 NS.Misc <> kx:264 var
+R13635:13645 NS.Misc <> JsRecordAdd ind
+R13656:13658 NS.Misc <> xs':266 var
+R13653:13654 NS.Misc <> xs:267 var
+R13650:13651 NS.Misc <> vx:265 var
+R13647:13648 NS.Misc <> kx:264 var
+R13665:13665 NS.Misc <> P:263 var
+R13667:13669 NS.Misc <> xs':266 var
+binder 13686:13687 <> xs:268
+R13690:13690 NS.Misc <> P:263 var
+R13692:13693 NS.Misc <> xs:268 var
+R13747:13758 NS.Misc <> list_add_ind thm
+R13747:13758 NS.Misc <> list_add_ind thm
+R13876:13893 NS.Misc <> JsRecordHasKey_dec thm
+R13876:13893 NS.Misc <> JsRecordHasKey_dec thm
+prf 13973:13990 <> JsRecordAdd_HasKey
+binder 14002:14002 <> A:269
+R14015:14020 Coq.Strings.String <> string ind
+binder 14011:14012 <> kx:270
+R14028:14028 NS.Misc <> A:269 var
+binder 14024:14025 <> vx:271
+R14040:14048 NS.Misc <> js_record def
+R14050:14050 NS.Misc <> A:269 var
+binder 14032:14033 <> xs:272
+binder 14035:14037 <> xs':273
+R14082:14085 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R14058:14068 NS.Misc <> JsRecordAdd ind
+R14079:14081 NS.Misc <> xs':273 var
+R14076:14077 NS.Misc <> xs:272 var
+R14073:14074 NS.Misc <> vx:271 var
+R14070:14071 NS.Misc <> kx:270 var
+R14086:14099 NS.Misc <> JsRecordHasKey def
+R14104:14106 NS.Misc <> xs':273 var
+R14101:14102 NS.Misc <> kx:270 var
+R14140:14150 Coq.Lists.List <> Add_in thm
+R14140:14150 Coq.Lists.List <> Add_in thm
+R14168:14174 Coq.Lists.List <> In def
+R14194:14197 Coq.Init.Datatypes <> ::list_scope:x_'::'_x not
+R14186:14186 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R14189:14190 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R14193:14193 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R14176:14176 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R14179:14180 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R14183:14183 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R14168:14174 Coq.Lists.List <> In def
+R14194:14197 Coq.Init.Datatypes <> ::list_scope:x_'::'_x not
+R14186:14186 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R14189:14190 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R14193:14193 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R14176:14176 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R14179:14180 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R14183:14183 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R14281:14298 NS.Misc <> JsRecordHasKey_alt thm
+R14301:14318 Coq.Lists.List <> Forall_forall thm
+R14281:14298 NS.Misc <> JsRecordHasKey_alt thm
+R14281:14298 NS.Misc <> JsRecordHasKey_alt thm
+R14301:14318 Coq.Lists.List <> Forall_forall thm
+R14301:14318 Coq.Lists.List <> Forall_forall thm
+R14347:14347 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R14350:14351 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R14354:14354 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R14347:14347 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R14350:14351 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R14354:14354 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R14391:14397 Coq.Init.Logic <> eq_refl constr
+R14391:14397 Coq.Init.Logic <> eq_refl constr
+prf 14415:14428 <> js_record_ind2
+binder 14440:14440 <> A:274
+R14463:14466 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R14452:14460 NS.Misc <> js_record def
+R14462:14462 NS.Misc <> A:274 var
+R14478:14481 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R14467:14475 NS.Misc <> js_record def
+R14477:14477 NS.Misc <> A:274 var
+binder 14449:14449 <> P:275
+R14502:14509 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R14493:14493 NS.Misc <> P:275 var
+R14499:14501 Coq.Init.Datatypes <> nil constr
+R14495:14497 Coq.Init.Datatypes <> nil constr
+R14510:14510 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R14617:14625 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+binder 14518:14519 <> kx:276
+binder 14521:14522 <> vx:277
+binder 14524:14526 <> xs':278
+R14529:14529 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R14603:14607 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R14530:14536 Coq.Init.Logic <> ::type_scope:'exists'_x_'..'_x_','_x not
+R14539:14540 Coq.Init.Logic <> ::type_scope:'exists'_x_'..'_x_','_x not
+binder 14537:14538 <> xs:279
+R14549:14553 Coq.Init.Logic <> ::type_scope:x_'/\'_x not
+R14602:14602 Coq.Init.Logic <> ::type_scope:x_'/\'_x not
+R14541:14541 NS.Misc <> P:275 var
+R14546:14548 Coq.Init.Datatypes <> nil constr
+R14543:14544 NS.Misc <> xs:279 var
+R14574:14577 Coq.Init.Logic <> ::type_scope:x_'\/'_x not
+R14554:14567 NS.Misc <> JsRecordHasKey def
+R14572:14573 NS.Misc <> xs:279 var
+R14569:14570 NS.Misc <> kx:276 var
+R14578:14588 NS.Misc <> JsRecordAdd ind
+R14599:14601 NS.Misc <> xs':278 var
+R14596:14597 NS.Misc <> xs:279 var
+R14593:14594 NS.Misc <> vx:277 var
+R14590:14591 NS.Misc <> kx:276 var
+R14608:14608 NS.Misc <> P:275 var
+R14614:14616 Coq.Init.Datatypes <> nil constr
+R14610:14612 NS.Misc <> xs':278 var
+R14626:14626 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R14733:14741 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+binder 14634:14635 <> ky:280
+binder 14637:14638 <> vy:281
+binder 14640:14642 <> ys':282
+R14645:14645 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R14719:14723 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R14646:14652 Coq.Init.Logic <> ::type_scope:'exists'_x_'..'_x_','_x not
+R14655:14656 Coq.Init.Logic <> ::type_scope:'exists'_x_'..'_x_','_x not
+binder 14653:14654 <> ys:283
+R14665:14669 Coq.Init.Logic <> ::type_scope:x_'/\'_x not
+R14718:14718 Coq.Init.Logic <> ::type_scope:x_'/\'_x not
+R14657:14657 NS.Misc <> P:275 var
+R14663:14664 NS.Misc <> ys:283 var
+R14659:14661 Coq.Init.Datatypes <> nil constr
+R14690:14693 Coq.Init.Logic <> ::type_scope:x_'\/'_x not
+R14670:14683 NS.Misc <> JsRecordHasKey def
+R14688:14689 NS.Misc <> ys:283 var
+R14685:14686 NS.Misc <> ky:280 var
+R14694:14704 NS.Misc <> JsRecordAdd ind
+R14715:14717 NS.Misc <> ys':282 var
+R14712:14713 NS.Misc <> ys:283 var
+R14709:14710 NS.Misc <> vy:281 var
+R14706:14707 NS.Misc <> ky:280 var
+R14724:14724 NS.Misc <> P:275 var
+R14730:14732 NS.Misc <> ys':282 var
+R14726:14728 Coq.Init.Datatypes <> nil constr
+R14742:14742 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R14915:14923 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+binder 14750:14751 <> kx:284
+binder 14753:14754 <> vx:285
+binder 14756:14757 <> ky:286
+binder 14759:14760 <> vy:287
+binder 14762:14764 <> xs':288
+binder 14766:14768 <> ys':289
+R14771:14771 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R14901:14905 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R14772:14778 Coq.Init.Logic <> ::type_scope:'exists'_x_'..'_x_','_x not
+R14784:14785 Coq.Init.Logic <> ::type_scope:'exists'_x_'..'_x_','_x not
+binder 14779:14780 <> xs:290
+binder 14782:14783 <> ys:291
+R14793:14796 Coq.Init.Logic <> ::type_scope:x_'/\'_x not
+R14786:14786 NS.Misc <> P:275 var
+R14791:14792 NS.Misc <> ys:291 var
+R14788:14789 NS.Misc <> xs:290 var
+R14797:14797 Coq.Init.Logic <> ::type_scope:x_'/\'_x not
+R14846:14851 Coq.Init.Logic <> ::type_scope:x_'/\'_x not
+R14900:14900 Coq.Init.Logic <> ::type_scope:x_'/\'_x not
+R14818:14821 Coq.Init.Logic <> ::type_scope:x_'\/'_x not
+R14798:14811 NS.Misc <> JsRecordHasKey def
+R14816:14817 NS.Misc <> xs:290 var
+R14813:14814 NS.Misc <> kx:284 var
+R14822:14832 NS.Misc <> JsRecordAdd ind
+R14843:14845 NS.Misc <> xs':288 var
+R14840:14841 NS.Misc <> xs:290 var
+R14837:14838 NS.Misc <> vx:285 var
+R14834:14835 NS.Misc <> kx:284 var
+R14872:14875 Coq.Init.Logic <> ::type_scope:x_'\/'_x not
+R14852:14865 NS.Misc <> JsRecordHasKey def
+R14870:14871 NS.Misc <> ys:291 var
+R14867:14868 NS.Misc <> ky:286 var
+R14876:14886 NS.Misc <> JsRecordAdd ind
+R14897:14899 NS.Misc <> ys':289 var
+R14894:14895 NS.Misc <> ys:291 var
+R14891:14892 NS.Misc <> vy:287 var
+R14888:14889 NS.Misc <> ky:286 var
+R14906:14906 NS.Misc <> P:275 var
+R14912:14914 NS.Misc <> ys':289 var
+R14908:14910 NS.Misc <> xs':288 var
+binder 14931:14932 <> xs:292
+binder 14934:14935 <> ys:293
+R14938:14938 NS.Misc <> P:275 var
+R14943:14944 NS.Misc <> ys:293 var
+R14940:14941 NS.Misc <> xs:292 var
+R15120:15137 NS.Misc <> JsRecordHasKey_dec thm
+R15120:15137 NS.Misc <> JsRecordHasKey_dec thm
+R15190:15202 Coq.Lists.List <> Add_head constr
+R15190:15202 Coq.Lists.List <> Add_head constr
+R15285:15287 Coq.Init.Datatypes <> nil constr
+R15285:15287 Coq.Init.Datatypes <> nil constr
+R15308:15325 NS.Misc <> JsRecordHasKey_dec thm
+R15308:15325 NS.Misc <> JsRecordHasKey_dec thm
+R15378:15390 Coq.Lists.List <> Add_head constr
+R15378:15390 Coq.Lists.List <> Add_head constr
+R15539:15556 NS.Misc <> JsRecordHasKey_dec thm
+R15539:15556 NS.Misc <> JsRecordHasKey_dec thm
+R15611:15623 Coq.Lists.List <> Add_head constr
+R15611:15623 Coq.Lists.List <> Add_head constr
+R15653:15670 NS.Misc <> JsRecordHasKey_dec thm
+R15653:15670 NS.Misc <> JsRecordHasKey_dec thm
+R15725:15737 Coq.Lists.List <> Add_head constr
+R15725:15737 Coq.Lists.List <> Add_head constr
+binder 15832:15832 <> x:294
+binder 15834:15834 <> y:295
+binder 15832:15832 <> x:296
+binder 15834:15834 <> y:297
+R15852:15865 NS.Misc <> js_record_ind2 thm
+binder 15872:15872 <> x:298
+binder 15874:15874 <> y:299
