@@ -368,21 +368,34 @@ Local Ltac ind0 a b c :=
   | (?a, ?b, ?c) => ind1 c
   end.
 
-Local Ltac inv_con_js_record0 a b c :=
-  (* TODO: Handle case with b and c *)
-  induction a using js_record_ind; once (try constructor).
-
-Local Ltac inv_con_js_record1 H :=
-  destruct H as [kx [vx H]]; lazymatch goal with
-  | Inv : JsRecordForall _ _ |- _ => destruct (JsRecordAdd_Forall H Inv)
-  | |- _ => idtac
-  end; econstructor; try exact H.
-
 Local Ltac constr_eq_any3 d a b c :=
   first [constr_eq_strict d a | constr_eq_strict d b | constr_eq_strict d c].
 
 Local Ltac constr_eq_any33 d e f a b c :=
   first [constr_eq_any3 d a b c | constr_eq_any3 e a b c | constr_eq_any3 f a b c].
+
+Local Ltac inv_con_js_record0 a b c :=
+  lazymatch constr:((a, b, c)) with
+  | (?a, ?a, ?a) => induction a using js_record_ind; once (try constructor)
+  | (?a, ?b, ?b) => revert_with a; revert_with b; ind_js_record2 a b; intros; once (try constructor)
+  | (?b, ?a, ?b) => revert_with b; revert_with a; ind_js_record2 b a; intros; once (try constructor)
+  | (?a, ?b, ?c) => induction c using js_record_ind; once (try constructor)
+  end.
+
+
+Local Ltac inv_con_js_record1 H :=
+  destruct H as [kx [vx H]]; lazymatch goal with
+  | Inv : JsRecordForall _ _ |- _ => try destruct (JsRecordAdd_Forall H Inv)
+  | |- _ => idtac
+  end; econstructor; try exact H.
+
+Local Ltac inv_con_tuple_elems H xsl y ys :=
+  replace (y :: ys)%list with ((y :: ys) ++ nil)%list at 2; [| rewrite List.app_nil_r; reflexivity]; apply IS_NilOTypeR.
+
+Local Ltac inv_con_params H x xs xsu :=
+  inv H; ((constructor; fail) || lazymatch goal with
+  | H : (?xs ++ ?xsu)%list = ?xs |- _ => rewrite H in *; clear H; clear xsu
+  end; replace (x :: xs)%list with (nil ++ (x :: xs))%list; [| simpl]; constructor).
 
 Local Ltac inv_con1 a b c :=
   let CS := fresh "CS" in let Inv := fresh "Inv" in
@@ -404,21 +417,30 @@ Local Ltac inv_con0 a b c :=
   | _ => inv_con1 a b c
   end.
 
+(* Destruct or induct on goal, invert dependent hypotheses, apply the corresponding constructor *)
 Local Ltac inv_con :=
   lazymatch goal with
+  (* Solvers *)
   | G : ?P |- ?P => exact G
   | G : ?P /\ ?Q |- ?P => destruct G as [G _]; exact G
   | G : ?P /\ ?Q |- ?Q => destruct G as [_ G]; exact G
+  (* Inductive hypothesis *)
   | IH : ?Q -> ?Q0 -> ?Q1 -> ?Q2 -> ?P |- ?P => apply IH
   | IH : ?Q -> ?Q0 -> ?Q1 -> ?P |- ?P => apply IH
   | IH : ?Q -> ?Q0 -> ?P |- ?P => apply IH
   | IH : ?Q -> ?P |- ?P => apply IH
-  | H : ((?x :: ?xs) ++ ?xsu)%list = (?x :: ?xs)%list |- _ => inv H; lazymatch goal with | H : (?xs ++ ?xsu)%list = ?xs |- _ => rewrite H in *; clear H; clear xsu end
+  (* Non-trivial special cases *)
+  | H : ((?x :: ?xs) ++ ?xsu)%list = (?x :: ?xs)%list |- _ U _ <: _ => inv_con_params H x xs xsu
+  | H : (nil ++ ?xsl)%list = (?y :: ?ys)%list |- _ => inv_con_tuple_elems H xsl y ys
+  | H : ((?x :: ?xs) ++ ?xsl)%list = (?y :: ?ys)%list |- _ U _ <: _ => inv H; constructor
+  | H : ((?x :: ?xs) ++ ?xsl)%list = (?y :: ?ys)%list |- _ I _ :> _ => inv H
   | H : exists (kx : string) (vx : oftype), _ |- _ => inv_con_js_record1 H
-  | |- ?n0 && ?n1 >= ?n2 => ind0 n0 n1 n2; simpl; reflexivity
-  | |- ?n0 || ?n1 <= ?n2 => ind0 n0 n1 n2; simpl; reflexivity
+  (* Boolean cases *)
+  | |- ?n0 && ?n1 >= ?n2 => ind0 n0 n1 n2; simpl; reflexivity || discriminate
+  | |- ?n0 || ?n1 <= ?n2 => ind0 n0 n1 n2; simpl; reflexivity || discriminate
   | |- ?n0 && ?n1 = ?n2 => ind0 n0 n1 n2; simpl; reflexivity || discriminate
   | |- Is_true ?nullable => destruct nullable; reflexivity || discriminate
+  (* Normal case *)
   | |- ?a I ?b :> ?c => inv_con0 a b c
   | |- ?a U ?b <: ?c => inv_con0 a b c
   end.
@@ -430,15 +452,20 @@ Local Ltac inv_con' :=
   | |- _ => inv_con
   end.
 
+Local Ltac repeat' tac := timeout 10 (repeat tac).
 
+Theorem subtype_supertype_refl: forall {A: Set} {h: HasRelation A} (a: A), a :> a /\ a <: a.
+Admitted.
+
+(* Has extra cases for the specific theorem we're trying to prove *)
 Local Ltac inv_con'0 :=
   lazymatch goal with
   | G : forall (a: ftype), (?b U a <: a -> a I ?b :> ?b) /\ (?b I a :> a -> a U ?b <: ?b) |- ?a I ?b :> ?b => specialize (G a); destruct G as [G _]; apply G
   | G : forall (a: ftype), (?b U a <: a -> a I ?b :> ?b) /\ (?b I a :> a -> a U ?b <: ?b) |- ?a U ?b <: ?b => specialize (G a); destruct G as [_ G]; apply G
+  | |- ?a I ?a :> ?a => apply subtype_supertype_refl
+  | |- ?a U ?a <: ?a => apply subtype_supertype_refl
   | |- _ => inv_con
   end.
-
-Local Ltac repeat' tac := timeout 10 (repeat tac).
 
 Theorem subtype_supertype_antisym: forall {A: Set} {h: HasRelation A} (a b: A),
     (a <: b -> b :> a) /\ (a :> b -> b <: a).
@@ -446,7 +473,16 @@ Theorem subtype_supertype_antisym: forall {A: Set} {h: HasRelation A} (a b: A),
   - induction a using ftype_rec'; intros; split; intros; unfold IsSubtype, IsSupertype in *.
     inv_con. inv_con. inv_con. inv_con. inv_con. inv_con. inv_con. inv_con. inv_con. inv_con.
     inv_con. inv_con. inv_con. inv_con. inv_con. inv_con. inv_con. inv_con. inv_con. inv_con.
-    inv_con. inv_con. inv_con. inv_con'0. inv_con. inv_con. inv_con.
+    inv_con. inv_con. inv_con. inv_con'0. inv_con. inv_con. inv_con. inv_con. inv_con. inv_con'0.
+    inv_con. inv_con. inv_con. inv_con. inv_con'0. inv_con. inv_con. inv_con'0. inv_con. inv_con'0.
+    inv_con. inv_con. inv_con. inv_con. inv_con'0. inv_con. inv_con.
+    inv_con. inv_con'0. inv_con'0. inv_con. inv_con. inv_con'0. inv_con. inv_con. inv_con. inv_con.
+    inv_con. inv H3.
+
+    inv H1. constructor.
+    inv_con.
+    replace (x :: xs)%list with (nil ++ (x :: xs))%list.
+    apply US_NilOTypeL.
     inv_con. specialize (H6 thisp).
   try constructor; clear_relation_neqs; invert_eqs; simpl; try (reflexivity || discriminate).
     Print CommonSupertype.
