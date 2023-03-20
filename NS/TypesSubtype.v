@@ -160,7 +160,7 @@ Inductive CommonSupertype : forall {A: Set} {h: HasRelation A}, A -> A -> A -> P
      List.Add xl xsl xsl' -> xl U xr <: xu -> xsl U xsr <: xsu -> Supers_ xsl' U Supers_ (cons xr xsr) <: Supers_ (cons xu xsu)
 (* with CommonSupertype_js_record : js_record oftype -> js_record oftype -> js_record oftype -> Prop *)
 | US_JSNil           : @nil (string * oftype) U nil <: nil
-| US_JSAdd           : forall (name: string) (vl vr vu: oftype) (vls vls' vrs vrs' vus vus': js_record oftype),
+| US_JSAdd           : forall (name: string) (vl vr vu: oftype) (vls vls' vrs vrs' vus vus': list (string * oftype)),
     JsRecordAdd name vl vls vls' -> JsRecordAdd name vr vrs vrs' -> JsRecordAdd name vu vus vus' ->
     vl U vr <: vu -> vls U vrs <: vus -> vls' U vrs' <: vus'
 (* with CommonSupertype_variance : variance -> variance -> variance -> Prop *)
@@ -243,7 +243,7 @@ with CommonSubtype : forall {A: Set}, A -> A -> A -> Prop :=
      List.Add xl xsl xsl' -> xl I xr :> xu -> xsl I xsr :> xsu -> Supers_ xsl' I Supers_ (cons xr xsr) :> Supers_ (cons xu xsu)
 (* with CommonSupertype_js_record : js_record oftype -> js_record oftype -> js_record oftype -> Prop *)
 | IS_JSNil           : @nil (string * oftype) I nil :> nil
-| IS_JSAdd           : forall (name: string) (vl vr vu: oftype) (vls vls' vrs vrs' vus vus': js_record oftype),
+| IS_JSAdd           : forall (name: string) (vl vr vu: oftype) (vls vls' vrs vrs' vus vus': list (string * oftype)),
     JsRecordAdd name vl vls vls' -> JsRecordAdd name vr vrs vrs' -> JsRecordAdd name vu vus vus' ->
     vl I vr :> vu -> vls I vrs :> vus -> vls' I vrs' :> vus'
 (* with CommonSupertype_variance : variance -> variance -> variance -> Prop *)
@@ -477,7 +477,14 @@ Theorem subtype_supertype_antisym: forall {A: Set} {h: HasRelation A} (a b: A),
     inv_con. inv_con. inv_con. inv_con. inv_con'0. inv_con. inv_con. inv_con'0. inv_con. inv_con'0.
     inv_con. inv_con. inv_con. inv_con. inv_con'0. inv_con. inv_con.
     inv_con. inv_con'0. inv_con'0. inv_con. inv_con. inv_con'0. inv_con. inv_con. inv_con. inv_con.
-    inv_con. inv H3.
+    + ind0 fields fields0 fields0; [constructor | | |]; inv H2; [inv H6 | inv H7 | apply (JsRecordAdd_Forall H6) in H1; destruct H1; econstructor]; [exact H7 | exact H6 | exact H6 | |].
+      inv_con. inv_con. inv_con'0.
+    destruct xs'; [constructor | inv H3; inv H7].
+    destruct ys'; [constructor | inv H3; inv H8].
+    destruct xs'; destruct ys'; inv H4.
+    econstructor.
+
+    inv H3].
 
     inv H1. constructor.
     inv_con.
