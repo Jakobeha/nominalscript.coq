@@ -335,32 +335,46 @@ Proof.
   intros. apply US_Any.
 Qed.
 
+Local Ltac ind1' a :=
+  lazymatch type of a with
+  | js_record _ => induction a using js_record_ind
+  | list _ => induction a
+  | _ => destruct a
+  end.
+
 Local Ltac ind1 a :=
   lazymatch a with
   | FAny => idtac
-  | FNever ?nullable => destruct nullable
-  | FStructural ?nullable ?structure => destruct nullable
-  | FNominal ?nullable ?id ?super_ids ?structure => destruct nullable
-  | Supers_ ?a => induction a
-  | Some ?a => induction a
-  | ?a => tryif is_var a then induction a else idtac
+  | FNever ?nullable => ind1 nullable
+  | FStructural ?nullable ?structure => ind1 nullable
+  | FNominal ?nullable ?id ?super_ids ?structure => ind1 nullable
+  | Supers_ ?a => ind1 a
+  | Some ?a => ind1 a
+  | ?a => tryif is_var a then ind1' a else idtac
   end.
 
+Local Ltac ind2'0 ind2 a b :=
+  revert_with a; revert_with b; ind2 a b; intros.
+
 Local Ltac ind2' a b :=
-  (revert_with a; revert_with b; ind_list2 a b; intros) || (ind1 a; ind1 b).
+  lazymatch type of a with
+  | js_record _ => ind2'0 ind_js_record2 a b
+  | list _ => ind2'0 ind_list2 a b
+  | _ => destruct a; destruct b
+  end.
 
 Local Ltac ind2 a b :=
   lazymatch constr:((a, b)) with
   | (FAny, FAny) => idtac
-  | (FNever ?na, FNever ?nb) => destruct na; destruct nb
-  | (FStructural ?na ?sa, FStructural ?nb ?sb) => destruct na; destruct nb
-  | (FNominal ?na ?ida ?sidsa ?sa, FStructural ?nb ?idb ?sidsb ?sb) => destruct na; destruct nb
-  | (Supers_ ?a, Supers_ ?b) => ind2' a b
-  | (Some ?a, Some ?b) => ind2' a b
-  | (?a, ?b) => ind2' a b
+  | (FNever ?na, FNever ?nb) => ind2 na nb
+  | (FStructural ?na ?sa, FStructural ?nb ?sb) => ind2 na nb
+  | (FNominal ?na ?ida ?sidsa ?sa, FStructural ?nb ?idb ?sidsb ?sb) => ind2 na nb
+  | (Supers_ ?a, Supers_ ?b) => ind2 a b
+  | (Some ?a, Some ?b) => ind2 a b
+  | (?a, ?b) => tryif is_var a; is_var b then ind2' a b else (ind1 a; ind1 b)
   end.
 
-Local Ltac ind0 a b c :=
+Local Ltac ind_cs a b c :=
   lazymatch constr:((a, b, c)) with
   | (?a, ?a, ?a) => ind1 a
   | (?a, ?b, ?b) => ind2 a b
@@ -375,13 +389,7 @@ Local Ltac constr_eq_any33 d e f a b c :=
   first [constr_eq_any3 d a b c | constr_eq_any3 e a b c | constr_eq_any3 f a b c].
 
 Local Ltac inv_con_js_record0 a b c :=
-  lazymatch constr:((a, b, c)) with
-  | (?a, ?a, ?a) => induction a using js_record_ind; once (try constructor)
-  | (?a, ?b, ?b) => revert_with a; revert_with b; ind_js_record2 a b; intros; once (try constructor)
-  | (?b, ?a, ?b) => revert_with b; revert_with a; ind_js_record2 b a; intros; once (try constructor)
-  | (?a, ?b, ?c) => induction c using js_record_ind; once (try constructor)
-  end.
-
+  ind_cs a b c; once (try constructor).
 
 Local Ltac inv_con_js_record1 H :=
   destruct H as [kx [vx H]]; lazymatch goal with
@@ -408,7 +416,7 @@ Local Ltac inv_con1 a b c :=
   | Inv' : ?P ?d |- _ => assert_fails (constr_eq_strict Inv' CS); constr_eq_any3 d a b c; rename Inv' into Inv
   | _ => idtac
   end;
-  once (ind0 a b c; try (inv Inv); try (inv_cs CS));
+  once (ind_cs a b c; try (inv Inv); try (inv_cs CS));
   try constructor; clear_relation_neqs; invert_eqs; simpl; try (reflexivity || discriminate).
 
 Local Ltac inv_con0 a b c :=
@@ -436,9 +444,9 @@ Local Ltac inv_con :=
   | H : ((?x :: ?xs) ++ ?xsl)%list = (?y :: ?ys)%list |- _ I _ :> _ => inv H
   | H : exists (kx : string) (vx : oftype), _ |- _ => inv_con_js_record1 H
   (* Boolean cases *)
-  | |- ?n0 && ?n1 >= ?n2 => ind0 n0 n1 n2; simpl; reflexivity || discriminate
-  | |- ?n0 || ?n1 <= ?n2 => ind0 n0 n1 n2; simpl; reflexivity || discriminate
-  | |- ?n0 && ?n1 = ?n2 => ind0 n0 n1 n2; simpl; reflexivity || discriminate
+  | |- ?n0 && ?n1 >= ?n2 => ind_cs n0 n1 n2; simpl; reflexivity || discriminate
+  | |- ?n0 || ?n1 <= ?n2 => ind_cs n0 n1 n2; simpl; reflexivity || discriminate
+  | |- ?n0 && ?n1 = ?n2 => ind_cs n0 n1 n2; simpl; reflexivity || discriminate
   | |- Is_true ?nullable => destruct nullable; reflexivity || discriminate
   (* Normal case *)
   | |- ?a I ?b :> ?c => inv_con0 a b c
@@ -477,7 +485,13 @@ Theorem subtype_supertype_antisym: forall {A: Set} {h: HasRelation A} (a b: A),
     inv_con. inv_con. inv_con. inv_con. inv_con'0. inv_con. inv_con. inv_con'0. inv_con. inv_con'0.
     inv_con. inv_con. inv_con. inv_con. inv_con'0. inv_con. inv_con.
     inv_con. inv_con'0. inv_con'0. inv_con. inv_con. inv_con'0. inv_con. inv_con. inv_con. inv_con.
-    + ind0 fields fields0 fields0; [constructor | | |]; inv H2; [inv H6 | inv H7 | apply (JsRecordAdd_Forall H6) in H1; destruct H1; econstructor]; [exact H7 | exact H6 | exact H6 | |].
+
+    + inv_con.
+      destruct xs'; [constructor | inv H3; inv H7].
+      destruct ys'; [constructor | inv H3; inv H8].
+      destruct H2 as [k [[vx H2] [vy H5]]]. econstructor; [exact H2 | exact H5 | exact H5 | |];
+        apply (JsRecordAdd_Forall H5) in H3; destruct H3. inv_con.
+    + ind_cs fields fields0 fields0; [constructor | | |]; inv H2; [inv H6 | inv H7 | apply (JsRecordAdd_Forall H6) in H1; destruct H1; econstructor]; [exact H7 | exact H6 | exact H6 | |].
       inv_con. inv_con. inv_con'0.
     destruct xs'; [constructor | inv H3; inv H7].
     destruct ys'; [constructor | inv H3; inv H8].
