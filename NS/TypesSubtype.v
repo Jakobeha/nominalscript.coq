@@ -13,6 +13,8 @@ From NS Require Import TypesBase.
 From NS Require Import TypesNotation.
 From NS Require Import TypesSimpleHelpers.
 
+Create HintDb inv_con.
+
 Inductive Zip (A: Set)       := Zip_ (_: list A).
 Arguments Zip_ {A} _%list_scope.
 Inductive JsrZip (A: Set)    := JsrZip_ (_: js_record A).
@@ -45,6 +47,19 @@ Global Instance option_HasRelation : forall {A: Set} {h: HasRelation A}, HasRela
 Global Instance Zip_HasRelation : forall {A: Set} {h: HasRelation A}, HasRelation (Zip A) := { relation_type := Zip_RelationType (@relation_type A h) }.
 Global Instance JsrZip_HasRelation : forall {A: Set} {h: HasRelation A}, HasRelation (JsrZip A) := { relation_type := JsrZip_RelationType (@relation_type A h) }.
 Global Instance Intersect_HasRelation : forall {A: Set} {h: HasRelation A}, HasRelation (Intersect A) := { relation_type := Intersect_RelationType (@relation_type A h) }.
+Set Warnings "-fragile-hint-constr".
+Global Hint Resolve ftype_HasRelation : inv_con.
+Global Hint Resolve itype_HasRelation : inv_con.
+Global Hint Resolve stype_HasRelation : inv_con.
+Global Hint Resolve otype_HasRelation : inv_con.
+Global Hint Resolve vtype_HasRelation : inv_con.
+Global Hint Resolve tparam_HasRelation : inv_con.
+Global Hint Resolve variance_HasRelation : inv_con.
+Global Hint Resolve option_HasRelation : inv_con.
+Global Hint Resolve Zip_HasRelation : inv_con.
+Global Hint Resolve JsrZip_HasRelation : inv_con.
+Global Hint Resolve Intersect_HasRelation : inv_con.
+Set Warnings "+fragile-hint-constr".
 Fixpoint relation_type_inv0 (r: RelationType): Set := match r with
 | ftype_RelationType => ftype
 | itype_RelationType r => itype (relation_type_inv0 r)
@@ -74,7 +89,7 @@ Axiom relation_type_eq1 : forall {A: Set} {h: HasRelation A},
   /\ (forall {B: Set} {h0: HasRelation B}, A = Intersect B -> h ~= @Intersect_HasRelation B h0)
   .
 Ltac destruct_relation_type A h :=
-  remember (@relation_type A h) as hRel eqn:aEq; induction hRel;
+  remember (@relation_type A h) as hRel eqn:aEq; destruct hRel;
     apply relation_type_eq0 in aEq; simpl in aEq; try apply relation_type_eq1 in aEq as hEq; subst.
 
 Local Open Scope list_scope.
@@ -226,11 +241,11 @@ with CommonSubtype : forall {A: Set}, A -> A -> A -> Prop :=
 (* Intersect *)
 | IS_Intersect_nil      : forall {A: Set} {h: HasRelation A} (uni: list A), nil Intersect-I nil :> uni
 | IS_Intersect_cons_l   : forall {A: Set} {h: HasRelation A} (l r u: A) (ls rs rs' us: list A),
-    l I r :> u -> List.Add r rs rs' -> (l :: ls) Zip-I rs' :> (u :: us)
+    l I r :> u -> List.Add r rs rs' -> (l :: ls) Intersect-I rs' :> (u :: us)
 | IS_Intersect_cons_r   : forall {A: Set} {h: HasRelation A} (l r u: A) (ls ls' rs us: list A),
-    l I r :> u -> List.Add l ls ls' -> ls' Zip-I (r :: rs) :> (u :: us)
+    l I r :> u -> List.Add l ls ls' -> ls' Intersect-I (r :: rs) :> (u :: us)
 | IS_Intersect_cons_u   : forall {A: Set} {h: HasRelation A} (l r u: A) (ls rs us us': list A),
-    l I r :> u -> List.Add u us us' -> (l :: ls) Zip-I (r :: rs) :> us'
+    l I r :> u -> List.Add u us us' -> (l :: ls) Intersect-I (r :: rs) :> us'
 where "'(I :>)'" := CommonSubtype
   and "a 'I' b :> c" := (CommonSubtype a b c)
   and "a 'Zip-I' b ':>' c" := (CommonSubtype (Zip_ a) (Zip_ b) (Zip_ c))
@@ -321,41 +336,21 @@ Proof.
   intros. apply US_Any.
 Qed.
 
-Local Ltac ind1' a :=
+Local Ltac ind1 a :=
   lazymatch type of a with
   | js_record _ => induction a using js_record_ind
   | list _ => induction a
   | _ => destruct a
   end.
 
-Local Ltac ind1 a :=
-  lazymatch a with
-  | FAny => idtac
-  | FNever ?nullable => ind1 nullable
-  | FStructural ?nullable ?structure => ind1 nullable
-  | FNominal ?nullable ?id ?super_ids ?structure => ind1 nullable
-  | ?P ?a => tryif is_ind P then ind1 a else idtac
-  | ?a => tryif is_var a then ind1' a else idtac
-  end.
-
-Local Ltac ind2'0 ind2 a b :=
+Tactic Notation "induction2" ident (a) ident (b) "using" ident (ind2) :=
   revert_with a; revert_with b; ind2 a b; intros.
 
-Local Ltac ind2' a b :=
-  lazymatch type of a with
-  | js_record _ => ind2'0 ind_js_record2 a b
-  | list _ => ind2'0 ind_list2 a b
-  | _ => destruct a; destruct b
-  end.
-
 Local Ltac ind2 a b :=
-  lazymatch constr:((a, b)) with
-  | (FAny, FAny) => idtac
-  | (FNever ?na, FNever ?nb) => ind2 na nb
-  | (FStructural ?na ?sa, FStructural ?nb ?sb) => ind2 na nb
-  | (FNominal ?na ?ida ?sidsa ?sa, FStructural ?nb ?idb ?sidsb ?sb) => ind2 na nb
-  | (?P ?a, ?Q ?b) => tryif is_ind P; is_ind Q then ind2 a b else idtac
-  | (?a, ?b) => tryif is_var a; is_var b then ind2' a b else (ind1 a; ind1 b)
+  lazymatch type of a with
+  | js_record _ => induction2 a b using ind_js_record2
+  | list _ => induction2 a b using ind_list2
+  | _ => destruct a; destruct b
   end.
 
 Local Ltac ind_cs a b c :=
@@ -372,7 +367,7 @@ Local Ltac constr_eq_any3 d a b c :=
 Local Ltac constr_eq_any33 d e f a b c :=
   first [constr_eq_any3 d a b c | constr_eq_any3 e a b c | constr_eq_any3 f a b c].
 
-Local Ltac inv_con1 a b c :=
+Local Ltac inv_con2 a b c :=
   let CS := fresh "CS" in let Inv := fresh "Inv" in
   match goal with
   | CS' : ?d U ?e <: ?f |- _ => constr_eq_any33 d e f a b c; rename CS' into CS
@@ -384,12 +379,31 @@ Local Ltac inv_con1 a b c :=
   | _ => idtac
   end;
   once (ind_cs a b c; try (inv Inv); try (inv_cs CS));
-  (constructor; clear_relation_neqs; invert_eqs) || (clear_relation_neqs; invert_eqs; simpl; reflexivity || discriminate).
+  try constructor; clear_relation_neqs; invert_eqs; simpl; try (reflexivity || discriminate).
+
+Local Ltac is_var' a := first [is_var a | is_evar a].
+
+Local Ltac inv_con1 a b c :=
+  tryif is_var' a; is_var' b; is_var' c then inv_con2 a b c else fail "tried to inv_con non-variables".
+
+Local Ltac inv_con_guard_type P :=
+  lazymatch P with
+  | JsrZip_ => fail
+  | Intersect_ => fail
+  | _ => idtac
+  end.
 
 Local Ltac inv_con0 a b c :=
-  lazymatch type of a with
-  | js_record _ => fail "js_record is special-cased"
-  | _ => inv_con1 a b c
+  lazymatch constr:((a, b, c)) with
+  (* Special cases *)
+  | (FAny, _, _) => constructor || fail "subtype is stuck on FAny"
+  | (_, FAny, _) => constructor || fail "subtype is stuck on FAny"
+  | (_, _, FAny) => constructor || fail "subtype is stuck on FAny"
+  | (FStructural ?nullable1 _, FStructural ?nullable2 _, FStructural ?nullable3 _) => inv_con1 nullable1 nullable2 nullable3
+  | (FNominal ?nullable1 _ _ _, FNominal ?nullable2 _ _ _, FNominal ?nullable3 _ _ _) => inv_con1 nullable1 nullable2 nullable3
+  (* General cases *)
+  | (?P ?a, ?P ?b, ?P ?c) => first [inv_con_guard_type P | fail "type is special-cased"]; inv_con1 a b c
+  | (?a, ?b, ?c) => inv_con1 a b c
   end.
 
 (* Destruct or induct on goal, invert dependent hypotheses, apply the corresponding constructor *)
@@ -408,11 +422,13 @@ Local Ltac inv_con :=
   | |- ?n0 && ?n1 >= ?n2 => ind_cs n0 n1 n2; simpl; reflexivity || discriminate
   | |- ?n0 || ?n1 <= ?n2 => ind_cs n0 n1 n2; simpl; reflexivity || discriminate
   | |- ?n0 && ?n1 = ?n2 => ind_cs n0 n1 n2; simpl; reflexivity || discriminate
+  | |- IsNullable ?P => simpl; reflexivity
   | |- Is_true ?nullable => destruct nullable; reflexivity || discriminate
   (* Normal case *)
   | |- ?a I ?b :> ?c => inv_con0 a b c
   | |- ?a U ?b <: ?c => inv_con0 a b c
-  end.
+  | |- _ => fail "not inv_con supported"
+  end; auto with inv_con.
 
 Local Ltac inv_con_refl :=
   match goal with
@@ -421,15 +437,14 @@ Local Ltac inv_con_refl :=
   | |- _ => inv_con
   end.
 
-Local Ltac repeat' tac := timeout 10 (repeat tac).
+Local Ltac inv_con_refl' := repeat progress inv_con_refl.
 
-Theorem subtype_supertype_refl: forall {A: Set} {h: HasRelation A} (a: A), a :> a /\ a <: a.
-Proof with repeat inv_con_refl.
-  apply prove_relation_by_ftype1.
-  - induction a using ftype_rec'; intros; split; unfold IsSubtype, IsSupertype in *...
-    +
-  - induction a using ftype_rec'; intros; split; unfold IsSubtype, IsSupertype in *; repeat inv_con.
-  - intros; split; unfold IsSubtype, IsSupertype in *; destruct_relation_type A h; repeat inv_con'.
+Theorem subtype_supertype_refl: forall (a: ftype), a :> a /\ a <: a.
+Proof with inv_con_refl'.
+  induction a using ftype_rec'; intros; split; unfold IsSubtype, IsSupertype in *...
+  1-4, 6, 8, 10, 12: induction fields; [constructor; auto with inv_con |]; match goal with H: JsRecordForall _ _ |- _ => inv H end; destruct a as [kx vx]; unshelve (eapply IS_JsrZip_cons_u || eapply US_JsrZip_cons_u);
+      [exact vx | | match goal with H: OType_Forall _ _ |- _ => simpl in H end | apply JsRecordAdd_head]...
+  all: unshelve (econstructor; auto with inv_con); [exact id | | match goal with H : IType_Forall _ _ |- _ => inv H end; constructor | apply List.Add_head]...
 Qed.
 
 (* Has extra cases for the specific theorem we're trying to prove *)
