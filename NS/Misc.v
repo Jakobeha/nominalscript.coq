@@ -531,3 +531,18 @@ Ltac ind_js_record2 x y :=
   match goal with
   | [ |- forall x y, ?H ] => apply (js_record_ind2 (fun x y => H))
   end.
+
+Ltac destruct_var H := is_var H; destruct H.
+
+Ltac destruct' H :=
+  destruct_var H || lazymatch H with
+  | ?P => is_ind P || is_constructor P || is_const P
+  | ?P ?H0 => is_ind P; destruct' H0
+  | ?P ?H0 ?H1 => is_ind P; destruct' H0; destruct' H1
+  | ?P ?H0 ?H1 ?H2 => is_ind P; destruct' H0; destruct' H1; destruct' H2
+  | ?P ?H0 ?H1 ?H2 ?H3 => is_ind P; destruct' H0; destruct' H1; destruct' H2; destruct' H3
+  | ?P ?H0 ?H1 ?H2 ?H3 ?H4 => is_ind P; destruct' H0; destruct' H1; destruct' H2; destruct' H3; destruct' H4
+  | ?P ?H0 ?H1 ?H2 ?H3 ?H4 ?H5 => is_ind P; destruct' H0; destruct' H1; destruct' H2; destruct' H3; destruct' H4; destruct' H5
+  | ?P ?H0 ?H1 ?H2 ?H3 ?H4 ?H5 ?H6 => is_ind P; destruct' H0; destruct' H1; destruct' H2; destruct' H3; destruct' H4; destruct' H5; destruct' H6
+  | ?P ?H0 ?H1 ?H2 ?H3 ?H4 ?H5 ?H6 ?H7 => is_ind P; destruct' H0; destruct' H1; destruct' H2; destruct' H3; destruct' H4; destruct' H5; destruct' H6; destruct' H7
+  end || fail "don't know what to destruct".

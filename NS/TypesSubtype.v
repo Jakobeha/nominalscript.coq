@@ -13,79 +13,83 @@ From NS Require Import TypesBase.
 From NS Require Import TypesNotation.
 From NS Require Import TypesSimpleHelpers.
 
-Inductive Supers := Supers_ (a: list ftype).
-
-Local Notation list_ftype := (list ftype) (only parsing).
-Local Notation list_iftype := (list iftype) (only parsing).
-Local Notation list_oftype := (list oftype) (only parsing).
-Local Notation list_ftparam := (list ftparam) (only parsing).
-Local Notation js_record_ftype := (js_record ftype) (only parsing).
-Local Notation js_record_oftype := (js_record oftype) (only parsing).
-Local Notation option_sftype := (option sftype) (only parsing).
+Inductive Zip (A: Set)       := Zip_ (_: list A).
+Arguments Zip_ {A} _%list_scope.
+Inductive JsrZip (A: Set)    := JsrZip_ (_: js_record A).
+Arguments JsrZip_ {A} _.
+Inductive Intersect (A: Set) := Intersect_ (_: list A).
+Arguments Intersect_ {A} _%list_scope.
 
 Inductive RelationType : Set :=
 | ftype_RelationType
-| iftype_RelationType
-| sftype_RelationType
-| oftype_RelationType
-| vftype_RelationType
-| ftparam_RelationType
+| itype_RelationType (_: RelationType)
+| stype_RelationType (_: RelationType)
+| otype_RelationType (_: RelationType)
+| vtype_RelationType (_: RelationType)
+| tparam_RelationType (_: RelationType)
 | variance_RelationType
-| list_ftype_RelationType
-| list_iftype_RelationType
-| list_oftype_RelationType
-| list_ftparam_RelationType
-| js_record_oftype_RelationType
-| option_sftype_RelationType
-| Supers_RelationType.
+| option_RelationType (_: RelationType)
+| Zip_RelationType (_: RelationType)
+| JsrZip_RelationType (_: RelationType)
+| Intersect_RelationType (_: RelationType)
+.
 Class HasRelation (A: Set) := { relation_type : RelationType }.
 Global Instance ftype_HasRelation : HasRelation ftype := { relation_type := ftype_RelationType }.
-Global Instance iftype_HasRelation : HasRelation iftype := { relation_type := iftype_RelationType }.
-Global Instance sftype_HasRelation : HasRelation sftype := { relation_type := sftype_RelationType }.
-Global Instance oftype_HasRelation : HasRelation oftype := { relation_type := oftype_RelationType }.
-Global Instance vftype_HasRelation : HasRelation vftype := { relation_type := vftype_RelationType }.
-Global Instance ftparam_HasRelation : HasRelation ftparam := { relation_type := ftparam_RelationType }.
+Global Instance itype_HasRelation : forall {A: Set} {h: HasRelation A}, HasRelation (itype A) := { relation_type := itype_RelationType (@relation_type A h) }.
+Global Instance stype_HasRelation : forall {A: Set} {h: HasRelation A}, HasRelation (stype A) := { relation_type := stype_RelationType (@relation_type A h) }.
+Global Instance otype_HasRelation : forall {A: Set} {h: HasRelation A}, HasRelation (otype A) := { relation_type := otype_RelationType (@relation_type A h) }.
+Global Instance vtype_HasRelation : forall {A: Set} {h: HasRelation A}, HasRelation (vtype A) := { relation_type := vtype_RelationType (@relation_type A h) }.
+Global Instance tparam_HasRelation : forall {A: Set} {h: HasRelation A}, HasRelation (tparam A) := { relation_type := tparam_RelationType (@relation_type A h) }.
 Global Instance variance_HasRelation : HasRelation variance := { relation_type := variance_RelationType }.
-Global Instance list_ftype_HasRelation : HasRelation list_ftype := { relation_type := list_ftype_RelationType }.
-Global Instance list_iftype_HasRelation : HasRelation list_iftype := { relation_type := list_iftype_RelationType }.
-Global Instance list_oftype_HasRelation : HasRelation list_oftype := { relation_type := list_oftype_RelationType }.
-Global Instance list_ftparam_HasRelation : HasRelation list_ftparam := { relation_type := list_ftparam_RelationType }.
-Global Instance js_record_oftype_HasRelation : HasRelation js_record_oftype := { relation_type := js_record_oftype_RelationType }.
-Global Instance option_sftype_HasRelation : HasRelation option_sftype := { relation_type := option_sftype_RelationType }.
-Global Instance Supers_HasRelation : HasRelation Supers := { relation_type := Supers_RelationType }.
-Axiom relation_type_eq : forall {A B: Set} {h1: HasRelation A} {h2: HasRelation B},
-    (@relation_type A h1 = @relation_type B h2 -> A = B /\ h1 ~= h2) /\
-    (A = B \/ h1 ~= h2 -> @relation_type A h1 = @relation_type B h2).
-Lemma relation_type_eq0 : forall {A: Set} {h: HasRelation A},
-  (ftype_RelationType = @relation_type A h -> A = ftype /\ h ~= ftype_HasRelation) /\
-  (iftype_RelationType = @relation_type A h -> A = iftype /\ h ~= iftype_HasRelation) /\
-  (sftype_RelationType = @relation_type A h -> A = sftype /\ h ~= sftype_HasRelation) /\
-  (oftype_RelationType = @relation_type A h -> A = oftype /\ h ~= oftype_HasRelation) /\
-  (vftype_RelationType = @relation_type A h -> A = vftype /\ h ~= vftype_HasRelation) /\
-  (ftparam_RelationType = @relation_type A h -> A = ftparam /\ h ~= ftparam_HasRelation) /\
-  (variance_RelationType = @relation_type A h -> A = variance /\ h ~= variance_HasRelation) /\
-  (list_ftype_RelationType = @relation_type A h -> A = list_ftype /\ h ~= list_ftype_HasRelation) /\
-  (list_iftype_RelationType = @relation_type A h -> A = list_iftype /\ h ~= list_iftype_HasRelation) /\
-  (list_oftype_RelationType = @relation_type A h -> A = list_oftype /\ h ~= list_oftype_HasRelation) /\
-  (list_ftparam_RelationType = @relation_type A h -> A = list_ftparam /\ h ~= list_ftparam_HasRelation) /\
-  (js_record_oftype_RelationType = @relation_type A h -> A = js_record_oftype /\ h ~= js_record_oftype_HasRelation) /\
-  (option_sftype_RelationType = @relation_type A h -> A = option_sftype /\ h ~= option_sftype_HasRelation) /\
-  (Supers_RelationType = @relation_type A h -> A = Supers /\ h ~= Supers_HasRelation).
-Proof.
-  repeat split; intros; apply relation_type_eq; simpl; symmetry; exact H.
-Qed.
-Lemma relation_type_eq1 : forall {A B: Set} {h1: HasRelation A} {h2: HasRelation B},
-    A = B -> @relation_type A h1 = @relation_type B h2.
-Proof.
-  intros. apply relation_type_eq. left. exact H.
-Qed.
+Global Instance option_HasRelation : forall {A: Set} {h: HasRelation A}, HasRelation (option A) := { relation_type := option_RelationType (@relation_type A h) }.
+Global Instance Zip_HasRelation : forall {A: Set} {h: HasRelation A}, HasRelation (Zip A) := { relation_type := Zip_RelationType (@relation_type A h) }.
+Global Instance JsrZip_HasRelation : forall {A: Set} {h: HasRelation A}, HasRelation (JsrZip A) := { relation_type := JsrZip_RelationType (@relation_type A h) }.
+Global Instance Intersect_HasRelation : forall {A: Set} {h: HasRelation A}, HasRelation (Intersect A) := { relation_type := Intersect_RelationType (@relation_type A h) }.
+Fixpoint relation_type_inv0 (r: RelationType): Set := match r with
+| ftype_RelationType => ftype
+| itype_RelationType r => itype (relation_type_inv0 r)
+| stype_RelationType r => stype (relation_type_inv0 r)
+| otype_RelationType r => otype (relation_type_inv0 r)
+| vtype_RelationType r => vtype (relation_type_inv0 r)
+| tparam_RelationType r => tparam (relation_type_inv0 r)
+| variance_RelationType => variance
+| option_RelationType r => option (relation_type_inv0 r)
+| Zip_RelationType r => Zip (relation_type_inv0 r)
+| JsrZip_RelationType r => JsrZip (relation_type_inv0 r)
+| Intersect_RelationType r => Intersect (relation_type_inv0 r)
+end.
+Axiom relation_type_eq0 : forall {A: Set} {h: HasRelation A} (r: RelationType),
+    r = @relation_type A h <-> A = relation_type_inv0 r.
+Axiom relation_type_eq1 : forall {A: Set} {h: HasRelation A},
+    (A = ftype -> h ~= ftype_HasRelation)
+  /\ (forall {B: Set} {h0: HasRelation B}, A = itype B -> h ~= @itype_HasRelation B h0)
+  /\ (forall {B: Set} {h0: HasRelation B}, A = stype B -> h ~= @stype_HasRelation B h0)
+  /\ (forall {B: Set} {h0: HasRelation B}, A = otype B -> h ~= @otype_HasRelation B h0)
+  /\ (forall {B: Set} {h0: HasRelation B}, A = vtype B -> h ~= @vtype_HasRelation B h0)
+  /\ (forall {B: Set} {h0: HasRelation B}, A = tparam B -> h ~= @tparam_HasRelation B h0)
+  /\ (A = variance -> h ~= variance_HasRelation)
+  /\ (forall {B: Set} {h0: HasRelation B}, A = option B -> h ~= @option_HasRelation B h0)
+  /\ (forall {B: Set} {h0: HasRelation B}, A = Zip B -> h ~= @Zip_HasRelation B h0)
+  /\ (forall {B: Set} {h0: HasRelation B}, A = JsrZip B -> h ~= @JsrZip_HasRelation B h0)
+  /\ (forall {B: Set} {h0: HasRelation B}, A = Intersect B -> h ~= @Intersect_HasRelation B h0)
+  .
 Ltac destruct_relation_type A h :=
-  remember (@relation_type A h) as hRel eqn:hEq; destruct hRel; apply relation_type_eq0 in hEq; destruct hEq; subst.
+  remember (@relation_type A h) as hRel eqn:aEq; induction hRel;
+    apply relation_type_eq0 in aEq; simpl in aEq; try apply relation_type_eq1 in aEq as hEq; subst.
 
+Local Open Scope list_scope.
 Local Notation "a <= b" := (Bool.le a b) : bool_scope.
 Local Notation "a >= b" := (Bool.le b a) : bool_scope.
+Reserved Notation "'(U <:)'".
+Reserved Notation "'(I :>)'".
 Reserved Notation "a 'U' b '<:' c" (at level 60, b at next level, no associativity).
 Reserved Notation "a 'I' b ':>' c" (at level 60, b at next level, no associativity).
+Reserved Notation "a 'Zip-U' b '<:' c" (at level 60, b at next level, no associativity).
+Reserved Notation "a 'Zip-I' b ':>' c" (at level 60, b at next level, no associativity).
+Reserved Notation "a 'JsrZip-U' b '<:' c" (at level 60, b at next level, no associativity).
+Reserved Notation "a 'JsrZip-I' b ':>' c" (at level 60, b at next level, no associativity).
+Reserved Notation "a 'Intersect-U' b '<:' c" (at level 60, b at next level, no associativity).
+Reserved Notation "a 'Intersect-I' b ':>' c" (at level 60, b at next level, no associativity).
 Inductive CommonSupertype : forall {A: Set} {h: HasRelation A}, A -> A -> A -> Prop :=
 | US_Any             : forall (lhs rhs: ftype), lhs U rhs <: FAny
 | US_Never           : forall (a: ftype), FNEVER U FNEVER <: a
@@ -95,157 +99,107 @@ Inductive CommonSupertype : forall {A: Set} {h: HasRelation A}, A -> A -> A -> P
 | US_NullL           : forall (rhs: ftype), IsNullable rhs -> FNULL U rhs <: rhs
 | US_NullR           : forall (lhs: ftype), IsNullable lhs -> lhs U FNULL <: lhs
 | US_NeverNull       : FNEVER U FNEVER <: FNULL
-| US_Struct          : forall (nl nr nu: bool) (sl sr su: stype ftype),
+| US_Struct          : forall (nl nr nu: bool) (sl sr su: sftype),
     nl || nr <= nu -> sl U sr <: su -> FStructural nl sl U FStructural nr sr <: FStructural nu su
-| US_NomStruct       : forall (nl nr nu: bool) (idl: itype ftype) (idsl: list (itype ftype)) (sl sr su: stype ftype),
+| US_NomStruct       : forall (nl nr nu: bool) (idl: iftype) (idsl: list iftype) (sl sr su: sftype),
     nl || nr <= nu -> sl U sr <: su -> FNominal nl idl idsl (Some sl) U FStructural nr sr <: FStructural nu su
-| US_StructNom       : forall (nl nr nu: bool) (idr: itype ftype) (idsr: list (itype ftype)) (sl sr su: stype ftype),
+| US_StructNom       : forall (nl nr nu: bool) (idr: iftype) (idsr: list iftype) (sl sr su: sftype),
     nl || nr <= nu -> sl U sr <: su -> FStructural nl sl U FNominal nr idr idsr (Some sr) <: FStructural nu su
-| US_NomCommonNom    : forall (nl nr nu: bool) (idl idr idu: itype ftype) (idsl idsr idsu: list (itype ftype)) (sl sr su: option (stype ftype)),
-    nl || nr <= nu -> cons idl idsl U cons idr idsr <: cons idu idsu -> sl U sr <: su ->
+| US_NomCommonNom    : forall (nl nr nu: bool) (idl idr idu: iftype) (idsl idsr idsu: list iftype) (sl sr su: option sftype),
+    nl || nr <= nu -> (idl :: idsl) Intersect-U (idr :: idsr) <: (idu :: idsu) -> sl U sr <: su ->
     FNominal nl idl idsl sl U FNominal nr idr idsr sr <: FNominal nu idu idsu su
-| US_NomCommonStruct : forall (nl nr nu: bool) (idl idr: itype ftype) (idsl idsr: list (itype ftype)) (sl sr su: stype ftype),
+| US_NomCommonStruct : forall (nl nr nu: bool) (idl idr: iftype) (idsl idsr: list iftype) (sl sr su: sftype),
     nl || nr <= nu -> sl U sr <: su -> FNominal nl idl idsl (Some sl) U FNominal nr idr idsr (Some sr) <: FStructural nu su
-(* with CommonSupertype_opt_struct : option sftype -> option sftype -> option sftype -> Prop := *)
-| US_StructNone      : forall (lhs rhs: option sftype), lhs U rhs <: None
-| US_StructSome      : forall (lhs rhs uni: sftype), lhs U rhs <: uni -> Some lhs U Some rhs <: Some uni
-(* with CommonSupertype_ident : itype ftype -> itype ftype -> itype ftype -> Prop := *)
-| US_Ident           : forall (name: string) (tal tar tau: list ftype), tal U tar <: tau -> It name tal U It name tar <: It name tau
-(* with CommonSupertype_struct : stype ftype -> stype ftype -> stype ftype -> Prop := *)
-| US_Fn              : forall (tpl tpr tpu: list (tparam ftype)) (thispl thispr thispu: ftype)
-                             (pl pr pu: list (otype ftype)) (rl rr ru: ftype) (retl retr retu: vtype ftype),
-    tpl I tpr :> tpu -> thispl I thispr :> thispu -> pl I pr :> pu -> rl I rr :> ru -> retl U retr <: retu ->
+(* with CommonSupertype_ident : iftype -> iftype -> iftype -> Prop := *)
+| US_Ident           : forall (name: string) (tal tar tau: list ftype), tal Zip-U tar <: tau -> It name tal U It name tar <: It name tau
+(* with CommonSupertype_struct : sftype -> sftype -> sftype -> Prop := *)
+| US_Fn              : forall (tpl tpr tpu: list ftparam) (thispl thispr thispu: ftype)
+                         (pl pr pu: list oftype) (rl rr ru: ftype) (retl retr retu: vftype),
+    tpl Zip-I tpr :> tpu -> thispl I thispr :> thispu -> pl Zip-I pr :> pu -> rl I rr :> ru -> retl U retr <: retu ->
     SFn tpl thispl pl rl retl U SFn tpr thispr pr rr retr <: SFn tpu thispu pu ru retu
-| US_Array           : forall (el er eu: ftype),                      el U er <: eu    -> SArray el   U SArray er   <: SArray eu
-| US_Tuple           : forall (esl esr esu: list (otype ftype)),      esl U esr <: esu -> STuple esl  U STuple esr  <: STuple esu
-| US_Object          : forall (fsl fsr fsu: js_record (otype ftype)), fsl U fsr <: fsu -> SObject fsl U SObject fsr <: SObject fsu
-(* with CommonSupertype_otype : otype ftype -> otype ftype -> otype ftype -> Prop := *)
+| US_Array           : forall (el er eu: ftype),               el         U er  <: eu  -> SArray el   U SArray er   <: SArray eu
+| US_Tuple           : forall (esl esr esu: list oftype),      esl    Zip-U esr <: esu -> STuple esl  U STuple esr  <: STuple esu
+| US_Object          : forall (fsl fsr fsu: js_record oftype), fsl JsrZip-U fsr <: fsu -> SObject fsl U SObject fsr <: SObject fsu
+(* with CommonSupertype_otype : oftype -> oftype -> oftype -> Prop := *)
 | US_OType           : forall (ol or ou: bool) (lhs rhs uni: ftype), ol || or <= ou -> lhs U rhs <: uni -> Ot ol lhs U Ot or rhs <: Ot ou uni
-(* with CommonSupertype_void : vtype ftype -> vtype ftype -> vtype ftype -> Prop := *)
+(* with CommonSupertype_void : vftype -> vftype -> vftype -> Prop := *)
 | US_Void            : @VVoid ftype U VVoid <: VVoid
 | US_NotVoid         : forall (lhs rhs uni: ftype), lhs U rhs <: uni -> Vt lhs U Vt rhs <: Vt uni
-(* with CommonSupertype_tparam : tparam -> tparam -> tparam -> Prop := *)
+(* with CommonSupertype_tparam : ftparam -> ftparam -> ftparam -> Prop := *)
 | US_TParam          : forall (vl vr vu: variance) (name: string) (supl supr supu: list ftype),
-    vl U vr <: vu -> Supers_ supl U Supers_ supr <: Supers_ supu ->
+    vl U vr <: vu -> supl Intersect-U supr <: supu ->
     TParam vl name supl U TParam vr name supr <: TParam vu name supu
-(* with CommonSupertype_zip_ftype : list ftype -> list ftype -> list ftype -> Prop := *)
-| US_NilFType        : @nil ftype U nil <: nil
-| US_ConsFType       : forall (xl xr xu: ftype) (xsl xsr xsu: list ftype),
-    xl U xr <: xu -> xsl U xsr <: xsu -> cons xl xsl U cons xr xsr <: cons xu xsu
-(* with CommonSupertype_zip_tparam : list tparam -> list tparam -> list tparam -> Prop := *)
-| US_NilTParam       : @nil (tparam ftype) U nil <: nil
-| US_ConsTParam      : forall (xl xr xu: tparam ftype) (xsl xsr xsu: list (tparam ftype)),
-    xl U xr <: xu -> xsl U xsr <: xsu -> cons xl xsl U cons xr xsr <: cons xu xsu
-(* with CommonSupertype_zip_otype : list (otype ftype) -> list (otype ftype) -> list (otype ftype) -> Prop := *)
-| US_NilOType        : forall (xsu: list (otype ftype)), xsu U xsu <: nil
-| US_NilOTypeL       : forall (xsl xsu: list (otype ftype)), (xsu ++ xsl)%list U xsu <: xsu
-| US_NilOTypeR       : forall (xsr xsu: list (otype ftype)), xsu U (xsu ++ xsr)%list <: xsu
-| US_ConsOType       : forall (xl xr xu: otype ftype) (xsl xsr xsu: list (otype ftype)),
-    xl U xr <: xu -> xsl U xsr <: xsu -> cons xl xsl U cons xr xsr <: cons xu xsu
-(* with CommonSupertype_intersect_itype : list (itype ftype) -> list (itype ftype) -> list (itype ftype) -> Prop := *)
-| US_IntersectNil    : forall (idsl idsr: list (itype ftype)), idsl U idsr <: nil
-| US_IntersectConsL  : forall (idl: itype ftype) (idsl idsr idsu: list (itype ftype)), cons idl idsl U idsr <: idsu
-| US_IntersectConsR  : forall (idr: itype ftype) (idsl idsr idsu: list (itype ftype)), idsl U cons idr idsr <: idsu
-| US_IntersectInR    : forall (idl idr idu: itype ftype) (idsl idsr idsr' idsu: list (itype ftype)),
-     List.Add idr idsr idsr' -> idl U idr <: idu -> idsl U idsr <: idsu -> cons idl idsl U idsr' <: cons idu idsu
-| US_IntersectInL    : forall (idl idr idu: itype ftype) (idsl idsr idsl' idsu: list (itype ftype)),
-     List.Add idl idsl idsl' -> idl U idr <: idu -> idsl U idsr <: idsu -> idsl' U cons idr idsr <: cons idu idsu
-(* with CommonSupertype_intersect_ftype_supers : Supers (list ftype) -> Supers (list ftype) -> Supers (list ftype) -> Prop := *)
-| US_IntSupersNil    : Supers_ (@nil ftype) U Supers_ nil <: Supers_ nil
-| US_IntSupersConsL  : forall (xl: ftype) (xsl xsr xsu: list ftype), Supers_ (cons xl xsl) U Supers_ xsr <: Supers_ xsu
-| US_IntSupersConsR  : forall (xr: ftype) (xsl xsr xsu: list ftype), Supers_ xsl U Supers_ (cons xr xsr) <: Supers_ xsu
-| US_IntSupersInR    : forall (xl xr xu: ftype) (xsl xsr xsr' xsu: list ftype),
-     List.Add xr xsr xsr' -> xl U xr <: xu -> xsl U xsr <: xsu -> Supers_ (cons xl xsl) U Supers_ xsr' <: Supers_ (cons xu xsu)
-| US_IntSupersInL    : forall (xl xr xu: ftype) (xsl xsr xsl' xsu: list ftype),
-     List.Add xl xsl xsl' -> xl U xr <: xu -> xsl U xsr <: xsu -> Supers_ xsl' U Supers_ (cons xr xsr) <: Supers_ (cons xu xsu)
-(* with CommonSupertype_js_record : js_record oftype -> js_record oftype -> js_record oftype -> Prop *)
-| US_JSNil           : @nil (string * oftype) U nil <: nil
-| US_JSAdd           : forall (name: string) (vl vr vu: oftype) (vls vls' vrs vrs' vus vus': list (string * oftype)),
-    JsRecordAdd name vl vls vls' -> JsRecordAdd name vr vrs vrs' -> JsRecordAdd name vu vus vus' ->
-    vl U vr <: vu -> vls U vrs <: vus -> vls' U vrs' <: vus'
 (* with CommonSupertype_variance : variance -> variance -> variance -> Prop *)
 | US_Bivariant       : forall (lhs rhs: variance), lhs U rhs <: Bivariant
 | US_Covariant       : Covariant U Covariant <: Covariant
 | US_Contravariant   : Contravariant U Contravariant <: Contravariant
 | US_InvariantL      : forall (rhs: variance), Invariant U rhs <: rhs
 | US_InvariantR      : forall (lhs: variance), lhs U Invariant <: lhs
-where "a 'U' b '<:' c" := (CommonSupertype a b c)
+(* with CommonSupertype_opt : option A -> option A -> option A -> Prop := *)
+| US_None            : forall {A: Set} {h: HasRelation A} (lhs rhs: option A), lhs U rhs <: None
+| US_Some            : forall {A: Set} {h: HasRelation A} (lhs rhs uni: A), lhs U rhs <: uni -> Some lhs U Some rhs <: Some uni
+(* Zip *)
+| US_Zip_nil_r       : forall {A: Set} {h: HasRelation A} (lhs: list A), lhs Zip-U nil <: lhs
+| US_Zip_nil_l       : forall {A: Set} {h: HasRelation A} (rhs: list A), nil Zip-U rhs <: rhs
+| US_Zip_cons        : forall {A: Set} {h: HasRelation A} (l r u: A) (ls rs us: list A), ls Zip-U rs <: us -> (l :: ls) Zip-U (r :: rs) <: (u :: us)
+(* JsrZip *)
+| US_JsrZip_nil_r    : forall {A: Set} {h: HasRelation A} (lhs: js_record A), lhs JsrZip-U nil <: lhs
+| US_JsrZip_nil_l    : forall {A: Set} {h: HasRelation A} (rhs: js_record A), nil JsrZip-U rhs <: rhs
+| US_JsrZip_cons_l   : forall {A: Set} {h: HasRelation A} (k: string) (vl vr vu: A) (ls rs rs' us: js_record A),
+    vl U vr <: vu -> JsRecordAdd k vr rs rs' -> ((k, vl) :: ls) JsrZip-U rs' <: ((k, vu) :: us)
+| US_JsrZip_cons_r   : forall {A: Set} {h: HasRelation A} (k: string) (vl vr vu: A) (ls ls' rs us: js_record A),
+    vl U vr <: vu -> JsRecordAdd k vl ls ls' -> ls' JsrZip-U ((k, vr) :: rs) <: ((k, vu) :: us)
+| US_JsrZip_cons_u   : forall {A: Set} {h: HasRelation A} (k: string) (vl vr vu: A) (ls rs us us': js_record A),
+    vl U vr <: vu -> JsRecordAdd k vu us us' -> ((k, vl) :: ls) JsrZip-U ((k, vr) :: rs) <: us'
+(* Intersect *)
+| US_Intersect_nil_r    : forall {A: Set} {h: HasRelation A} (lhs: list A), lhs Intersect-U nil <: lhs
+| US_Intersect_nil_l    : forall {A: Set} {h: HasRelation A} (rhs: list A), nil Intersect-U rhs <: rhs
+| US_Intersect_cons_l   : forall {A: Set} {h: HasRelation A} (l r u: A) (ls rs rs' us: list A),
+    l U r <: u -> List.Add r rs rs' -> (l :: ls) Intersect-U rs' <: (u :: us)
+| US_Intersect_cons_r   : forall {A: Set} {h: HasRelation A} (l r u: A) (ls ls' rs us: list A),
+    l U r <: u -> List.Add l ls ls' -> ls' Intersect-U (r :: rs) <: (u :: us)
+| US_Intersect_cons_u   : forall {A: Set} {h: HasRelation A} (l r u: A) (ls rs us us': list A),
+    l U r <: u -> List.Add u us us' -> (l :: ls) Intersect-U (r :: rs) <: us'
+where "'(U <:)'" := CommonSupertype
+  and "a 'U' b '<:' c" := (CommonSupertype a b c)
+  and "a 'Zip-U' b '<:' c" := (CommonSupertype (Zip_ a) (Zip_ b) (Zip_ c))
+  and "a 'JsrZip-U' b '<:' c" := (CommonSupertype (JsrZip_ a) (JsrZip_ b) (JsrZip_ c))
+  and "a 'Intersect-U' b '<:' c" := (CommonSupertype (Intersect_ a) (Intersect_ b) (Intersect_ c))
 with CommonSubtype : forall {A: Set}, A -> A -> A -> Prop :=
 | IS_Never           : forall (lhs rhs: ftype), lhs I rhs :> FNEVER
 | IS_Null            : forall (lhs rhs: ftype), IsNullable lhs -> IsNullable rhs -> lhs I rhs :> FNULL
 | IS_AnyL            : forall (rhs: ftype), FAny I rhs :> rhs
 | IS_AnyR            : forall (lhs: ftype), lhs I FAny :> lhs
-| IS_Struct          : forall (nl nr nu: bool) (sl sr su: stype ftype),
+| IS_Struct          : forall (nl nr nu: bool) (sl sr su: sftype),
     nl && nr >= nu -> sl I sr :> su -> FStructural nl sl I FStructural nr sr :> FStructural nu su
-| IS_NomStruct       : forall (nl nr nu: bool) (idl idu: itype ftype) (idsl idsu: list (itype ftype)) (sl sr su: stype ftype),
-    nl && nr >= nu -> cons idl idsl I nil :> cons idu idsu -> sl I sr :> su ->
+| IS_NomStruct       : forall (nl nr nu: bool) (idl idu: iftype) (idsl idsu: list iftype) (sl sr su: sftype),
+    nl && nr >= nu -> (idl :: idsl) Intersect-I nil :> (idu :: idsu) -> sl I sr :> su ->
     FNominal nl idl idsl (Some sl) I FStructural nr sr :> FNominal nu idu idsu (Some su)
-| IS_StructNom       : forall (nl nr nu: bool) (idr idu: itype ftype) (idsr idsu: list (itype ftype)) (sl sr su: stype ftype),
-    nl && nr >= nu -> nil I cons idr idsr :> cons idu idsu -> sl I sr :> su ->
+| IS_StructNom       : forall (nl nr nu: bool) (idr idu: iftype) (idsr idsu: list iftype) (sl sr su: sftype),
+    nl && nr >= nu -> nil Intersect-I (idr :: idsr) :> (idu :: idsu) -> sl I sr :> su ->
     FStructural nl sl I FNominal nr idr idsr (Some sr) :> FNominal nu idu idsu (Some su)
-| IS_Nom             : forall (nl nr nu: bool) (idl idr idu: itype ftype) (idsl idsr idsu: list (itype ftype)) (sl sr su: option (stype ftype)),
-    nl && nr >= nu -> cons idl idsl I cons idr idsr :> cons idu idsu -> sl I sr :> su ->
+| IS_Nom             : forall (nl nr nu: bool) (idl idr idu: iftype) (idsl idsr idsu: list iftype) (sl sr su: option sftype),
+    nl && nr >= nu -> (idl :: idsl) Intersect-I (idr :: idsr) :> (idu :: idsu) -> sl I sr :> su ->
     FNominal nl idl idsl sl I FNominal nr idr idsr sr :> FNominal nu idu idsu su
-(* with CommonSubtype_opt_struct : option sftype -> option sftype -> option sftype -> Prop := *)
-| IS_StructNoneNone  : forall (uni: option sftype), @None sftype I None :> uni
-| IS_StructNoneSome  : forall (lhs: sftype), Some lhs I None :> Some lhs
-| IS_StructSomeNone  : forall (rhs: sftype), None I Some rhs :> Some rhs
-| IS_StructSomeSome  : forall (lhs rhs uni: sftype), lhs I rhs :> uni -> Some lhs I Some rhs :> Some uni
-(* with CommonSupertype_ident : itype ftype -> itype ftype -> itype ftype -> Prop := *)
-| IS_Ident           : forall (name: string) (tal tar tau: list ftype), tal I tar :> tau -> It name tal I It name tar :> It name tau
-(* with CommonSupertype_struct : stype ftype -> stype ftype -> stype ftype -> Prop := *)
-| IS_Fn              : forall (tpl tpr tpu: list (tparam ftype)) (thispl thispr thispu: ftype)
-                             (pl pr pu: list (otype ftype)) (rl rr ru: ftype) (retl retr retu: vtype ftype),
-    tpl U tpr <: tpu -> thispl U thispr <: thispu -> pl U pr <: pu -> rl U rr <: ru -> retl I retr :> retu ->
+(* with CommonSupertype_ident : iftype -> iftype -> iftype -> Prop := *)
+| IS_Ident           : forall (name: string) (tal tar tau: list ftype), tal Zip-I tar :> tau -> It name tal I It name tar :> It name tau
+(* with CommonSupertype_struct : sftype -> sftype -> sftype -> Prop := *)
+| IS_Fn              : forall (tpl tpr tpu: list (ftparam)) (thispl thispr thispu: ftype)
+                             (pl pr pu: list (oftype)) (rl rr ru: ftype) (retl retr retu: vftype),
+    tpl Zip-U tpr <: tpu -> thispl U thispr <: thispu -> pl Zip-U pr <: pu -> rl U rr <: ru -> retl I retr :> retu ->
     SFn tpl thispl pl rl retl I SFn tpr thispr pr rr retr :> SFn tpu thispu pu ru retu
-| IS_Array           : forall (el er eu: ftype),                      el I er :> eu    -> SArray el   I SArray er   :> SArray eu
-| IS_Tuple           : forall (esl esr esu: list (otype ftype)),      esl I esr :> esu -> STuple esl  I STuple esr  :> STuple esu
-| IS_Object          : forall (fsl fsr fsu: js_record (otype ftype)), fsl I fsr :> fsu -> SObject fsl I SObject fsr :> SObject fsu
-(* with CommonSupertype_otype : otype ftype -> otype ftype -> otype ftype -> Prop := *)
+| IS_Array           : forall (el er eu: ftype),               el         I er  :> eu  -> SArray el   I SArray er   :> SArray eu
+| IS_Tuple           : forall (esl esr esu: list oftype),      esl    Zip-I esr :> esu -> STuple esl  I STuple esr  :> STuple esu
+| IS_Object          : forall (fsl fsr fsu: js_record oftype), fsl JsrZip-I fsr :> fsu -> SObject fsl I SObject fsr :> SObject fsu
+(* with CommonSupertype_otype : oftype -> oftype -> oftype -> Prop := *)
 | IS_OType           : forall (ol or ou: bool) (lhs rhs uni: ftype), ol && or >= ou -> lhs I rhs :> uni -> Ot ol lhs I Ot or rhs :> Ot ou uni
-(* with CommonSupertype_void : vtype ftype -> vtype ftype -> vtype ftype -> Prop := *)
+(* with CommonSupertype_void : vftype -> vftype -> vftype -> Prop := *)
 | IS_Void            : @VVoid ftype I VVoid :> VVoid
 | IS_NotVoid         : forall (lhs rhs uni: ftype), lhs I rhs :> uni -> Vt lhs I Vt rhs :> Vt uni
-(* with CommonSupertype_tparam : tparam -> tparam -> tparam -> Prop := *)
+(* with CommonSupertype_tparam : ftparam -> ftparam -> ftparam -> Prop := *)
 | IS_TParam          : forall (vl vr vu: variance) (name: string) (supl supr supu: list ftype),
-    vl I vr :> vu -> Supers_ supl I Supers_ supr :> Supers_ supu ->
+    vl I vr :> vu -> supl Intersect-I supr :> supu ->
     TParam vl name supl I TParam vr name supr :> TParam vu name supu
-(* with CommonSupertype_zip_ftype : list ftype -> list ftype -> list ftype -> Prop := *)
-| IS_NilFType        : @nil ftype I nil :> nil
-| IS_ConsFType       : forall (xl xr xu: ftype) (xsl xsr xsu: list ftype),
-    xl I xr :> xu -> xsl I xsr :> xsu -> cons xl xsl I cons xr xsr :> cons xu xsu
-(* with CommonSupertype_zip_tparam : list tparam -> list tparam -> list tparam -> Prop := *)
-| IS_NilTParam       : @nil (tparam ftype) I nil :> nil
-| IS_ConsTParam     : forall (xl xr xu: tparam ftype) (xsl xsr xsu: list (tparam ftype)),
-    xl I xr :> xu -> xsl I xsr :> xsu -> cons xl xsl I cons xr xsr :> cons xu xsu
-(* with CommonSupertype_zip_otype : list (otype ftype) -> list (otype ftype) -> list (otype ftype) -> Prop := *)
-| IS_NilOType         : forall (xsu: list (otype ftype)), nil I nil :> xsu
-| IS_NilOTypeL        : forall (xsl xsu: list (otype ftype)), xsl I nil :> (xsl ++ xsu)%list
-| IS_NilOTypeR        : forall (xsr xsu: list (otype ftype)), nil I xsr :> (xsr ++ xsu)%list
-| IS_ConsOType        : forall (xl xr xu: otype ftype) (xsl xsr xsu: list (otype ftype)),
-    xl I xr :> xu -> xsl I xsr :> xsu -> cons xl xsl I cons xr xsr :> cons xu xsu
-(* with CommonSupertype_intersect_itype : list (itype ftype) -> list (itype ftype) -> list (itype ftype) -> Prop := *)
-| IS_IntersectNil    : forall (idsu: list (itype ftype)), nil I nil :> idsu
-| IS_IntersectConsL  : forall (idu: itype ftype) (idsl idsr idsu: list (itype ftype)), cons idu idsl I idsr :> cons idu idsu
-| IS_IntersectConsR  : forall (idu: itype ftype) (idsl idsr idsu: list (itype ftype)), idsl I cons idu idsr :> cons idu idsu
-| IS_IntersectInR    : forall (idl idr idu: itype ftype) (idsl idsr idsr' idsu: list (itype ftype)),
-     List.Add idr idsr idsr' -> idl I idr :> idu -> idsl I idsr :> idsu -> cons idl idsl I idsr' :> cons idu idsu
-| IS_IntersectInL    : forall (idl idr idu: itype ftype) (idsl idsr idsl' idsu: list (itype ftype)),
-     List.Add idl idsl idsl' -> idl I idr :> idu -> idsl I idsr :> idsu -> idsl' I cons idr idsr :> cons idu idsu
-(* with CommonSupertype_intersect_ftype_supers : Supers (list ftype) -> Supers (list ftype) -> Supers (list ftype) -> Prop := *)
-| IS_IntSupersNil    : Supers_ (@nil ftype) I Supers_ nil :> Supers_ nil
-| IS_IntSupersConsL  : forall (xu: ftype) (xsl xsr xsu: list ftype), Supers_ (cons xu xsl) I Supers_ xsr :> Supers_ (cons xu xsu)
-| IS_IntSupersConsR  : forall (xu: ftype) (xsl xsr xsu: list ftype), Supers_ xsl I Supers_ (cons xu xsr) :> Supers_ (cons xu xsu)
-| IS_IntSupersConsU  : forall (xu: ftype) (xsl xsr xsu: list ftype), Supers_ xsl I Supers_ xsr :> Supers_ (cons xu xsu)
-| IS_IntSupersInR    : forall (xl xr xu: ftype) (xsl xsr xsr' xsu: list ftype),
-     List.Add xr xsr xsr' -> xl I xr :> xu -> xsl I xsr :> xsu -> Supers_ (cons xl xsl) I Supers_ xsr' :> Supers_ (cons xu xsu)
-| IS_IntSupersInL    : forall (xl xr xu: ftype) (xsl xsr xsl' xsu: list ftype),
-     List.Add xl xsl xsl' -> xl I xr :> xu -> xsl I xsr :> xsu -> Supers_ xsl' I Supers_ (cons xr xsr) :> Supers_ (cons xu xsu)
-(* with CommonSupertype_js_record : js_record oftype -> js_record oftype -> js_record oftype -> Prop *)
-| IS_JSNil           : @nil (string * oftype) I nil :> nil
-| IS_JSAdd           : forall (name: string) (vl vr vu: oftype) (vls vls' vrs vrs' vus vus': list (string * oftype)),
-    JsRecordAdd name vl vls vls' -> JsRecordAdd name vr vrs vrs' -> JsRecordAdd name vu vus vus' ->
-    vl I vr :> vu -> vls I vrs :> vus -> vls' I vrs' :> vus'
 (* with CommonSupertype_variance : variance -> variance -> variance -> Prop *)
 | IS_Invariant       : forall (lhs rhs: variance), lhs I rhs :> Invariant
 | IS_Covariant       : Covariant I Covariant :> Covariant
@@ -253,7 +207,35 @@ with CommonSubtype : forall {A: Set}, A -> A -> A -> Prop :=
 | IS_Bivariant       : forall (a: variance), Bivariant I Bivariant :> a
 | IS_BivariantL      : forall (rhs: variance), Bivariant I rhs :> rhs
 | IS_BivariantR      : forall (lhs: variance), lhs I Bivariant :> lhs
-where "a 'I' b :> c" := (CommonSubtype a b c)
+(* with CommonSubtype_opt : option A -> option A -> option A -> Prop := *)
+| IS_NoneNone        : forall {A: Set} {h: HasRelation A} (uni: option A), None I None :> uni
+| IS_NoneSome        : forall {A: Set} {h: HasRelation A} (lhs: A), Some lhs I None :> Some lhs
+| IS_SomeNone        : forall {A: Set} {h: HasRelation A} (rhs: A), None I Some rhs :> Some rhs
+| IS_SomeSome        : forall {A: Set} {h: HasRelation A} (lhs rhs uni: A), lhs I rhs :> uni -> Some lhs I Some rhs :> Some uni
+(* Zip *)
+| IS_Zip_nil         : forall {A: Set} {h: HasRelation A} (uni: list A), nil Zip-I nil :> uni
+| IS_Zip_cons        : forall {A: Set} {h: HasRelation A} (l r u: A) (ls rs us: list A), ls Zip-I rs :> us -> (l :: ls) Zip-I (r :: rs) :> (u :: us)
+(* JsrZip *)
+| IS_JsrZip_nil      : forall {A: Set} {h: HasRelation A} (uni: js_record A), nil JsrZip-I nil :> uni
+| IS_JsrZip_cons_l   : forall {A: Set} {h: HasRelation A} (k: string) (vl vr vu: A) (ls rs rs' us: js_record A),
+    vl I vr :> vu -> JsRecordAdd k vr rs rs' -> ((k, vl) :: ls) JsrZip-I rs' :> ((k, vu) :: us)
+| IS_JsrZip_cons_r   : forall {A: Set} {h: HasRelation A} (k: string) (vl vr vu: A) (ls ls' rs us: js_record A),
+    vl I vr :> vu -> JsRecordAdd k vl ls ls' -> ls' JsrZip-I ((k, vr) :: rs) :> ((k, vu) :: us)
+| IS_JsrZip_cons_u   : forall {A: Set} {h: HasRelation A} (k: string) (vl vr vu: A) (ls rs us us': js_record A),
+    vl I vr :> vu -> JsRecordAdd k vu us us' -> ((k, vl) :: ls) JsrZip-I ((k, vr) :: rs) :> us'
+(* Intersect *)
+| IS_Intersect_nil      : forall {A: Set} {h: HasRelation A} (uni: list A), nil Intersect-I nil :> uni
+| IS_Intersect_cons_l   : forall {A: Set} {h: HasRelation A} (l r u: A) (ls rs rs' us: list A),
+    l I r :> u -> List.Add r rs rs' -> (l :: ls) Zip-I rs' :> (u :: us)
+| IS_Intersect_cons_r   : forall {A: Set} {h: HasRelation A} (l r u: A) (ls ls' rs us: list A),
+    l I r :> u -> List.Add l ls ls' -> ls' Zip-I (r :: rs) :> (u :: us)
+| IS_Intersect_cons_u   : forall {A: Set} {h: HasRelation A} (l r u: A) (ls rs us us': list A),
+    l I r :> u -> List.Add u us us' -> (l :: ls) Zip-I (r :: rs) :> us'
+where "'(I :>)'" := CommonSubtype
+  and "a 'I' b :> c" := (CommonSubtype a b c)
+  and "a 'Zip-I' b ':>' c" := (CommonSubtype (Zip_ a) (Zip_ b) (Zip_ c))
+  and "a 'JsrZip-I' b ':>' c" := (CommonSubtype (JsrZip_ a) (JsrZip_ b) (JsrZip_ c))
+  and "a 'Intersect-I' b ':>' c" := (CommonSubtype (Intersect_ a) (Intersect_ b) (Intersect_ c))
 .
 
 Inductive HasVariance {A: Set} {h: HasRelation A} : A -> A -> variance -> Prop :=
@@ -264,9 +246,11 @@ Inductive HasVariance {A: Set} {h: HasRelation A} : A -> A -> variance -> Prop :
 .
 
 Definition IsSubtype {A: Set} {h: HasRelation A} (lhs rhs: A): Prop := lhs U rhs <: rhs.
+Notation "'(<:)'" := IsSubtype.
 Notation "lhs '<:' rhs" := (IsSubtype lhs rhs) (at level 63, no associativity).
 
 Definition IsSupertype {A: Set} {h: HasRelation A} (lhs rhs: A): Prop := lhs I rhs :> rhs.
+Notation "'(:>)'" := IsSupertype.
 Notation "lhs ':>' rhs" := (IsSupertype lhs rhs) (at level 63, no associativity).
 
 Definition IsBounded {A: Set} {h: HasRelation A} (x min max: A): Prop := min U x <: x /\ x U max <: max.
@@ -276,10 +260,12 @@ Definition IsBoundedAlt {A: Set} {h: HasRelation A} (x min max: A): Prop := min 
 Notation "max ':>' x ':>' min" := (IsBoundedAlt x min max) (at level 64, no associativity).
 
 Definition Union {A: Set} {h: HasRelation A} (lhs rhs a: A): Prop := lhs U rhs <: a /\ forall b, lhs U rhs <: b -> a <: b.
+Notation "'(U)'" := Union.
 Notation "lhs 'U' rhs '=' a" := (Union lhs rhs a) (at level 60, rhs at next level, no associativity).
 
-Definition Intersect {A: Set} {h: HasRelation A} (lhs rhs a: A): Prop := lhs I rhs :> a /\ forall b, lhs I rhs :> b -> a :> b.
-Notation "lhs 'I' rhs '=' a" := (Intersect lhs rhs a) (at level 60, rhs at next level, no associativity).
+Definition Intersection {A: Set} {h: HasRelation A} (lhs rhs a: A): Prop := lhs I rhs :> a /\ forall b, lhs I rhs :> b -> a :> b.
+Notation "'(I)'" := Intersection.
+Notation "lhs 'I' rhs '=' a" := (Intersection lhs rhs a) (at level 60, rhs at next level, no associativity).
 
 Theorem prove_relation_by_ftype1: forall (P: forall {A: Set} {h: HasRelation A}, A -> Prop),
     (forall (a: ftype), @P ftype ftype_HasRelation a) ->
@@ -348,8 +334,7 @@ Local Ltac ind1 a :=
   | FNever ?nullable => ind1 nullable
   | FStructural ?nullable ?structure => ind1 nullable
   | FNominal ?nullable ?id ?super_ids ?structure => ind1 nullable
-  | Supers_ ?a => ind1 a
-  | Some ?a => ind1 a
+  | ?P ?a => tryif is_ind P then ind1 a else idtac
   | ?a => tryif is_var a then ind1' a else idtac
   end.
 
@@ -369,8 +354,7 @@ Local Ltac ind2 a b :=
   | (FNever ?na, FNever ?nb) => ind2 na nb
   | (FStructural ?na ?sa, FStructural ?nb ?sb) => ind2 na nb
   | (FNominal ?na ?ida ?sidsa ?sa, FStructural ?nb ?idb ?sidsb ?sb) => ind2 na nb
-  | (Supers_ ?a, Supers_ ?b) => ind2 a b
-  | (Some ?a, Some ?b) => ind2 a b
+  | (?P ?a, ?Q ?b) => tryif is_ind P; is_ind Q then ind2 a b else idtac
   | (?a, ?b) => tryif is_var a; is_var b then ind2' a b else (ind1 a; ind1 b)
   end.
 
@@ -388,23 +372,6 @@ Local Ltac constr_eq_any3 d a b c :=
 Local Ltac constr_eq_any33 d e f a b c :=
   first [constr_eq_any3 d a b c | constr_eq_any3 e a b c | constr_eq_any3 f a b c].
 
-Local Ltac inv_con_js_record0 a b c :=
-  ind_cs a b c; once (try constructor).
-
-Local Ltac inv_con_js_record1 H :=
-  destruct H as [kx [vx H]]; lazymatch goal with
-  | Inv : JsRecordForall _ _ |- _ => try destruct (JsRecordAdd_Forall H Inv)
-  | |- _ => idtac
-  end; econstructor; try exact H.
-
-Local Ltac inv_con_tuple_elems H xsl y ys :=
-  replace (y :: ys)%list with ((y :: ys) ++ nil)%list at 2; [| rewrite List.app_nil_r; reflexivity]; apply IS_NilOTypeR.
-
-Local Ltac inv_con_params H x xs xsu :=
-  inv H; ((constructor; fail) || lazymatch goal with
-  | H : (?xs ++ ?xsu)%list = ?xs |- _ => rewrite H in *; clear H; clear xsu
-  end; replace (x :: xs)%list with (nil ++ (x :: xs))%list; [| simpl]; constructor).
-
 Local Ltac inv_con1 a b c :=
   let CS := fresh "CS" in let Inv := fresh "Inv" in
   match goal with
@@ -417,11 +384,11 @@ Local Ltac inv_con1 a b c :=
   | _ => idtac
   end;
   once (ind_cs a b c; try (inv Inv); try (inv_cs CS));
-  try constructor; clear_relation_neqs; invert_eqs; simpl; try (reflexivity || discriminate).
+  (constructor; clear_relation_neqs; invert_eqs) || (clear_relation_neqs; invert_eqs; simpl; reflexivity || discriminate).
 
 Local Ltac inv_con0 a b c :=
   lazymatch type of a with
-  | js_record _ => inv_con_js_record0 a b c
+  | js_record _ => fail "js_record is special-cased"
   | _ => inv_con1 a b c
   end.
 
@@ -437,12 +404,6 @@ Local Ltac inv_con :=
   | IH : ?Q -> ?Q0 -> ?Q1 -> ?P |- ?P => apply IH
   | IH : ?Q -> ?Q0 -> ?P |- ?P => apply IH
   | IH : ?Q -> ?P |- ?P => apply IH
-  (* Non-trivial special cases *)
-  | H : ((?x :: ?xs) ++ ?xsu)%list = (?x :: ?xs)%list |- _ U _ <: _ => inv_con_params H x xs xsu
-  | H : (nil ++ ?xsl)%list = (?y :: ?ys)%list |- _ => inv_con_tuple_elems H xsl y ys
-  | H : ((?x :: ?xs) ++ ?xsl)%list = (?y :: ?ys)%list |- _ U _ <: _ => inv H; constructor
-  | H : ((?x :: ?xs) ++ ?xsl)%list = (?y :: ?ys)%list |- _ I _ :> _ => inv H
-  | H : exists (kx : string) (vx : oftype), _ |- _ => inv_con_js_record1 H
   (* Boolean cases *)
   | |- ?n0 && ?n1 >= ?n2 => ind_cs n0 n1 n2; simpl; reflexivity || discriminate
   | |- ?n0 || ?n1 <= ?n2 => ind_cs n0 n1 n2; simpl; reflexivity || discriminate
@@ -453,7 +414,7 @@ Local Ltac inv_con :=
   | |- ?a U ?b <: ?c => inv_con0 a b c
   end.
 
-Local Ltac inv_con' :=
+Local Ltac inv_con_refl :=
   match goal with
   | G : forall (a: ftype), a I a :> a /\ a U a <: a |- ?a I ?a :> ?a => specialize (G a); destruct G as [G _]; exact G
   | G : forall (a: ftype), a I a :> a /\ a U a <: a |- ?a U ?a <: ?a => specialize (G a); destruct G as [_ G]; exact G
@@ -463,10 +424,16 @@ Local Ltac inv_con' :=
 Local Ltac repeat' tac := timeout 10 (repeat tac).
 
 Theorem subtype_supertype_refl: forall {A: Set} {h: HasRelation A} (a: A), a :> a /\ a <: a.
-Admitted.
+Proof with repeat inv_con_refl.
+  apply prove_relation_by_ftype1.
+  - induction a using ftype_rec'; intros; split; unfold IsSubtype, IsSupertype in *...
+    +
+  - induction a using ftype_rec'; intros; split; unfold IsSubtype, IsSupertype in *; repeat inv_con.
+  - intros; split; unfold IsSubtype, IsSupertype in *; destruct_relation_type A h; repeat inv_con'.
+Qed.
 
 (* Has extra cases for the specific theorem we're trying to prove *)
-Local Ltac inv_con'0 :=
+Local Ltac inv_con_antisym :=
   lazymatch goal with
   | G : forall (a: ftype), (?b U a <: a -> a I ?b :> ?b) /\ (?b I a :> a -> a U ?b <: ?b) |- ?a I ?b :> ?b => specialize (G a); destruct G as [G _]; apply G
   | G : forall (a: ftype), (?b U a <: a -> a I ?b :> ?b) /\ (?b I a :> a -> a U ?b <: ?b) |- ?a U ?b <: ?b => specialize (G a); destruct G as [_ G]; apply G
