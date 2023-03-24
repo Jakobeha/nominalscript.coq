@@ -60,37 +60,6 @@ Global Hint Resolve Zip_HasRelation : inv_con.
 Global Hint Resolve JsrZip_HasRelation : inv_con.
 Global Hint Resolve Intersect_HasRelation : inv_con.
 Set Warnings "+fragile-hint-constr".
-Fixpoint relation_type_inv0 (r: RelationType): Set := match r with
-| ftype_RelationType => ftype
-| itype_RelationType r => itype (relation_type_inv0 r)
-| stype_RelationType r => stype (relation_type_inv0 r)
-| otype_RelationType r => otype (relation_type_inv0 r)
-| vtype_RelationType r => vtype (relation_type_inv0 r)
-| tparam_RelationType r => tparam (relation_type_inv0 r)
-| variance_RelationType => variance
-| option_RelationType r => option (relation_type_inv0 r)
-| Zip_RelationType r => Zip (relation_type_inv0 r)
-| JsrZip_RelationType r => JsrZip (relation_type_inv0 r)
-| Intersect_RelationType r => Intersect (relation_type_inv0 r)
-end.
-Axiom relation_type_eq0 : forall {A: Set} {h: HasRelation A} (r: RelationType),
-    r = @relation_type A h <-> A = relation_type_inv0 r.
-Axiom relation_type_eq1 : forall {A: Set} {h: HasRelation A},
-    (A = ftype -> h ~= ftype_HasRelation)
-  /\ (forall {B: Set} {h0: HasRelation B}, A = itype B -> h ~= @itype_HasRelation B h0)
-  /\ (forall {B: Set} {h0: HasRelation B}, A = stype B -> h ~= @stype_HasRelation B h0)
-  /\ (forall {B: Set} {h0: HasRelation B}, A = otype B -> h ~= @otype_HasRelation B h0)
-  /\ (forall {B: Set} {h0: HasRelation B}, A = vtype B -> h ~= @vtype_HasRelation B h0)
-  /\ (forall {B: Set} {h0: HasRelation B}, A = tparam B -> h ~= @tparam_HasRelation B h0)
-  /\ (A = variance -> h ~= variance_HasRelation)
-  /\ (forall {B: Set} {h0: HasRelation B}, A = option B -> h ~= @option_HasRelation B h0)
-  /\ (forall {B: Set} {h0: HasRelation B}, A = Zip B -> h ~= @Zip_HasRelation B h0)
-  /\ (forall {B: Set} {h0: HasRelation B}, A = JsrZip B -> h ~= @JsrZip_HasRelation B h0)
-  /\ (forall {B: Set} {h0: HasRelation B}, A = Intersect B -> h ~= @Intersect_HasRelation B h0)
-  .
-Ltac destruct_relation_type A h :=
-  remember (@relation_type A h) as hRel eqn:aEq; destruct hRel;
-    apply relation_type_eq0 in aEq; simpl in aEq; try apply relation_type_eq1 in aEq as hEq; subst.
 
 Local Open Scope list_scope.
 Local Notation "a <= b" := (Bool.le a b) : bool_scope.
@@ -282,39 +251,9 @@ Definition Intersection {A: Set} {h: HasRelation A} (lhs rhs a: A): Prop := lhs 
 Notation "'(I)'" := Intersection.
 Notation "lhs 'I' rhs '=' a" := (Intersection lhs rhs a) (at level 60, rhs at next level, no associativity).
 
-Theorem prove_relation_by_ftype1: forall (P: forall {A: Set} {h: HasRelation A}, A -> Prop),
-    (forall (a: ftype), @P ftype ftype_HasRelation a) ->
-    (forall {A: Set} {h: HasRelation A} (a: A), (forall (a: ftype), @P ftype ftype_HasRelation a) -> @P A h a) ->
-    forall {A: Set} {h: HasRelation A} (a: A), @P A h a.
-Proof.
-  intros; destruct_relation_type A h; exact (H a) || (apply H0; exact H).
-Qed.
-
-Theorem prove_relation_by_ftype2: forall (P: forall {A: Set} {h: HasRelation A}, A -> A -> Prop),
-    (forall (a b: ftype), @P ftype ftype_HasRelation a b) ->
-    (forall {A: Set} {h: HasRelation A} (a b: A), (forall (a b: ftype), @P ftype ftype_HasRelation a b) -> @P A h a b) ->
-    forall {A: Set} {h: HasRelation A} (a b: A), @P A h a b.
-Proof.
-  intros; destruct_relation_type A h; exact (H a b) || (apply H0; exact H).
-Qed.
-
-Theorem prove_relation_by_ftype3: forall (P: forall {A: Set} {h: HasRelation A}, A -> A -> A -> Prop),
-    (forall (a b c: ftype), @P ftype ftype_HasRelation a b c) ->
-    (forall {A: Set} {h: HasRelation A} (a b c: A), (forall (a b c: ftype), @P ftype ftype_HasRelation a b c) -> @P A h a b c) ->
-    forall {A: Set} {h: HasRelation A} (a b c: A), @P A h a b c.
-Proof.
-  intros; destruct_relation_type A h; exact (H a b c) || (apply H0; exact H).
-Qed.
-
-Local Ltac clear_relation_neqs :=
-  repeat match goal with
-  | H : ?T1 = ?T2 |- _ => apply relation_type_eq1 in H; simpl in H; discriminate H
-  end.
-
 Ltac inv_cs H :=
   inv H;
   fix_js_record_existTs;
-  clear_relation_neqs;
   clear_obvious;
   subst;
   invert_eqs;
@@ -379,7 +318,7 @@ Local Ltac inv_con2 a b c :=
   | _ => idtac
   end;
   once (ind_cs a b c; try (inv Inv); try (inv_cs CS));
-  try constructor; clear_relation_neqs; invert_eqs; simpl; try (reflexivity || discriminate).
+  try constructor; invert_eqs; simpl; try (reflexivity || discriminate).
 
 Local Ltac is_var' a := first [is_var a | is_evar a].
 
