@@ -7,6 +7,7 @@ Require Import Coq.Arith.EqNat.
 Require Import Coq.Bool.Bool.
 Require Import Coq.Logic.FunctionalExtensionality.
 Require Import Coq.Logic.Eqdep.
+Require Import Coq.Program.Equality.
 
 Notation "a <| b" := (a b) (at level 102, right associativity, only parsing).
 Notation "a << b" := (fun x => a (b x)) (at level 101, right associativity, only parsing).
@@ -248,27 +249,18 @@ Ltac ind_list2_alt x y :=
 Ltac by_ tactic := tactic; reflexivity.
 Ltac remove_existTs :=
   repeat lazymatch goal with
-  | H : existT (fun x0 : Set => x0) ?T ?a = existT (fun x1 : Set => x1) ?T ?b |- _ => apply inj_pair2 in H
-  | H : existT (fun x0 : Set => x0) ?A ?a = existT (fun x1 : Set => x1) ?B ?b |- _ => apply eq_sigT_fst in H
-  end.
-Ltac inv H := inversion H; remove_existTs; subst; clear H; try discriminate.
-Ltac if_some tac H := lazymatch H with | None => idtac | @None => idtac | Some ?H => tac H | ?H => idtac H; fail "must be None or Some" end.
-
-Ltac fix_js_record_existTs :=
-  repeat match goal with
   | H : existT (fun x0 : Set => x0) (js_record ?T) ?a =
         existT (fun x1 : Set => x1) (list (string * ?T)) ?b |- _ =>
-      unfold js_record in H; apply inj_pair2 in H; subst
-  | H : existT (fun x0 : Set => x0) (list (string * ?T)) ?a =
-        existT (fun x1 : Set => x1) (js_record ?T) ?b |- _ =>
-      unfold js_record in H; apply inj_pair2 in H; subst
+      unfold js_record in H; apply inj_pair2 in H
+  | H : existT (fun x0 : Set => x0) ?T ?a = existT (fun x1 : Set => x1) ?T ?b |- _ => apply inj_pair2 in H
   end.
-
 Ltac clear_obvious :=
   repeat lazymatch goal with
   | H : ?T = ?T |- _ => clear H
   | H : True |- _ => clear H
   end.
+Ltac inv H := inversion H; remove_existTs; clear_obvious; subst; clear H; try discriminate.
+Ltac if_some tac H := lazymatch H with | None => idtac | @None => idtac | Some ?H => tac H | ?H => idtac H; fail "must be None or Some" end.
 
 Ltac invert_eqs :=
   repeat lazymatch goal with
