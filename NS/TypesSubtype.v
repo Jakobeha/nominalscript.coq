@@ -120,208 +120,283 @@ Ltac inv_cs H :=
 Local Open Scope list_scope.
 Local Notation "a <= b" := (Bool.le a b) : bool_scope.
 Local Notation "a >= b" := (Bool.le b a) : bool_scope.
-Reserved Notation "'(U <:)'".
-Reserved Notation "'(I :>)'".
-Reserved Notation "a 'U' b '<:' c" (at level 60, b at next level, no associativity).
-Reserved Notation "a 'I' b ':>' c" (at level 60, b at next level, no associativity).
-Reserved Notation "a 'Zip-U' b '<:' c" (at level 60, b at next level, no associativity).
-Reserved Notation "a 'Zip-I' b ':>' c" (at level 60, b at next level, no associativity).
-Reserved Notation "a 'JsrZip-U' b '<:' c" (at level 60, b at next level, no associativity).
-Reserved Notation "a 'JsrZip-I' b ':>' c" (at level 60, b at next level, no associativity).
-Reserved Notation "a 'Intersect-U' b '<:' c" (at level 60, b at next level, no associativity).
-Reserved Notation "a 'Intersect-I' b ':>' c" (at level 60, b at next level, no associativity).
-Inductive CommonSupertype : forall {A: Set}, A -> A -> A -> Prop :=
-| US_Any             : forall (lhs rhs: ftype), lhs U rhs <: FAny
-| US_Never           : forall (a: ftype), FNEVER U FNEVER <: a
-| US_NeverL          : forall (rhs: ftype), FNEVER U rhs <: rhs
-| US_NeverR          : forall (lhs: ftype), lhs U FNEVER <: lhs
-| US_Null            : forall (a: ftype), IsNullable a -> FNULL U FNULL <: a
-| US_NullL           : forall (rhs: ftype), IsNullable rhs -> FNULL U rhs <: rhs
-| US_NullR           : forall (lhs: ftype), IsNullable lhs -> lhs U FNULL <: lhs
-| US_NeverNull       : FNEVER U FNEVER <: FNULL
-| US_Struct          : forall (nl nr nu: bool) (sl sr su: sftype),
-    nl || nr <= nu -> sl U sr <: su -> FStructural nl sl U FStructural nr sr <: FStructural nu su
-| US_NomStruct       : forall (nl nr nu: bool) (idl: iftype) (idsl: list iftype) (sl sr su: sftype),
-    nl || nr <= nu -> sl U sr <: su -> FNominal nl idl idsl (Some sl) U FStructural nr sr <: FStructural nu su
-| US_StructNom       : forall (nl nr nu: bool) (idr: iftype) (idsr: list iftype) (sl sr su: sftype),
-    nl || nr <= nu -> sl U sr <: su -> FStructural nl sl U FNominal nr idr idsr (Some sr) <: FStructural nu su
-| US_NomCommonNom    : forall (nl nr nu: bool) (idl idr idu: iftype) (idsl idsr idsu: list iftype) (sl sr su: option sftype),
-    nl || nr <= nu -> (idl :: idsl) Intersect-U (idr :: idsr) <: (idu :: idsu) -> sl U sr <: su ->
-    FNominal nl idl idsl sl U FNominal nr idr idsr sr <: FNominal nu idu idsu su
-| US_NomCommonStruct : forall (nl nr nu: bool) (idl idr: iftype) (idsl idsr: list iftype) (sl sr su: sftype),
-    nl || nr <= nu -> sl U sr <: su -> FNominal nl idl idsl (Some sl) U FNominal nr idr idsr (Some sr) <: FStructural nu su
-(* with CommonSupertype_ident : iftype -> iftype -> iftype -> Prop := *)
-| US_Ident           : forall (name: string) (tal tar tau: list ftype), tal Zip-U tar <: tau -> It name tal U It name tar <: It name tau
-(* with CommonSupertype_struct : sftype -> sftype -> sftype -> Prop := *)
-| US_Fn              : forall (tpl tpr tpu: list ftparam) (thispl thispr thispu: ftype)
-                         (pl pr pu: list oftype) (rl rr ru: ftype) (retl retr retu: vftype),
-    tpl Zip-I tpr :> tpu -> thispl I thispr :> thispu -> pl Zip-I pr :> pu -> rl I rr :> ru -> retl U retr <: retu ->
-    SFn tpl thispl pl rl retl U SFn tpr thispr pr rr retr <: SFn tpu thispu pu ru retu
-| US_Array           : forall (el er eu: ftype),               el         U er  <: eu  -> SArray el   U SArray er   <: SArray eu
-| US_Tuple           : forall (esl esr esu: list oftype),      esl    Zip-U esr <: esu -> STuple esl  U STuple esr  <: STuple esu
-| US_Object          : forall (fsl fsr fsu: js_record oftype), fsl JsrZip-U fsr <: fsu -> SObject fsl U SObject fsr <: SObject fsu
-(* with CommonSupertype_otype : oftype -> oftype -> oftype -> Prop := *)
-| US_OType           : forall (ol or ou: bool) (lhs rhs uni: ftype), ol || or <= ou -> lhs U rhs <: uni -> Ot ol lhs U Ot or rhs <: Ot ou uni
-(* with CommonSupertype_void : vftype -> vftype -> vftype -> Prop := *)
-| US_Void            : @VVoid ftype U VVoid <: VVoid
-| US_NotVoid         : forall (lhs rhs uni: ftype), lhs U rhs <: uni -> Vt lhs U Vt rhs <: Vt uni
-(* with CommonSupertype_tparam : ftparam -> ftparam -> ftparam -> Prop := *)
-| US_TParam          : forall (vl vr vu: variance) (name: string) (supl supr supu: list ftype),
-    vl U vr <: vu -> supl Intersect-U supr <: supu ->
-    TParam vl name supl U TParam vr name supr <: TParam vu name supu
-(* with CommonSupertype_variance : variance -> variance -> variance -> Prop *)
-| US_Bivariant       : forall (lhs rhs: variance), lhs U rhs <: Bivariant
-| US_Covariant       : Covariant U Covariant <: Covariant
-| US_Contravariant   : Contravariant U Contravariant <: Contravariant
-| US_InvariantL      : forall (rhs: variance), Invariant U rhs <: rhs
-| US_InvariantR      : forall (lhs: variance), lhs U Invariant <: lhs
+Definition USKind (A: Set) := A -> A -> A -> Prop.
+Definition ISKind (A: Set) := A -> A -> A -> Prop.
+Definition US_ap {A: Set} (US: USKind A) (a b c: A): Prop := US a b c.
+Definition IS_ap {A: Set} (IS: ISKind A) (a b c: A): Prop := IS a b c.
+Notation "'[' CS ']' a 'U' b '<:' c" := (US_ap CS a b c) (at level 60, a at next level, b at next level, no associativity).
+Notation "'[' CS ']' a 'I' b ':>' c" := (IS_ap CS a b c) (at level 60, a at next level, b at next level, no associativity).
 (* with CommonSupertype_opt : option A -> option A -> option A -> Prop := *)
-| US_None            : forall {A: Set} (lhs rhs: option A), lhs U rhs <: None
-| US_Some            : forall {A: Set} (lhs rhs uni: A), lhs U rhs <: uni -> Some lhs U Some rhs <: Some uni
-(* Zip *)
-| US_Zip_nil_r       : forall {A: Set} (lhs: list A), lhs Zip-U nil <: nil
-| US_Zip_nil_l       : forall {A: Set} (rhs: list A), nil Zip-U rhs <: nil
-| US_Zip_cons        : forall {A: Set} (l r u: A) (ls rs us: list A),
-    l U r <: u -> ls Zip-U rs <: us -> (l :: ls) Zip-U (r :: rs) <: (u :: us)
-(* JsrZip *)
-| US_JsrZip_nil_r    : forall {A: Set} (lhs: js_record A), lhs JsrZip-U nil <: lhs
-| US_JsrZip_nil_l    : forall {A: Set} (rhs: js_record A), nil JsrZip-U rhs <: rhs
-| US_JsrZip_cons_l   : forall {A: Set} (k: string) (vl vr vu: A) (ls rs rs' us: js_record A),
-    vl U vr <: vu -> JsRecordAdd k vr rs rs' -> ((k, vl) :: ls) JsrZip-U rs' <: ((k, vu) :: us)
-| US_JsrZip_cons_r   : forall {A: Set} (k: string) (vl vr vu: A) (ls ls' rs us: js_record A),
-    vl U vr <: vu -> JsRecordAdd k vl ls ls' -> ls' JsrZip-U ((k, vr) :: rs) <: ((k, vu) :: us)
-| US_JsrZip_cons_u   : forall {A: Set} (k: string) (vl vr vu: A) (ls rs us us': js_record A),
-    vl U vr <: vu -> JsRecordAdd k vu us us' -> ((k, vl) :: ls) JsrZip-U ((k, vr) :: rs) <: us'
-(* Intersect *)
-| US_Intersect_nil   : forall {A: Set} (uni: list A), nil Intersect-U nil <: uni
-| US_Intersect_cons_l: forall {A: Set} (l r u: A) (ls rs rs' us: list A),
-    l U r <: u -> List.Add r rs rs' -> (l :: ls) Intersect-U rs' <: (u :: us)
-| US_Intersect_cons_r: forall {A: Set} (l r u: A) (ls ls' rs us: list A),
-    l U r <: u -> List.Add l ls ls' -> ls' Intersect-U (r :: rs) <: (u :: us)
-| US_Intersect_cons_u: forall {A: Set} (l r u: A) (ls rs us us': list A),
-    l U r <: u -> List.Add u us us' -> (l :: ls) Intersect-U (r :: rs) <: us'
-where "'(U <:)'" := CommonSupertype
-  and "a 'U' b '<:' c" := (CommonSupertype a b c)
-  and "a 'Zip-U' b '<:' c" := (CommonSupertype (Zip_ a) (Zip_ b) (Zip_ c))
-  and "a 'JsrZip-U' b '<:' c" := (CommonSupertype (JsrZip_ a) (JsrZip_ b) (JsrZip_ c))
-  and "a 'Intersect-U' b '<:' c" := (CommonSupertype (Intersect_ a) (Intersect_ b) (Intersect_ c))
-with CommonSubtype : forall {A: Set}, A -> A -> A -> Prop :=
-| IS_Never           : forall (lhs rhs: ftype), lhs I rhs :> FNEVER
-| IS_Null            : forall (lhs rhs: ftype), IsNullable lhs -> IsNullable rhs -> lhs I rhs :> FNULL
-| IS_AnyL            : forall (rhs: ftype), FAny I rhs :> rhs
-| IS_AnyR            : forall (lhs: ftype), lhs I FAny :> lhs
-| IS_Struct          : forall (nl nr nu: bool) (sl sr su: sftype),
-    nl && nr >= nu -> sl I sr :> su -> FStructural nl sl I FStructural nr sr :> FStructural nu su
-| IS_NomStruct       : forall (nl nr nu: bool) (idl idu: iftype) (idsl idsu: list iftype) (sl sr su: sftype),
-    nl && nr >= nu -> (idl :: idsl) Intersect-I nil :> (idu :: idsu) -> sl I sr :> su ->
-    FNominal nl idl idsl (Some sl) I FStructural nr sr :> FNominal nu idu idsu (Some su)
-| IS_StructNom       : forall (nl nr nu: bool) (idr idu: iftype) (idsr idsu: list iftype) (sl sr su: sftype),
-    nl && nr >= nu -> nil Intersect-I (idr :: idsr) :> (idu :: idsu) -> sl I sr :> su ->
-    FStructural nl sl I FNominal nr idr idsr (Some sr) :> FNominal nu idu idsu (Some su)
-| IS_Nom             : forall (nl nr nu: bool) (idl idr idu: iftype) (idsl idsr idsu: list iftype) (sl sr su: option sftype),
-    nl && nr >= nu -> (idl :: idsl) Intersect-I (idr :: idsr) :> (idu :: idsu) -> sl I sr :> su ->
-    FNominal nl idl idsl sl I FNominal nr idr idsr sr :> FNominal nu idu idsu su
-(* with CommonSupertype_ident : iftype -> iftype -> iftype -> Prop := *)
-| IS_Ident           : forall (name: string) (tal tar tau: list ftype), tal Zip-I tar :> tau -> It name tal I It name tar :> It name tau
-(* with CommonSupertype_struct : sftype -> sftype -> sftype -> Prop := *)
-| IS_Fn              : forall (tpl tpr tpu: list (ftparam)) (thispl thispr thispu: ftype)
-                             (pl pr pu: list (oftype)) (rl rr ru: ftype) (retl retr retu: vftype),
-    tpl Zip-U tpr <: tpu -> thispl U thispr <: thispu -> pl Zip-U pr <: pu -> rl U rr <: ru -> retl I retr :> retu ->
-    SFn tpl thispl pl rl retl I SFn tpr thispr pr rr retr :> SFn tpu thispu pu ru retu
-| IS_Array           : forall (el er eu: ftype),               el         I er  :> eu  -> SArray el   I SArray er   :> SArray eu
-| IS_Tuple           : forall (esl esr esu: list oftype),      esl    Zip-I esr :> esu -> STuple esl  I STuple esr  :> STuple esu
-| IS_Object          : forall (fsl fsr fsu: js_record oftype), fsl JsrZip-I fsr :> fsu -> SObject fsl I SObject fsr :> SObject fsu
-(* with CommonSupertype_otype : oftype -> oftype -> oftype -> Prop := *)
-| IS_OType           : forall (ol or ou: bool) (lhs rhs uni: ftype), ol && or >= ou -> lhs I rhs :> uni -> Ot ol lhs I Ot or rhs :> Ot ou uni
-(* with CommonSupertype_void : vftype -> vftype -> vftype -> Prop := *)
-| IS_Void            : @VVoid ftype I VVoid :> VVoid
-| IS_NotVoid         : forall (lhs rhs uni: ftype), lhs I rhs :> uni -> Vt lhs I Vt rhs :> Vt uni
-(* with CommonSupertype_tparam : ftparam -> ftparam -> ftparam -> Prop := *)
-| IS_TParam          : forall (vl vr vu: variance) (name: string) (supl supr supu: list ftype),
-    vl I vr :> vu -> supl Intersect-I supr :> supu ->
-    TParam vl name supl I TParam vr name supr :> TParam vu name supu
-(* with CommonSupertype_variance : variance -> variance -> variance -> Prop *)
-| IS_Invariant       : forall (lhs rhs: variance), lhs I rhs :> Invariant
-| IS_Covariant       : Covariant I Covariant :> Covariant
-| IS_Contravariant   : Contravariant I Contravariant :> Contravariant
-| IS_Bivariant       : forall (a: variance), Bivariant I Bivariant :> a
-| IS_BivariantL      : forall (rhs: variance), Bivariant I rhs :> rhs
-| IS_BivariantR      : forall (lhs: variance), lhs I Bivariant :> lhs
-(* with CommonSubtype_opt : option A -> option A -> option A -> Prop := *)
-| IS_NoneNone        : forall {A: Set} (uni: option A), None I None :> uni
-| IS_NoneSome        : forall {A: Set} (lhs: A), Some lhs I None :> Some lhs
-| IS_SomeNone        : forall {A: Set} (rhs: A), None I Some rhs :> Some rhs
-| IS_SomeSome        : forall {A: Set} (lhs rhs uni: A), lhs I rhs :> uni -> Some lhs I Some rhs :> Some uni
-(* Zip *)
-| IS_Zip_nil         : forall {A: Set} (uni: list A), nil Zip-I nil :> uni
-| IS_Zip_cons        : forall {A: Set} (l r u: A) (ls rs us: list A),
-    l I r :> u -> ls Zip-I rs :> us -> (l :: ls) Zip-I (r :: rs) :> (u :: us)
-(* JsrZip *)
-| IS_JsrZip_nil      : forall {A: Set} (uni: js_record A), nil JsrZip-I nil :> uni
-| IS_JsrZip_cons_l   : forall {A: Set} (k: string) (vl vr vu: A) (ls rs rs' us: js_record A),
-    vl I vr :> vu -> JsRecordAdd k vr rs rs' -> ((k, vl) :: ls) JsrZip-I rs' :> ((k, vu) :: us)
-| IS_JsrZip_cons_r   : forall {A: Set} (k: string) (vl vr vu: A) (ls ls' rs us: js_record A),
-    vl I vr :> vu -> JsRecordAdd k vl ls ls' -> ls' JsrZip-I ((k, vr) :: rs) :> ((k, vu) :: us)
-| IS_JsrZip_cons_u   : forall {A: Set} (k: string) (vl vr vu: A) (ls rs us us': js_record A),
-    vl I vr :> vu -> JsRecordAdd k vu us us' -> ((k, vl) :: ls) JsrZip-I ((k, vr) :: rs) :> us'
-(* Intersect *)
-| IS_Intersect_nil_r : forall {A: Set} (lhs: list A), lhs Intersect-I nil :> lhs
-| IS_Intersect_nil_l : forall {A: Set} (rhs: list A), nil Intersect-I rhs :> rhs
-| IS_Intersect_cons_l: forall {A: Set} (l r u: A) (ls rs rs' us: list A),
-    l I r :> u -> List.Add r rs rs' -> (l :: ls) Intersect-I rs' :> (u :: us)
-| IS_Intersect_cons_r: forall {A: Set} (l r u: A) (ls ls' rs us: list A),
-    l I r :> u -> List.Add l ls ls' -> ls' Intersect-I (r :: rs) :> (u :: us)
-| IS_Intersect_cons_u: forall {A: Set} (l r u: A) (ls rs us us': list A),
-    l I r :> u -> List.Add u us us' -> (l :: ls) Intersect-I (r :: rs) :> us'
-where "'(I :>)'" := CommonSubtype
-  and "a 'I' b :> c" := (CommonSubtype a b c)
-  and "a 'Zip-I' b ':>' c" := (CommonSubtype (Zip_ a) (Zip_ b) (Zip_ c))
-  and "a 'JsrZip-I' b ':>' c" := (CommonSubtype (JsrZip_ a) (JsrZip_ b) (JsrZip_ c))
-  and "a 'Intersect-I' b ':>' c" := (CommonSubtype (Intersect_ a) (Intersect_ b) (Intersect_ c))
+Inductive US_option {A: Set} (US: USKind A) : USKind (option A) :=
+| US_None            : forall (lhs rhs: option A), [US_option US] lhs U rhs <: None
+| US_Some            : forall (lhs rhs uni: A), [US] lhs U rhs <: uni -> [US_option US] Some lhs U Some rhs <: Some uni
 .
-(* Theorem CommonSupertype_HasRelation : forall {A: Set} (lhs rhs uni: A),
-    lhs U rhs <: uni -> exists (rt: RelationType), rt_type rt = A.
-Proof.
-  intros; induction H;
-    try (exists ftype_RelationType; simpl; reflexivity);
-    try (exists (itype_RelationType ftype_RelationType); simpl; reflexivity);
-    try (exists (stype_RelationType ftype_RelationType); simpl; reflexivity);
-    try (exists (otype_RelationType ftype_RelationType); simpl; reflexivity);
-    try (exists (vtype_RelationType ftype_RelationType); simpl; reflexivity);
-    try (exists (tparam_RelationType ftype_RelationType); simpl; reflexivity);
-    try (exists variance_RelationType; simpl; reflexivity).
-    try (exists (option_RelationType rt); simpl; reflexivity);
-    try (exists (Zip_RelationType rt); simpl; reflexivity);
-    try (exists (JsrZip_RelationType rt); simpl; reflexivity);
-    try (exists (Intersect_RelationType rt); simpl; reflexivity).
-Qed. *)
+Inductive IS_option {A: Set} (IS: ISKind A) : ISKind (option A) :=
+| IS_NoneNone        : forall (uni: option A), [IS_option IS] None I None :> uni
+| IS_NoneSome        : forall (lhs: A), [IS_option IS] Some lhs I None :> Some lhs
+| IS_SomeNone        : forall (rhs: A), [IS_option IS] None I Some rhs :> Some rhs
+| IS_SomeSome        : forall (lhs rhs uni: A), [IS] lhs I rhs :> uni -> [IS_option IS] Some lhs I Some rhs :> Some uni
+.
+Inductive US_Zip {A: Set} (US: USKind A) : USKind (list A) :=
+| US_Zip_nil_r       : forall (lhs: list A), [US_Zip US] lhs U nil <: nil
+| US_Zip_nil_l       : forall (rhs: list A), [US_Zip US] nil U rhs <: nil
+| US_Zip_cons        : forall (l r u: A) (ls rs us: list A),
+    [US] l U r <: u -> [US_Zip US] ls U rs <: us -> [US_Zip US] (l :: ls) U (r :: rs) <: (u :: us)
+.
+Inductive IS_Zip {A: Set} (IS: ISKind A) : ISKind (list A) :=
+| IS_Zip_nil         : forall (uni: list A), [IS_Zip IS] nil I nil :> uni
+| IS_Zip_cons        : forall (l r u: A) (ls rs us: list A),
+    [IS] l I r :> u -> [IS_Zip IS] ls I rs :> us -> [IS_Zip IS] (l :: ls) I (r :: rs) :> (u :: us)
+.
+Inductive US_JsrZip {A: Set} (US: USKind A) : USKind (js_record A) :=
+| US_JsrZip_nil_r    : forall (lhs: js_record A), [US_JsrZip US] lhs U nil <: lhs
+| US_JsrZip_nil_l    : forall (rhs: js_record A), [US_JsrZip US] nil U rhs <: rhs
+| US_JsrZip_cons_l   : forall (k: string) (vl vr vu: A) (ls rs rs' us: js_record A),
+    [US] vl U vr <: vu -> [US_JsrZip US] ls U rs <: us -> JsRecordAdd k vr rs rs' -> [US_JsrZip US] ((k, vl) :: ls) U rs' <: ((k, vu) :: us)
+| US_JsrZip_cons_r   : forall (k: string) (vl vr vu: A) (ls ls' rs us: js_record A),
+    [US] vl U vr <: vu -> [US_JsrZip US] ls U rs <: us -> JsRecordAdd k vl ls ls' -> [US_JsrZip US] ls' U ((k, vr) :: rs) <: ((k, vu) :: us)
+| US_JsrZip_cons_u   : forall (k: string) (vl vr vu: A) (ls rs us us': js_record A),
+    [US] vl U vr <: vu -> [US_JsrZip US] ls U rs <: us -> JsRecordAdd k vu us us' -> [US_JsrZip US] ((k, vl) :: ls) U ((k, vr) :: rs) <: us'
+.
+Inductive IS_JsrZip {A: Set} (IS: ISKind A) : ISKind (js_record A) :=
+| IS_JsrZip_nil      : forall (uni: js_record A), [IS_JsrZip IS] nil I nil :> uni
+| IS_JsrZip_cons_l   : forall (k: string) (vl vr vu: A) (ls rs rs' us: js_record A),
+    [IS] vl I vr :> vu -> [IS_JsrZip IS] ls I rs :> us -> JsRecordAdd k vr rs rs' -> [IS_JsrZip IS] ((k, vl) :: ls) I rs' :> ((k, vu) :: us)
+| IS_JsrZip_cons_r   : forall (k: string) (vl vr vu: A) (ls ls' rs us: js_record A),
+    [IS] vl I vr :> vu -> [IS_JsrZip IS] ls I rs :> us -> JsRecordAdd k vl ls ls' -> [IS_JsrZip IS] ls' I ((k, vr) :: rs) :> ((k, vu) :: us)
+| IS_JsrZip_cons_u   : forall (k: string) (vl vr vu: A) (ls rs us us': js_record A),
+    [IS] vl I vr :> vu -> [IS_JsrZip IS] ls I rs :> us -> JsRecordAdd k vu us us' -> [IS_JsrZip IS] ((k, vl) :: ls) I ((k, vr) :: rs) :> us'
+.
+Inductive US_Intersect {A: Set} (US: USKind A) : USKind (list A) :=
+| US_Intersect_nil   : forall (uni: list A), [US_Intersect US] nil U nil <: uni
+| US_Intersect_cons_l: forall (l r u: A) (ls rs rs' us: list A),
+    [US] l U r <: u -> [US_Intersect US] ls U rs <: us -> List.Add r rs rs' -> [US_Intersect US] (l :: ls) U rs' <: (u :: us)
+| US_Intersect_cons_r: forall (l r u: A) (ls ls' rs us: list A),
+    [US] l U r <: u -> [US_Intersect US] ls U rs <: us -> List.Add l ls ls' -> [US_Intersect US] ls' U (r :: rs) <: (u :: us)
+| US_Intersect_cons_u: forall (l r u: A) (ls rs us us': list A),
+    [US] l U r <: u -> [US_Intersect US] ls U rs <: us -> List.Add u us us' -> [US_Intersect US] (l :: ls) U (r :: rs) <: us'
+.
+Inductive IS_Intersect {A: Set} (IS: ISKind A) : ISKind (list A) :=
+| IS_Intersect_nil_r : forall (lhs: list A), [IS_Intersect IS] lhs I nil :> lhs
+| IS_Intersect_nil_l : forall (rhs: list A), [IS_Intersect IS] nil I rhs :> rhs
+| IS_Intersect_cons_l: forall (l r u: A) (ls rs rs' us: list A),
+    [IS] l I r :> u -> [IS_Intersect IS] ls I rs :> us -> List.Add r rs rs' -> [IS_Intersect IS] (l :: ls) I rs' :> (u :: us)
+| IS_Intersect_cons_r: forall (l r u: A) (ls ls' rs us: list A),
+    [IS] l I r :> u -> [IS_Intersect IS] ls I rs :> us -> List.Add l ls ls' -> [IS_Intersect IS] ls' I (r :: rs) :> (u :: us)
+| IS_Intersect_cons_u: forall (l r u: A) (ls rs us us': list A),
+    [IS] l I r :> u -> [IS_Intersect IS] ls I rs :> us -> List.Add u us us' -> [IS_Intersect IS] (l :: ls) I (r :: rs) :> us'
+.
+Inductive US_variance : USKind variance :=
+| US_Bivariant       : forall (lhs rhs: variance), [US_variance] lhs U rhs <: Bivariant
+| US_Covariant       : [US_variance] Covariant U Covariant <: Covariant
+| US_Contravariant   : [US_variance] Contravariant U Contravariant <: Contravariant
+| US_InvariantL      : forall (rhs: variance), [US_variance] Invariant U rhs <: rhs
+| US_InvariantR      : forall (lhs: variance), [US_variance] lhs U Invariant <: lhs
+.
+Inductive IS_variance : ISKind variance :=
+| IS_Invariant       : forall (lhs rhs: variance), [IS_variance] lhs I rhs :> Invariant
+| IS_Covariant       : [IS_variance] Covariant I Covariant :> Covariant
+| IS_Contravariant   : [IS_variance] Contravariant I Contravariant :> Contravariant
+| IS_Bivariant       : forall (a: variance), [IS_variance] Bivariant I Bivariant :> a
+| IS_BivariantL      : forall (rhs: variance), [IS_variance] Bivariant I rhs :> rhs
+| IS_BivariantR      : forall (lhs: variance), [IS_variance] lhs I Bivariant :> lhs
+.
+Inductive US_otype {A: Set} (US: USKind A) : USKind (otype A) :=
+| US_OType           : forall (ol or ou: bool) (lhs rhs uni: A),
+    ol || or <= ou -> [US] lhs U rhs <: uni -> [US_otype US] Ot ol lhs U Ot or rhs <: Ot ou uni
+.
+Inductive IS_otype {A: Set} (IS: ISKind A) : ISKind (otype A) :=
+| IS_OType           : forall (ol or ou: bool) (lhs rhs uni: A),
+    ol && or >= ou -> [IS] lhs I rhs :> uni -> [IS_otype IS] Ot ol lhs I Ot or rhs :> Ot ou uni
+.
+Inductive US_vtype {A: Set} (US: USKind A) : USKind (vtype A) :=
+| US_Void            : [US_vtype US] @VVoid A U VVoid <: VVoid
+| US_NotVoid         : forall (lhs rhs uni: A), [US] lhs U rhs <: uni -> [US_vtype US] Vt lhs U Vt rhs <: Vt uni
+.
+Inductive IS_vtype {A: Set} (IS: ISKind A) : ISKind (vtype A) :=
+| IS_Void            : [IS_vtype IS] @VVoid A I VVoid :> VVoid
+| IS_NotVoid         : forall (lhs rhs uni: A), [IS] lhs I rhs :> uni -> [IS_vtype IS] Vt lhs I Vt rhs :> Vt uni
+.
+Inductive US_tparam {A: Set} (US: USKind A) : USKind (tparam A) :=
+| US_TParam          : forall (vl vr vu: variance) (name: string) (supl supr supu: list A),
+    [US_variance] vl U vr <: vu -> [US_Intersect US] supl U supr <: supu ->
+    [US_tparam US] TParam vl name supl U TParam vr name supr <: TParam vu name supu
+.
+Inductive IS_tparam {A: Set} (IS: ISKind A) : ISKind (tparam A) :=
+| IS_TParam          : forall (vl vr vu: variance) (name: string) (supl supr supu: list A),
+    [IS_variance] vl I vr :> vu -> [IS_Intersect IS] supl I supr :> supu ->
+    [IS_tparam IS] TParam vl name supl I TParam vr name supr :> TParam vu name supu
+.
+Inductive US_itype {A: Set} (US: USKind A) : USKind (itype A) :=
+| US_Ident           : forall (name: string) (tal tar tau: list A), [US_Zip US] tal U tar <: tau -> [US_itype US] It name tal U It name tar <: It name tau
+.
+Inductive IS_itype {A: Set} (IS: ISKind A) : ISKind (itype A) :=
+| IS_Ident           : forall (name: string) (tal tar tau: list A), [IS_Zip IS] tal I tar :> tau -> [IS_itype IS] It name tal I It name tar :> It name tau
+.
+Inductive US_stype {A: Set} (US: USKind A) : USKind (stype A) :=
+| US_Fn              : forall (tpl tpr tpu: list (tparam A)) (thispl thispr thispu: A)
+                         (pl pr pu: list (otype A)) (rl rr ru: A) (retl retr retu: (vtype A)),
+    [US_Zip (US_tparam US)] tpl I tpr :> tpu -> [US] thispl I thispr :> thispu -> [US_Zip (US_otype US)] pl I pr :> pu -> [US] rl I rr :> ru -> [US_vtype US] retl U retr <: retu ->
+    [US_stype US] SFn tpl thispl pl rl retl U SFn tpr thispr pr rr retr <: SFn tpu thispu pu ru retu
+| US_Array           : forall (el er eu: A),                      [US]                      el  U er  <: eu  -> [US_stype US] SArray el   U SArray er   <: SArray eu
+| US_Tuple           : forall (esl esr esu: list (otype A)),      [US_Zip (US_otype US)]    esl U esr <: esu -> [US_stype US] STuple esl  U STuple esr  <: STuple esu
+| US_Object          : forall (fsl fsr fsu: js_record (otype A)), [US_JsrZip (US_otype US)] fsl U fsr <: fsu -> [US_stype US] SObject fsl U SObject fsr <: SObject fsu
+.
+Inductive IS_stype {A: Set} (IS: ISKind A) : ISKind (stype A) :=
+| IS_Fn              : forall (tpl tpr tpu: list (tparam A)) (thispl thispr thispu: A)
+                             (pl pr pu: list (otype A)) (rl rr ru: A) (retl retr retu: vtype A),
+    [IS_Zip (IS_tparam IS)] tpl U tpr <: tpu -> [IS] thispl U thispr <: thispu -> [IS_Zip (IS_otype IS)] pl U pr <: pu -> [IS] rl U rr <: ru -> [IS_vtype IS] retl I retr :> retu ->
+    [IS_stype IS] SFn tpl thispl pl rl retl I SFn tpr thispr pr rr retr :> SFn tpu thispu pu ru retu
+| IS_Array           : forall (el er eu: A),                      [IS]                      el  I er  :> eu  -> [IS_stype IS] SArray el   I SArray er   :> SArray eu
+| IS_Tuple           : forall (esl esr esu: list (otype A)),      [IS_Zip (IS_otype IS)]    esl I esr :> esu -> [IS_stype IS] STuple esl  I STuple esr  :> STuple esu
+| IS_Object          : forall (fsl fsr fsu: js_record (otype A)), [IS_JsrZip (IS_otype IS)] fsl I fsr :> fsu -> [IS_stype IS] SObject fsl I SObject fsr :> SObject fsu
+.
+Inductive US_ftype : USKind ftype :=
+| US_Any             : forall (lhs rhs: ftype), [US_ftype] lhs U rhs <: FAny
+| US_Never           : forall (a: ftype), [US_ftype] FNEVER U FNEVER <: a
+| US_NeverL          : forall (rhs: ftype), [US_ftype] FNEVER U rhs <: rhs
+| US_NeverR          : forall (lhs: ftype), [US_ftype] lhs U FNEVER <: lhs
+| US_Null            : forall (a: ftype), IsNullable a -> [US_ftype] FNULL U FNULL <: a
+| US_NullL           : forall (rhs: ftype), IsNullable rhs -> [US_ftype] FNULL U rhs <: rhs
+| US_NullR           : forall (lhs: ftype), IsNullable lhs -> [US_ftype] lhs U FNULL <: lhs
+| US_NeverNull       : [US_ftype] FNEVER U FNEVER <: FNULL
+| US_Struct          : forall (nl nr nu: bool) (sl sr su: sftype),
+    nl || nr <= nu -> [US_stype US_ftype] sl U sr <: su -> [US_ftype] FStructural nl sl U FStructural nr sr <: FStructural nu su
+| US_NomStruct       : forall (nl nr nu: bool) (idl: iftype) (idsl: list iftype) (sl sr su: sftype),
+    nl || nr <= nu -> [US_stype US_ftype] sl U sr <: su -> [US_ftype] FNominal nl idl idsl (Some sl) U FStructural nr sr <: FStructural nu su
+| US_StructNom       : forall (nl nr nu: bool) (idr: iftype) (idsr: list iftype) (sl sr su: sftype),
+    nl || nr <= nu -> [US_stype US_ftype] sl U sr <: su -> [US_ftype] FStructural nl sl U FNominal nr idr idsr (Some sr) <: FStructural nu su
+| US_NomCommonNom    : forall (nl nr nu: bool) (idl idr idu: iftype) (idsl idsr idsu: list iftype) (sl sr su: option sftype),
+    nl || nr <= nu -> [US_Intersect (US_itype US_ftype)] (idl :: idsl) U (idr :: idsr) <: (idu :: idsu) -> [US_option (US_stype US_ftype)] sl U sr <: su ->
+    [US_ftype] FNominal nl idl idsl sl U FNominal nr idr idsr sr <: FNominal nu idu idsu su
+| US_NomCommonStruct : forall (nl nr nu: bool) (idl idr: iftype) (idsl idsr: list iftype) (sl sr su: sftype),
+    nl || nr <= nu -> [US_stype US_ftype] sl U sr <: su -> [US_ftype] FNominal nl idl idsl (Some sl) U FNominal nr idr idsr (Some sr) <: FStructural nu su
+.
+Inductive IS_ftype : ISKind ftype :=
+| IS_Never           : forall (lhs rhs: ftype), [IS_ftype] lhs I rhs :> FNEVER
+| IS_Null            : forall (lhs rhs: ftype), IsNullable lhs -> IsNullable rhs -> [IS_ftype] lhs I rhs :> FNULL
+| IS_AnyL            : forall (rhs: ftype), [IS_ftype] FAny I rhs :> rhs
+| IS_AnyR            : forall (lhs: ftype), [IS_ftype] lhs I FAny :> lhs
+| IS_Struct          : forall (nl nr nu: bool) (sl sr su: sftype),
+    nl && nr >= nu -> [IS_stype IS_ftype] sl I sr :> su -> [IS_ftype] FStructural nl sl I FStructural nr sr :> FStructural nu su
+| IS_NomStruct       : forall (nl nr nu: bool) (idl idu: iftype) (idsl idsu: list iftype) (sl sr su: sftype),
+    nl && nr >= nu -> [IS_Intersect (IS_itype IS_ftype)] (idl :: idsl) I nil :> (idu :: idsu) -> [IS_stype IS_ftype] sl I sr :> su ->
+    [IS_ftype] FNominal nl idl idsl (Some sl) I FStructural nr sr :> FNominal nu idu idsu (Some su)
+| IS_StructNom       : forall (nl nr nu: bool) (idr idu: iftype) (idsr idsu: list iftype) (sl sr su: sftype),
+    nl && nr >= nu -> [IS_Intersect (IS_itype IS_ftype)] nil I (idr :: idsr) :> (idu :: idsu) -> [IS_stype IS_ftype] sl I sr :> su ->
+    [IS_ftype] FStructural nl sl I FNominal nr idr idsr (Some sr) :> FNominal nu idu idsu (Some su)
+| IS_Nom             : forall (nl nr nu: bool) (idl idr idu: iftype) (idsl idsr idsu: list iftype) (sl sr su: option sftype),
+    nl && nr >= nu -> [IS_Intersect (IS_itype IS_ftype)] (idl :: idsl) I (idr :: idsr) :> (idu :: idsu) -> [IS_option (IS_stype IS_ftype)] sl I sr :> su ->
+    [IS_ftype] FNominal nl idl idsl sl I FNominal nr idr idsr sr :> FNominal nu idu idsu su
+.
+Check IS_ftype_ind.
+Axiom US_ftype_ind':
+  forall (P: USKind ftype)
+    (fUS_Any: forall lhs rhs: ftype, P lhs rhs FAny)
+    (fUS_Never: forall a: ftype, P FNEVER FNEVER a)
+    (fUS_NeverL: forall rhs : ftype, P FNEVER rhs rhs)
+    (fUS_NeverR: forall lhs : ftype, P lhs FNEVER lhs)
+    (fUS_Null: forall a : ftype, IsNullable a -> P FNULL FNULL a)
+    (fUS_NullL: forall rhs : ftype, IsNullable rhs -> P FNULL rhs rhs)
+    (fUS_NullR: forall lhs : ftype, IsNullable lhs -> P lhs FNULL lhs)
+    (fUS_NeverNull: P FNEVER FNEVER FNULL)
+    (fUS_Struct: forall (nl nr nu : bool) (sl sr su : sftype),
+      nu >= nl || nr ->
+      [US_stype P] sl U sr <: su ->
+      P (FStructural nl sl) (FStructural nr sr) (FStructural nu su))
+    (fUS_NomStruct: forall (nl nr nu : bool) (idl : iftype) (idsl : list iftype) (sl sr su : sftype),
+      nu >= nl || nr ->
+      [US_stype P] sl U sr <: su ->
+      P (FNominal nl idl idsl (Some sl)) (FStructural nr sr) (FStructural nu su))
+    (fUS_StructNom: forall (nl nr nu : bool) (idr : iftype) (idsr : list iftype) (sl sr su : sftype),
+      nu >= nl || nr ->
+      [US_stype P] sl U sr <: su ->
+      P (FStructural nl sl) (FNominal nr idr idsr (Some sr)) (FStructural nu su))
+    (fUS_NomCommonNom: forall (nl nr nu : bool) (idl idr idu : iftype) (idsl idsr idsu : list iftype)
+        (sl sr su : option sftype),
+      nu >= nl || nr ->
+      [US_Intersect (US_itype P)] (idl :: idsl) U (idr :: idsr) <: (idu :: idsu) ->
+      [US_option (US_stype P)] sl U sr <: su ->
+      P (FNominal nl idl idsl sl) (FNominal nr idr idsr sr) (FNominal nu idu idsu su))
+    (fUS_NomCommonStruct: forall (nl nr nu : bool) (idl idr : iftype) (idsl idsr : list iftype) (sl sr su : sftype),
+      nu >= nl || nr ->
+      [US_stype P] sl U sr <: su ->
+      P (FNominal nl idl idsl (Some sl)) (FNominal nr idr idsr (Some sr)) (FStructural nu su))
+    (a b c: ftype), US_ftype a b c -> P a b c.
+Axiom IS_ftype_ind':
+  forall (P: ISKind ftype)
+    (fIS_Never: forall lhs rhs : ftype, P lhs rhs FNEVER)
+    (fIS_Null: forall lhs rhs : ftype, IsNullable lhs -> IsNullable rhs -> P lhs rhs FNULL)
+    (fIS_AnyL: forall rhs : ftype, P FAny rhs rhs)
+    (fIS_AnyR: forall lhs : ftype, P lhs FAny lhs)
+    (fIS_Struct: forall (nl nr nu : bool) (sl sr su : sftype),
+      nl && nr >= nu ->
+      [IS_stype IS_ftype] sl I sr :> su ->
+      P (FStructural nl sl) (FStructural nr sr) (FStructural nu su))
+    (fIS_NomStruct: forall (nl nr nu : bool) (idl idu : iftype) (idsl idsu : list iftype) (sl sr su : sftype),
+      nl && nr >= nu ->
+      [IS_Intersect (IS_itype IS_ftype)] (idl :: idsl) I nil :> (idu :: idsu) ->
+      [IS_stype IS_ftype] sl I sr :> su ->
+      P (FNominal nl idl idsl (Some sl)) (FStructural nr sr) (FNominal nu idu idsu (Some su)))
+    (fIS_StructNom: forall (nl nr nu : bool) (idr idu : iftype) (idsr idsu : list iftype) (sl sr su : sftype),
+      nl && nr >= nu ->
+      [IS_Intersect (IS_itype IS_ftype)] nil I (idr :: idsr) :> (idu :: idsu) ->
+      [IS_stype IS_ftype] sl I sr :> su ->
+      P (FStructural nl sl) (FNominal nr idr idsr (Some sr)) (FNominal nu idu idsu (Some su)))
+    (fIS_Nom: forall (nl nr nu : bool) (idl idr idu : iftype) (idsl idsr idsu : list iftype)
+      (sl sr su : option sftype),
+      nl && nr >= nu ->
+      [IS_Intersect (IS_itype IS_ftype)] (idl :: idsl) I (idr :: idsr) :> (idu :: idsu) ->
+      [IS_option (IS_stype IS_ftype)] sl I sr :> su ->
+      P (FNominal nl idl idsl sl) (FNominal nr idr idsr sr) (FNominal nu idu idsu su))
+    (a b c: ftype), IS_ftype a b c -> P a b c.
+Class USOf (A: Set) := US_ : USKind A.
+Global Instance USOf_ftype : USOf ftype := US_ftype.
+Global Instance USOf_stype {A: Set} {US: USOf A} : USOf (stype A) := US_stype US.
+Global Instance USOf_itype {A: Set} {US: USOf A} : USOf (itype A) := US_itype US.
+Global Instance USOf_otype {A: Set} {US: USOf A} : USOf (otype A) := US_otype US.
+Global Instance USOf_vtype {A: Set} {US: USOf A} : USOf (vtype A) := US_vtype US.
+Global Instance USOf_tparam {A: Set} {US: USOf A} : USOf (tparam A) := US_tparam US.
+Global Instance USOf_option {A: Set} {US: USOf A} : USOf (option A) := US_option US.
+Class ISOf (A: Set) := IS_ : ISKind A.
+Global Instance ISOf_ftype : ISOf ftype := IS_ftype.
+Global Instance ISOf_stype {A: Set} {IS: ISOf A} : ISOf (stype A) := IS_stype IS.
+Global Instance ISOf_itype {A: Set} {IS: ISOf A} : ISOf (itype A) := IS_itype IS.
+Global Instance ISOf_otype {A: Set} {IS: ISOf A} : ISOf (otype A) := IS_otype IS.
+Global Instance ISOf_vtype {A: Set} {IS: ISOf A} : ISOf (vtype A) := IS_vtype IS.
+Global Instance ISOf_tparam {A: Set} {IS: ISOf A} : ISOf (tparam A) := IS_tparam IS.
+Global Instance ISOf_option {A: Set} {IS: ISOf A} : ISOf (option A) := IS_option IS.
+Definition CommonSupertype {A: Set} {US: USOf A} (a b c: A) : Prop := US a b c.
+Definition CommonSubtype {A: Set} {IS: ISOf A} (a b c: A) : Prop := IS a b c.
+Notation "a 'U' b '<:' c" := (CommonSupertype a b c) (at level 60, b at next level, no associativity).
+Notation "a 'I' b ':>' c" := (CommonSubtype a b c) (at level 60, b at next level, no associativity).
 
-Inductive HasVariance {A: Set}: A -> A -> variance -> Prop :=
+Inductive HasVariance {A: Set} {US: USOf A}: A -> A -> variance -> Prop :=
 | IsBivariant     : forall (lhs rhs uni: A), lhs U rhs <: uni -> HasVariance lhs rhs Bivariant
 | IsCovariant     : forall (lhs rhs    : A), lhs U rhs <: rhs -> HasVariance lhs rhs Covariant
 | IsContravariant : forall (lhs rhs    : A), lhs U rhs <: lhs -> HasVariance lhs rhs Contravariant
 | IsInvariant     : forall (a          : A), a U a <: a       -> HasVariance a   a   Invariant
 .
 
-Definition IsSubtype {A: Set} (lhs rhs: A): Prop := lhs U rhs <: rhs.
+Definition IsSubtype {A: Set} {US: USOf A} (lhs rhs: A): Prop := lhs U rhs <: rhs.
 Notation "'(<:)'" := IsSubtype.
 Notation "lhs '<:' rhs" := (IsSubtype lhs rhs) (at level 63, no associativity).
 
-Definition IsSupertype {A: Set} (lhs rhs: A): Prop := lhs I rhs :> rhs.
+Definition IsSupertype {A: Set} {IS: ISOf A} (lhs rhs: A): Prop := lhs I rhs :> rhs.
 Notation "'(:>)'" := IsSupertype.
 Notation "lhs ':>' rhs" := (IsSupertype lhs rhs) (at level 63, no associativity).
 
-Definition IsBounded {A: Set} (x min max: A): Prop := min U x <: x /\ x U max <: max.
+Definition IsBounded {A: Set} {US: USOf A} (x min max: A): Prop := min U x <: x /\ x U max <: max.
 Notation "min '<:' x '<:' max" := (IsBounded x min max) (at level 64, no associativity).
 
-Definition IsBoundedAlt {A: Set} (x min max: A): Prop := min I x :> min /\ x I max :> x.
+Definition IsBoundedAlt {A: Set} {US: USOf A} {IS: ISOf A} (x min max: A): Prop := min I x :> min /\ x I max :> x.
 Notation "max ':>' x ':>' min" := (IsBoundedAlt x min max) (at level 64, no associativity).
 
-Definition Union {A: Set} (lhs rhs a: A): Prop := lhs U rhs <: a /\ forall b, lhs U rhs <: b -> a <: b.
+Definition Union {A: Set} {US: USOf A} (lhs rhs a: A): Prop := lhs U rhs <: a /\ forall b, lhs U rhs <: b -> a <: b.
 Notation "'(U)'" := Union.
 Notation "lhs 'U' rhs '=' a" := (Union lhs rhs a) (at level 60, rhs at next level, no associativity).
 
-Definition Intersection {A: Set} (lhs rhs a: A): Prop := lhs I rhs :> a /\ forall b, lhs I rhs :> b -> a :> b.
+Definition Intersection {A: Set} {IS: ISOf A} (lhs rhs a: A): Prop := lhs I rhs :> a /\ forall b, lhs I rhs :> b -> a :> b.
 Notation "'(I)'" := Intersection.
 Notation "lhs 'I' rhs '=' a" := (Intersection lhs rhs a) (at level 60, rhs at next level, no associativity).
 
@@ -349,7 +424,6 @@ Local Ltac ind1 a :=
 
 Tactic Notation "induction2" ident (a) ident (b) "using" tactic (ind2) :=
   revert_with a; revert_with b; ind2 a b; intros.
-
 
 Tactic Notation "induction3" ident (a) ident (b) ident (c) "using" tactic (ind3) :=
   revert_with a; revert_with b; revert_with c; ind3 a b c; intros.
@@ -383,7 +457,7 @@ Local Ltac inv_con2 a :=
   | Inv' : ?P ?a' |- _ => constr_eq a' a; rename Inv' into Inv
   | _ => idtac
   end;
-  ind1 a; try (inv_cs Inv); try constructor; invert_eqs; simpl; try (reflexivity || discriminate).
+  ind1 a; try (inv Inv); try constructor; invert_eqs; simpl; try (reflexivity || discriminate).
 
 Local Ltac is_var' a := first [is_var a | is_evar a].
 
@@ -417,8 +491,8 @@ Local Ltac post_inv_con :=
 (* Destruct or induct on goal, invert dependent hypotheses, apply the corresponding constructor *)
 Local Ltac inv_con :=
   lazymatch goal with
-  | |- ?a I ?a :> ?a => inv_con0 a
-  | |- ?a U ?a <: ?a => inv_con0 a
+  | |- [_] ?a I ?a :> ?a => inv_con0 a
+  | |- [_] ?a U ?a <: ?a => inv_con0 a
   | |- _ => fail "not inv_con supported"
   end; post_inv_con.
 
@@ -426,10 +500,26 @@ Local Ltac inv_con' := repeat progress inv_con.
 
 Theorem subtype_supertype_refl: forall (a: ftype), a :> a /\ a <: a.
 Proof.
-  induction a using ftype_rec'; intros; split; intros; unfold IsSubtype, IsSupertype in *;
-    try (constructor; fail);
-    try (destruct nullable; constructor; simpl; reflexivity);
-    (constructor; try (destruct nullable; simpl; reflexivity); inv_con');
+  induction a using ftype_rec'; intros; split; intros; unfold IsSubtype, IsSupertype in *.
+  all: try (constructor; fail).
+  all: try (destruct nullable; constructor; simpl; reflexivity).
+  all: constructor; try (destruct nullable; simpl; reflexivity).
+  all: try (inv_con0 structure).
+  all: try (inv_con0 tparams).
+  all: try (inv_con0 a).
+  all: try (inv_con0 v).
+  all: try (inv_con0 supers; econstructor; [destruct H1; exact c || exact c0 | ..]).
+  all: try (apply IHsupers; assumption).
+  all: try (apply List.Add_head; fail).
+  all: try (inv_con0 tparams).
+  all: try (inv_con0 a).
+  all: try (inv_con0 v).
+
+  econstructor.
+  all: (inv_con0 structure).
+  all: try (destruct structure; inv H; constructor).
+  all: try (induction tparams; inv H5; constructor).
+    (constructor; try (destruct nullable; simpl; reflexivity); inv_con').
     try (unshelve econstructor; [exact a | exact supers | | apply List.Add_head]; post_inv_con);
     try (destruct x as [kv vx]; unshelve econstructor; [exact vx | exact l | | apply JsRecordAdd_head]; simpl in H0; inv_con; simpl in H2; inv H2; destruct H5; assumption);
     try (unshelve econstructor; [exact id | exact sids | | apply List.Add_head ]; inv_con').
