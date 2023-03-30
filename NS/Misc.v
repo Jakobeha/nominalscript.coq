@@ -199,6 +199,42 @@ Ltac ind_nat2 x y :=
   | [ |- forall x y, ?H ] => apply (nat_ind2 (fun x y => H))
   end.
 
+Theorem nat_ind3: forall (P: nat -> nat -> nat -> Prop),
+    P 0 0 0 ->
+    (forall x, P x 0 0 -> P (S x) 0 0) ->
+    (forall y, P 0 y 0 -> P 0 (S y) 0) ->
+    (forall z, P 0 0 z -> P 0 0 (S z)) ->
+    (forall x y, P x y 0 -> P (S x) (S y) 0) ->
+    (forall x z, P x 0 z -> P (S x) 0 (S z)) ->
+    (forall y z, P 0 y z -> P 0 (S y) (S z)) ->
+    (forall x y z, P x y z -> P (S x) (S y) (S z)) ->
+    forall x y z, P x y z.
+Proof.
+  intros P P0 Px Py Pz Pxy Pxz Pyz Pxyz xs.
+  induction xs; intros ys; induction ys; intros zs; induction zs.
+  - exact P0.
+  - apply Pz.
+    exact IHzs.
+  - apply Py.
+    exact (IHys 0).
+  - apply Pyz.
+    exact (IHys zs).
+  - apply Px.
+    exact (IHxs 0 0).
+  - apply Pxz.
+    exact (IHxs 0 zs).
+  - apply Pxy.
+    exact (IHxs ys 0).
+  - apply Pxyz.
+    exact (IHxs ys zs).
+Qed.
+
+Ltac ind_nat3 x y z :=
+  revert x y z;
+  match goal with
+  | [ |- forall x y z, ?H ] => apply (nat_ind3 (fun x y z => H))
+  end.
+
 Theorem list_ind2: forall {A B: Type} (P: list A -> list B -> Prop),
     P nil nil ->
     (forall x xs, P xs nil -> P (cons x xs) nil) ->
@@ -221,6 +257,42 @@ Ltac ind_list2 x y :=
   revert x y;
   match goal with
   | [ |- forall x y, ?H ] => apply (list_ind2 (fun x y => H))
+  end.
+
+Theorem list_ind3: forall {A B C: Type} (P: list A -> list B -> list C -> Prop),
+    P nil nil nil ->
+    (forall x xs, P xs nil nil -> P (cons x xs) nil nil) ->
+    (forall y ys, P nil ys nil -> P nil (cons y ys) nil) ->
+    (forall z zs, P nil nil zs -> P nil nil (cons z zs)) ->
+    (forall x y xs ys, P xs ys nil -> P (cons x xs) (cons y ys) nil) ->
+    (forall x z xs zs, P xs nil zs -> P (cons x xs) nil (cons z zs)) ->
+    (forall y z ys zs, P nil ys zs -> P nil (cons y ys) (cons z zs)) ->
+    (forall x y z xs ys zs, P xs ys zs -> P (cons x xs) (cons y ys) (cons z zs)) ->
+    forall xs ys zs, P xs ys zs.
+Proof.
+  intros A B C P P0 Px Py Pz Pxy Pxz Pyz Pxyz xs.
+  induction xs; intros ys; induction ys; intros zs; induction zs.
+  - exact P0.
+  - apply Pz.
+    exact IHzs.
+  - apply Py.
+    exact (IHys nil).
+  - apply Pyz.
+    exact (IHys zs).
+  - apply Px.
+    exact (IHxs nil nil).
+  - apply Pxz.
+    exact (IHxs nil zs).
+  - apply Pxy.
+    exact (IHxs ys nil).
+  - apply Pxyz.
+    exact (IHxs ys zs).
+Qed.
+
+Ltac ind_list3 x y z :=
+  revert x y z;
+  match goal with
+  | [ |- forall x y z, ?H ] => apply (list_ind3 (fun x y z => H))
   end.
 
 Theorem list_ind2_alt: forall {A B: Type} (P: list A -> list B -> Prop),
@@ -522,6 +594,24 @@ Ltac ind_js_record2 x y :=
   revert x y;
   match goal with
   | [ |- forall x y, ?H ] => apply (js_record_ind2 (fun x y => H))
+  end.
+
+Theorem js_record_ind3 : forall {A: Set} (P: js_record A -> js_record A -> js_record A -> Prop),
+    P nil nil nil ->
+    (forall xs xs', P xs nil nil -> (exists kx vx, JsRecordAdd kx vx xs xs') -> P xs' nil nil) ->
+    (forall ys ys', P nil ys nil -> (exists ky vy, JsRecordAdd ky vy ys ys') -> P nil ys' nil) ->
+    (forall zs zs', P nil nil zs -> (exists kz vz, JsRecordAdd kz vz zs zs') -> P nil nil zs') ->
+    (forall xs ys xs' ys', P xs ys nil -> (JsRecordEqKeys xs ys -> JsRecordEqKeys xs' ys') -> (exists k, (exists vx, JsRecordAdd k vx xs xs') /\ (exists vy, JsRecordAdd k vy ys ys')) -> P xs' ys' nil) ->
+    (forall xs zs xs' zs', P xs nil zs -> (JsRecordEqKeys xs zs -> JsRecordEqKeys xs' zs') -> (exists k, (exists vx, JsRecordAdd k vx xs xs') /\ (exists vz, JsRecordAdd k vz zs zs')) -> P xs' nil zs') ->
+    (forall ys zs ys' zs', P nil ys zs -> (JsRecordEqKeys ys zs -> JsRecordEqKeys ys' zs') -> (exists k, (exists vy, JsRecordAdd k vy ys ys') /\ (exists vz, JsRecordAdd k vz zs zs')) -> P nil ys' zs') ->
+    (forall xs ys zs xs' ys' zs', P xs ys zs -> (JsRecordEqKeys xs ys -> JsRecordEqKeys xs' ys') -> (JsRecordEqKeys xs zs -> JsRecordEqKeys xs' zs') -> (JsRecordEqKeys ys zs -> JsRecordEqKeys ys' zs') -> (exists k, (exists vx, JsRecordAdd k vx xs xs') /\ (exists vy, JsRecordAdd k vy ys ys') /\ (exists vz, JsRecordAdd k vz zs zs')) -> P xs' ys' zs') ->
+    forall xs ys zs, P xs ys zs.
+Admitted.
+
+Ltac ind_js_record3 x y z :=
+  revert x y z;
+  match goal with
+  | [ |- forall x y z, ?H ] => apply (js_record_ind3 (fun x y z => H))
   end.
 
 Ltac destruct_var H := is_var H; destruct H.

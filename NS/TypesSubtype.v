@@ -1,13 +1,13 @@
 (* -*- company-coq-local-symbols: (("U" . ?∪) ("I" . ?∩)); -*- *)
 (* Add LoadPath should not be necessary but it is *)
 Add LoadPath "." as NS.
-Add LoadPath "tlc/src" as TLC.
 Set Implicit Arguments.
 Require Import Coq.Strings.String.
 Require Import Coq.Arith.PeanoNat.
 Require Import Coq.Arith.EqNat.
 Require Import Coq.Bool.Bool.
 Require Import Coq.Logic.FinFun.
+Require Import Coq.Logic.Eqdep.
 Require Import Coq.Program.Equality.
 From NS Require Import Misc.
 From NS Require Import TypesBase.
@@ -16,7 +16,7 @@ From NS Require Import TypesSimpleHelpers.
 
 Set Default Timeout 10.
 
-Create HintDb inv_con.
+Create HintDb RelationType.
 
 Inductive Zip (A: Set)       := Zip_ (_: list A).
 Arguments Zip_ {A} _%list_scope.
@@ -48,66 +48,74 @@ Inductive RelationType : Set :=
 | JsrZip_RelationType (_: RelationType)
 | Intersect_RelationType (_: RelationType)
 .
-Class HasRelation (A: Set) := { relation_type : RelationType }.
-Global Instance ftype_HasRelation : HasRelation ftype := { relation_type := ftype_RelationType }.
-Global Instance itype_HasRelation : forall {A: Set} {h: HasRelation A}, HasRelation (itype A) := { relation_type := itype_RelationType (@relation_type A h) }.
-Global Instance stype_HasRelation : forall {A: Set} {h: HasRelation A}, HasRelation (stype A) := { relation_type := stype_RelationType (@relation_type A h) }.
-Global Instance otype_HasRelation : forall {A: Set} {h: HasRelation A}, HasRelation (otype A) := { relation_type := otype_RelationType (@relation_type A h) }.
-Global Instance vtype_HasRelation : forall {A: Set} {h: HasRelation A}, HasRelation (vtype A) := { relation_type := vtype_RelationType (@relation_type A h) }.
-Global Instance tparam_HasRelation : forall {A: Set} {h: HasRelation A}, HasRelation (tparam A) := { relation_type := tparam_RelationType (@relation_type A h) }.
-Global Instance variance_HasRelation : HasRelation variance := { relation_type := variance_RelationType }.
-Global Instance option_HasRelation : forall {A: Set} {h: HasRelation A}, HasRelation (option A) := { relation_type := option_RelationType (@relation_type A h) }.
-Global Instance Zip_HasRelation : forall {A: Set} {h: HasRelation A}, HasRelation (Zip A) := { relation_type := Zip_RelationType (@relation_type A h) }.
-Global Instance JsrZip_HasRelation : forall {A: Set} {h: HasRelation A}, HasRelation (JsrZip A) := { relation_type := JsrZip_RelationType (@relation_type A h) }.
-Global Instance Intersect_HasRelation : forall {A: Set} {h: HasRelation A}, HasRelation (Intersect A) := { relation_type := Intersect_RelationType (@relation_type A h) }.
-Set Warnings "-fragile-hint-constr".
-Global Hint Resolve ftype_HasRelation : inv_con.
-Global Hint Resolve itype_HasRelation : inv_con.
-Global Hint Resolve stype_HasRelation : inv_con.
-Global Hint Resolve otype_HasRelation : inv_con.
-Global Hint Resolve vtype_HasRelation : inv_con.
-Global Hint Resolve tparam_HasRelation : inv_con.
-Global Hint Resolve variance_HasRelation : inv_con.
-Global Hint Resolve option_HasRelation : inv_con.
-Global Hint Resolve Zip_HasRelation : inv_con.
-Global Hint Resolve JsrZip_HasRelation : inv_con.
-Global Hint Resolve Intersect_HasRelation : inv_con.
-Set Warnings "+fragile-hint-constr".
-Axiom relation_type_eq: forall {A B: Set} {hA: HasRelation A} {hB: HasRelation B},
-    A = B <-> @relation_type A hA = @relation_type B hB.
-Ltac discr_relation_eqs :=
-  try (rewrite relation_type_eq in *; discriminate).
-Global Hint Extern 2 => discr_relation_eqs : inv_con.
-Axiom HasRelation_existT : forall {A B: Set} {hA: HasRelation A} {hB: HasRelation B} {a: A} {b: B},
-  existT (fun x0 : Set => x0) A a = existT (fun x1 : Set => x1) B b ->
-  A = B /\ a ~= b.
-Ltac remove_hasRelation_existTs :=
-  repeat lazymatch goal with
-  | H : existT (fun x0 : Set => x0) ?A ?a = existT (fun x1 : Set => x1) ?B ?b |- _ => apply HasRelation_existT in H; destruct H
+Fixpoint rt_type (r: RelationType): Set :=
+match r with
+| ftype_RelationType => ftype
+| itype_RelationType r => itype (rt_type r)
+| stype_RelationType r => stype (rt_type r)
+| otype_RelationType r => otype (rt_type r)
+| vtype_RelationType r => vtype (rt_type r)
+| tparam_RelationType r => tparam (rt_type r)
+| variance_RelationType => variance
+| option_RelationType r => option (rt_type r)
+| Zip_RelationType r => Zip (rt_type r)
+| JsrZip_RelationType r => JsrZip (rt_type r)
+| Intersect_RelationType r => Intersect (rt_type r)
+end.
+Local Ltac solve_rt_type_eq' T rt :=
+  is_evar rt;
+  (instantiate (1 := ftype_RelationType); simpl; reflexivity) ||
+  (instantiate (1 := itype_RelationType ftype_RelationType); simpl; reflexivity) ||
+  (instantiate (1 := stype_RelationType ftype_RelationType); simpl; reflexivity) ||
+  (instantiate (1 := otype_RelationType ftype_RelationType); simpl; reflexivity) ||
+  (instantiate (1 := vtype_RelationType ftype_RelationType); simpl; reflexivity) ||
+  (instantiate (1 := tparam_RelationType ftype_RelationType); simpl; reflexivity) ||
+  (instantiate (1 := variance_RelationType); simpl; reflexivity) ||
+  (instantiate (1 := option_RelationType (stype_RelationType ftype_RelationType)); simpl; reflexivity) ||
+  (instantiate (1 := option_RelationType (itype_RelationType ftype_RelationType)); simpl; reflexivity) ||
+  (instantiate (1 := option_RelationType (otype_RelationType ftype_RelationType)); simpl; reflexivity) ||
+  (instantiate (1 := Zip_RelationType (stype_RelationType ftype_RelationType)); simpl; reflexivity) ||
+  (instantiate (1 := Zip_RelationType (itype_RelationType ftype_RelationType)); simpl; reflexivity) ||
+  (instantiate (1 := Zip_RelationType (otype_RelationType ftype_RelationType)); simpl; reflexivity) ||
+  (instantiate (1 := Zip_RelationType (tparam_RelationType ftype_RelationType)); simpl; reflexivity) ||
+  (instantiate (1 := JsrZip_RelationType (otype_RelationType ftype_RelationType)); simpl; reflexivity) ||
+  (instantiate (1 := Intersect_RelationType (stype_RelationType ftype_RelationType)); simpl; reflexivity) ||
+  (instantiate (1 := Intersect_RelationType (itype_RelationType ftype_RelationType)); simpl; reflexivity) ||
+  (instantiate (1 := Intersect_RelationType (otype_RelationType ftype_RelationType)); simpl; reflexivity) ||
+  fail "cannot solve rt_type equality".
+Axiom discr_dumb_rt_type_eq : forall {A B: Set}, option A <> Zip B /\ option A <> JsrZip B /\ option A <> Intersect B /\ Zip A <> JsrZip B /\ Zip A <> Intersect B /\ JsrZip A <> Intersect B.
+Ltac discr_dumb_eq H :=
+  apply discr_dumb_rt_type_eq in H || (symmetry in H; apply discr_dumb_rt_type_eq in H);
+  contradiction H.
+Ltac solve_rt_type_eq :=
+lazymatch goal with
+| |- ?T = rt_type ?rt => solve_rt_type_eq' T rt
+| |- rt_type ?rt = ?T => solve_rt_type_eq' T rt
+| |- _ => fail "not solve_rt_type_eq supported"
+end.
+Axiom rt_type_inj : Injective rt_type.
+Global Hint Immediate rt_type_inj : RelationType.
+Global Hint Constructors RelationType : RelationType.
+
+Definition has_RelationType (A: Set): Prop := exists (rt: RelationType), A = rt_type rt.
+Axiom has_RelationType_eq : forall {A B: Set} (rtA rtB: RelationType), A = rt_type rtA -> B = rt_type rtB -> A = B <-> rtA = rtB.
+Ltac discr_RelationType_eq H :=
+  discr_dumb_eq H ||
+  (eapply has_RelationType_eq in H; [| solve_rt_type_eq | solve_rt_type_eq]).
+Ltac discr_RelationType_existTs :=
+  repeat match goal with
+  | H : existT (fun x0 : Set => x0) ?A ?a = existT (fun x1 : Set => x1) ?B ?b |- _ => apply eq_sigT_fst in H; discr_RelationType_eq H
   end.
-Locate JMeq.
-Local Ltac inv_no_subst H :=
+Ltac inv_cs H :=
   inversion H;
   remove_existTs;
-  remove_hasRelation_existTs;
+  discr_RelationType_existTs;
   injections;
-  discr_relation_eqs;
-  clear_obvious;
-  simpl_JMeq;
-  clear H;
-  try discriminate.
-Local Ltac inv H :=
-  inversion H;
-  remove_existTs;
-  remove_hasRelation_existTs;
-  injections;
-  discr_relation_eqs;
   subst;
+  remove_existTs;
   clear_obvious;
-  simpl_JMeq;
   clear H;
   try discriminate.
-Ltac inv_cs H := inv H.
 
 Local Open Scope list_scope.
 Local Notation "a <= b" := (Bool.le a b) : bool_scope.
@@ -122,7 +130,7 @@ Reserved Notation "a 'JsrZip-U' b '<:' c" (at level 60, b at next level, no asso
 Reserved Notation "a 'JsrZip-I' b ':>' c" (at level 60, b at next level, no associativity).
 Reserved Notation "a 'Intersect-U' b '<:' c" (at level 60, b at next level, no associativity).
 Reserved Notation "a 'Intersect-I' b ':>' c" (at level 60, b at next level, no associativity).
-Inductive CommonSupertype : forall {A: Set} {h: HasRelation A}, A -> A -> A -> Prop :=
+Inductive CommonSupertype : forall {A: Set}, A -> A -> A -> Prop :=
 | US_Any             : forall (lhs rhs: ftype), lhs U rhs <: FAny
 | US_Never           : forall (a: ftype), FNEVER U FNEVER <: a
 | US_NeverL          : forall (rhs: ftype), FNEVER U rhs <: rhs
@@ -168,30 +176,29 @@ Inductive CommonSupertype : forall {A: Set} {h: HasRelation A}, A -> A -> A -> P
 | US_InvariantL      : forall (rhs: variance), Invariant U rhs <: rhs
 | US_InvariantR      : forall (lhs: variance), lhs U Invariant <: lhs
 (* with CommonSupertype_opt : option A -> option A -> option A -> Prop := *)
-| US_None            : forall {A: Set} {h: HasRelation A} (lhs rhs: option A), lhs U rhs <: None
-| US_Some            : forall {A: Set} {h: HasRelation A} (lhs rhs uni: A), lhs U rhs <: uni -> Some lhs U Some rhs <: Some uni
+| US_None            : forall {A: Set} (lhs rhs: option A), lhs U rhs <: None
+| US_Some            : forall {A: Set} (lhs rhs uni: A), lhs U rhs <: uni -> Some lhs U Some rhs <: Some uni
 (* Zip *)
-| US_Zip_nil_r       : forall {A: Set} {h: HasRelation A} (lhs: list A), lhs Zip-U nil <: lhs
-| US_Zip_nil_l       : forall {A: Set} {h: HasRelation A} (rhs: list A), nil Zip-U rhs <: rhs
-| US_Zip_cons        : forall {A: Set} {h: HasRelation A} (l r u: A) (ls rs us: list A),
+| US_Zip_nil_r       : forall {A: Set} (lhs: list A), lhs Zip-U nil <: nil
+| US_Zip_nil_l       : forall {A: Set} (rhs: list A), nil Zip-U rhs <: nil
+| US_Zip_cons        : forall {A: Set} (l r u: A) (ls rs us: list A),
     l U r <: u -> ls Zip-U rs <: us -> (l :: ls) Zip-U (r :: rs) <: (u :: us)
 (* JsrZip *)
-| US_JsrZip_nil_r    : forall {A: Set} {h: HasRelation A} (lhs: js_record A), lhs JsrZip-U nil <: lhs
-| US_JsrZip_nil_l    : forall {A: Set} {h: HasRelation A} (rhs: js_record A), nil JsrZip-U rhs <: rhs
-| US_JsrZip_cons_l   : forall {A: Set} {h: HasRelation A} (k: string) (vl vr vu: A) (ls rs rs' us: js_record A),
+| US_JsrZip_nil_r    : forall {A: Set} (lhs: js_record A), lhs JsrZip-U nil <: lhs
+| US_JsrZip_nil_l    : forall {A: Set} (rhs: js_record A), nil JsrZip-U rhs <: rhs
+| US_JsrZip_cons_l   : forall {A: Set} (k: string) (vl vr vu: A) (ls rs rs' us: js_record A),
     vl U vr <: vu -> JsRecordAdd k vr rs rs' -> ((k, vl) :: ls) JsrZip-U rs' <: ((k, vu) :: us)
-| US_JsrZip_cons_r   : forall {A: Set} {h: HasRelation A} (k: string) (vl vr vu: A) (ls ls' rs us: js_record A),
+| US_JsrZip_cons_r   : forall {A: Set} (k: string) (vl vr vu: A) (ls ls' rs us: js_record A),
     vl U vr <: vu -> JsRecordAdd k vl ls ls' -> ls' JsrZip-U ((k, vr) :: rs) <: ((k, vu) :: us)
-| US_JsrZip_cons_u   : forall {A: Set} {h: HasRelation A} (k: string) (vl vr vu: A) (ls rs us us': js_record A),
+| US_JsrZip_cons_u   : forall {A: Set} (k: string) (vl vr vu: A) (ls rs us us': js_record A),
     vl U vr <: vu -> JsRecordAdd k vu us us' -> ((k, vl) :: ls) JsrZip-U ((k, vr) :: rs) <: us'
 (* Intersect *)
-| US_Intersect_nil_r : forall {A: Set} {h: HasRelation A} (lhs: list A), lhs Intersect-U nil <: lhs
-| US_Intersect_nil_l : forall {A: Set} {h: HasRelation A} (rhs: list A), nil Intersect-U rhs <: rhs
-| US_Intersect_cons_l: forall {A: Set} {h: HasRelation A} (l r u: A) (ls rs rs' us: list A),
+| US_Intersect_nil   : forall {A: Set} (uni: list A), nil Intersect-U nil <: uni
+| US_Intersect_cons_l: forall {A: Set} (l r u: A) (ls rs rs' us: list A),
     l U r <: u -> List.Add r rs rs' -> (l :: ls) Intersect-U rs' <: (u :: us)
-| US_Intersect_cons_r: forall {A: Set} {h: HasRelation A} (l r u: A) (ls ls' rs us: list A),
+| US_Intersect_cons_r: forall {A: Set} (l r u: A) (ls ls' rs us: list A),
     l U r <: u -> List.Add l ls ls' -> ls' Intersect-U (r :: rs) <: (u :: us)
-| US_Intersect_cons_u: forall {A: Set} {h: HasRelation A} (l r u: A) (ls rs us us': list A),
+| US_Intersect_cons_u: forall {A: Set} (l r u: A) (ls rs us us': list A),
     l U r <: u -> List.Add u us us' -> (l :: ls) Intersect-U (r :: rs) <: us'
 where "'(U <:)'" := CommonSupertype
   and "a 'U' b '<:' c" := (CommonSupertype a b c)
@@ -241,29 +248,30 @@ with CommonSubtype : forall {A: Set}, A -> A -> A -> Prop :=
 | IS_BivariantL      : forall (rhs: variance), Bivariant I rhs :> rhs
 | IS_BivariantR      : forall (lhs: variance), lhs I Bivariant :> lhs
 (* with CommonSubtype_opt : option A -> option A -> option A -> Prop := *)
-| IS_NoneNone        : forall {A: Set} {h: HasRelation A} (uni: option A), None I None :> uni
-| IS_NoneSome        : forall {A: Set} {h: HasRelation A} (lhs: A), Some lhs I None :> Some lhs
-| IS_SomeNone        : forall {A: Set} {h: HasRelation A} (rhs: A), None I Some rhs :> Some rhs
-| IS_SomeSome        : forall {A: Set} {h: HasRelation A} (lhs rhs uni: A), lhs I rhs :> uni -> Some lhs I Some rhs :> Some uni
+| IS_NoneNone        : forall {A: Set} (uni: option A), None I None :> uni
+| IS_NoneSome        : forall {A: Set} (lhs: A), Some lhs I None :> Some lhs
+| IS_SomeNone        : forall {A: Set} (rhs: A), None I Some rhs :> Some rhs
+| IS_SomeSome        : forall {A: Set} (lhs rhs uni: A), lhs I rhs :> uni -> Some lhs I Some rhs :> Some uni
 (* Zip *)
-| IS_Zip_nil         : forall {A: Set} {h: HasRelation A} (uni: list A), nil Zip-I nil :> uni
-| IS_Zip_cons        : forall {A: Set} {h: HasRelation A} (l r u: A) (ls rs us: list A),
+| IS_Zip_nil         : forall {A: Set} (uni: list A), nil Zip-I nil :> uni
+| IS_Zip_cons        : forall {A: Set} (l r u: A) (ls rs us: list A),
     l I r :> u -> ls Zip-I rs :> us -> (l :: ls) Zip-I (r :: rs) :> (u :: us)
 (* JsrZip *)
-| IS_JsrZip_nil      : forall {A: Set} {h: HasRelation A} (uni: js_record A), nil JsrZip-I nil :> uni
-| IS_JsrZip_cons_l   : forall {A: Set} {h: HasRelation A} (k: string) (vl vr vu: A) (ls rs rs' us: js_record A),
+| IS_JsrZip_nil      : forall {A: Set} (uni: js_record A), nil JsrZip-I nil :> uni
+| IS_JsrZip_cons_l   : forall {A: Set} (k: string) (vl vr vu: A) (ls rs rs' us: js_record A),
     vl I vr :> vu -> JsRecordAdd k vr rs rs' -> ((k, vl) :: ls) JsrZip-I rs' :> ((k, vu) :: us)
-| IS_JsrZip_cons_r   : forall {A: Set} {h: HasRelation A} (k: string) (vl vr vu: A) (ls ls' rs us: js_record A),
+| IS_JsrZip_cons_r   : forall {A: Set} (k: string) (vl vr vu: A) (ls ls' rs us: js_record A),
     vl I vr :> vu -> JsRecordAdd k vl ls ls' -> ls' JsrZip-I ((k, vr) :: rs) :> ((k, vu) :: us)
-| IS_JsrZip_cons_u   : forall {A: Set} {h: HasRelation A} (k: string) (vl vr vu: A) (ls rs us us': js_record A),
+| IS_JsrZip_cons_u   : forall {A: Set} (k: string) (vl vr vu: A) (ls rs us us': js_record A),
     vl I vr :> vu -> JsRecordAdd k vu us us' -> ((k, vl) :: ls) JsrZip-I ((k, vr) :: rs) :> us'
 (* Intersect *)
-| IS_Intersect_nil   : forall {A: Set} {h: HasRelation A} (uni: list A), nil Intersect-I nil :> uni
-| IS_Intersect_cons_l: forall {A: Set} {h: HasRelation A} (l r u: A) (ls rs rs' us: list A),
+| IS_Intersect_nil_r : forall {A: Set} (lhs: list A), lhs Intersect-I nil :> lhs
+| IS_Intersect_nil_l : forall {A: Set} (rhs: list A), nil Intersect-I rhs :> rhs
+| IS_Intersect_cons_l: forall {A: Set} (l r u: A) (ls rs rs' us: list A),
     l I r :> u -> List.Add r rs rs' -> (l :: ls) Intersect-I rs' :> (u :: us)
-| IS_Intersect_cons_r: forall {A: Set} {h: HasRelation A} (l r u: A) (ls ls' rs us: list A),
+| IS_Intersect_cons_r: forall {A: Set} (l r u: A) (ls ls' rs us: list A),
     l I r :> u -> List.Add l ls ls' -> ls' Intersect-I (r :: rs) :> (u :: us)
-| IS_Intersect_cons_u: forall {A: Set} {h: HasRelation A} (l r u: A) (ls rs us us': list A),
+| IS_Intersect_cons_u: forall {A: Set} (l r u: A) (ls rs us us': list A),
     l I r :> u -> List.Add u us us' -> (l :: ls) Intersect-I (r :: rs) :> us'
 where "'(I :>)'" := CommonSubtype
   and "a 'I' b :> c" := (CommonSubtype a b c)
@@ -271,33 +279,49 @@ where "'(I :>)'" := CommonSubtype
   and "a 'JsrZip-I' b ':>' c" := (CommonSubtype (JsrZip_ a) (JsrZip_ b) (JsrZip_ c))
   and "a 'Intersect-I' b ':>' c" := (CommonSubtype (Intersect_ a) (Intersect_ b) (Intersect_ c))
 .
+(* Theorem CommonSupertype_HasRelation : forall {A: Set} (lhs rhs uni: A),
+    lhs U rhs <: uni -> exists (rt: RelationType), rt_type rt = A.
+Proof.
+  intros; induction H;
+    try (exists ftype_RelationType; simpl; reflexivity);
+    try (exists (itype_RelationType ftype_RelationType); simpl; reflexivity);
+    try (exists (stype_RelationType ftype_RelationType); simpl; reflexivity);
+    try (exists (otype_RelationType ftype_RelationType); simpl; reflexivity);
+    try (exists (vtype_RelationType ftype_RelationType); simpl; reflexivity);
+    try (exists (tparam_RelationType ftype_RelationType); simpl; reflexivity);
+    try (exists variance_RelationType; simpl; reflexivity).
+    try (exists (option_RelationType rt); simpl; reflexivity);
+    try (exists (Zip_RelationType rt); simpl; reflexivity);
+    try (exists (JsrZip_RelationType rt); simpl; reflexivity);
+    try (exists (Intersect_RelationType rt); simpl; reflexivity).
+Qed. *)
 
-Inductive HasVariance {A: Set} {h: HasRelation A} : A -> A -> variance -> Prop :=
+Inductive HasVariance {A: Set}: A -> A -> variance -> Prop :=
 | IsBivariant     : forall (lhs rhs uni: A), lhs U rhs <: uni -> HasVariance lhs rhs Bivariant
 | IsCovariant     : forall (lhs rhs    : A), lhs U rhs <: rhs -> HasVariance lhs rhs Covariant
 | IsContravariant : forall (lhs rhs    : A), lhs U rhs <: lhs -> HasVariance lhs rhs Contravariant
 | IsInvariant     : forall (a          : A), a U a <: a       -> HasVariance a   a   Invariant
 .
 
-Definition IsSubtype {A: Set} {h: HasRelation A} (lhs rhs: A): Prop := lhs U rhs <: rhs.
+Definition IsSubtype {A: Set} (lhs rhs: A): Prop := lhs U rhs <: rhs.
 Notation "'(<:)'" := IsSubtype.
 Notation "lhs '<:' rhs" := (IsSubtype lhs rhs) (at level 63, no associativity).
 
-Definition IsSupertype {A: Set} {h: HasRelation A} (lhs rhs: A): Prop := lhs I rhs :> rhs.
+Definition IsSupertype {A: Set} (lhs rhs: A): Prop := lhs I rhs :> rhs.
 Notation "'(:>)'" := IsSupertype.
 Notation "lhs ':>' rhs" := (IsSupertype lhs rhs) (at level 63, no associativity).
 
-Definition IsBounded {A: Set} {h: HasRelation A} (x min max: A): Prop := min U x <: x /\ x U max <: max.
+Definition IsBounded {A: Set} (x min max: A): Prop := min U x <: x /\ x U max <: max.
 Notation "min '<:' x '<:' max" := (IsBounded x min max) (at level 64, no associativity).
 
-Definition IsBoundedAlt {A: Set} {h: HasRelation A} (x min max: A): Prop := min I x :> min /\ x I max :> x.
+Definition IsBoundedAlt {A: Set} (x min max: A): Prop := min I x :> min /\ x I max :> x.
 Notation "max ':>' x ':>' min" := (IsBoundedAlt x min max) (at level 64, no associativity).
 
-Definition Union {A: Set} {h: HasRelation A} (lhs rhs a: A): Prop := lhs U rhs <: a /\ forall b, lhs U rhs <: b -> a <: b.
+Definition Union {A: Set} (lhs rhs a: A): Prop := lhs U rhs <: a /\ forall b, lhs U rhs <: b -> a <: b.
 Notation "'(U)'" := Union.
 Notation "lhs 'U' rhs '=' a" := (Union lhs rhs a) (at level 60, rhs at next level, no associativity).
 
-Definition Intersection {A: Set} {h: HasRelation A} (lhs rhs a: A): Prop := lhs I rhs :> a /\ forall b, lhs I rhs :> b -> a :> b.
+Definition Intersection {A: Set} (lhs rhs a: A): Prop := lhs I rhs :> a /\ forall b, lhs I rhs :> b -> a :> b.
 Notation "'(I)'" := Intersection.
 Notation "lhs 'I' rhs '=' a" := (Intersection lhs rhs a) (at level 60, rhs at next level, no associativity).
 
@@ -326,6 +350,10 @@ Local Ltac ind1 a :=
 Tactic Notation "induction2" ident (a) ident (b) "using" tactic (ind2) :=
   revert_with a; revert_with b; ind2 a b; intros.
 
+
+Tactic Notation "induction3" ident (a) ident (b) ident (c) "using" tactic (ind3) :=
+  revert_with a; revert_with b; revert_with c; ind3 a b c; intros.
+
 Local Ltac ind2 a b :=
   lazymatch type of a with
   | js_record _ => induction2 a b using ind_js_record2
@@ -333,63 +361,40 @@ Local Ltac ind2 a b :=
   | _ => destruct a; destruct b
   end.
 
+Local Ltac ind3 a b c :=
+  lazymatch type of a with
+  | js_record _ => induction3 a b c using ind_js_record3
+  | list _ => induction3 a b c using ind_list3
+  | _ => destruct a; destruct b; destruct c
+  end.
+
 Local Ltac ind_cs a b c :=
   lazymatch constr:((a, b, c)) with
   | (?a, ?a, ?a) => ind1 a
+  | (?a, ?a, ?b) => ind2 a b
+  | (?a, ?b, ?a) => ind2 a b
   | (?a, ?b, ?b) => ind2 a b
-  | (?b, ?a, ?b) => ind2 b a
-  | (?a, ?b, ?c) => ind1 c
+  | (?a, ?b, ?c) => ind3 a b c
   end.
 
-Local Ltac constr_eq_any3 d a b c :=
-  first [constr_eq_strict d a | constr_eq_strict d b | constr_eq_strict d c].
-
-Local Ltac constr_eq_any33 d e f a b c :=
-  first [constr_eq_any3 d a b c | constr_eq_any3 e a b c | constr_eq_any3 f a b c].
-
-Local Ltac inv_con2 a b c :=
-  let CS := fresh "CS" in let Inv := fresh "Inv" in
+Local Ltac inv_con2 a :=
+  let Inv := fresh "Inv" in
   match goal with
-  | CS' : ?d U ?e <: ?f |- _ => constr_eq_any33 d e f a b c; rename CS' into CS
-  | CS' : ?d I ?e :> ?f |- _ => constr_eq_any33 d e f a b c; rename CS' into CS
+  | Inv' : ?P ?a' |- _ => constr_eq a' a; rename Inv' into Inv
   | _ => idtac
   end;
-  match goal with
-  | Inv' : ?P ?d |- _ => assert_fails (constr_eq_strict Inv' CS); constr_eq_any3 d a b c; rename Inv' into Inv
-  | _ => idtac
-  end;
-  once (ind_cs a b c; try (inv Inv); try (inv_cs CS));
-  try constructor; invert_eqs; simpl; try (reflexivity || discriminate).
+  ind1 a; try (inv_cs Inv); try constructor; invert_eqs; simpl; try (reflexivity || discriminate).
 
 Local Ltac is_var' a := first [is_var a | is_evar a].
 
-Local Ltac inv_con1 a b c :=
-  tryif is_var' a; is_var' b; is_var' c then inv_con2 a b c else fail "tried to inv_con non-variables".
+Local Ltac inv_con1 a :=
+  tryif is_var' a then inv_con2 a else fail "tried to inv_con non-variables".
 
-Local Ltac inv_con_guard_type P :=
-  lazymatch P with
-  | JsrZip_ => fail
-  | Intersect_ => fail
-  | _ => idtac
+Local Ltac inv_con0 a :=
+  lazymatch a with
+  | ?P ?a => inv_con1 a
+  | ?a => inv_con1 a
   end.
-
-Local Ltac inv_con0 a b c :=
-  lazymatch constr:((a, b, c)) with
-  (* Special cases *)
-  | (FAny, _, _) => constructor || fail "subtype is stuck on FAny"
-  | (_, FAny, _) => constructor || fail "subtype is stuck on FAny"
-  | (_, _, FAny) => constructor || fail "subtype is stuck on FAny"
-  | (?a, ?b, FStructural ?nullable _) => inv_con2 a b nullable
-  | (?a, ?b, FNominal ?nullable _ _ _) => inv_con2 a b nullable
-  (* General cases *)
-  | (?P ?a, ?P ?b, ?P ?c) => first [inv_con_guard_type P | fail "type is special-cased"]; inv_con1 a b c
-  | (?a, ?b, ?c) => inv_con1 a b c
-  end.
-
-Ltac first_inv_con a :=
-  induction a using ftype_rec'; intros; split; intros; unfold IsSubtype, IsSupertype in *.
-
-Local Ltac post_inv_con_hook := idtac.
 
 Local Ltac post_inv_con :=
   lazymatch goal with
@@ -402,41 +407,56 @@ Local Ltac post_inv_con :=
   | IH : ?Q -> ?Q0 -> ?Q1 -> ?P |- ?P => apply IH; post_inv_con
   | IH : ?Q -> ?Q0 -> ?P |- ?P => apply IH; post_inv_con
   | IH : ?Q -> ?P |- ?P => apply IH; post_inv_con
-  (* Boolean cases *)
-  | |- ?n0 && ?n1 >= ?n2 => ind_cs n0 n1 n2; simpl; reflexivity || discriminate || fail "bad boolean equality"
-  | |- ?n0 || ?n1 <= ?n2 => ind_cs n0 n1 n2; simpl; reflexivity || discriminate || fail "bad boolean equality"
-  | |- ?n0 && ?n1 = ?n2 => ind_cs n0 n1 n2; simpl; reflexivity || discriminate || fail "badf boolean equality"
-  | |- IsNullable ?P => simpl; reflexivity || fail "bad IsNullable"
-  | |- Is_true ?nullable => destruct nullable; reflexivity || discriminate || fail "bad Is_true"
-  | |- _ => post_inv_con_hook
-  end; auto with inv_con.
-
-(* Destruct or induct on goal, invert dependent hypotheses, apply the corresponding constructor *)
-Local Ltac inv_con :=
-  lazymatch goal with
-  | |- ?a I ?b :> ?c => inv_con0 a b c
-  | |- ?a U ?b <: ?c => inv_con0 a b c
-  | |- _ => fail "not inv_con supported"
-  end; post_inv_con.
-
-Local Ltac inv_con' := repeat progress inv_con.
-
-Local Ltac post_inv_con_hook ::=
-  lazymatch goal with
+  | |- ?a && ?a >= ?a => destruct a; reflexivity
+  | |- ?a >= ?a || ?a => destruct a; reflexivity
   | G : forall (a: ftype), a I a :> a /\ a U a <: a |- ?a I ?a :> ?a => specialize (G a); destruct G as [G _]; exact G || fail "mismatched inductive end-case"
   | G : forall (a: ftype), a I a :> a /\ a U a <: a |- ?a U ?a <: ?a => specialize (G a); destruct G as [_ G]; exact G || fail "mismatched inductive end-case"
   | |- _ => idtac
   end.
 
+(* Destruct or induct on goal, invert dependent hypotheses, apply the corresponding constructor *)
+Local Ltac inv_con :=
+  lazymatch goal with
+  | |- ?a I ?a :> ?a => inv_con0 a
+  | |- ?a U ?a <: ?a => inv_con0 a
+  | |- _ => fail "not inv_con supported"
+  end; post_inv_con.
+
+Local Ltac inv_con' := repeat progress inv_con.
+
 Theorem subtype_supertype_refl: forall (a: ftype), a :> a /\ a <: a.
-Proof with inv_con'.
-  first_inv_con a...
-  all: tryif is_var supers then induction supers; [constructor; auto with inv_con |]; match goal with H: List.Forall _ (_ :: _)%list |- _ => inv H end; unshelve (eapply IS_Intersect_cons_u || eapply US_Intersect_cons_u);
-      [exact a | | | apply List.Add_head]; post_inv_con else idtac.
-  all: tryif is_var fields then induction fields; [constructor; auto with inv_con |]; match goal with H: JsRecordForall _ _ |- _ => inv H end; destruct a as [kx vx]; unshelve (eapply IS_JsrZip_cons_u || eapply US_JsrZip_cons_u);
-      [exact vx | | match goal with H: OType_Forall _ _ |- _ => simpl in H end | apply JsRecordAdd_head]; inv_con' else idtac.
-  all: unshelve (econstructor; auto with inv_con); [exact id | | match goal with H : IType_Forall _ _ |- _ => inv H end; constructor | apply List.Add_head]...
+Proof.
+  induction a using ftype_rec'; intros; split; intros; unfold IsSubtype, IsSupertype in *;
+    try (constructor; fail);
+    try (destruct nullable; constructor; simpl; reflexivity);
+    (constructor; try (destruct nullable; simpl; reflexivity); inv_con');
+    try (unshelve econstructor; [exact a | exact supers | | apply List.Add_head]; post_inv_con);
+    try (destruct x as [kv vx]; unshelve econstructor; [exact vx | exact l | | apply JsRecordAdd_head]; simpl in H0; inv_con; simpl in H2; inv H2; destruct H5; assumption);
+    try (unshelve econstructor; [exact id | exact sids | | apply List.Add_head ]; inv_con').
 Qed.
+
+Corollary subtype_refl: forall (a: ftype), a <: a.
+Proof.
+  intros. apply subtype_supertype_refl.
+Qed.
+
+Corollary supertype_refl: forall (a: ftype), a :> a.
+Proof.
+  intros. apply subtype_supertype_refl.
+Qed.
+
+Theorem subtype_supertype_antisym: forall (a b: ftype), (a <: b -> b :> a) /\ (a :> b -> b <: a).
+Proof.
+  split; intros; induction H.
+  all: try (constructor; simpl; easy).
+  all: try apply subtype_supertype_refl.
+  all: try (destruct lhs; constructor; assumption).
+  all: repeat constructor.
+  all: try (destruct nu; destruct nl; simpl; easy).
+  all: try (destruct ou; destruct ol; simpl; easy).
+  ind3 tpl tpr tpu; [constructor | inv_cs H4 | inv_cs H4 | constructor | inv_cs H4 | inv_cs H4 | inv_cs H4 | inv_cs H4].
+
+  ind3 tpl tpr tpu; [constructor | inv H4 | inv H4 | constructor | inv H4 | inv H4 | inv H4 | apply inv_IS_Zip_cons in H4; destruct H4; constructor]; [| apply H; exact H5].
 
 (* Has extra cases for the specific theorem we're trying to prove *)
 Local Ltac post_inv_con_hook ::=
