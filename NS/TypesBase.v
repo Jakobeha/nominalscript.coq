@@ -6,18 +6,19 @@ Require Import Coq.Arith.PeanoNat.
 Require Import Coq.Arith.EqNat.
 Require Import Coq.Bool.Bool.
 From NS Require Import Misc.
+From NS Require Import JsRecord.
 
 (* Return (void-able) type *)
-Inductive vtype (type: Set): Set :=
+Inductive vtype (A: Set): Set :=
 | VVoid
-| Vt (a: type).
-Arguments VVoid {type}.
-Arguments Vt {type} a.
+| Vt (a: A).
+Arguments VVoid {A}.
+Arguments Vt {A} a.
 
-(* Nominal (identifer) type *)
-Inductive itype (type: Set): Set :=
-| It (name: string) (targs: list type).
-Arguments It {type} name targs.
+(* Nominal (identifer) A *)
+Inductive itype (A: Set): Set :=
+| It (name: string) (targs: list A).
+Arguments It {A} name targs.
 
 Inductive variance: Set :=
 | Invariant
@@ -25,27 +26,27 @@ Inductive variance: Set :=
 | Contravariant
 | Bivariant.
 
-(* Type parameter *)
-Inductive tparam (type: Set): Set :=
-| TParam (v: variance) (name: string) (supers: list type).
-Arguments TParam {type} v name supers.
+(* A parameter *)
+Inductive tparam (A: Set): Set :=
+| TParam (v: variance) (name: string) (supers: list A).
+Arguments TParam {A} v name supers.
 
-(* Optional (different than nullable) type *)
-Inductive otype (type: Set): Set :=
-| Ot (optional: bool) (a: type).
-Arguments Ot {type} optional a.
+(* Optional (different than nullable) A *)
+Inductive otype (A: Set): Set :=
+| Ot (optional: bool) (a: A).
+Arguments Ot {A} optional a.
 
 
-(* Structural type *)
-Inductive stype (type: Set): Set :=
-| SFn (tparams: list (tparam type)) (thisp: type) (params: list (otype type)) (rparam: type) (ret: vtype type)
-| SArray (elem: type)
-| STuple (elems: list (otype type))
-| SObject (fields: js_record (otype type)).
-Arguments SFn {type} tparams thisp params rparam ret.
-Arguments SArray {type} elem.
-Arguments STuple {type} elems.
-Arguments SObject {type} fields.
+(* Structural A *)
+Inductive stype (A: Set): Set :=
+| SFn (tparams: list (tparam A)) (thisp: A) (params: list (otype A)) (rparam: A) (ret: vtype A)
+| SArray (elem: A)
+| STuple (elems: list (otype A))
+| SObject (fields: js_record (otype A)).
+Arguments SFn {A} tparams thisp params rparam ret.
+Arguments SArray {A} elem.
+Arguments STuple {A} elems.
+Arguments SObject {A} fields.
 
 (* Thin type: actual type that you write in nominalscript code *)
 Inductive ttype: Set :=
@@ -71,16 +72,16 @@ Notation ftparam := (tparam ftype).
 Notation oftype := (otype ftype).
 Notation sftype := (stype ftype).
 
-Inductive IType_Forall {type: Set} (P: type -> Prop): itype type -> Prop :=
+Inductive IType_Forall {A: Set} (P: A -> Prop): itype A -> Prop :=
 | Forall_It : forall name targs, List.Forall P targs -> IType_Forall P (It name targs).
-Inductive VType_Forall {type: Set} (P: type -> Prop): vtype type -> Prop :=
+Inductive VType_Forall {A: Set} (P: A -> Prop): vtype A -> Prop :=
 | Forall_VVoid : VType_Forall P VVoid
 | Forall_Vt : forall x, P x -> VType_Forall P (Vt x).
-Inductive OType_Forall {type: Set} (P: type -> Prop): otype type -> Prop :=
+Inductive OType_Forall {A: Set} (P: A -> Prop): otype A -> Prop :=
 | Forall_Ot : forall optional x, P x -> OType_Forall P (Ot optional x).
-Inductive TParam_Forall {type: Set} (P: type -> Prop): tparam type -> Prop :=
+Inductive TParam_Forall {A: Set} (P: A -> Prop): tparam A -> Prop :=
 | Forall_TParam : forall variance name supers, List.Forall P supers -> TParam_Forall P (TParam variance name supers).
-Inductive SType_Forall {type: Set} (P: type -> Prop): stype type -> Prop :=
+Inductive SType_Forall {A: Set} (P: A -> Prop): stype A -> Prop :=
 | Forall_SFn : forall tparams thisp params rparam ret,
     List.Forall (TParam_Forall P) tparams -> P thisp -> List.Forall (OType_Forall P) params -> P rparam -> VType_Forall P ret ->
     SType_Forall P (SFn tparams thisp params rparam ret)

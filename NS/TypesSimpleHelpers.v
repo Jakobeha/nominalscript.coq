@@ -7,6 +7,7 @@ Require Import Coq.Arith.EqNat.
 Require Import Coq.Bool.Bool.
 Require Import Coq.Logic.FunctionalExtensionality.
 From NS Require Import Misc.
+From NS Require Import JsRecord.
 From NS Require Import TypesBase.
 From NS Require Import TypesNotation.
 
