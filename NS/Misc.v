@@ -328,3 +328,6 @@ Lemma list_add_ind : forall {A: Type} (P: list A -> Prop),
 Proof.
   intros A P P0 Pn xs; induction xs; [exact P0 | apply (Pn xs); [exact IHxs |]]. exists a. apply List.Add_head.
 Qed.
+
+Tactic Notation "induction2" ident (a) ident (b) "using" tactic (ind2) :=
+  revert_with a; revert_with b; ind2 a b; intros.
