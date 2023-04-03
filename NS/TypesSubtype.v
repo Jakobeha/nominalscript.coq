@@ -336,8 +336,13 @@ Qed.
 Local Ltac inv_trans :=
     lazymatch goal with
     | H : ?nr >= ?nl |- ?nullable >= ?nl => destruct nullable; destruct nl; destruct nr; reflexivity || discriminate
-    | |- [_] nil :> nil => constructor
+    | |- [_] nil :> ?zs => constructor
     | IH : forall c0 a0, ?b :> c0 -> a0 :> ?b -> a0 :> c0, H : [S_ftype] ?b :> ?c, H0 : [S_ftype] ?a :> ?b |- [S_ftype] ?a :> ?c => apply IH; [exact H | exact H0]
+    | IH : ?Q -> ?P |- ?P => apply IH; try assumption
+    | IH : ?Q -> ?Q0 -> ?P |- ?P => apply IH; try assumption
+    | IH : ?Q -> ?Q0 -> ?Q1 -> ?P |- ?P => apply IH; try assumption
+    | IH : ?Q -> ?Q0 -> ?Q1 -> ?Q2 -> ?P |- ?P => apply IH; try assumption
+    | IH : ?Q -> ?Q0 -> ?Q1 -> ?Q2 -> ?Q3 -> ?P |- ?P => apply IH; try assumption
     | IH : ?P ?b, H : [?S] ?a :> ?b, H0 : [?S0] ?b :> ?c |- context A [?a] => ind3 a b c; inv H; inv H0; inv IH; constructor
     | _ => fail "can't inv_trans"
     end.
@@ -350,8 +355,8 @@ Proof with inv_trans'.
   - inv H0; constructor.
   - inv H; constructor; destruct nullable; simpl in H1; [clear H1 | contradiction]; inv H0; [simpl; reflexivity | exact H].
   - destruct a; destruct c; try apply S_Any; inv H0; inv H1; try (apply S_Never || apply S_Null); [destruct nullable; destruct nullable1; simpl in *; reflexivity || discriminate || contradiction | ..].
-    inv_trans. inv_trans. inv_trans. inv_trans. inv_trans.
-
+    inv_trans. inv_trans. inv_trans. inv_trans. inv_trans. inv_trans. inv_trans. inv_trans. inv_trans. inv_trans. inv_trans. inv_trans. inv_trans.
+    inv_trans. inv_trans. inv_trans. inv_trans. inv_trans. inv_trans. inv_trans. intros.
   - inv H; constructor.
   - inv H; constructor; inv H0.
   - inv H0; constructor; exact H.
