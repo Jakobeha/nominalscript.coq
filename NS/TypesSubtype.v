@@ -10,6 +10,8 @@ Require Import Coq.Logic.FinFun.
 Require Import Coq.Logic.Eqdep.
 Require Import Coq.Program.Equality.
 Require Import Coq.Relations.Relation_Definitions.
+Require Import LibHyps.LibHyps.
+Require Import Lia.
 From NS Require Import Misc.
 From NS Require Import JsRecord.
 From NS Require Import TypesBase.
@@ -41,17 +43,15 @@ Inductive S_Zip {A: Set} (S: SubtypeRelation A) : SubtypeRelation (list A) :=
 .
 Inductive S_JsrZip {A: Set} (S: SubtypeRelation A) : SubtypeRelation (js_record A) :=
 | S_JsrZip_nil       : forall (lhs: js_record A), [S_JsrZip S] lhs <: nil
-| S_JsrZip_cons_l    : forall (k: string) (vl vr: A) (ls rs rs': js_record A),
-    [S] vl <: vr -> [S_JsrZip S] ls <: rs -> JsRecordAdd k vr rs rs' -> [S_JsrZip S] ((k, vl) :: ls) <: rs'
-| S_JsrZip_cons_r    : forall (k: string) (vl vr: A) (ls ls' rs: js_record A),
+| S_JsrZip_cons      : forall (k: string) (vl vr: A) (ls ls' rs: js_record A),
     [S] vl <: vr -> [S_JsrZip S] ls <: rs -> JsRecordAdd k vl ls ls' -> [S_JsrZip S] ls' <: ((k, vr) :: rs)
 .
 Inductive S_Intersect {A: Set} (S: SubtypeRelation A) : SubtypeRelation (list A) :=
 | S_Intersect_nil    : forall (lhs: list A), [S_Intersect S] lhs <: nil
-| S_Intersect_cons_l : forall (l r: A) (ls rs rs': list A),
-    [S] l <: r -> [S_Intersect S] ls <: rs -> List.Add r rs rs' -> [S_Intersect S] (l :: ls) <: rs'
-| S_Intersect_cons_r : forall (l r: A) (ls ls' rs: list A),
-    [S] l <: r -> [S_Intersect S] ls <: rs -> List.Add l ls ls' -> [S_Intersect S] ls' <: (r :: rs)
+| S_Intersect_cons   : forall (l r: A) (ls rs: list A),
+    [S] l <: r -> [S_Intersect S] ls <: rs -> [S_Intersect S] (l :: ls) <: (r :: rs)
+| S_Intersect_cons_l : forall (l: A) (ls rs: list A),
+                 [S_Intersect S] ls <: rs -> [S_Intersect S] (l :: ls) <: rs
 .
 Inductive S_variance : SubtypeRelation variance :=
 | S_Bivariant        : forall (lhs: variance), [S_variance] lhs <: Bivariant
@@ -161,14 +161,6 @@ Local Ltac ind_s a b :=
 Local Ltac inv_con3 a Inv :=
   ind1 a; try (inv Inv); try econstructor; simpl; try (reflexivity || discriminate).
 
-Local Ltac inv_con_Intersect supers Inv :=
-  ind1 supers; inv Inv; [constructor |];
-  let a := fresh "a" in let supers := fresh "supers'" in
-  match goal with
-  | |- [_] (?a' :: ?supers') <: (?a' :: ?supers') => rename a' into a; rename supers' into supers
-  end;
-  unshelve econstructor; [exact a | exact supers | | | apply List.Add_head].
-
 Local Ltac inv_con_JsrZip fields Inv :=
   ind1 fields; inv Inv; [constructor |];
   let a := fresh "a" in let fields := fresh "fields'" in
@@ -186,7 +178,6 @@ Local Ltac inv_con2 S a :=
   end;
   lazymatch S with
   | S_JsrZip _ => inv_con_JsrZip a Inv
-  | S_Intersect _ => inv_con_Intersect a Inv
   | _ => inv_con3 a Inv
   end.
 
@@ -233,9 +224,16 @@ Proof with inv_con'.
   - constructor.
   - destruct nullable; constructor; simpl; reflexivity.
   - constructor; [destruct nullable; simpl; reflexivity |]...
-  - constructor; [destruct nullable; simpl; reflexivity | |]...
-    (* Tactic has trouble because we have id :: sids instead of a single term *)
-    unshelve econstructor; [exact id | exact sids | | | apply List.Add_head]; post_inv_con...
+  - constructor; [destruct nullable; simpl; reflexivity | |]; [constructor |]...
+Qed.
+
+Lemma S_Intersect_length: forall {A: Set} (S: SubtypeRelation A) (lhs rhs: list A),
+    [S_Intersect S] lhs <: rhs -> (List.length rhs <= List.length lhs)%nat.
+Proof.
+  intros; induction H; simpl.
+  - apply Nat.le_0_l.
+  - apply -> Nat.succ_le_mono; exact IHS_Intersect.
+  - apply Nat.le_le_succ_r; exact IHS_Intersect.
 Qed.
 
 Local Ltac destruct_conj :=
@@ -259,8 +257,17 @@ Local Ltac assert_to_solve :=
   | |- _ => idtac "can't assert_to_solve"
   end.
 
+Local Ltac pre_inv_eq_Intersect supers supers0 :=
+  assert (List.length supers = List.length supers0); [apply Nat.le_antisymm; eapply S_Intersect_length; match goal with | H : [S_Intersect _] ?a :> ?b |- [S_Intersect _] ?a :> ?b => exact H end |].
+
+Local Ltac pre_inv_eq S a b :=
+  lazymatch S with
+  | S_Intersect ?S => pre_inv_eq_Intersect a b
+  | _ => idtac
+  end.
+
 Local Ltac inv_eq2 H H0 S a b :=
-  ind2 a b; inv H; inv H0; assert_to_solve.
+  pre_inv_eq S a b; ind2 a b; inv H; inv H0; assert_to_solve.
 
 Local Ltac inv_eq1 H H0 S a b :=
   is_var a; is_var b; inv_eq2 H H0 S a b.
@@ -271,6 +278,19 @@ Local Ltac inv_eq :=
   | H7 : [S_stype S_ftype] SFn nil ?thisp ?params ?rparam ?ret :> SFn (?y :: ?ys) ?thisp0 ?params0 ?rparam0 ?ret0 |- _ => inv H7
   | H9 : [S_Zip _] (?y :: ?ys) :> nil |- _ => inv H9
   | H22 : List.Add ?l ?ls ?nil |- _ => inv H22
+  | H2 : Datatypes.length (?x :: ?xs0) = Datatypes.length (?y :: ?ys0) |- Datatypes.length ?xs0 = Datatypes.length ?ys0 => simpl in H2; inv H2; reflexivity
+  | H2 : Datatypes.length (?x :: ?xs0) = Datatypes.length (?y :: ?ys0),
+    H11 : [S_Intersect _] (?y :: ?ys0) :> ?xs0 |- _ => apply S_Intersect_length in H11; simpl in H11; inv H11; simpl in H2; inv H2; lia
+  | H2 : Datatypes.length (?x :: ?xs0) = Datatypes.length (?y :: ?ys0),
+    H11 : [S_Intersect _] (?x :: ?xs0) :> ?ys0 |- _ => apply S_Intersect_length in H11; simpl in H11; inv H11; simpl in H2; inv H2; lia
+  | H10 : ?optional >= ?optional0, H4 : ?optional0 >= ?optional |- ?optional = ?optional0 => destruct optional; destruct optional0; reflexivity || discriminate
+  | IH : [fun a0 b0 : ftype => a0 :> b0 -> a0 = b0] ?a :> ?b |- ?b = ?a => apply IH; try assumption
+  | IH : [fun a0 b0 : ftype => a0 :> b0 -> a0 = b0] ?a :> ?b |- ?a = ?b => symmetry; apply IH; try assumption
+  | IH : ?Q -> ?P |- ?P => apply IH; try assumption
+  | IH : ?Q -> ?Q0 -> ?P |- ?P => apply IH; try assumption
+  | IH : ?Q -> ?Q0 -> ?Q1 -> ?P |- ?P => apply IH; try assumption
+  | IH : ?Q -> ?Q0 -> ?Q1 -> ?Q2 -> ?P |- ?P => apply IH; try assumption
+  | IH : ?Q -> ?Q0 -> ?Q1 -> ?Q2 -> ?Q3 -> ?P |- ?P => apply IH; try assumption
   (* Cases *)
   | H : [?S] ?a :> ?b, H0 : [?S0] ?b :> ?a |- ?a = ?b => inv_eq1 H H0 S a b
   | |- _ => fail "can't inv_eq"
@@ -284,8 +304,15 @@ Proof with inv_eq'.
   - inv H; reflexivity.
   - inv H; [reflexivity | inv H0].
   - inv H0; [inv H | reflexivity].
-  - inv H1; assert_to_solve; [destruct nl; destruct nr; reflexivity || discriminate |].
-    inv_eq. inv_eq. inv_eq. inv_eq. inv_eq. inv_eq. inv_eq. inv_eq. inv_eq.
+  - inv H1; assert_to_solve; [destruct nl; destruct nr; reflexivity || discriminate |]...
+
+    inv_eq. inv_eq. inv_eq. inv_eq. inv_eq.
+    inv_eq. inv_eq. inv_eq. inv_eq. inv_eq. inv_eq. inv_eq. inv_eq. inv_eq. inv_eq.
+    + ind2 supers supers0; [reflexivity | ..]; inv H12; inv H13.
+      inv_eq. inv_eq. inv_eq. inv_eq. inv_eq.
+    assert (l = x).
+    + apply H8.
+    inv_eq. inv_eq.
 
     assert (nl = nr); [destruct nl; destruct nr; reflexivity || discriminate | subst].
     assert (sl = sr); [ind2 sl sr; inv H7 | subst; reflexivity].
