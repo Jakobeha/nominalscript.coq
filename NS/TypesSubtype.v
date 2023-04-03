@@ -246,6 +246,7 @@ Local Ltac assert_to_solve' eqs :=
 
 Local Ltac assert_to_solve :=
   lazymatch goal with
+  | |- (?a, ?a0) :: ?a1 = (?b, ?b0) :: ?b1 => assert_to_solve' (a = b /\ a0 = b0 /\ a1 = b1)
   | |- ?P ?a ?a0 ?a1 ?a2 ?a3 ?a4 ?a5 = ?P ?b ?b0 ?b1 ?b2 ?b3 ?b4 ?b5 => assert_to_solve' (a = b /\ a0 = b0 /\ a1 = b1 /\ a2 = b2 /\ a3 = b3 /\ a4 = b4 /\ a5 = b5)
   | |- ?P ?a ?a0 ?a1 ?a2 ?a3 ?a4 = ?P ?b ?b0 ?b1 ?b2 ?b3 ?b4 => assert_to_solve' (a = b /\ a0 = b0 /\ a1 = b1 /\ a2 = b2 /\ a3 = b3 /\ a4 = b4)
   | |- ?P ?a ?a0 ?a1 ?a2 ?a3 = ?P ?b ?b0 ?b1 ?b2 ?b3 => assert_to_solve' (a = b /\ a0 = b0 /\ a1 = b1 /\ a2 = b2 /\ a3 = b3)
@@ -276,6 +277,7 @@ Local Ltac inv_eq :=
   lazymatch goal with
   (* Special cases *)
   | H7 : [S_stype S_ftype] SFn nil ?thisp ?params ?rparam ?ret :> SFn (?y :: ?ys) ?thisp0 ?params0 ?rparam0 ?ret0 |- _ => inv H7
+  | H9 : JsRecordAdd ?k ?vl ?ls nil |- _ => inv H9
   | H9 : [S_Zip _] (?y :: ?ys) :> nil |- _ => inv H9
   | H22 : List.Add ?l ?ls ?nil |- _ => inv H22
   | H2 : Datatypes.length (?x :: ?xs0) = Datatypes.length (?y :: ?ys0) |- Datatypes.length ?xs0 = Datatypes.length ?ys0 => simpl in H2; inv H2; reflexivity
@@ -305,442 +307,71 @@ Proof with inv_eq'.
   - inv H; [reflexivity | inv H0].
   - inv H0; [inv H | reflexivity].
   - inv H1; assert_to_solve; [destruct nl; destruct nr; reflexivity || discriminate |]...
-
-    inv_eq. inv_eq. inv_eq. inv_eq. inv_eq.
-    inv_eq. inv_eq. inv_eq. inv_eq. inv_eq. inv_eq. inv_eq. inv_eq. inv_eq. inv_eq.
-    + ind2 supers supers0; [reflexivity | ..]; inv H12; inv H13.
-      inv_eq. inv_eq. inv_eq. inv_eq. inv_eq.
-    assert (l = x).
-    + apply H8.
-    inv_eq. inv_eq.
-
-    assert (nl = nr); [destruct nl; destruct nr; reflexivity || discriminate | subst].
-    assert (sl = sr); [ind2 sl sr; inv H7 | subst; reflexivity].
-    + assert (tparams = tparams0); [ind2 tparams tparams0; inv H9 | subst].
-    ind2 sl sr; inv H7.
-    lazymatch goal with
-    destruct sl; destruct sr; inv H7.
-  split; intros; induction H.
-  all: try (constructor; simpl; easy).
-  all: try apply subtype_supertype_refl.
-  all: try (destruct lhs; constructor; assumption).
-  all: repeat constructor.
-  all: try (destruct nu; destruct nl; simpl; easy).
-  all: try (destruct ou; destruct ol; simpl; easy).
-  ind3 tpl tpr tpu; [constructor | inv_cs H4 | inv_cs H4 | constructor | inv_cs H4 | inv_cs H4 | inv_cs H4 | inv_cs H4].
-
-  ind3 tpl tpr tpu; [constructor | inv H4 | inv H4 | constructor | inv H4 | inv H4 | inv H4 | apply inv_IS_Zip_cons in H4; destruct H4; constructor]; [| apply H; exact H5].
-
-(* Has extra cases for the specific theorem we're trying to prove *)
-Local Ltac post_inv_con_hook ::=
-  lazymatch goal with
-  | G : forall (a: ftype), (?b U a <: a -> a I ?b :> ?b) /\ (?b I a :> a -> a U ?b <: ?b) |- ?a I ?b :> ?b => specialize (G a); destruct G as [G _]; apply G
-  | G : forall (a: ftype), (?b U a <: a -> a I ?b :> ?b) /\ (?b I a :> a -> a U ?b <: ?b) |- ?a U ?b <: ?b => specialize (G a); destruct G as [_ G]; apply G
-  | |- ?a I ?a :> ?a => apply subtype_supertype_refl
-  | |- ?a U ?a <: ?a => apply subtype_supertype_refl
-  | |- _ => idtac
-  end.
-
-Theorem subtype_supertype_antisym: forall (a b: ftype), (a <: b -> b :> a) /\ (a :> b -> b <: a).
-Proof with inv_con'.
-  first_inv_con a; try inv_con.
-  1: inv H; constructor.
-  1: inv H; destruct nullable; try constructor; simpl; reflexivity || assumption || discriminate.
-  1: inv H; destruct nullable; try constructor; discr_relation_eqs; simpl; reflexivity || assumption || discriminate.
-  - inv_con.
-    + inv_con; inv H5.
-
-  apply prove_relation_by_ftype2.
-  - induction a using ftype_rec'; intros; split; intros; unfold IsSubtype, IsSupertype in *.
-    inv_con. inv_con. inv_con. inv_con. inv_con. inv_con. inv_con. inv_con. inv_con. inv_con.
-    inv_con. inv_con. inv_con. inv_con. inv_con. inv_con. inv_con. inv_con. inv_con. inv_con.
-    inv_con. inv_con. inv_con. inv_con'0. inv_con. inv_con. inv_con. inv_con. inv_con. inv_con'0.
-    inv_con. inv_con. inv_con. inv_con. inv_con'0. inv_con. inv_con. inv_con'0. inv_con. inv_con'0.
-    inv_con. inv_con. inv_con. inv_con. inv_con'0. inv_con. inv_con.
-    inv_con. inv_con'0. inv_con'0. inv_con. inv_con. inv_con'0. inv_con. inv_con. inv_con. inv_con.
-
-    + inv_con.
-      destruct xs'; [constructor | inv H3; inv H7].
-      destruct ys'; [constructor | inv H3; inv H8].
-      destruct H2 as [k [[vx H2] [vy H5]]]. econstructor; [exact H2 | exact H5 | exact H5 | |];
-        apply (JsRecordAdd_Forall H5) in H3; destruct H3. inv_con.
-    + ind_cs fields fields0 fields0; [constructor | | |]; inv H2; [inv H6 | inv H7 | apply (JsRecordAdd_Forall H6) in H1; destruct H1; econstructor]; [exact H7 | exact H6 | exact H6 | |].
-      inv_con. inv_con. inv_con'0.
-    destruct xs'; [constructor | inv H3; inv H7].
-    destruct ys'; [constructor | inv H3; inv H8].
-    destruct xs'; destruct ys'; inv H4.
-    econstructor.
-
-    inv H3].
-
-    inv H1. constructor.
-    inv_con.
-    replace (x :: xs)%list with (nil ++ (x :: xs))%list.
-    apply US_NilOTypeL.
-    inv_con. specialize (H6 thisp).
-  try constructor; clear_relation_neqs; invert_eqs; simpl; try (reflexivity || discriminate).
-    Print CommonSupertype.
-    inv_con. inv_con. inv_con. inv_con. inv_con.
-    inv_con.
-
-    inv_con. inv_con. inv_con. inv_con. inv_con. inv_con. inv_con.
-    inv_con. inv_con.
-
-Theorem subtype_supertype_refl: forall {A: Set} {h: HasRelation A} (a: A), a :> a /\ a <: a.
-Proof.
-  apply prove_relation_by_ftype1.
-  - induction a using ftype_rec'; intros; split; unfold IsSubtype, IsSupertype in *; repeat inv_con.
-  - intros; split; unfold IsSubtype, IsSupertype in *; destruct_relation_type A h; repeat inv_con'.
-Qed.
-
+    (* TODO js_record case *)
+    all: admit.
+  - inv H1.
+  - inv H2;
+    assert (List.length (idl :: idsl) = List.length (idr :: idsr)); [ apply Nat.le_antisymm; eapply S_Intersect_length; [exact H12 | exact H0] | simpl in H2; inv H2];
+    inv H12; [| apply S_Intersect_length in H7; simpl in H7; lia];
+    inv H0; [| apply S_Intersect_length in H8; simpl in H8; lia].
+    assert_to_solve; [destruct nl; destruct nr; reflexivity || discriminate | ..]...
+    (* TODO js_record case *)
+    all: admit.
 Admitted.
 
-Theorem subtype_supertype_trans: forall {A: Set} {h: HasRelation A} (a b c: A),
-    (a <: b -> b <: c -> a <: c) /\ (a :> b -> b :> c -> a :> c).
-Admitted.
-
-
-Local Ltac contstructor0 :=
-  constructor || match goal with
-  | |- context[(?x :: ?xs)%list] => destruct x; econstructor; [apply List.Add_head | |]
-  | |- _ => fail "no constructor"
-  end.
-
-Local Ltac induction1 a b :=
-  (revert_with a; revert_with b; ind_js_record2 a b; intros) ||
-  (revert_with a; revert_with b; ind_list2 a b; intros) ||
-  (destruct a).
-
-Local Ltac induction0 a b :=
-  lazymatch a with
-  | Supers_ ?a => destruct a
-  | ?a => induction1 a b
-  end.
-
-Local Ltac destruct_nullable :=
-  lazymatch goal with
-  | |- FNever ?nullable U FNever ?nullable <: _ => destruct nullable
-  | |- FNever ?nullable I FNever ?nullable :> _ => destruct nullable
-  end.
-
-Local Ltac inv_con0 Inv H a b :=
-  induction0 a b; try inv Inv; inv_cs H; try destruct_nullable;
-  (reflexivity || assumption || discriminate || contradiction || econstructor || idtac "constructor failed").
-
-Local Ltac inv_con :=
-  lazymatch goal with
-  | |- ?a U ?a <: ?a => apply subtype_refl
-  | Ind : forall a : ftype, (a <: ?b -> a U a <: ?b) /\ (a :> ?b -> a I a :> ?b) |- ?a U ?a <: ?b =>
-      specialize (Ind a); destruct Ind as [Ind _]; apply Ind; try assumption
-  | Ind : forall a : ftype, (a <: ?b -> a U a <: ?b) /\ (a :> ?b -> a I a :> ?b) |- ?a I ?a :> ?b =>
-      specialize (Ind a); destruct Ind as [_ Ind]; apply Ind; try assumption
-  | IH : ?Q -> ?Q0 -> ?Q1 -> ?Q2 -> ?P |- ?P => apply IH
-  | IH : ?Q -> ?Q0 -> ?Q1 -> ?P |- ?P => apply IH
-  | IH : ?Q -> ?Q0 -> ?P |- ?P => apply IH
-  | IH : ?Q -> ?P |- ?P => apply IH
-  | Inv : ?P ?b, H : ?a U ?b <: ?b |- ?a U ?a <: ?b => inv_con0 Inv H a b
-  | Inv : ?P ?b, H : ?a I ?b :> ?b |- ?a I ?a :> ?b => inv_con0 Inv H a b
-  | H : ?a U ?b <: ?b |- ?a U ?a <: ?b => inv_con0 True H a b
-  | H : ?a I ?b :> ?b |- ?a I ?a :> ?b => inv_con0 True H a b
-  | H : ?a <: ?b |- ?a U ?a <: ?b => inv_con0 True H a b
-  | H : ?a :> ?b |- ?a I ?a :> ?b => inv_con0 True H a b
-  | Inv : ?P ?b |- ?a U ?a <: ?b => destruct a; inverts Inv; constructor
-  | Inv : ?P ?b |- ?a I ?a :> ?b => destruct a; inverts Inv; constructor
-  | |- (?t >= ?t2 || ?t2)%bool => destruct t; destruct t2
-  | |- (?t <= ?t2 && ?t2)%bool => destruct t; destruct t2
-  | |- ?a U ?b <: ?b => constructor
-  | |- ?a U ?a <: ?b => fail "todo handle"
-  | |- ?a I ?a :> ?b => fail "todo handle"
-(*
-  | H : ?P |- ?P => exact H
-  | H : ?t U ?t = ?t /\ ?t I ?t = ?t |- ?t U ?t <: ?t => destruct H as [[H _] _]; exact H
-  | H : ?t U ?t = ?t /\ ?t I ?t = ?t |- ?t I ?t :> ?t => destruct H as [_ [H _]]; exact H
-  | |- (?t && ?t >= ?t)%bool => destruct t; simpl; reflexivity
-  | |- (?t || ?t <= ?t)%bool => destruct t; simpl; reflexivity
-  | IH : ?Q -> ?P |- ?P => apply IH
-  | H : ?P (snd (_, ?t)) |- _ => simpl in H
-  | H : ?P ?t |- ?t U ?t <: ?t => inv_con0 US_OTypes H t
-  | H : ?P ?t |- ?t I ?t :> ?t => inv_con0 IS_OTypes H t
-  | |- ?t U ?t <: ?t => induction' t; constructor
-  | |- ?t I ?t :> ?t => induction' t; constructor
-  | |- ?v U ?v <: ?v => fail "todo handle"
-  | |- ?v I ?v :> ?v => fail "todo handle" *)
-  end; cleanup.
-
-
-Theorem subtype_alt: forall {A: Set} {h: HasRelation A} (a b: A),
-    (a <: b -> a U a <: b) /\ (a :> b -> a I a :> b).
-Proof.
-  intros; destruct_relation_type A h.
-  - revert a. induction b using ftype_rec'; split; intros;
-      inv_cs H; try constructor;
-        try (destruct nullable; simpl in *; try constructor; (reflexivity || contradiction || discriminate || assumption)).
-      repeat inv_con.
-      repeat inv_con.
-      repeat inv_con.
-      inv_con. inv_con. inv_con.
-      + inv_cs H3; try constructor.
-        destruct (JsRecordAdd_forall H6 H1), (JsRecordAdd_forall H6 H1). simpl in H, H2. inverts H. inverts H2. rename x into vr.
-        econstructor; [exact H5 | | exact H7 | | ].
-        2: {
-          exact
-        }
-        inv_con. inv_con. inv_con.
-        inv_con. inv_con. inv_con.
-      + econstructor.
-      + inverts H1; [econstructor; [apply List.Add_head | repeat inv_con | repeat inv_con] |].
-        inverts H7.
-        induction H8. inv_cs H7. cleanup.
-        econstructor. apply List.Add_cons. Print List.
-
-      +
-      + revert_with params'; ind_list2_alt params0' params'; intros.
-        * exact H9.
-        * inv_cs H9; cleanup.
-
-      try destruct nullable; try constructor.
-      try destruct nullable; try destruct nl; simpl in *; invert_eqs; clear_obvious; try (constructor || discriminate).
-        try constructor; simpl in *; try (constructor || discriminate); clear_obvious; invert_eqs;
-      idtac. Focus 8.
-    + destruct nullable; try discriminate.
-    + inv_cs H; constructor.
-
-    inv_cs H
-
-Theorem supertype_never: forall (a: ftype), a :> FNEVER.
-Proof.
-  intros. apply IS_Never.
-Qed.
-
-Theorem supertype_null: forall (a: ftype), IsNullable a -> a :> FNULL.
-Proof.
-  intros. apply IS_Null. exact H. by_ simpl.
-Qed.
-
-Theorem supertype_any: forall (a: ftype), FAny :> a.
-Proof.
-  intros. apply IS_AnyL.
-Qed.
-
-Theorem supertype_refl: forall {A: Set} {h: HasRelation A} (a: A), a :> a.
-Admitted.
-
-Theorem supertype_antisym: forall {A: Set} {h: HasRelation A} (a b: A), a :> b -> b <: a.
-Admitted.
-
-Theorem supertype_trans: forall {A: Set} {h: HasRelation A} (a b c: A), a :> b -> b :> c -> a :> c.
+Theorem subtype_trans: forall (a b c: ftype), a <: b -> b <: c -> a <: c.
 Admitted.
 
 Theorem union_never: forall (a: ftype), FNEVER U a = a.
-Proof.
-  intros. split.
-  - apply US_NeverL.
-  - intros. revert H. destruct a; destruct b; simpl; intros;
-      try apply US_Any;
-      try solve [inv_cs H].
-    + inv_cs H; try inverts H0; try inverts H1; try inverts H2; by_ auto.
-    + inv_cs H. inverts H0. by_ auto.
-    + inv_cs H. inverts H0. by_ auto.
-Qed.
-
-Theorem union_null: forall (a: ftype), IsNullable a -> FNULL U a = a.
-Proof.
-  intros. split.
-  - apply US_NullL. exact H.
-  - intros. rename H into H1, H0 into H. revert H. destruct a; destruct b; simpl; intros;
-      try apply US_Any;
-      try discr_cs H.
-    + inv_cs H; try inverts H0; try inverts H1; try inverts H2; by_ auto.
-    + inv_cs H. inverts H0. by_ auto.
-    + inv_cs H. inverts H0. by_ auto.
-Qed.
-
-Theorem union_any: forall (a: ftype), FAny U a = FAny.
-Proof.
-  intros. split.
-  - apply US_Any.
-  - intros. revert H. destruct a; destruct b; simpl; intros;
-      try apply US_Any;
-      try discr_cs H.
-Qed.
-
-Print ftype_ind.
-
-Local Ltac induction' H :=
-  lazymatch H with
-  | Rev_ ?t => induction t
-  | Supers_ ?t => destruct t
-  | ?t => induction t
-  end.
-
-Local Ltac contstructor0 :=
-  constructor + match goal with
-  | |- context[(?x :: ?xs)%list] => destruct x; econstructor; [apply List.Add_head | |]
-  | |- _ => fail "no constructor"
-  end.
-
-Local Ltac inv_ap0 Constr H t :=
-  tryif apply Constr then (
-    apply List.Forall_rev in H; remember (List.rev _) as t2 eqn:H0; clear H0;
-      induction t2; inverts H; constructor
-  ) else (
-    induction' t; inverts H; contstructor0; try discriminate
-  ).
-
-Local Ltac inv_ap :=
-  lazymatch goal with
-  | H : ?P |- ?P => exact H
-  | H : ?t U ?t = ?t /\ ?t I ?t = ?t |- ?t U ?t <: ?t => destruct H as [[H _] _]; exact H
-  | H : ?t U ?t = ?t /\ ?t I ?t = ?t |- ?t I ?t :> ?t => destruct H as [_ [H _]]; exact H
-  | |- (?t && ?t >= ?t)%bool => destruct t; simpl; reflexivity
-  | |- (?t || ?t <= ?t)%bool => destruct t; simpl; reflexivity
-  | IH : ?Q -> ?P |- ?P => apply IH
-  | H : ?P (snd (_, ?t)) |- _ => simpl in H
-  | H : ?P ?t |- ?t U ?t <: ?t => inv_ap0 US_OTypes H t
-  | H : ?P ?t |- ?t I ?t :> ?t => inv_ap0 IS_OTypes H t
-  | |- ?t U ?t <: ?t => induction' t; constructor
-  | |- ?t I ?t :> ?t => induction' t; constructor
-  | |- ?v U ?v <: ?v => fail "todo handle"
-  | |- ?v I ?v :> ?v => fail "todo handle"
-  end.
-
-Local Ltac destruct_nullable H :=
-  repeat lazymatch goal with | H : bool |- _ => destruct H end;
-  simpl; try (reflexivity + inv_cs H; invert_eqs; simpl in *; discriminate).
-
-Local Ltac inv_cs' H :=
-  inv_cs H; invert_eqs; simpl in *; clear_obvious.
-
-Local Ltac revert_with t :=
-  repeat lazymatch goal with
-  | H : context[t] |- _ => revert H
-  end.
-
-Local Ltac destruct2' a b :=
-  (revert_with a; revert_with b; ind_list2 a b; intros) +
-    (destruct a; destruct b).
-
-Local Ltac destruct2 a b :=
-  lazymatch a with
-  | Supers_ ?a => match b with Supers_ ?b => destruct2' a b end
-  | Rev_ ?a => lazymatch b with Rev_ ?b => destruct2' a b end
-  | _ => destruct2' a b
-  end.
-
-Local Ltac ap_inv0_oftype H H0 params params0 :=
-  inv_cs' H0; constructor; apply List.Forall_rev in H;
-    remember (List.rev params) as params' eqn:Heqparams'; remember (List.rev params0) as params0' eqn:Heqparams0';
-    clear Heqparams'; clear Heqparams0'; clear params; clear params0.
-
-Local Ltac ap_inv0 H H0 t t2 :=
-  match type of t with
-  | list oftype => ap_inv0_oftype H H0 t t2
-  | _ => destruct2 t t2; inverts H; inv_cs' H0; try constructor
-  end.
-
-Local Ltac ap_inv :=
-  lazymatch goal with
-  | H : ?t U ?t = ?t /\ ?t I ?t = ?t |- ?t U ?t <: ?t => destruct H as [[H _] _]; exact H
-  | H : ?t U ?t = ?t /\ ?t I ?t = ?t |- ?t I ?t :> ?t => destruct H as [_ [H _]]; exact H
-  | H : ?t U ?t = ?t /\ ?t I ?t = ?t |- ?t U ?t2 <: ?t2 => destruct H as [[_ H] _]; apply H; assumption
-  | H : ?t U ?t = ?t /\ ?t I ?t = ?t |- ?t I ?t2 :> ?t2 => destruct H as [_ [_ H]]; apply H; assumption
-  | IH : ?Q -> ?Q0 -> ?Q1 -> ?P |- ?P => apply IH; try assumption
-  | IH : ?Q -> ?Q0 -> ?P |- ?P => apply IH; try assumption
-  | IH : ?Q -> ?P |- ?P => apply IH; try assumption
-  | H : ?P ?t |- ?t U ?t <: ?t => inverts H; constructor
-  | H : ?P ?t |- ?t I ?t :> ?t => inverts H; constructor
-  | H : ?P ?t, H0 : Rev_ ?t U Rev_ ?t <: Rev_ ?t2 |- Rev_ ?t U Rev_ ?t2 <: Rev_ ?t2 => ap_inv0 H H0 t t2
-  | H : ?P ?t, H0 : Rev_ ?t I Rev_ ?t :> Rev_ ?t2 |- Rev_ ?t I Rev_ ?t2 :> Rev_ ?t2 => ap_inv0 H H0 t t2
-  | H : ?P ?t, H0 : ?t U ?t <: ?t2 |- ?t U ?t2 <: ?t2 => ap_inv0 H H0 t t2
-  | H : ?P ?t, H0 : ?t I ?t :> ?t2 |- ?t I ?t2 :> ?t2 => ap_inv0 H H0 t t2
-  | H0 : ?t U ?t <: ?t2 |- ?t U ?t2 <: ?t2 => destruct2 t t2; inv_cs' H0; constructor
-  | H0 : ?t I ?t :> ?t2 |- ?t I ?t2 :> ?t2 => destruct2 t t2; inv_cs' H0; constructor
-  | |- ?t U ?t2 <: ?t2 => destruct2 t t2; constructor
-  | |- ?t I ?t2 :> ?t2 => destruct2 t t2; constructor
-  | |- (?t && ?t >= ?t)%bool => destruct t; simpl; reflexivity
-  | |- (?t || ?t <= ?t)%bool => destruct t; simpl; reflexivity
-  | |- (?t && ?t2 >= ?t2)%bool => destruct2 t t2; simpl in *; try (reflexivity + discriminate); clear_obvious
-  | |- (?t || ?t2 <= ?t2)%bool => destruct2 t t2; simpl in *; try (reflexivity + discriminate); clear_obvious
-  end.
-
-
-Theorem union_intersect_refl : forall {A: Set} {h: HasRelation A} (a: A), a U a = a /\ a I a = a.
-Proof.
-  intros; destruct_relation_type A h.
-  - induction a using ftype_rec'.
-    * split; split; intros; try constructor; inv_cs H; constructor.
-    * split; split; destruct nullable; intros;
-        try inv_cs H;
-        constructor;
-        try (simpl; reflexivity);
-        try exact H3.
-    * split; split; intros; try constructor;
-        try (destruct nullable; simpl; reflexivity).
-      + repeat inv_ap.
-      + destruct b; try constructor; destruct_nullable H0; inv_cs' H0.
-        ap_inv. ap_inv. ap_inv. ap_inv. ap_inv. ap_inv. ap_inv. ap_inv.
-        revert_with params'; ind_list2_alt params' params0'; intros; inverts H8;
-          [apply IS_NilOType |  | |].
-          [apply IS_NilOType | inv_cs' H5 | apply IS_ConsOTypeR; apply H; [apply List.Forall_nil | inv_cs' H5; assumption] | inv_cs' H5].
-          apply IS_ConsOType; [ap_inv; ap_inv | apply H; assumption].
-          apply IS_ConsOTypeL.
-        inverts H4; inv_cs' H5.
-        destruct optional; destruct optional0;
-          try (apply IS_ConsOType; [constructor; [simpl; reflexivity | ap_inv] | ]).
-          try (apply IS_ConsOType; [inverts H4; constructor; [reflexivity | ] |]).
-          inverts H8; inv_cs' H5.
-        ap_inv.
-        ap_inv. ap_inv. ap_inv.
-        ap_inv.
-        ap_inv. ap_inv. ap_inv.
-        apply H; try assumption. inv_cs' H14.
-
-
-        [constructor | constructor | |]. constructor.
-
-          inverts H8; [simpl in *; subst |].
-        destruct2 params params0; inverts H8; inv_cs' H4. try constructor.
-        constructor. simpl
-
-        revert_with tparams; ind_list2 tparams tparams0; intros;
-          inverts H6; inv_cs' H2; try constructor.
-        revert_with tparams; ind_list2 tparams tparams0; intros;
-          try constructor; inv_cs' H5; inv_cs' H3; inverts H6.
-        destruct x; destruct y; inverts H2; inv_cs' H5; try constructor.
-        destruct v; destruct v0; inv_cs' H15; try constructor.
-        revert_with supers; ind_list2 supers supers0; intros;
-          try constructor; inv_cs' H16.
-        rename H into IH; apply IH; try constructor; assumption.
-        destruct H7 as [_ [_ H7]]; apply H7; inv_cs' H5; assumption.
-
-
-
-        inverts H. destruct
-        ap_inv. inv_cs' H5.  ap_inv. ap_inv. ap_inv. ap_inv. ap_inv. ap_inv. ap_inv. ap_inv. ap_inv. ap_inv. ap_inv.
-        ap_inv. revert_with tparams0. ind_list2 tparams0 tparams1.
-        ap_inv.
-
-        ap_inv. ap_inv. ap_inv. ap_inv. ap_inv. ap_inv. ap_inv. ap_inv. ap_inv. ap_inv. ap_inv. ap_inv.
-        ap_inv.
-        ap_inv.
-        induction' structure; destruct structure0.
-
-
-
-        ap_inv. ap_inv. ap_inv. ap_inv. ap_inv. ap_inv. ap_inv. ap_inv. ap_inv. ap_inv.
-        ap_inv. ap_inv. ap_inv.
-        induction b; try constructor;
-          destruct_nullable H0.
-        ap_inv. ap_inv.
-        induction' b; try constructor;
-          destruct_nullable H0.
-          inverts H.
-        induction' structure0; try constructor. etc.
-
-Theorem union_insersect_sym : forall {A: Set} {h: HasRelation A} (a b c: A),
-    (a U b = c -> b U a = c) /\ (a I b = c -> b I a = c).
 Admitted.
 
-Theorem union_intersecttrans : forall {A: Set} {h: HasRelation A} (a b c x y z: A),
-    (a U b = x -> b U c = y -> (a U c = z <-> x U y = z)) /\ (a I b = x -> b I c = y -> (a I c = z <-> x I y = z)).
+Theorem union_null: forall (a: ftype), IsNullable a -> FNULL U a = a.
+Admitted.
+
+Theorem union_any: forall (a: ftype), FAny U a = FAny.
+Admitted.
+
+Theorem intersect_never: forall (a: ftype), FNEVER I a = FNEVER.
+Admitted.
+
+Theorem intersect_null: forall (a: ftype), IsNullable a -> FNULL I a = FNULL.
+Admitted.
+
+Theorem intersect_any: forall (a: ftype), FAny I a = a.
+Admitted.
+
+Theorem union_subtype: forall (a b ab c: ftype), a <: c -> b <: c -> a U b = ab -> ab <: c.
+Admitted.
+
+Theorem intersect_subtype: forall (a b ab c: ftype), c <: a -> c <: b -> a I b = ab -> c <: ab.
+Admitted.
+
+Theorem union_subtype0: forall (a b ab: ftype), a U b = ab -> a <: ab /\ b <: ab.
+Admitted.
+
+Theorem intersect_subtype0: forall (a b ab: ftype), a I b = ab -> ab <: a /\ ab <: b.
+Admitted.
+
+Theorem union_refl: forall (a: ftype), a U a = a.
+Admitted.
+
+Theorem intersect_refl: forall (a: ftype), a I a = a.
+Admitted.
+
+Theorem union_comm: forall (a b ab: ftype), a U b = ab <-> b U a = ab.
+Admitted.
+
+Theorem intersect_comm: forall (a b ab: ftype), a I b = ab <-> b I a = ab.
+Admitted.
+
+Theorem union_assoc: forall (a b c ab bc abc: ftype), a U b = ab -> b U c = bc -> ab U c = abc <-> a U bc = abc.
+Admitted.
+
+Theorem intersect_assoc: forall (a b c ab bc abc: ftype), a I b = ab -> b I c = bc -> ab I c = abc <-> a I bc = abc.
+Admitted.
+
+Theorem union_absorb: forall (a b ab: ftype), a <: b -> a U b = ab <-> a = ab.
+Admitted.
+
+Theorem intersect_absorb: forall (a b ab: ftype), a <: b -> a I b = ab <-> b = ab.
 Admitted.
