@@ -331,3 +331,6 @@ Qed.
 
 Tactic Notation "induction2" ident (a) ident (b) "using" tactic (ind2) :=
   revert_with a; revert_with b; ind2 a b; intros.
+
+Tactic Notation "induction3" ident (a) ident (b) ident (c) "using" tactic (ind3) :=
+  revert_with a; revert_with b; revert_with c; ind3 a b c; intros.

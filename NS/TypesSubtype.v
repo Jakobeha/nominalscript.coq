@@ -155,6 +155,13 @@ Local Ltac ind2 a b :=
   | _ => destruct a; destruct b
   end.
 
+Local Ltac ind3 a b c :=
+  lazymatch type of a with
+  | js_record _ => induction3 a b c using ind_list3
+  | list _ => induction3 a b c using ind_list3
+  | _ => destruct a; destruct b; destruct c
+  end.
+
 Local Ltac ind_s a b :=
   tryif constr_eq a b then ind1 a else ind2 a b.
 
@@ -319,7 +326,40 @@ Proof with inv_eq'.
     all: admit.
 Admitted.
 
+Theorem subtype_Nullable: forall (a b: ftype), a <: b -> IsNullable a -> IsNullable b.
+Proof.
+  intros a b H. destruct H; intros; simpl in *;
+    [reflexivity | contradiction | exact H | ..];
+    destruct nl; destruct nr; reflexivity || contradiction || discriminate.
+Qed.
+
+Local Ltac inv_trans :=
+    lazymatch goal with
+    | H : ?nr >= ?nl |- ?nullable >= ?nl => destruct nullable; destruct nl; destruct nr; reflexivity || discriminate
+    | |- [_] nil :> nil => constructor
+    | IH : forall c0 a0, ?b :> c0 -> a0 :> ?b -> a0 :> c0, H : [S_ftype] ?b :> ?c, H0 : [S_ftype] ?a :> ?b |- [S_ftype] ?a :> ?c => apply IH; [exact H | exact H0]
+    | IH : ?P ?b, H : [?S] ?a :> ?b, H0 : [?S0] ?b :> ?c |- context A [?a] => ind3 a b c; inv H; inv H0; inv IH; constructor
+    | _ => fail "can't inv_trans"
+    end.
+
+Local Ltac inv_trans' := repeat progress inv_trans.
+
 Theorem subtype_trans: forall (a b c: ftype), a <: b -> b <: c -> a <: c.
+Proof with inv_trans'.
+  intros a b; revert a; induction b using ftype_rec'; intros.
+  - inv H0; constructor.
+  - inv H; constructor; destruct nullable; simpl in H1; [clear H1 | contradiction]; inv H0; [simpl; reflexivity | exact H].
+  - destruct a; destruct c; try apply S_Any; inv H0; inv H1; try (apply S_Never || apply S_Null); [destruct nullable; destruct nullable1; simpl in *; reflexivity || discriminate || contradiction | ..].
+    inv_trans. inv_trans. inv_trans. inv_trans. inv_trans.
+
+  - inv H; constructor.
+  - inv H; constructor; inv H0.
+  - inv H0; constructor; exact H.
+  - destruct a; inv H1; try (apply S_Never || apply S_Null); [destruct nl; destruct nr; simpl in *; reflexivity || discriminate || contradiction | ..].
+    inv_trans. inv_trans. inv_trans. inv_trans. unfold ap_SubtypeRelation in H14.
+    apply H18.
+    destruct nullable; destruct nl; destruct nr; try (reflexivity || discriminate).
+    destruct structure; [inv H11 | inv H7 | inv H7 | inv H7 ].
 Admitted.
 
 Theorem union_never: forall (a: ftype), FNEVER U a = a.
