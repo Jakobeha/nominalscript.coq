@@ -1,0 +1,4 @@
+-R ../NS NS
+
+-arg -w
+-arg -undo-batch-mode

@@ -89,14 +89,14 @@ Inductive SType_Forall {A: Set} (P: A -> Prop): stype A -> Prop :=
 | Forall_STuple : forall elems, List.Forall (OType_Forall P) elems -> SType_Forall P (STuple elems)
 | Forall_SObject : forall fields, JsRecordForall (OType_Forall P) fields -> SType_Forall P (SObject fields).
 
-Axiom ttype_rec':
+Axiom ttype_ind':
   forall (P: ttype -> Prop)
     (fAny: P TAny)
     (fNever: forall nullable, P (TNever nullable))
     (fStructural: forall nullable structure, SType_Forall P structure -> P (TStructural nullable structure))
     (fNominal: forall nullable id, IType_Forall P id -> P (TNominal nullable id))
     (x: ttype), P x.
-Axiom ftype_rec':
+Axiom ftype_ind':
   forall (P: ftype -> Prop)
     (fAny: P FAny)
     (fNever: forall nullable, P (FNever nullable))

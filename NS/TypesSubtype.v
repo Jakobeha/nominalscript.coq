@@ -123,6 +123,29 @@ Axiom S_ftype_ind':
       P (FNominal nl idl idsl sl) (FNominal nr idr idsr sr))
     (lhs rhs: ftype), S_ftype lhs rhs -> P lhs rhs.
 
+Axiom S_ftype_ind0:
+  forall (P: forall {A: Set} {S: SubtypeOf A} (lhs rhs: A), S lhs rhs -> Prop)
+    (fS_Any: forall (lhs: ftype), P lhs FAny (S_Any lhs))
+    (fS_Never: forall (rhs: ftype), P FNEVER rhs (S_Never rhs))
+    (fS_Null: forall (rhs: ftype) (a: IsNullable rhs), P FNULL rhs (S_Null rhs a))
+    (fS_Struct: forall (nl nr: bool) (sl sr: sftype)
+      (a: nl <= nr)
+      (b: sl <: sr),
+      P sl sr b ->
+      P (FStructural nl sl) (FStructural nr sr) (S_Struct nl nr a b))
+    (fS_NomStruct: forall (nl nr: bool) (idl: iftype) (idsl: list iftype) (sl sr: sftype)
+      (a: nl <= nr)
+      (b: sl <: sr),
+      P sl sr b ->
+      P (FNominal nl idl idsl (Some sl)) (FStructural nr sr) (S_NomStruct nl nr idl idsl a b))
+    (fS_Nom: forall (nl nr: bool) (idl idr: iftype) (idsl idsr: list iftype) (sl sr: option sftype)
+      (a: nl <= nr)
+      (b: (idl :: idsl) <: (idr :: idsr))
+      (c: sl <: sr),
+      P (idl :: idsl) (idr :: idsr) b -> P sl sr c ->
+      P (FNominal nl idl idsl sl) (FNominal nr idr idsr sr) (S_Nom nl nr a b c))
+    (lhs rhs: ftype) (r: S_ftype lhs rhs), P lhs rhs r.
+
 Inductive HasVariance {A: Set} {S: SubtypeOf A} (lhs: A) (rhs: A): variance -> Prop :=
 | IsBivariant     : lhs <: rhs \/ lhs :> rhs -> HasVariance lhs rhs Bivariant
 | IsCovariant     : lhs <: rhs              -> HasVariance lhs rhs Covariant
@@ -227,7 +250,7 @@ Local Ltac inv_con' := repeat progress inv_con.
 
 Theorem subtype_refl: forall (a: ftype), a <: a.
 Proof with inv_con'.
-  induction a using ftype_rec'; intros.
+  induction a using ftype_ind'; intros.
   - constructor.
   - destruct nullable; constructor; simpl; reflexivity.
   - constructor; [destruct nullable; simpl; reflexivity |]...
@@ -309,6 +332,8 @@ Local Ltac inv_eq' := repeat progress inv_eq.
 
 Theorem subtype_antisym: forall (a b: ftype), a <: b -> b <: a -> a = b.
 Proof with inv_eq'.
+
+
   intros a b H. induction H using S_ftype_ind'; intros.
   - inv H; reflexivity.
   - inv H; [reflexivity | inv H0].
