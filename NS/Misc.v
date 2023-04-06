@@ -306,9 +306,9 @@ Ltac ind_list3 x y z :=
   | [ |- forall x y z, ?H ] => apply (list_ind3 (fun x y z => H))
   end.
 
-Theorem list_ind2_alt: forall {A B: Type} (P: list A -> list B -> Prop),
+Theorem list_ind2_alt_l: forall {A B: Type} (P: list A -> list B -> Prop),
     P nil nil ->
-    (forall x xs ys, P xs ys -> P (cons x xs) ys) ->
+    (forall x xs, P xs nil -> P (cons x xs) nil) ->
     (forall y xs ys, P xs ys -> P xs (cons y ys)) ->
     forall xs ys, P xs ys.
 Proof.
@@ -323,10 +323,29 @@ Proof.
     exact IHys.
 Qed.
 
-Ltac ind_list2_alt x y :=
+Ltac ind_list2_alt_l x y :=
   revert x y;
   match goal with
-  | [ |- forall x y, ?H ] => apply (list_ind2_alt (fun x y => H))
+  | [ |- forall x y, ?H ] => apply (list_ind2_alt_l (fun x y => H))
+  end.
+
+Theorem list_ind2_alt_r: forall {A B: Type} (P: list A -> list B -> Prop),
+    P nil nil ->
+    (forall x xs ys, P xs ys -> P (cons x xs) ys) ->
+    (forall y ys, P nil ys -> P nil (cons y ys)) ->
+    forall xs ys, P xs ys.
+Proof.
+  intros A B P P0 Px Py xs ys.
+  apply (@list_ind2_alt_l B A (fun b a => P a b)); intros.
+  - apply P0.
+  - apply Py; exact H.
+  - apply Px; exact H.
+Qed.
+
+Ltac ind_list2_alt_r x y :=
+  revert x y;
+  match goal with
+  | [ |- forall x y, ?H ] => apply (list_ind2_alt_r (fun x y => H))
   end.
 
 Lemma list_add_ind : forall {A: Type} (P: list A -> Prop),

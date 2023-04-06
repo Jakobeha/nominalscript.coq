@@ -152,6 +152,32 @@ Proof.
   split; [eapply JsRecordNoDup_alt0 | eapply JsRecordNoDup_alt1]; [exact H | exact H0 | exact H | exact H0].
 Qed.
 
+Theorem JsRecordAdd_not_nil : forall {A: Type} (kx: string) (vx: A) (xs: js_record A),
+    not (JsRecordAdd kx vx xs nil).
+Proof.
+  intros; intros H; inv H.
+Qed.
+
+Theorem JsRecordAdd_dec' : forall {A: Type} (kx: string) (xs': js_record A),
+    (exists vx xs, JsRecordAdd kx vx xs xs') \/ forall vx xs, not (JsRecordAdd kx vx xs xs').
+Proof.
+  intros; destruct (JsRecordHasKey_dec kx xs'); [left | right]; induction xs'.
+  - inv H.
+  - destruct a as [kx0 vx0]; destruct (string_dec kx0 kx).
+    + subst; exists vx0, xs'; apply JsRecordAdd_head.
+    + inv H; [contradiction n; reflexivity |]; specialize (IHxs' H1); destruct IHxs' as [vx1 [xs1 IHxs']]; exists vx1; exists ((kx0, vx0) :: xs1)%list; apply JsRecordAdd_cons; assumption.
+  - intros; intros H0; inv H0.
+  - intros; intros H0; destruct a as [kx0 vx0]; destruct (string_dec kx0 kx).
+    + subst; inv H0; [contradict H; apply List.Exists_cons_hd; reflexivity | contradiction H4; reflexivity].
+    + inv H0; [contradiction n; reflexivity |]; contradict H6; apply IHxs'; intros H0; contradict H; apply List.Exists_cons_tl; exact H0.
+Qed.
+
+Theorem JsRecordAdd_dec : forall {A: Type} (kx: string) (xs': js_record A),
+    (exists vx xs, JsRecordAdd kx vx xs xs') \/ not (exists vx xs, JsRecordAdd kx vx xs xs').
+Proof.
+  intros; destruct (JsRecordAdd_dec' kx xs'); [left; assumption | right]; intros H0; destruct H0 as [vx [xs H0]]; specialize (H vx xs); contradiction H.
+Qed.
+
 Theorem JsRecordAdd_HasKey : forall {A: Type} (kx: string) (vx: A) (xs xs': js_record A),
     JsRecordAdd kx vx xs xs' -> JsRecordHasKey kx xs'.
 Proof.
@@ -180,26 +206,6 @@ Proof.
   intros A P P0 Pn xs. induction xs; [exact P0 | apply (Pn xs); [exact IHxs |]]. destruct a as [kx vx]. exists kx. exists vx. apply JsRecordAdd_head.
 Qed.
 
-Theorem js_record_ind2_dumb : forall {A: Type} (P: js_record A -> js_record A -> Prop),
-    P nil nil ->
-    (forall xs xs', P xs nil -> (exists kx vx, JsRecordAdd kx vx xs xs') -> P xs' nil) ->
-    (forall ys ys', P nil ys -> (exists ky vy, JsRecordAdd ky vy ys ys') -> P nil ys') ->
-    (forall xs ys xs' ys', P xs ys -> (exists kx vx, JsRecordAdd kx vx xs xs') -> (exists ky vy, JsRecordAdd ky vy ys ys') -> P xs' ys') ->
-    forall xs ys, P xs ys.
-Proof.
-  intros A P P0 Px Py Pxy xs. induction xs; intros; induction ys; [exact P0 | apply (Py ys); [exact IHys |] | apply (Px xs); [exact (IHxs nil) |] | apply (Pxy xs ys); [exact (IHxs ys) | |] ].
-  - destruct a as [ky vy]. exists ky. exists vy. apply JsRecordAdd_head.
-  - destruct a as [kx vx]. exists kx. exists vx. apply JsRecordAdd_head.
-  - destruct a as [kx vx]. destruct a0 as [ky vy]. exists kx. exists vx. apply JsRecordAdd_head.
-  - destruct a as [kx vx]. destruct a0 as [ky vy]. exists ky. exists vy. apply JsRecordAdd_head.
-Qed.
-
-Ltac ind_js_record2_dumb x y :=
-  revert x y;
-  match goal with
-  | [ |- forall x y, ?H ] => apply (js_record_ind2_dumb (fun x y => H))
-  end.
-
 Theorem JsRecordEqKeys_nil : forall {A: Type}, JsRecordEqKeys (@nil (string * A)) nil.
 Proof.
   intros A k; split; intros; exact H.
@@ -214,94 +220,3 @@ Theorem JsRecordEqKeys_not_nil_cons : forall {A: Type} (y: string * A) (ys: js_r
 Proof.
   intros. intros H. destruct y as [ky vy]. specialize (H ky). destruct H as [_ H]. assert_specialize H; [apply List.Exists_cons_hd; reflexivity |]. inv H.
 Qed.
-
-Theorem JsRecordEqKeys_cons : forall {A: Type} (k: string) (vx vy: A) (xs ys: js_record A),
-    JsRecordEqKeys xs ys <-> JsRecordEqKeys ((k, vx) :: xs)%list ((k, vy) :: ys)%list.
-      (* * intros k. split; intros.
-        all: inv H0; [apply List.Exists_cons_hd; reflexivity | apply List.Exists_cons_tl]; apply H; exact H2.
-      * intros H0. contradict H. intros k. split; intros.
-        --  assert (JsRecordHasKey k ((ky, vx) :: xs)%list); [apply List.Exists_cons_tl; exact H |].
-            apply H0 in H1. apply List.Exists_cons in H1. destruct H1.
-            ++  subst. *)
-Admitted.
-
-Theorem JsRecordEqKeys_add : forall {A: Type} (k: string) (vx vy: A) (xs ys xs' ys': js_record A),
-    List.Add (k, vx) xs xs' -> List.Add (k, vy) ys ys' -> (JsRecordEqKeys xs ys <-> JsRecordEqKeys xs' ys').
-      (* * intros k. split; intros.
-        all: inv H0; [apply List.Exists_cons_hd; reflexivity | apply List.Exists_cons_tl]; apply H; exact H2.
-      * intros H0. contradict H. intros k. split; intros.
-        --  assert (JsRecordHasKey k ((ky, vx) :: xs)%list); [apply List.Exists_cons_tl; exact H |].
-            apply H0 in H1. apply List.Exists_cons in H1. destruct H1.
-            ++  subst. *)
-Admitted.
-
-Theorem JsRecordAdd_destruct : forall {A: Type} (kx: string) (vx: A) (xs xs': js_record A),
-    JsRecordAdd kx vx xs xs' <-> (List.Add (kx, vx) xs xs' /\ ~JsRecordHasKey kx xs).
-Admitted.
-
-Theorem JsRecordEqKeys_0 : forall {A: Type} (xs ys: js_record A), JsRecordEqKeys xs ys <-> JsRecordEqKeys0 xs ys.
-Proof.
-  intros; ind_js_record2_dumb xs ys; split; intros.
-  - constructor.
-  - apply JsRecordEqKeys_nil.
-  - destruct xs'; [apply JsRecordEqKeys0_nil | apply JsRecordEqKeys_not_cons_nil in H1; contradiction H1].
-  - destruct xs'; [apply JsRecordEqKeys_nil | inv H1; inv H4].
-  - destruct ys'; [apply JsRecordEqKeys0_nil | apply JsRecordEqKeys_not_nil_cons in H1; contradiction H1].
-  - destruct ys'; [apply JsRecordEqKeys_nil | inv H1; inv H3].
-  - destruct H0 as [kx [vx H0]]; destruct H1 as [ky [vy H1]]. apply JsRecordAdd_destruct in H0. apply JsRecordAdd_destruct in H1. destruct H0. destruct H1. destruct (string_dec kx ky).
-    + subst. clear H3. clear H4. eapply JsRecordEqKeys0_add; [apply H | exact H0 | exact H1]. apply (JsRecordEqKeys_add H0 H1). exact H2.
-    +
-Admitted.
-
-Theorem JsRecordEqKeys_sub_cons : forall {A: Type} (kx ky: string) (vx vy: A) (xs ys: js_record A),
-    JsRecordEqKeys xs ys -> (JsRecordEqKeys ((kx, vx) :: xs)%list ((ky, vy) :: ys)%list <-> kx = ky).
-Admitted.
-
-Theorem JsRecordEqKeys_dec : forall {A: Type} (xs ys: js_record A),
-    JsRecordEqKeys xs ys \/ not (JsRecordEqKeys xs ys).
-Proof.
-  intros. ind_list2 xs ys; intros.
-  - left. apply JsRecordEqKeys_nil.
-  - right. apply JsRecordEqKeys_not_cons_nil.
-  - right. apply JsRecordEqKeys_not_nil_cons.
-  - destruct x as [kx vx]. destruct y as [ky vy]. destruct (string_dec kx ky).
-    + subst. left_right_with H.
-      * apply JsRecordEqKeys_cons. exact H.
-      * intros H0. apply JsRecordEqKeys_cons in H0. contradiction (H H0).
-    + right. intros H0. destruct H.
-      *
-      specialize (H0 kx). assert_specialize H0; [apply List.Exists_cons_hd; reflexivity |].
-      inv H0; [contradiction (n eq_refl) |].
-Admitted.
-
-Theorem js_record_ind2 : forall {A: Type} (P: js_record A -> js_record A -> Prop),
-    P nil nil ->
-    (forall xs xs', P xs nil -> (exists kx vx, JsRecordAdd kx vx xs xs') -> P xs' nil) ->
-    (forall ys ys', P nil ys -> (exists ky vy, JsRecordAdd ky vy ys ys') -> P nil ys') ->
-    (forall xs ys xs' ys', P xs ys -> (JsRecordEqKeys xs ys -> JsRecordEqKeys xs' ys') -> (exists k, (exists vx, JsRecordAdd k vx xs xs') /\ (exists vy, JsRecordAdd k vy ys ys')) -> P xs' ys') ->
-    forall xs ys, P xs ys.
-Admitted.
-
-Ltac ind_js_record2 x y :=
-  revert x y;
-  match goal with
-  | [ |- forall x y, ?H ] => apply (js_record_ind2 (fun x y => H))
-  end.
-
-Theorem js_record_ind3 : forall {A: Type} (P: js_record A -> js_record A -> js_record A -> Prop),
-    P nil nil nil ->
-    (forall xs xs', P xs nil nil -> (exists kx vx, JsRecordAdd kx vx xs xs') -> P xs' nil nil) ->
-    (forall ys ys', P nil ys nil -> (exists ky vy, JsRecordAdd ky vy ys ys') -> P nil ys' nil) ->
-    (forall zs zs', P nil nil zs -> (exists kz vz, JsRecordAdd kz vz zs zs') -> P nil nil zs') ->
-    (forall xs ys xs' ys', P xs ys nil -> (JsRecordEqKeys xs ys -> JsRecordEqKeys xs' ys') -> (exists k, (exists vx, JsRecordAdd k vx xs xs') /\ (exists vy, JsRecordAdd k vy ys ys')) -> P xs' ys' nil) ->
-    (forall xs zs xs' zs', P xs nil zs -> (JsRecordEqKeys xs zs -> JsRecordEqKeys xs' zs') -> (exists k, (exists vx, JsRecordAdd k vx xs xs') /\ (exists vz, JsRecordAdd k vz zs zs')) -> P xs' nil zs') ->
-    (forall ys zs ys' zs', P nil ys zs -> (JsRecordEqKeys ys zs -> JsRecordEqKeys ys' zs') -> (exists k, (exists vy, JsRecordAdd k vy ys ys') /\ (exists vz, JsRecordAdd k vz zs zs')) -> P nil ys' zs') ->
-    (forall xs ys zs xs' ys' zs', P xs ys zs -> (JsRecordEqKeys xs ys -> JsRecordEqKeys xs' ys') -> (JsRecordEqKeys xs zs -> JsRecordEqKeys xs' zs') -> (JsRecordEqKeys ys zs -> JsRecordEqKeys ys' zs') -> (exists k, (exists vx, JsRecordAdd k vx xs xs') /\ (exists vy, JsRecordAdd k vy ys ys') /\ (exists vz, JsRecordAdd k vz zs zs')) -> P xs' ys' zs') ->
-    forall xs ys zs, P xs ys zs.
-Admitted.
-
-Ltac ind_js_record3 x y z :=
-  revert x y z;
-  match goal with
-  | [ |- forall x y z, ?H ] => apply (js_record_ind3 (fun x y z => H))
-  end.

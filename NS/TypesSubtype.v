@@ -9,8 +9,6 @@ Require Import Coq.Logic.FinFun.
 Require Import Coq.Logic.Eqdep.
 Require Import Coq.Program.Equality.
 Require Import Coq.Relations.Relation_Definitions.
-Require Import LibHyps.LibHyps.
-Require Import Lia.
 From NS Require Import Misc.
 From NS Require Import JsRecord.
 From NS Require Import TypesBase.
@@ -202,6 +200,13 @@ Global Instance SubtypeAntisym_Zip {A: Set} `{_SubtypeAntisym: SubtypeAntisym A}
 Proof. intros a b H H0; (induction2 a b using ind_list2); [inv H H0 | inv H0 H1 .. ]; f_equal; [apply subtype_antisym | apply H]; assumption. Qed.
 Global Instance SubtypeTrans_Zip {A: Set} `{_SubtypeTrans: SubtypeTrans A}: @SubtypeTrans (list A) SOf_Zip.
 Proof. intros a b c H H0; (induction3 a b c using ind_list3); [inv H H0 | inv H0 H1 ..]; constructor; [apply subtype_trans with y | apply H]; assumption. Qed.
+
+Global Instance SubtypeRefl_JsrZip {A: Set} `{_SubtypeRefl: SubtypeRefl A}: @SubtypeRefl (js_record A) SOf_JsrZip.
+Proof. intros a; induction a; [constructor |]; destruct a as [ka va]. apply S_JsrZip_cons with va a0; [apply subtype_refl | apply IHa | apply JsRecordAdd_head]; assumption. Qed.
+Global Instance SubtypeAntisym_JsrZip {A: Set} `{_SubtypeAntisym: SubtypeAntisym A}: @SubtypeAntisym (js_record A) SOf_JsrZip.
+Proof. intros a b H H0; (induction2 a b using ind_list2_alt_l); [reflexivity | inv H1; inv H7 |]; inv H0. apply subtype_antisym.
+
+       [inv H H0 | inv H0 H1 .. ]; f_equal. [apply subtype_antisym | apply H]; assumption. Qed.
 
 
 Theorem _SubtypeValid_option {A: Set} {_Subtype: Subtype A} {_Top: Top A} {_Bottom: Bottom A} (_SubtypeValid: SubtypeValid A): SubtypeValid (option A).
