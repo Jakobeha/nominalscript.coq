@@ -1,6 +1,5 @@
 (* -*- company-coq-local-symbols: (("U" . ?∪) ("I" . ?∩) ("==" . ?≡) ("><" . ?≷)); -*- *)
 (* Add LoadPath should not be necessary but it is *)
-Add LoadPath "." as NS.
 Set Implicit Arguments.
 Require Import Coq.Strings.String.
 Require Import Coq.Arith.PeanoNat.

@@ -1,6 +1,5 @@
 (* -*- company-coq-local-symbols: (("U" . ?∪) ("I" . ?∩)); -*- *)
 (* Add LoadPath should not be necessary but it is *)
-Add LoadPath "." as NS.
 Set Implicit Arguments.
 Require Import Coq.Strings.String.
 Require Import Coq.Arith.PeanoNat.
@@ -27,9 +26,9 @@ Definition SubtypeRelation (A: Set) := relation A.
 Definition ap_SubtypeRelation {A: Set} (S: SubtypeRelation A) (lhs rhs: A) := S lhs rhs.
 Class SubtypeOf (A: Set) := Subtype : SubtypeRelation A.
 Notation "'[' Subtype ']' lhs '<:' rhs" := (ap_SubtypeRelation Subtype lhs rhs) (at level 60, lhs at next level, rhs at next level, no associativity).
-Notation "'[' Subtype ']' lhs ':>' rhs" := (ap_SubtypeRelation Subtype rhs lhs) (at level 60, lhs at next level, rhs at next level, no associativity).
+Notation "'[' Subtype ']' lhs ':>' rhs" := (ap_SubtypeRelation Subtype rhs lhs) (at level 60, lhs at next level, rhs at next level, no associativity, only parsing).
 Notation "lhs '<:' rhs" := (Subtype lhs rhs) (at level 60, rhs at next level, no associativity).
-Notation "lhs ':>' rhs" := (Subtype rhs lhs) (at level 60, rhs at next level, no associativity).
+Notation "lhs ':>' rhs" := (Subtype rhs lhs) (at level 60, rhs at next level, no associativity, only parsing).
 (* with CommonSupertype_opt : option A -> option A -> option A -> Prop := *)
 Inductive S_option {A: Set} (S: SubtypeRelation A) : SubtypeRelation (option A) :=
 | S_None            : forall (lhs: option A), [S_option S] lhs <: None
@@ -122,29 +121,40 @@ Axiom S_ftype_ind':
       [S_option (S_stype P)] sl <: sr ->
       P (FNominal nl idl idsl sl) (FNominal nr idr idsr sr))
     (lhs rhs: ftype), S_ftype lhs rhs -> P lhs rhs.
-
-Axiom S_ftype_ind0:
-  forall (P: forall {A: Set} {S: SubtypeOf A} (lhs rhs: A), S lhs rhs -> Prop)
-    (fS_Any: forall (lhs: ftype), P lhs FAny (S_Any lhs))
-    (fS_Never: forall (rhs: ftype), P FNEVER rhs (S_Never rhs))
-    (fS_Null: forall (rhs: ftype) (a: IsNullable rhs), P FNULL rhs (S_Null rhs a))
+Definition IsNullable_FNULL: IsNullable FNULL.
+Proof.
+  simpl. reflexivity.
+Defined.
+Check S_stype_ind.
+Axiom S_ftype_ind_sym:
+  forall (P: forall {A: Set} (S: SubtypeRelation A) (lhs rhs: A), [S] lhs <: rhs -> [S] rhs <: lhs -> Prop)
+    (fS_Any: P S_ftype FAny FAny (S_Any FAny) (S_Any FAny))
+    (fS_Never: P S_ftype FNEVER FNEVER (S_Never FNEVER) (S_Never FNEVER))
+    (fS_Null: P S_ftype FNULL FNULL (S_Null FNULL IsNullable_FNULL) (S_Null FNULL IsNullable_FNULL))
     (fS_Struct: forall (nl nr: bool) (sl sr: sftype)
-      (a: nl <= nr)
-      (b: sl <: sr),
-      P sl sr b ->
-      P (FStructural nl sl) (FStructural nr sr) (S_Struct nl nr a b))
-    (fS_NomStruct: forall (nl nr: bool) (idl: iftype) (idsl: list iftype) (sl sr: sftype)
-      (a: nl <= nr)
-      (b: sl <: sr),
-      P sl sr b ->
-      P (FNominal nl idl idsl (Some sl)) (FStructural nr sr) (S_NomStruct nl nr idl idsl a b))
+      (l0: nl <= nr) (r0: nr <= nl)
+      (l1: sl <: sr) (r1: sr <: sl),
+      P (S_stype S_ftype) sl sr l1 r1 ->
+      P S_ftype (FStructural nl sl) (FStructural nr sr) (S_Struct nl nr l0 l1) (S_Struct nr nl r0 r1))
     (fS_Nom: forall (nl nr: bool) (idl idr: iftype) (idsl idsr: list iftype) (sl sr: option sftype)
-      (a: nl <= nr)
-      (b: (idl :: idsl) <: (idr :: idsr))
-      (c: sl <: sr),
-      P (idl :: idsl) (idr :: idsr) b -> P sl sr c ->
-      P (FNominal nl idl idsl sl) (FNominal nr idr idsr sr) (S_Nom nl nr a b c))
-    (lhs rhs: ftype) (r: S_ftype lhs rhs), P lhs rhs r.
+      (l0: nl <= nr) (r0: nr <= nl)
+      (l1: (idl :: idsl) <: (idr :: idsr)) (r1: (idr :: idsr) <: (idl :: idsl))
+      (l2: sl <: sr) (r2: sr <: sl),
+      P (S_Intersect (S_itype S_ftype)) (idl :: idsl) (idr :: idsr) l1 r1 -> P (S_option (S_stype S_ftype)) sl sr l2 r2 ->
+      P S_ftype (FNominal nl idl idsl sl) (FNominal nr idr idsr sr) (S_Nom nl nr l0 l1 l2) (S_Nom nr nl r0 r1 r2))
+    (fS_Fn: forall (tpl tpr : list (tparam A)) (thispl thispr : A) (pl pr : list (otype A))
+          (rl rr : A) (retl retr : vtype A),
+        [S_Zip (S_tparam S)] tpr <: tpl ->
+        [S] thispr <: thispl ->
+        [S_Zip (S_otype S)] pr <: pl ->
+        [S] rr <: rl ->
+        [S_vtype S] retl <: retr -> P (SFn tpl thispl pl rl retl) (SFn tpr thispr pr rr retr)) ->
+       (forall el er : A, [S] el <: er -> P (SArray el) (SArray er)) ->
+       (forall esl esr : list (otype A),
+        [S_Zip (S_otype S)] esl <: esr -> P (STuple esl) (STuple esr)) ->
+       (forall fsl fsr : js_record (otype A),
+        [S_JsrZip (S_otype S)] fsl <: fsr -> P (SObject fsl) (SObject fsr)) ->
+    (lhs rhs: ftype) (l: S_ftype lhs rhs) (r: S_ftype rhs lhs), P S_ftype lhs rhs l r.
 
 Inductive HasVariance {A: Set} {S: SubtypeOf A} (lhs: A) (rhs: A): variance -> Prop :=
 | IsBivariant     : lhs <: rhs \/ lhs :> rhs -> HasVariance lhs rhs Bivariant
