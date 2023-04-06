@@ -122,7 +122,14 @@ Ltac clear_obvious :=
   | H : ?T = ?T |- _ => clear H
   | H : True |- _ => clear H
   end.
-Ltac inv H := inversion H; remove_existTs; clear_obvious; subst; clear H; try discriminate.
+Ltac _inv H := inversion H; remove_existTs; clear_obvious; subst; clear H; try discriminate.
+Tactic Notation "inv" hyp(H) := _inv H.
+Tactic Notation "inv" hyp(H) hyp(H0) := _inv H; _inv H0.
+Tactic Notation "inv" hyp(H) hyp(H0) hyp(H1) := _inv H; _inv H0; _inv H1.
+Tactic Notation "inv" hyp(H) hyp(H0) hyp(H1) hyp(H2) := _inv H; _inv H0; _inv H1; _inv H2.
+Tactic Notation "inv" hyp(H) hyp(H0) hyp(H1) hyp(H2) hyp(H3) := _inv H; _inv H0; _inv H1; _inv H2; _inv H3.
+Tactic Notation "inv" hyp(H) hyp(H0) hyp(H1) hyp(H2) hyp(H3) hyp(H4) := _inv H; _inv H0; _inv H1; _inv H2; _inv H3; _inv H4.
+Tactic Notation "inv" hyp(H) hyp(H0) hyp(H1) hyp(H2) hyp(H3) hyp(H4) hyp(H5) := _inv H; _inv H0; _inv H1; _inv H2; _inv H3; _inv H4; _inv H5.
 Ltac if_some tac H := lazymatch H with | None => idtac | @None => idtac | Some ?H => tac H | ?H => idtac H; fail "must be None or Some" end.
 
 Local Ltac invert_eqs' n :=
@@ -155,6 +162,8 @@ Ltac assert_specialize H :=
       assert (HH : tHH); [clear H | specialize (H HH); clear HH]
   | ?tHH <-> ?tHC => apply proj1 in H; assert_specialize H
   end.
+
+Ltac split' := repeat split.
 
 Ltac split_with H :=
   split; [destruct H as [H _] | destruct H as [_ H]].
