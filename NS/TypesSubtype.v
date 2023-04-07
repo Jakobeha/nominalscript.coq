@@ -22,11 +22,12 @@ Local Notation "a <= b" := (Bool.le a b) : bool_scope.
 Local Notation "a >= b" := (Bool.le b a) : bool_scope.
 
 (* Subtype relation *)
-Definition SubtypeRelation (A: Set) := relation A.
-Definition ap_SubtypeRelation {A: Set} (S: SubtypeRelation A) (lhs rhs: A) := S lhs rhs.
-Class Subtype (A: Set) := subtype: SubtypeRelation A.
-Notation "'[' subtype ']' lhs '<:' rhs" := (ap_SubtypeRelation subtype lhs rhs) (at level 60, lhs at next level, rhs at next level, no associativity).
-Notation "'[' subtype ']' lhs ':>' rhs" := (ap_SubtypeRelation subtype rhs lhs) (at level 60, lhs at next level, rhs at next level, no associativity, only parsing).
+Class Subtype (A: Set) := subtype: relation A.
+(* Definition wrapper prevents Coq from printing everything as a subtype relation
+   while still printing explicitly defined subtype relations *)
+Definition ap_Subtype {A: Set} (S: Subtype A) (lhs rhs: A) := S lhs rhs.
+Notation "'[' subtype ']' lhs '<:' rhs" := (ap_Subtype subtype lhs rhs) (at level 60, lhs at next level, rhs at next level, no associativity).
+Notation "'[' subtype ']' lhs ':>' rhs" := (ap_Subtype subtype rhs lhs) (at level 60, lhs at next level, rhs at next level, no associativity, only parsing).
 Notation "lhs '<:' rhs" := (subtype lhs rhs) (at level 60, rhs at next level, no associativity).
 Notation "lhs ':>' rhs" := (subtype rhs lhs) (at level 60, rhs at next level, no associativity, only parsing).
 
@@ -49,31 +50,40 @@ Definition Intersection {A: Set} {S: Subtype A} (lhs rhs int: A): Prop := lhs <:
 Notation "'(I)'" := Intersection.
 Notation "lhs 'I' rhs '=' a" := (Intersection lhs rhs a) (at level 60, rhs at next level, no associativity).
 
+Class EqvType (A: Set) := eqv_type: relation A.
+Definition ap_EqvType {A: Set} (S: EqvType A) (lhs rhs: A) := S lhs rhs.
+Notation "'[' eqv_type ']' lhs '==' rhs" := (ap_EqvType eqv_type lhs rhs) (at level 60, lhs at next level, rhs at next level, no associativity).
+Notation "lhs '==' rhs" := (eqv_type lhs rhs) (at level 60, rhs at next level, no associativity).
+
+Class IsValidType (A: Set) := is_valid_type: A -> Prop.
+Definition IsValidType_always {A: Set}: IsValidType A := fun _ => True.
+
 (* Subtype properties *)
 Unset Implicit Arguments.
 Class Top (A: Set): Set := top: A.
 Class Bottom (A: Set): Set := bottom: A.
 Class SubtypeTop (A: Set) `{_Subtype: Subtype A} `{_Top: Top A}: Prop := subtype_top: forall (a: A), a <: top.
 Class SubtypeBottom (A: Set) `{_Subtype: Subtype A} `{_Bottom: Bottom A}: Prop := subtype_bottom: forall (a: A), bottom <: a.
-Class SubtypeRefl (A: Set) `{_Subtype: Subtype A}: Prop := subtype_refl: forall (a: A), a <: a.
-Class SubtypeAntisym (A: Set) `{_Subtype: Subtype A}: Prop := subtype_antisym: forall (a b: A), a <: b -> b <: a -> a = b.
+Class SubtypeRefl (A: Set) `{_Subtype: Subtype A} `{_IsValidType: IsValidType A}: Prop := subtype_refl: forall (a: A), is_valid_type a -> a <: a.
+Class SubtypeAntisym (A: Set) `{_Subtype: Subtype A} `{_EqvType: EqvType A}: Prop := subtype_antisym: forall (a b: A), a <: b -> b <: a -> a == b.
 Class SubtypeTrans (A: Set) `{_Subtype: Subtype A}: Prop := subtype_trans: forall (a b c: A), a <: b -> b <: c -> a <: c.
-Class SubtypeValid (A: Set) `{_Subtype: Subtype A}: Prop := subtype_valid: SubtypeRefl A /\ SubtypeAntisym A /\ SubtypeTrans A.
-Class SubtypeValid0 (A: Set) `{_Subtype: Subtype A} `{_Top: Top A} `{_Bottom: Bottom A}: Prop := subtype_valid0: SubtypeTop A /\ SubtypeBottom A /\ SubtypeValid A.
+Class SubtypeValid (A: Set) `{_Subtype: Subtype A} `{_IsValidType: IsValidType A} `{_EqvType: EqvType A}: Prop := subtype_valid: SubtypeRefl A /\ SubtypeAntisym A /\ SubtypeTrans A.
+Class SubtypeValid0 (A: Set) `{_Subtype: Subtype A} `{_IsValidType: IsValidType A} `{_EqvType: EqvType A} `{_Top: Top A} `{_Bottom: Bottom A}: Prop := subtype_valid0: SubtypeTop A /\ SubtypeBottom A /\ SubtypeValid A.
+(* TODO: Some of these = may need to be == *)
 Class UnionTop (A: Set) `{_Subtype: Subtype A} `{_Top: Top A}: Prop := union_top: forall (a: A), top U a = top.
 Class UnionBottom (A: Set) `{_Subtype: Subtype A} `{_Bottom: Bottom A}: Prop := union_bottom: forall (a: A), bottom U a = a.
 Class IntersectTop (A: Set) `{_Subtype: Subtype A} `{_Top: Top A}: Prop := intersect_top: forall (a: A), top I a = a.
 Class IntersectBottom (A: Set) `{_Subtype: Subtype A} `{_Bottom: Bottom A}: Prop := intersect_bottom: forall (a: A), bottom I a = bottom.
-Class UnionRefl (A: Set) `{_Subtype: Subtype A}: Prop := union_refl: forall (a: A), a U a = a.
-Class IntersectRefl (A: Set) `{_Subtype: Subtype A}: Prop := intersect_refl: forall (a: A), a I a = a.
+Class UnionRefl (A: Set) `{_Subtype: Subtype A} `{_IsValidType: IsValidType A}: Prop := union_refl: forall (a: A), is_valid_type a -> a U a = a.
+Class IntersectRefl (A: Set) `{_Subtype: Subtype A} `{_IsValidType: IsValidType A}: Prop := intersect_refl: forall (a: A), is_valid_type a -> a I a = a.
 Class UnionComm (A: Set) `{_Subtype: Subtype A}: Prop := union_comm: forall (a b ab: A), a U b = ab <-> b U a = ab.
 Class IntersectComm (A: Set) `{_Subtype: Subtype A}: Prop := intersect_comm: forall (a b ab: A), a I b = ab <-> b I a = ab.
 Class UnionAssoc (A: Set) `{_Subtype: Subtype A}: Prop := union_assoc: forall (a b c ab bc abc: A), a U b = ab -> b U c = bc -> ab U c = abc <-> a U bc = abc.
 Class IntersectAssoc (A: Set) `{_Subtype: Subtype A}: Prop := intersect_assoc: forall (a b c ab bc abc: A), a I b = ab -> b I c = bc -> ab I c = abc <-> a I bc = abc.
 Class UnionAbsorb (A: Set) `{_Subtype: Subtype A}: Prop := union_absorb: forall (a b ab: A), a <: b -> a U b = ab <-> a = ab.
 Class IntersectAbsorb (A: Set) `{_Subtype: Subtype A}: Prop := intersect_absorb: forall (a b ab: A), a <: b -> a I b = ab <-> b = ab.
-Class UnionIntersectValid (A: Set) `{_Subtype: Subtype A}: Prop := union_intersect_valid: UnionRefl A /\ IntersectRefl A /\ UnionComm A /\ IntersectComm A /\ UnionAssoc A /\ IntersectAssoc A /\ UnionAbsorb A /\ IntersectAbsorb A.
-Class UnionIntersectValid0 (A: Set) `{_Subtype: Subtype A} `{_Top: Top A} `{_Bottom: Bottom A}: Prop := union_intersect_valid0: UnionBottom A /\ UnionTop A /\ IntersectBottom A /\ IntersectTop A /\ UnionIntersectValid A.
+Class UnionIntersectValid (A: Set) `{_Subtype: Subtype A} `{_IsValidType: IsValidType A}: Prop := union_intersect_valid: UnionRefl A /\ IntersectRefl A /\ UnionComm A /\ IntersectComm A /\ UnionAssoc A /\ IntersectAssoc A /\ UnionAbsorb A /\ IntersectAbsorb A.
+Class UnionIntersectValid0 (A: Set) `{_Subtype: Subtype A} `{_IsValidType: IsValidType A} `{_Top: Top A} `{_Bottom: Bottom A}: Prop := union_intersect_valid0: UnionBottom A /\ UnionTop A /\ IntersectBottom A /\ IntersectTop A /\ UnionIntersectValid A.
 Class UnionSubtypeLattice0 (A: Set) `{_Subtype: Subtype A}: Prop := union_subtype_lattice0: forall (a b ab c: A), a <: c -> b <: c -> a U b = ab -> ab <: c.
 Class IntersectSubtypeLattice0 (A: Set) `{_Subtype: Subtype A}: Prop := intersect_subtype_lattice0: forall (a b ab c: A), c <: a -> c <: b -> a I b = ab -> c <: ab.
 Class UnionSubtypeLattice1 (A: Set) `{_Subtype: Subtype A}: Prop := union_subtype_lattice1: forall (a b c d ab cd: A), a <: c -> b <: d -> a U b = ab -> c U d = cd -> ab <: cd.
@@ -81,65 +91,81 @@ Class IntersectSubtypeLattice1 (A: Set) `{_Subtype: Subtype A}: Prop := intersec
 Class UnionSubtypeLattice2 (A: Set) `{_Subtype: Subtype A}: Prop := union_subtype_lattice2: forall (a b ab: A), a U b = ab -> a <: ab /\ b <: ab.
 Class IntersectSubtypeLattice2 (A: Set) `{_Subtype: Subtype A}: Prop := intersect_subtype_lattice2: forall (a b ab: A), a I b = ab -> ab <: a /\ ab <: b.
 Class UnionIntersectSubtypeLattice (A: Set) `{_Subtype: Subtype A} `{_Top: Top A} `{_Bottom: Bottom A}: Prop := union_intersectSubtype_lattice: UnionSubtypeLattice0 A /\ UnionSubtypeLattice1 A /\ UnionSubtypeLattice2 A /\ IntersectSubtypeLattice0 A /\ IntersectSubtypeLattice1 A /\ IntersectSubtypeLattice2 A.
-Class SubtypeUnionIntersectValid (A: Set) `{_Subtype: Subtype A} `{_Top: Top A} `{_Bottom: Bottom A}: Prop := subtype_union_intersect_valid: SubtypeValid A /\ UnionIntersectValid A /\ UnionIntersectSubtypeLattice A.
+Class SubtypeUnionIntersectValid (A: Set) `{_Subtype: Subtype A} `{_IsValidType: IsValidType A} `{_EqvType: EqvType A} `{_Top: Top A} `{_Bottom: Bottom A}: Prop := subtype_union_intersect_valid: SubtypeValid A /\ UnionIntersectValid A /\ UnionIntersectSubtypeLattice A.
 Set Implicit Arguments.
 
 (* Subtype relation implementations *)
-Inductive S_option {A: Set} (S: SubtypeRelation A) : SubtypeRelation (option A) :=
+Inductive S_option {A: Set} (S: Subtype A): Subtype (option A) :=
 | S_None            : forall (lhs: option A), [S_option S] lhs <: None
 | S_Some            : forall (lhs rhs: A), [S] lhs <: rhs -> [S_option S] Some lhs <: Some rhs
-.
-Global Instance SOf_option {A: Set} {S: Subtype A}: Subtype (option A) := S_option S.
-Inductive S_Zip {A: Set} (S: SubtypeRelation A) : SubtypeRelation (list A) :=
+. Global Instance SOf_option {A: Set} {S: Subtype A}: Subtype (option A) := S_option S.
+Inductive E_option {A: Set} (E: EqvType A) : EqvType (option A) :=
+| E_None            : forall (lhs: option A), [E_option E] lhs == None
+| E_Some            : forall (lhs rhs: A), [E] lhs == rhs -> [E_option E] (Some lhs) == (Some rhs)
+. Global Instance EOf_option {A: Set} {E: EqvType A}: EqvType (option A) := E_option E.
+Inductive S_Zip {A: Set} (S: Subtype A): Subtype (list A) :=
 | S_Zip_nil          : forall (lhs: list A), [S_Zip S] lhs <: nil
 | S_Zip_cons         : forall (l r: A) (ls rs: list A),
     [S] l <: r -> [S_Zip S] ls <: rs -> [S_Zip S] (l :: ls) <: (r :: rs)
-.
 (* no global instance because there is S_Intersect *)
-Definition SOf_Zip {A: Set} {S: Subtype A}: Subtype (list A) := S_Zip S.
-Inductive S_JsrZip {A: Set} (S: SubtypeRelation A) : SubtypeRelation (js_record A) :=
+. Definition SOf_Zip {A: Set} {S: Subtype A}: Subtype (list A) := S_Zip S.
+Inductive E_Zip {A: Set} (E: EqvType A) : EqvType (list A) :=
+| E_Zip_nil          : [E_Zip E] nil == nil
+| E_Zip_cons         : forall (l r: A) (ls rs: list A),
+    [E] l == r -> [E_Zip E] ls == rs -> [E_Zip E] (l :: ls) == (r :: rs)
+. Global Instance EOf_Zip {A: Set} {E: EqvType A}: EqvType (list A) := E_Zip E.
+Inductive S_JsrZip {A: Set} (S: Subtype A): Subtype (js_record A) :=
 | S_JsrZip_nil       : forall (lhs: js_record A), [S_JsrZip S] lhs <: nil
 | S_JsrZip_cons      : forall (k: string) (vl vr: A) (ls ls' rs: js_record A),
-    [S] vl <: vr -> [S_JsrZip S] ls <: rs -> JsRecordAdd k vl ls ls' -> [S_JsrZip S] ls' <: ((k, vr) :: rs)
-.
+    [S] vl <: vr -> [S_JsrZip S] ls <: rs -> JsRecordAdd k vl ls ls' -> ~JsRecordHasKey k rs -> [S_JsrZip S] ls' <: ((k, vr) :: rs)
 (* no global instance because there is S_Zip and S_Intersect *)
-Definition SOf_JsrZip {A: Set} {S: Subtype A}: Subtype (js_record A) := S_JsrZip S.
-Inductive S_Intersect {A: Set} (S: SubtypeRelation A) : SubtypeRelation (list A) :=
+. Definition SOf_JsrZip {A: Set} {S: Subtype A}: Subtype (js_record A) := S_JsrZip S.
+Global Instance EOf_JsrZip {A: Set} {E: EqvType A}: EqvType (js_record A) := JsRecordRel E.
+Inductive S_Intersect {A: Set} (S: Subtype A): Subtype (list A) :=
 | S_Intersect_nil    : forall (lhs: list A), [S_Intersect S] lhs <: nil
 | S_Intersect_cons   : forall (l r: A) (ls rs: list A),
     [S] l <: r -> [S_Intersect S] ls <: rs -> [S_Intersect S] (l :: ls) <: (r :: rs)
 | S_Intersect_cons_l : forall (l: A) (ls rs: list A),
                  [S_Intersect S] ls <: rs -> [S_Intersect S] (l :: ls) <: rs
-.
 (* no global instance because there is S_Zip *)
-Definition SOf_Intersect {A: Set} {S: Subtype A}: Subtype (list A) := S_Intersect S.
-Inductive S_variance : SubtypeRelation variance :=
+. Definition SOf_Intersect {A: Set} {S: Subtype A}: Subtype (list A) := S_Intersect S.
+Inductive S_variance: Subtype variance :=
 | S_Bivariant        : forall (lhs: variance), [S_variance] lhs <: Bivariant
 | S_Covariant        : [S_variance] Covariant <: Covariant
 | S_Contravariant    : [S_variance] Contravariant <: Contravariant
 | S_Invariant        : forall (rhs: variance), [S_variance] Invariant <: rhs
-.
-Global Instance SOf_variance: Subtype variance := S_variance.
-Inductive S_otype {A: Set} (S: SubtypeRelation A) : SubtypeRelation (otype A) :=
+. Global Instance SOf_variance: Subtype variance := S_variance.
+Global Instance EOf_variance: EqvType variance := eq.
+Inductive S_otype {A: Set} (S: Subtype A): Subtype (otype A) :=
 | S_OType            : forall (ol or: bool) (lhs rhs: A), ol <= or -> [S] lhs <: rhs -> [S_otype S] Ot ol lhs <: Ot or rhs
-.
-Global Instance SOf_otype {A: Set} {S: Subtype A}: Subtype (otype A) := S_otype S.
-Inductive S_vtype {A: Set} (S: SubtypeRelation A) : SubtypeRelation (vtype A) :=
+. Global Instance SOf_otype {A: Set} {S: Subtype A}: Subtype (otype A) := S_otype S.
+Inductive E_otype {A: Set} (E: EqvType A): EqvType (otype A) :=
+| E_OType            : forall (o: bool) (lhs rhs: A), [E] lhs == rhs -> [E_otype E] Ot o lhs == Ot o rhs
+. Global Instance EOf_otype {A: Set} {E: EqvType A}: EqvType (otype A) := E_otype E.
+Inductive S_vtype {A: Set} (S: Subtype A): Subtype (vtype A) :=
 | S_Void             : [S_vtype S] @VVoid A <: VVoid
 | S_NotVoid          : forall (lhs rhs: A), [S] lhs <: rhs -> [S_vtype S] Vt lhs <: Vt rhs
-.
-Global Instance SOf_vtype {A: Set} {S: Subtype A}: Subtype (vtype A) := S_vtype S.
-Inductive S_tparam {A: Set} (S: SubtypeRelation A) : SubtypeRelation (tparam A) :=
+. Global Instance SOf_vtype {A: Set} {S: Subtype A}: Subtype (vtype A) := S_vtype S.
+Inductive E_vtype {A: Set} (E: EqvType A): EqvType (vtype A) :=
+| E_Void             : [E_vtype E] @VVoid A == VVoid
+| E_NotVoid          : forall (lhs rhs: A), [E] lhs == rhs -> [E_vtype E] Vt lhs == Vt rhs
+. Global Instance EOf_vtype {A: Set} {E: EqvType A}: EqvType (vtype A) := E_vtype E.
+Inductive S_tparam {A: Set} (S: Subtype A): Subtype (tparam A) :=
 | S_TParam           : forall (vl vr: variance) (name: string) (supl supr: list A),
     [S_variance] vl <: vr -> [S_Intersect S] supl <: supr ->
     [S_tparam S] TParam vl name supl <: TParam vr name supr
-.
-Global Instance SOf_tparam {A: Set} {S: Subtype A}: Subtype (tparam A) := S_tparam S.
-Inductive S_itype {A: Set} (S: SubtypeRelation A) : SubtypeRelation (itype A) :=
+. Global Instance SOf_tparam {A: Set} {S: Subtype A}: Subtype (tparam A) := S_tparam S.
+Inductive E_tparam {A: Set} (E: EqvType A): EqvType (tparam A) :=
+| E_TParam           : forall (v: variance) (name: string) (supl supr: list A),
+    [E_Zip E] supl == supr -> [E_tparam E] TParam v name supl == TParam v name supr
+. Global Instance EOf_tparam {A: Set} {E: EqvType A}: EqvType (tparam A) := E_tparam E.
+Inductive S_itype {A: Set} (S: Subtype A): Subtype (itype A) :=
 | S_Ident            : forall (name: string) (tal tar: list A), [S_Zip S] tal <: tar -> [S_itype S] It name tal <: It name tar
-.
-Global Instance SOf_itype {A: Set} {S: Subtype A}: Subtype (itype A) := S_itype S.
-Inductive S_stype {A: Set} (S: SubtypeRelation A) : SubtypeRelation (stype A) :=
+. Global Instance SOf_itype {A: Set} {S: Subtype A}: Subtype (itype A) := S_itype S.
+Inductive E_itype {A: Set} (E: EqvType A): EqvType (itype A) :=
+| E_Ident            : forall (name: string) (tal tar: list A), [E_Zip E] tal == tar -> [E_itype E] It name tal == It name tar
+. Global Instance EOf_itype {A: Set} {E: EqvType A}: EqvType (itype A) := E_itype E.
+Inductive S_stype {A: Set} (S: Subtype A): Subtype (stype A) :=
 | S_Fn               : forall (tpl tpr: list (tparam A)) (thispl thispr: A)
                          (pl pr: list (otype A)) (rl rr: A) (retl retr: (vtype A)),
     [S_Zip (S_tparam S)] tpl :> tpr -> [S] thispl :> thispr -> [S_Zip (S_otype S)] pl :> pr -> [S] rl :> rr -> [S_vtype S] retl <: retr ->
@@ -147,9 +173,17 @@ Inductive S_stype {A: Set} (S: SubtypeRelation A) : SubtypeRelation (stype A) :=
 | S_Array            : forall (el er: A),                     [S]                     el <: er  -> [S_stype S] SArray el   <: SArray er
 | S_Tuple            : forall (esl esr: list (otype A)),      [S_Zip (S_otype S)]    esl <: esr -> [S_stype S] STuple esl  <: STuple esr
 | S_Object           : forall (fsl fsr: js_record (otype A)), [S_JsrZip (S_otype S)] fsl <: fsr -> [S_stype S] SObject fsl <: SObject fsr
-.
-Global Instance SOf_stype {A: Set} {S: Subtype A}: Subtype (stype A) := S_stype S.
-Inductive S_ftype : SubtypeRelation ftype :=
+. Global Instance SOf_stype {A: Set} {S: Subtype A}: Subtype (stype A) := S_stype S.
+Inductive E_stype {A: Set} (E: EqvType A): EqvType (stype A) :=
+| E_Fn               : forall (tpl tpr: list (tparam A)) (thispl thispr: A)
+                         (pl pr: list (otype A)) (rl rr: A) (retl retr: (vtype A)),
+    [E_Zip (E_tparam E)] tpl == tpr -> [E] thispl == thispr -> [E_Zip (E_otype E)] pl == pr -> [E] rl == rr -> [E_vtype E] retl == retr ->
+    [E_stype E] SFn tpl thispl pl rl retl == SFn tpr thispr pr rr retr
+| E_Array            : forall (el er: A),                     [E]                     el == er  -> [E_stype E] SArray el   == SArray er
+| E_Tuple            : forall (esl esr: list (otype A)),      [E_Zip (E_otype E)]    esl == esr -> [E_stype E] STuple esl  == STuple esr
+| E_Object           : forall (fsl fsr: js_record (otype A)), [JsRecordRel (E_otype E)] fsl == fsr -> [E_stype E] SObject fsl == SObject fsr
+. Global Instance EOf_stype {A: Set} {E: EqvType A}: EqvType (stype A) := E_stype E.
+Inductive S_ftype: Subtype ftype :=
 | S_Any              : forall (lhs: ftype), [S_ftype] lhs <: FAny
 | S_Never            : forall (rhs: ftype), [S_ftype] FNEVER <: rhs
 | S_Null             : forall (rhs: ftype), IsNullable rhs -> [S_ftype] FNULL <: rhs
@@ -160,11 +194,20 @@ Inductive S_ftype : SubtypeRelation ftype :=
 | S_Nom              : forall (nl nr: bool) (idl idr: iftype) (idsl idsr: list iftype) (sl sr: option sftype),
     nl <= nr -> [S_Intersect (S_itype S_ftype)] (idl :: idsl) <: (idr :: idsr) -> [S_option (S_stype S_ftype)] sl <: sr ->
     [S_ftype] FNominal nl idl idsl sl <: FNominal nr idr idsr sr
-.
-Global Instance SOf_ftype: Subtype ftype := S_ftype.
+. Global Instance SOf_ftype: Subtype ftype := S_ftype.
+Inductive E_ftype: EqvType ftype :=
+| E_Any              : [E_ftype] FAny == FAny
+| E_NeverNull        : forall (n: bool), [E_ftype] FNever n == FNever n
+| E_Struct           : forall (n: bool) (sl sr: sftype),
+    [E_stype E_ftype] sl == sr -> [E_ftype] FStructural n sl == FStructural n sr
+| E_Nom              : forall (n: bool) (idl idr: iftype) (idsl idsr: list iftype) (sl sr: option sftype),
+    [E_Zip (E_itype E_ftype)] (idl :: idsl) == (idr :: idsr) -> [E_option (E_stype E_ftype)] sl == sr ->
+    [E_ftype] FNominal n idl idsl sl == FNominal n idr idsr sr
+. Global Instance EOf_ftype: EqvType ftype := E_ftype.
+
 (* An axiom needed for induction because of complex recursion *)
 Axiom S_ftype_ind':
-  forall (P: SubtypeRelation ftype)
+  forall (P: Subtype ftype)
     (fS_Any: forall lhs : ftype, P lhs FAny)
     (fS_Never: forall rhs : ftype, P FNEVER rhs)
     (fS_Null: forall rhs : ftype, IsNullable rhs -> P FNULL rhs)
@@ -183,28 +226,92 @@ Axiom S_ftype_ind':
       [S_option (S_stype P)] sl <: sr ->
       P (FNominal nl idl idsl sl) (FNominal nr idr idsr sr))
     (lhs rhs: ftype), S_ftype lhs rhs -> P lhs rhs.
+Axiom E_ftype_ind':
+  forall (P: EqvType ftype)
+    (fE_Any: P FAny FAny)
+    (fE_NeverNull: forall (n : bool), P (FNever n) (FNever n))
+    (fE_Struct: forall (n : bool) (sl sr : sftype),
+      [E_stype P] sl == sr -> P (FStructural n sl) (FStructural n sr))
+    (fE_Nom: forall (n : bool) (idl idr idu : iftype) (idsl idsr idsu : list iftype) (sl sr su : option sftype),
+      [E_Zip (E_itype P)] (idl :: idsl) == (idr :: idsr) ->
+      [E_option (E_stype P)] sl == sr ->
+      P (FNominal n idl idsl sl) (FNominal n idr idsr sr))
+    (lhs rhs: ftype), E_ftype lhs rhs -> P lhs rhs.
 
 (* Now we prove that these relations are valid *)
+Global Instance IsValidType_option {A: Set} {V: IsValidType A}: IsValidType (option A) := Option_Forall V.
 Global Instance Top_option {A: Set} `{_Top: Top A}: Top (option A) := None.
 Global Instance Bottom_option {A: Set} `{_Bottom: Bottom A}: Bottom (option A) := Some bottom.
 Global Instance SubtypeRefl_option {A: Set} `(_SubtypeRefl: SubtypeRefl A): SubtypeRefl (option A).
-Proof. intros a; destruct a; constructor; apply subtype_refl. Qed.
+Proof. intros a; destruct a; constructor; inv H; apply subtype_refl; assumption. Qed.
 Global Instance SubtypeAntisym_option {A: Set} `(_SubtypeAntisym: SubtypeAntisym A): SubtypeAntisym (option A).
-Proof. intros a b H H0. destruct a, b; inv H H0; f_equal; apply subtype_antisym; assumption. Qed.
+Proof. intros a b H H0; destruct a, b; inv H H0; constructor; apply subtype_antisym; assumption. Qed.
 Global Instance SubtypeTrans_option {A: Set} `{_SubtypeTrans: SubtypeTrans A}: SubtypeTrans (option A).
 Proof. intros a b c H H0; destruct a, b, c; inv H H0; constructor; apply subtype_trans with a0; assumption. Qed.
 
-Global Instance SubtypeRefl_Zip {A: Set} `{_SubtypeRefl: SubtypeRefl A}: @SubtypeRefl (list A) SOf_Zip.
-Proof. intros a; induction a; constructor; [apply subtype_refl |]; assumption. Qed.
-Global Instance SubtypeAntisym_Zip {A: Set} `{_SubtypeAntisym: SubtypeAntisym A}: @SubtypeAntisym (list A) SOf_Zip.
-Proof. intros a b H H0; (induction2 a b using ind_list2); [inv H H0 | inv H0 H1 .. ]; f_equal; [apply subtype_antisym | apply H]; assumption. Qed.
+Global Instance IsValidType_list {A: Set} {V: IsValidType A}: IsValidType (list A) := List.Forall V.
+Global Instance SubtypeRefl_Zip {A: Set} `{_SubtypeRefl: SubtypeRefl A}: @SubtypeRefl (list A) SOf_Zip IsValidType_list.
+Proof. intros a; induction a; constructor; inv H; [apply subtype_refl | apply IHa]; assumption. Qed.
+Global Instance SubtypeAntisym_Zip {A: Set} `{_SubtypeAntisym: SubtypeAntisym A}: @SubtypeAntisym (list A) SOf_Zip EOf_Zip.
+Proof. intros a b H H0; (induction2 a b using ind_list2); [inv H H0 | inv H0 H1 .. ]; constructor; [apply subtype_antisym | apply H]; assumption. Qed.
 Global Instance SubtypeTrans_Zip {A: Set} `{_SubtypeTrans: SubtypeTrans A}: @SubtypeTrans (list A) SOf_Zip.
 Proof. intros a b c H H0; (induction3 a b c using ind_list3); [inv H H0 | inv H0 H1 ..]; constructor; [apply subtype_trans with y | apply H]; assumption. Qed.
 
-Global Instance SubtypeRefl_JsrZip {A: Set} `{_SubtypeRefl: SubtypeRefl A}: @SubtypeRefl (js_record A) SOf_JsrZip.
-Proof. intros a; induction a; [constructor |]; destruct a as [ka va]. apply S_JsrZip_cons with va a0; [apply subtype_refl | apply IHa | apply JsRecordAdd_head]; assumption. Qed.
-Global Instance SubtypeAntisym_JsrZip {A: Set} `{_SubtypeAntisym: SubtypeAntisym A}: @SubtypeAntisym (js_record A) SOf_JsrZip.
-Proof. intros a b H H0; (induction2 a b using ind_list2_alt_l); [reflexivity | inv H1; inv H7 |]; inv H0. apply subtype_antisym.
+(* This is the *exact* same as
+Theorem JsRecordRel_In: forall {A: Set} {rel: relation A} (k: string) (vx vy: A) (xs ys: js_record A),
+    JsRecordRel rel xs ys -> List.In (k, vx) xs -> List.In (k, vy) ys -> rel vx vy.
+Potential to abstract? *)
+Lemma S_JsrZip_In: forall {A: Set} {S: Subtype A} (k: string) (vx vy: A) (xs ys: js_record A),
+    [S_JsrZip S] xs <: ys -> List.In (k, vx) xs -> List.In (k, vy) ys -> [S] vx <: vy.
+Proof.
+  intros; induction H; [inv H1 |]; inv H3; destruct (string_dec k0 k); subst.
+  - apply JsRecordHasKey_In_cons in H1; [| exact H4]; apply JsRecordHasKey_In_cons in H0; [| exact H5]; subst. exact H.
+  - inv H0 H1; try (inv H3 + inv H0; contradiction n; reflexivity); exact (IHS_JsrZip H3 H0).
+  - apply JsRecordHasKey_In_cons in H1; [| exact H4]; inv H0; [inv H3; contradiction H5; reflexivity |]; rewrite (JsRecordAdd_In_once _ H6 H3) in *; exact H.
+  - inv H0 H1; try (inv H3 + inv H0; contradiction n; reflexivity).
+    + inv H3; apply IHS_JsrZip; [simpl; left; reflexivity | exact H0].
+    + pose (JsRecordAdd_In_once' _ _ H6 H3); apply i in n; apply IHS_JsrZip; [simpl; right; exact n | exact H0].
+Qed.
+
+Lemma S_JsrZip_add0: forall {A: Set} {S: Subtype A} (k: string) (vx vy: A) (xs xs' ys ys': js_record A),
+    JsRecordAdd k vx xs xs' -> JsRecordAdd k vy ys ys' -> [S_JsrZip S] xs' <: ys' -> [S] vx <: vy.
+Proof.
+  intros. apply JsRecordAdd_In in H, H0; eapply S_JsrZip_In in H1; [exact H1 | exact H | exact H0].
+Qed.
+
+Lemma S_JsrZip_add: forall {A: Set} {S: Subtype A} (k: string) (vx vy: A) (xs xs' ys ys': js_record A),
+    JsRecordAdd k vx xs xs' -> JsRecordAdd k vy ys ys' -> [S_JsrZip S] xs' <: ys' -> [S_JsrZip S] xs <: ys.
+Proof.
+  intros; induction H0; [inv H1; join_key_JsRecordAdd H H8 |].
+  intros; induction H0; [inv H1;
+  intros; induction H0; [inv H1; join_key_JsRecordAdd H H8 |].
+  intros. apply JsRecordAdd_In in H, H0; eapply S_JsrZip_In in H1; [exact H1 | exact H | exact H0].
+Qed.
+
+Global Instance IsValidType_JsrZip {A: Set} {V: IsValidType A}: IsValidType (js_record A) := JsRecordNoDupForall V.
+Global Instance SubtypeRefl_JsrZip {A: Set} `{_SubtypeRefl: SubtypeRefl A}: @SubtypeRefl (js_record A) SOf_JsrZip IsValidType_JsrZip.
+Proof. intros a; induction a; [constructor |]; destruct a as [ka va]; intros; inv H; apply S_JsrZip_cons with va a0; [apply subtype_refl | apply IHa | apply JsRecordAdd_head |]; assumption. Qed.
+Global Instance SubtypeAntisym_JsrZip {A: Set} `{_SubtypeAntisym: SubtypeAntisym A}: @SubtypeAntisym (js_record A) SOf_JsrZip EOf_JsrZip.
+Proof.
+  intros a b; revert a; induction b; intros; [inv H0; [constructor | inv H3] |]; destruct a as [kb vb]; rename a0 into a.
+  inv H; rename vl into va, a into a', ls into a; apply JsRecordRel_cons with va a; [| | assumption | assumption].
+  - apply subtype_antisym; [assumption |]; eapply S_JsrZip_add; [eapply JsRecordAdd_head; exact H8 | exact H7 | exact H0].
+  - apply IHb; [assumption |].
+  vb <: va
+  intros a b H H0; destruct a; destruct b; [constructor | inv H; inv H6 | inv H0; inv H6 | inv H H0].
+  revert H2 H3 H5 H7 H8; revert vl0 ls0 vr b; induction H6; intros.
+  - revert H2 H3 H5 H7; revert vl vr0 xs a; induction H8; intros.
+    + apply E_JsrZip_cons with vr0 xs0.
+
+  intros a b; revert a; induction b; intros; [inv H H0; [constructor | inv H2] |]; destruct a as [kb vb]; rename a0 into a.
+  inv H; induction H7.
+  - apply E_JsrZip_cons with vl xs.
+
+  apply JsRecordRel_ind with eqv_type; [constructor | |]; intros.
+  - apply E_JsrZip_cons with vx xs; assumption.
+  - inv H H0; [apply JsRecordRel_nil | inv H2 | inv H3 |]; eapply JsRecordRel_cons.
+    + inv H0; [inv H3 |]. apply subtype_antisym.
+    +
 
        [inv H H0 | inv H0 H1 .. ]; f_equal. [apply subtype_antisym | apply H]; assumption. Qed.
 
@@ -315,7 +422,7 @@ Proof with inv_con'.
   - constructor; [destruct nullable; simpl; reflexivity | |]; [constructor |]...
 Qed.
 
-Lemma S_Intersect_length: forall {A: Set} (S: SubtypeRelation A) (lhs rhs: list A),
+Lemma S_Intersect_length: forall {A: Set} (S: Subtype A) (lhs rhs: list A),
     [S_Intersect S] lhs <: rhs -> (List.length rhs <= List.length lhs)%nat.
 Proof.
   intros; induction H; simpl.
@@ -444,7 +551,7 @@ Proof with inv_trans'.
   - inv H; constructor; inv H0.
   - inv H0; constructor; exact H.
   - destruct a; inv H1; try (apply S_Never || apply S_Null); [destruct nl; destruct nr; simpl in *; reflexivity || discriminate || contradiction | ..].
-    inv_trans. inv_trans. inv_trans. inv_trans. unfold ap_SubtypeRelation in H14.
+    inv_trans. inv_trans. inv_trans. inv_trans. unfold ap_Subtype in H14.
     apply H18.
     destruct nullable; destruct nl; destruct nr; try (reflexivity || discriminate).
     destruct structure; [inv H11 | inv H7 | inv H7 | inv H7 ].
