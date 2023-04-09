@@ -115,9 +115,11 @@ Inductive E_Zip {A: Set} (E: EqvType A) : EqvType (list A) :=
     [E] l == r -> [E_Zip E] ls == rs -> [E_Zip E] (l :: ls) == (r :: rs)
 . Global Instance EOf_Zip {A: Set} {E: EqvType A}: EqvType (list A) := E_Zip E.
 Inductive S_JsrZip {A: Set} (S: Subtype A): Subtype (js_record A) :=
-| S_JsrZip_nil       : forall (lhs: js_record A), [S_JsrZip S] lhs <: nil
-| S_JsrZip_cons      : forall (k: string) (vl vr: A) (ls ls' rs: js_record A),
-    [S] vl <: vr -> [S_JsrZip S] ls <: rs -> JsRecordAdd k vl ls ls' -> ~JsRecordHasKey k rs -> [S_JsrZip S] ls' <: ((k, vr) :: rs)
+| S_JsrZip_nil       : forall (lhs: js_record A), JsRecordNoDup lhs -> [S_JsrZip S] lhs <: nil
+| S_JsrZip_cons      : forall (k: string) (vl vr: A) (ls rs rs': js_record A),
+    [S] vl <: vr -> [S_JsrZip S] ls <: rs -> JsRecordAdd k vr rs rs' -> ~JsRecordHasKey k ls -> [S_JsrZip S] ((k, vl) :: ls) <: rs'
+| S_JsrZip_cons_r    : forall (k: string) (vl: A) (ls rs: js_record A),
+                   [S_JsrZip S] ls <: rs -> ~JsRecordHasKey k rs    -> ~JsRecordHasKey k ls -> [S_JsrZip S] ((k, vl) :: ls) <: rs
 (* no global instance because there is S_Zip and S_Intersect *)
 . Definition SOf_JsrZip {A: Set} {S: Subtype A}: Subtype (js_record A) := S_JsrZip S.
 Global Instance EOf_JsrZip {A: Set} {E: EqvType A}: EqvType (js_record A) := JsRecordRel E.
@@ -239,381 +241,123 @@ Axiom E_ftype_ind':
     (lhs rhs: ftype), E_ftype lhs rhs -> P lhs rhs.
 
 (* Now we prove that these relations are valid *)
-Global Instance IsValidType_option {A: Set} {V: IsValidType A}: IsValidType (option A) := Option_Forall V.
 Global Instance Top_option {A: Set} `{_Top: Top A}: Top (option A) := None.
 Global Instance Bottom_option {A: Set} `{_Bottom: Bottom A}: Bottom (option A) := Some bottom.
+Global Instance IsValidType_option {A: Set} `{V: IsValidType A}: IsValidType (option A) := Option_Forall V.
 Global Instance SubtypeRefl_option {A: Set} `(_SubtypeRefl: SubtypeRefl A): SubtypeRefl (option A).
-Proof. intros a; destruct a; constructor; inv H; apply subtype_refl; assumption. Qed.
+Proof. intros a; destruct a; constructor; apply subtype_refl; inv H; assumption. Qed.
 Global Instance SubtypeAntisym_option {A: Set} `(_SubtypeAntisym: SubtypeAntisym A): SubtypeAntisym (option A).
 Proof. intros a b H H0; destruct a, b; inv H H0; constructor; apply subtype_antisym; assumption. Qed.
 Global Instance SubtypeTrans_option {A: Set} `{_SubtypeTrans: SubtypeTrans A}: SubtypeTrans (option A).
 Proof. intros a b c H H0; destruct a, b, c; inv H H0; constructor; apply subtype_trans with a0; assumption. Qed.
 
-Global Instance IsValidType_list {A: Set} {V: IsValidType A}: IsValidType (list A) := List.Forall V.
+Global Instance IsValidType_list {A: Set} `{V: IsValidType A}: IsValidType (list A) := List.Forall V.
 Global Instance SubtypeRefl_Zip {A: Set} `{_SubtypeRefl: SubtypeRefl A}: @SubtypeRefl (list A) SOf_Zip IsValidType_list.
-Proof. intros a; induction a; constructor; inv H; [apply subtype_refl | apply IHa]; assumption. Qed.
+Proof. intros a; induction a; constructor; [apply subtype_refl | apply IHa]; inv H; assumption. Qed.
 Global Instance SubtypeAntisym_Zip {A: Set} `{_SubtypeAntisym: SubtypeAntisym A}: @SubtypeAntisym (list A) SOf_Zip EOf_Zip.
 Proof. intros a b H H0; (induction2 a b using ind_list2); [inv H H0 | inv H0 H1 .. ]; constructor; [apply subtype_antisym | apply H]; assumption. Qed.
 Global Instance SubtypeTrans_Zip {A: Set} `{_SubtypeTrans: SubtypeTrans A}: @SubtypeTrans (list A) SOf_Zip.
 Proof. intros a b c H H0; (induction3 a b c using ind_list3); [inv H H0 | inv H0 H1 ..]; constructor; [apply subtype_trans with y | apply H]; assumption. Qed.
 
-(* This is the *exact* same as
-Theorem JsRecordRel_In: forall {A: Set} {rel: relation A} (k: string) (vx vy: A) (xs ys: js_record A),
-    JsRecordRel rel xs ys -> List.In (k, vx) xs -> List.In (k, vy) ys -> rel vx vy.
-Potential to abstract? *)
-Lemma S_JsrZip_In: forall {A: Set} {S: Subtype A} (k: string) (vx vy: A) (xs ys: js_record A),
+Lemma S_JsrZip_NoDup: forall {A: Set} {S: Subtype A} (xs ys: js_record A),
+    [S_JsrZip S] xs <: ys -> JsRecordNoDup xs /\ JsRecordNoDup ys.
+Proof.
+  induction 1; [| destruct IHS_JsrZip ..]; split;
+    [| constructor | constructor | apply JsRecordAdd_NoDup with k vr rs | constructor |]; assumption.
+Qed.
+
+Lemma S_JsrZip_HasKey: forall {A: Set} {S: Subtype A} (k: string) (xs ys: js_record A),
+    [S_JsrZip S] xs <: ys -> JsRecordHasKey k ys -> JsRecordHasKey k xs.
+Proof.
+  induction 1; intros; [inv H0 | |]; destruct (string_dec k k0); subst.
+  - apply List.Exists_cons_hd; reflexivity.
+  - apply List.Exists_cons_tl; apply IHS_JsrZip; apply JsRecordAdd_HasKey1 with k0 vr rs'; [exact H1 | exact H3 | intros n'; symmetry in n'; contradiction (n n')].
+  - apply List.Exists_cons_hd; reflexivity.
+  - apply List.Exists_cons_tl; apply IHS_JsrZip; exact H2.
+Qed.
+
+Lemma S_JsrZip_HasKey_neg: forall {A: Set} {S: Subtype A} (k: string) (xs ys: js_record A),
+    [S_JsrZip S] xs <: ys -> ~JsRecordHasKey k xs -> ~JsRecordHasKey k ys.
+Proof.
+  intros; intros n; contradict H0; apply S_JsrZip_HasKey with ys; assumption.
+Qed.
+
+Lemma S_JsrZip_In_rev: forall {A: Set} {S: Subtype A} (k: string) (vx vy: A) (xs ys: js_record A),
     [S_JsrZip S] xs <: ys -> List.In (k, vx) xs -> List.In (k, vy) ys -> [S] vx <: vy.
 Proof.
-  intros; induction H; [inv H1 |]; inv H3; destruct (string_dec k0 k); subst.
-  - apply JsRecordHasKey_In_cons in H1; [| exact H4]; apply JsRecordHasKey_In_cons in H0; [| exact H5]; subst. exact H.
+  intros; induction H; [inv H1 | | shelve]; inv H3; destruct (string_dec k0 k); subst.
+  - apply JsRecordHasKey_In_cons in H1; [| exact H5]; apply JsRecordHasKey_In_cons in H0; [| exact H4]; subst. exact H.
   - inv H0 H1; try (inv H3 + inv H0; contradiction n; reflexivity); exact (IHS_JsrZip H3 H0).
-  - apply JsRecordHasKey_In_cons in H1; [| exact H4]; inv H0; [inv H3; contradiction H5; reflexivity |]; rewrite (JsRecordAdd_In_once _ H6 H3) in *; exact H.
+  - apply JsRecordHasKey_In_cons in H0; [| exact H4]; inv H1; [inv H3; contradiction H5; reflexivity |]; rewrite (JsRecordAdd_In_once _ H6 H3) in *; exact H.
   - inv H0 H1; try (inv H3 + inv H0; contradiction n; reflexivity).
-    + inv H3; apply IHS_JsrZip; [simpl; left; reflexivity | exact H0].
-    + pose (JsRecordAdd_In_once' _ _ H6 H3); apply i in n; apply IHS_JsrZip; [simpl; right; exact n | exact H0].
+    + inv H0; apply IHS_JsrZip; [exact H3 | simpl; left; reflexivity].
+    + pose (JsRecordAdd_In_once' _ _ H6 H0); apply i in n; apply IHS_JsrZip; [exact H3 | simpl; right; exact n].
+Unshelve.
+  inv H0.
+  * inv H4; contradict H3; apply S_JsrZip_HasKey with rs; [exact H |]; apply JsRecordHasKey_In0 with vy; assumption.
+  * apply IHS_JsrZip; assumption.
 Qed.
 
 Lemma S_JsrZip_add0: forall {A: Set} {S: Subtype A} (k: string) (vx vy: A) (xs xs' ys ys': js_record A),
     JsRecordAdd k vx xs xs' -> JsRecordAdd k vy ys ys' -> [S_JsrZip S] xs' <: ys' -> [S] vx <: vy.
 Proof.
-  intros. apply JsRecordAdd_In in H, H0; eapply S_JsrZip_In in H1; [exact H1 | exact H | exact H0].
+  intros. apply JsRecordAdd_In in H, H0; eapply S_JsrZip_In_rev in H1; [exact H1 | exact H | exact H0].
 Qed.
 
-Lemma S_JsrZip_add: forall {A: Set} {S: Subtype A} (k: string) (vx vy: A) (xs xs' ys ys': js_record A),
-    JsRecordAdd k vx xs xs' -> JsRecordAdd k vy ys ys' -> [S_JsrZip S] xs' <: ys' -> [S_JsrZip S] xs <: ys.
+Lemma S_JsrZip_In: forall {A: Set} {S: Subtype A} (xs ys: js_record A),
+    [S_JsrZip S] xs <: ys -> forall (k: string) (vx vy: A), List.In (k, vx) xs -> List.In (k, vy) ys -> vx <: vy.
 Proof.
-  intros; induction H0; [inv H1; join_key_JsRecordAdd H H8 |].
-  intros; induction H0; [inv H1;
-  intros; induction H0; [inv H1; join_key_JsRecordAdd H H8 |].
-  intros. apply JsRecordAdd_In in H, H0; eapply S_JsrZip_In in H1; [exact H1 | exact H | exact H0].
+  induction xs; intros; [inv H0 |]; destruct a as [kx0 vx0]; inv H0.
+  - inv H H2; [inv H1 | rewrite (JsRecordAdd_In_once _ H8 H1) in *; exact H5 | ]; contradict H8; apply S_JsrZip_HasKey with ys; [exact H5 |]; apply JsRecordHasKey_In0 with vy; exact H1.
+  - destruct (string_dec kx0 k); [subst; inv H; [inv H1 | contradict H9 | contradict H8]; apply JsRecordHasKey_In0 with vx; exact H2 |].
+    inv H; [inv H1 | apply IHxs with rs k; try assumption; apply JsRecordAdd_In_once' with kx0 vr ys; assumption | apply IHxs with ys k; assumption].
 Qed.
 
-Global Instance IsValidType_JsrZip {A: Set} {V: IsValidType A}: IsValidType (js_record A) := JsRecordNoDupForall V.
-Global Instance SubtypeRefl_JsrZip {A: Set} `{_SubtypeRefl: SubtypeRefl A}: @SubtypeRefl (js_record A) SOf_JsrZip IsValidType_JsrZip.
-Proof. intros a; induction a; [constructor |]; destruct a as [ka va]; intros; inv H; apply S_JsrZip_cons with va a0; [apply subtype_refl | apply IHa | apply JsRecordAdd_head |]; assumption. Qed.
+Theorem S_JsrZip_In0: forall {A: Set} {S: Subtype A} (xs ys: js_record A),
+    JsRecordNoDup xs -> JsRecordNoDup ys -> (forall k, JsRecordHasKey k ys -> JsRecordHasKey k xs) ->
+    (forall (k: string) (vx vy: A), List.In (k, vx) xs -> List.In (k, vy) ys -> vx <: vy) ->
+    [S_JsrZip S] xs <: ys.
+Proof.
+  induction xs; intros; [destruct ys; [apply S_JsrZip_nil; constructor | destruct p as [ky vy]; specialize (H1 ky); assert_specialize H1; [apply List.Exists_cons_hd; reflexivity | inv H1]] |]; destruct a as [k vx].
+  destruct (JsRecordHasKey_dec k ys).
+  - apply JsRecordAdd_from_HasKey in H3; [| assumption]; destruct H3 as [vy [ys0 H3]]; inv H.
+    apply S_JsrZip_cons with vy ys0; [apply H2 with k | apply IHxs | ..]; try assumption.
+    + left; reflexivity.
+    + apply JsRecordAdd_In with ys0; assumption.
+    + eapply proj2; apply JsRecordAdd_NoDup_rev with vy ys; [assumption | exact H3].
+    + intros; specialize (H1 k0); destruct (string_dec k0 k).
+      * subst; apply JsRecordAdd_not_HasKey in H3; contradiction.
+      * eapply JsRecordHasKey_uncons1; [apply H1 | exact n]; apply JsRecordAdd_HasKey0 with k vy ys0; assumption.
+    + intros; specialize (H2 k0 vx0 vy0); destruct (string_dec k0 k); [| apply H2].
+      * subst; contradict H8; apply JsRecordHasKey_In0 with vx0; assumption.
+      * right; assumption.
+      * apply JsRecordAdd_In0 with k vy ys0; assumption.
+  - inv H; apply S_JsrZip_cons_r; [apply IHxs | |]; try assumption.
+    + intros; specialize (H1 k0 H); inv H1; [contradiction | assumption].
+    + intros; specialize (H2 k0 vx0 vy); destruct (string_dec k0 k); [| apply H2].
+      * subst; contradict H8; apply JsRecordHasKey_In0 with vx0; assumption.
+      * right; assumption.
+      * assumption.
+Qed.
+
+Global Instance IsValidType_js_record {A: Set} `{V: IsValidType A}: IsValidType (js_record A) := JsRecordNoDupForall V.
+Global Instance SubtypeRefl_JsrZip {A: Set} `{_SubtypeRefl: SubtypeRefl A}: @SubtypeRefl (js_record A) SOf_JsrZip IsValidType_js_record.
+Proof. intros a; induction a; [constructor; constructor |]; destruct a as [ka va]; intros; apply S_JsrZip_cons with va a0; [apply subtype_refl | apply IHa | apply JsRecordAdd_head |]; inv H; assumption. Qed.
 Global Instance SubtypeAntisym_JsrZip {A: Set} `{_SubtypeAntisym: SubtypeAntisym A}: @SubtypeAntisym (js_record A) SOf_JsrZip EOf_JsrZip.
 Proof.
-  intros a b; revert a; induction b; intros; [inv H0; [constructor | inv H3] |]; destruct a as [kb vb]; rename a0 into a.
-  inv H; rename vl into va, a into a', ls into a; apply JsRecordRel_cons with va a; [| | assumption | assumption].
-  - apply subtype_antisym; [assumption |]; eapply S_JsrZip_add; [eapply JsRecordAdd_head; exact H8 | exact H7 | exact H0].
-  - apply IHb; [assumption |].
-  vb <: va
-  intros a b H H0; destruct a; destruct b; [constructor | inv H; inv H6 | inv H0; inv H6 | inv H H0].
-  revert H2 H3 H5 H7 H8; revert vl0 ls0 vr b; induction H6; intros.
-  - revert H2 H3 H5 H7; revert vl vr0 xs a; induction H8; intros.
-    + apply E_JsrZip_cons with vr0 xs0.
-
-  intros a b; revert a; induction b; intros; [inv H H0; [constructor | inv H2] |]; destruct a as [kb vb]; rename a0 into a.
-  inv H; induction H7.
-  - apply E_JsrZip_cons with vl xs.
-
-  apply JsRecordRel_ind with eqv_type; [constructor | |]; intros.
-  - apply E_JsrZip_cons with vx xs; assumption.
-  - inv H H0; [apply JsRecordRel_nil | inv H2 | inv H3 |]; eapply JsRecordRel_cons.
-    + inv H0; [inv H3 |]. apply subtype_antisym.
-    +
-
-       [inv H H0 | inv H0 H1 .. ]; f_equal. [apply subtype_antisym | apply H]; assumption. Qed.
-
-
-Theorem _SubtypeValid_option {A: Set} {_Subtype: Subtype A} {_Top: Top A} {_Bottom: Bottom A} (_SubtypeValid: SubtypeValid A): SubtypeValid (option A).
+  intros a b H H0; pose (S_JsrZip_In H); pose (S_JsrZip_In H0); apply JsRecordRel_In0; try assumption.
+  - eapply proj1, S_JsrZip_NoDup; exact H.
+  - eapply proj1, S_JsrZip_NoDup; exact H0.
+  - split; intros; [apply S_JsrZip_HasKey with a | apply S_JsrZip_HasKey with b]; assumption.
+  - intros; apply subtype_antisym; [apply s with k | apply s0 with k]; assumption.
+Qed.
+Global Instance SubtypeTrans_JsrZip {A: Set} `{_SubtypeTrans: SubtypeTrans A}: @SubtypeTrans (js_record A) SOf_JsrZip.
 Proof.
-  split'.
-  - intros a; constructor.
-  - intros a. constructor.
-  split; intros; destruct x; destruct y; try (solve [constructor; auto]).
-  - constructor.
-
-Local Ltac ind1 a :=
-  lazymatch type of a with
-  | js_record _ => induction a
-  | list _ => induction a
-  | _ => destruct a
-  end.
-
-Local Ltac ind2 a b :=
-  lazymatch type of a with
-  | js_record _ => induction2 a b using ind_list2
-  | list _ => induction2 a b using ind_list2
-  | _ => destruct a; destruct b
-  end.
-
-Local Ltac ind3 a b c :=
-  lazymatch type of a with
-  | js_record _ => induction3 a b c using ind_list3
-  | list _ => induction3 a b c using ind_list3
-  | _ => destruct a; destruct b; destruct c
-  end.
-
-Local Ltac ind_s a b :=
-  tryif constr_eq a b then ind1 a else ind2 a b.
-
-Local Ltac inv_con3 a Inv :=
-  ind1 a; try (inv Inv); try econstructor; simpl; try (reflexivity || discriminate).
-
-Local Ltac inv_con_JsrZip fields Inv :=
-  ind1 fields; inv Inv; [constructor |];
-  let a := fresh "a" in let fields := fresh "fields'" in
-  match goal with
-  | |- [_] (?a' :: ?fields') <: (?a' :: ?fields') => rename a' into a; rename fields' into fields
-  end;
-  destruct a as [kx vx]; simpl in *;
-  unshelve econstructor; [exact vx | exact fields | | | apply JsRecordAdd_head].
-
-Local Ltac inv_con2 S a :=
-  let Inv := fresh "Inv" in
-  match goal with
-  | Inv' : ?P ?a' |- _ => constr_eq a a'; rename Inv' into Inv
-  | _ => idtac
-  end;
-  lazymatch S with
-  | S_JsrZip _ => inv_con_JsrZip a Inv
-  | _ => inv_con3 a Inv
-  end.
-
-Local Ltac is_var' a := first [is_var a | is_evar a].
-
-Local Ltac inv_con1 S a :=
-  tryif is_var' a then inv_con2 S a else fail "tried to inv_con non-variables".
-
-Local Ltac inv_con0 S a :=
-  lazymatch a with
-  | ?P ?a => inv_con1 S a
-  | ?a => inv_con1 S a
-  end.
-
-Local Ltac post_inv_con :=
-  lazymatch goal with
-  (* Solvers *)
-  | G : ?P |- ?P => exact G
-  | G : ?P /\ ?Q |- ?P => destruct G as [G _]; exact G
-  | G : ?P /\ ?Q |- ?Q => destruct G as [_ G]; exact G
-  (* Inductive hypothesis *)
-  | IH : ?Q -> ?Q0 -> ?Q1 -> ?Q2 -> ?P |- ?P => apply IH; post_inv_con
-  | IH : ?Q -> ?Q0 -> ?Q1 -> ?P |- ?P => apply IH; post_inv_con
-  | IH : ?Q -> ?Q0 -> ?P |- ?P => apply IH; post_inv_con
-  | IH : ?Q -> ?P |- ?P => apply IH; post_inv_con
-  | |- ?a >= ?a => destruct a; reflexivity
-  | |- ?a <= ?a => destruct a; reflexivity
-  | G : forall (a: ftype), a <: a |- ?a <: ?a => exact (G a) || fail "mismatched inductive end-case"
-  | |- _ => idtac
-  end.
-
-(* Destruct or induct on goal, invert dependent hypotheses, apply the corresponding constructor *)
-Local Ltac inv_con :=
-  lazymatch goal with
-  | |- [?S] ?a <: ?a => inv_con0 S a
-  | |- _ => fail "not inv_con supported"
-  end; post_inv_con.
-
-Local Ltac inv_con' := repeat progress inv_con.
-
-Lemma IsNullable_FNULL: IsNullable FNULL.
-Proof.
-  simpl. reflexivity.
+  intros a b c H H0; pose (S_JsrZip_In H); pose (S_JsrZip_In H0); apply S_JsrZip_In0; try assumption.
+  - eapply proj1, S_JsrZip_NoDup; exact H.
+  - eapply proj2, S_JsrZip_NoDup; exact H0.
+  - intros; apply S_JsrZip_HasKey with b, S_JsrZip_HasKey with c; assumption.
+  - intros; destruct (JsRecordHasKey_dec k b); [| contradict H3; apply S_JsrZip_HasKey with c; [| apply JsRecordHasKey_In0 with vy]; assumption]; rewrite JsRecordHasKey_In in H3; destruct H3 as [vb H3].
+    apply subtype_trans with vb; [apply s with k | apply s0 with k]; assumption.
 Qed.
 
-Theorem subtype_refl: forall (a: ftype), a <: a.
-Proof with inv_con'.
-  induction a using ftype_ind'; intros.
-  - constructor.
-  - destruct nullable; constructor; simpl; reflexivity.
-  - constructor; [destruct nullable; simpl; reflexivity |]...
-  - constructor; [destruct nullable; simpl; reflexivity | |]; [constructor |]...
-Qed.
-
-Lemma S_Intersect_length: forall {A: Set} (S: Subtype A) (lhs rhs: list A),
-    [S_Intersect S] lhs <: rhs -> (List.length rhs <= List.length lhs)%nat.
-Proof.
-  intros; induction H; simpl.
-  - apply Nat.le_0_l.
-  - apply -> Nat.succ_le_mono; exact IHS_Intersect.
-  - apply Nat.le_le_succ_r; exact IHS_Intersect.
-Qed.
-
-Local Ltac destruct_conj :=
-  lazymatch goal with
-  | H : ?P /\ ?Q |- _ => destruct H
-  end.
-
-Local Ltac assert_to_solve' eqs :=
-  assert eqs; [repeat split | repeat destruct_conj; subst; reflexivity].
-
-Local Ltac assert_to_solve :=
-  lazymatch goal with
-  | |- (?a, ?a0) :: ?a1 = (?b, ?b0) :: ?b1 => assert_to_solve' (a = b /\ a0 = b0 /\ a1 = b1)
-  | |- ?P ?a ?a0 ?a1 ?a2 ?a3 ?a4 ?a5 = ?P ?b ?b0 ?b1 ?b2 ?b3 ?b4 ?b5 => assert_to_solve' (a = b /\ a0 = b0 /\ a1 = b1 /\ a2 = b2 /\ a3 = b3 /\ a4 = b4 /\ a5 = b5)
-  | |- ?P ?a ?a0 ?a1 ?a2 ?a3 ?a4 = ?P ?b ?b0 ?b1 ?b2 ?b3 ?b4 => assert_to_solve' (a = b /\ a0 = b0 /\ a1 = b1 /\ a2 = b2 /\ a3 = b3 /\ a4 = b4)
-  | |- ?P ?a ?a0 ?a1 ?a2 ?a3 = ?P ?b ?b0 ?b1 ?b2 ?b3 => assert_to_solve' (a = b /\ a0 = b0 /\ a1 = b1 /\ a2 = b2 /\ a3 = b3)
-  | |- ?P ?a ?a0 ?a1 ?a2 = ?P ?b ?b0 ?b1 ?b2 => assert_to_solve' (a = b /\ a0 = b0 /\ a1 = b1 /\ a2 = b2)
-  | |- ?P ?a ?a0 ?a1 = ?P ?b ?b0 ?b1 => assert_to_solve' (a = b /\ a0 = b0 /\ a1 = b1)
-  | |- ?P ?a ?a0 = ?P ?b ?b0 => assert_to_solve' (a = b /\ a0 = b0)
-  | |- ?P ?a = ?P ?b => assert_to_solve' (a = b)
-  | |- ?P = ?P => reflexivity
-  | |- _ => idtac "can't assert_to_solve"
-  end.
-
-Local Ltac pre_inv_eq_Intersect supers supers0 :=
-  assert (List.length supers = List.length supers0); [apply Nat.le_antisymm; eapply S_Intersect_length; match goal with | H : [S_Intersect _] ?a :> ?b |- [S_Intersect _] ?a :> ?b => exact H end |].
-
-Local Ltac pre_inv_eq S a b :=
-  lazymatch S with
-  | S_Intersect ?S => pre_inv_eq_Intersect a b
-  | _ => idtac
-  end.
-
-Local Ltac inv_eq2 H H0 S a b :=
-  pre_inv_eq S a b; ind2 a b; inv H; inv H0; assert_to_solve.
-
-Local Ltac inv_eq1 H H0 S a b :=
-  is_var a; is_var b; inv_eq2 H H0 S a b.
-
-Local Ltac inv_eq :=
-  lazymatch goal with
-  (* Special cases *)
-  | H7 : [S_stype S_ftype] SFn nil ?thisp ?params ?rparam ?ret :> SFn (?y :: ?ys) ?thisp0 ?params0 ?rparam0 ?ret0 |- _ => inv H7
-  | H9 : JsRecordAdd ?k ?vl ?ls nil |- _ => inv H9
-  | H9 : [S_Zip _] (?y :: ?ys) :> nil |- _ => inv H9
-  | H22 : List.Add ?l ?ls ?nil |- _ => inv H22
-  | H2 : Datatypes.length (?x :: ?xs0) = Datatypes.length (?y :: ?ys0) |- Datatypes.length ?xs0 = Datatypes.length ?ys0 => simpl in H2; inv H2; reflexivity
-  | H2 : Datatypes.length (?x :: ?xs0) = Datatypes.length (?y :: ?ys0),
-    H11 : [S_Intersect _] (?y :: ?ys0) :> ?xs0 |- _ => apply S_Intersect_length in H11; simpl in H11; inv H11; simpl in H2; inv H2; lia
-  | H2 : Datatypes.length (?x :: ?xs0) = Datatypes.length (?y :: ?ys0),
-    H11 : [S_Intersect _] (?x :: ?xs0) :> ?ys0 |- _ => apply S_Intersect_length in H11; simpl in H11; inv H11; simpl in H2; inv H2; lia
-  | H10 : ?optional >= ?optional0, H4 : ?optional0 >= ?optional |- ?optional = ?optional0 => destruct optional; destruct optional0; reflexivity || discriminate
-  | IH : [fun a0 b0 : ftype => a0 :> b0 -> a0 = b0] ?a :> ?b |- ?b = ?a => apply IH; try assumption
-  | IH : [fun a0 b0 : ftype => a0 :> b0 -> a0 = b0] ?a :> ?b |- ?a = ?b => symmetry; apply IH; try assumption
-  | IH : ?Q -> ?P |- ?P => apply IH; try assumption
-  | IH : ?Q -> ?Q0 -> ?P |- ?P => apply IH; try assumption
-  | IH : ?Q -> ?Q0 -> ?Q1 -> ?P |- ?P => apply IH; try assumption
-  | IH : ?Q -> ?Q0 -> ?Q1 -> ?Q2 -> ?P |- ?P => apply IH; try assumption
-  | IH : ?Q -> ?Q0 -> ?Q1 -> ?Q2 -> ?Q3 -> ?P |- ?P => apply IH; try assumption
-  (* Cases *)
-  | H : [?S] ?a :> ?b, H0 : [?S0] ?b :> ?a |- ?a = ?b => inv_eq1 H H0 S a b
-  | |- _ => fail "can't inv_eq"
-  end.
-
-Local Ltac inv_eq' := repeat progress inv_eq.
-
-Theorem subtype_antisym: forall (a b: ftype), a <: b -> b <: a -> a = b.
-Proof with inv_eq'.
-
-
-  intros a b H. induction H using S_ftype_ind'; intros.
-  - inv H; reflexivity.
-  - inv H; [reflexivity | inv H0].
-  - inv H0; [inv H | reflexivity].
-  - inv H1; assert_to_solve; [destruct nl; destruct nr; reflexivity || discriminate |]...
-    (* TODO js_record case *)
-    all: admit.
-  - inv H1.
-  - inv H2;
-    assert (List.length (idl :: idsl) = List.length (idr :: idsr)); [ apply Nat.le_antisymm; eapply S_Intersect_length; [exact H12 | exact H0] | simpl in H2; inv H2];
-    inv H12; [| apply S_Intersect_length in H7; simpl in H7; lia];
-    inv H0; [| apply S_Intersect_length in H8; simpl in H8; lia].
-    assert_to_solve; [destruct nl; destruct nr; reflexivity || discriminate | ..]...
-    (* TODO js_record case *)
-    all: admit.
-Admitted.
-
-Theorem subtype_Nullable: forall (a b: ftype), a <: b -> IsNullable a -> IsNullable b.
-Proof.
-  intros a b H. destruct H; intros; simpl in *;
-    [reflexivity | contradiction | exact H | ..];
-    destruct nl; destruct nr; reflexivity || contradiction || discriminate.
-Qed.
-
-Local Ltac inv_trans :=
-    lazymatch goal with
-    | H : ?nr >= ?nl |- ?nullable >= ?nl => destruct nullable; destruct nl; destruct nr; reflexivity || discriminate
-    | |- [_] nil :> ?zs => constructor
-    | IH : forall c0 a0, ?b :> c0 -> a0 :> ?b -> a0 :> c0, H : [S_ftype] ?b :> ?c, H0 : [S_ftype] ?a :> ?b |- [S_ftype] ?a :> ?c => apply IH; [exact H | exact H0]
-    | IH : ?Q -> ?P |- ?P => apply IH; try assumption
-    | IH : ?Q -> ?Q0 -> ?P |- ?P => apply IH; try assumption
-    | IH : ?Q -> ?Q0 -> ?Q1 -> ?P |- ?P => apply IH; try assumption
-    | IH : ?Q -> ?Q0 -> ?Q1 -> ?Q2 -> ?P |- ?P => apply IH; try assumption
-    | IH : ?Q -> ?Q0 -> ?Q1 -> ?Q2 -> ?Q3 -> ?P |- ?P => apply IH; try assumption
-    | IH : ?P ?b, H : [?S] ?a :> ?b, H0 : [?S0] ?b :> ?c |- context A [?a] => ind3 a b c; inv H; inv H0; inv IH; constructor
-    | _ => fail "can't inv_trans"
-    end.
-
-Local Ltac inv_trans' := repeat progress inv_trans.
-
-Theorem subtype_trans: forall (a b c: ftype), a <: b -> b <: c -> a <: c.
-Proof with inv_trans'.
-  intros a b; revert a; induction b using ftype_rec'; intros.
-  - inv H0; constructor.
-  - inv H; constructor; destruct nullable; simpl in H1; [clear H1 | contradiction]; inv H0; [simpl; reflexivity | exact H].
-  - destruct a; destruct c; try apply S_Any; inv H0; inv H1; try (apply S_Never || apply S_Null); [destruct nullable; destruct nullable1; simpl in *; reflexivity || discriminate || contradiction | ..].
-    inv_trans. inv_trans. inv_trans. inv_trans. inv_trans. inv_trans. inv_trans. inv_trans. inv_trans. inv_trans. inv_trans. inv_trans. inv_trans.
-    inv_trans. inv_trans. inv_trans. inv_trans. inv_trans. inv_trans. inv_trans. intros.
-  - inv H; constructor.
-  - inv H; constructor; inv H0.
-  - inv H0; constructor; exact H.
-  - destruct a; inv H1; try (apply S_Never || apply S_Null); [destruct nl; destruct nr; simpl in *; reflexivity || discriminate || contradiction | ..].
-    inv_trans. inv_trans. inv_trans. inv_trans. unfold ap_Subtype in H14.
-    apply H18.
-    destruct nullable; destruct nl; destruct nr; try (reflexivity || discriminate).
-    destruct structure; [inv H11 | inv H7 | inv H7 | inv H7 ].
-Admitted.
-
-Definition UnionNever {A: Set}: forall (a: A), FNEVER U a = a.
-Definition UnionNull {A: Set}: forall (a: A), IsNullable a -> FNULL U a = a.
-Definition UnionAny {A: Set}: forall (a: A), FAny U a = FAny.
-Definition IntersectNever {A: Set}: forall (a: A), FNEVER I a = FNEVER.
-Definition IntersectNull {A: Set}: forall (a: A), IsNullable a -> FNULL I a = FNULL.
-Definition IntersectAny {A: Set}: forall (a: A), FAny I a = a.
-
-Theorem union_never: forall (a: ftype), FNEVER U a = a.
-Admitted.
-
-Theorem union_null: forall (a: ftype), IsNullable a -> FNULL U a = a.
-Admitted.
-
-Theorem union_any: forall (a: ftype), FAny U a = FAny.
-Admitted.
-
-Theorem intersect_never: forall (a: ftype), FNEVER I a = FNEVER.
-Admitted.
-
-Theorem intersect_null: forall (a: ftype), IsNullable a -> FNULL I a = FNULL.
-Admitted.
-
-Theorem intersect_any: forall (a: ftype), FAny I a = a.
-Admitted.
-
-Theorem union_subtype: forall (a b ab c: ftype), a <: c -> b <: c -> a U b = ab -> ab <: c.
-Admitted.
-
-Theorem intersect_subtype: forall (a b ab c: ftype), c <: a -> c <: b -> a I b = ab -> c <: ab.
-Admitted.
-
-Theorem union_subtype0: forall (a b ab: ftype), a U b = ab -> a <: ab /\ b <: ab.
-Admitted.
-
-Theorem intersect_subtype0: forall (a b ab: ftype), a I b = ab -> ab <: a /\ ab <: b.
-Admitted.
-
-Theorem union_refl: forall (a: ftype), a U a = a.
-Admitted.
-
-Theorem intersect_refl: forall (a: ftype), a I a = a.
-Admitted.
-
-Theorem union_comm: forall (a b ab: ftype), a U b = ab <-> b U a = ab.
-Admitted.
-
-Theorem intersect_comm: forall (a b ab: ftype), a I b = ab <-> b I a = ab.
-Admitted.
-
-Theorem union_assoc: forall (a b c ab bc abc: ftype), a U b = ab -> b U c = bc -> ab U c = abc <-> a U bc = abc.
-Admitted.
-
-Theorem intersect_assoc: forall (a b c ab bc abc: ftype), a I b = ab -> b I c = bc -> ab I c = abc <-> a I bc = abc.
-Admitted.
-
-Theorem union_absorb: forall (a b ab: ftype), a <: b -> a U b = ab <-> a = ab.
-Admitted.
-
-Theorem intersect_absorb: forall (a b ab: ftype), a <: b -> a I b = ab <-> b = ab.
-Admitted.

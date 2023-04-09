@@ -163,6 +163,18 @@ Ltac assert_specialize H :=
   | ?tHH <-> ?tHC => apply proj1 in H; assert_specialize H
   end.
 
+Tactic Notation "antisymmetry" :=
+  lazymatch goal with
+  | |- ?a <> ?b => assert (n : b <> a); [| intros e; symmetry in e; contradiction (n e)]
+  | _ => fail "not a contradiction"
+  end.
+
+Tactic Notation "antisymmetry" "in" hyp(n) :=
+  lazymatch type of n with
+  | ?a <> ?b => assert (n' : b <> a); [intros e; symmetry in e; exact (n e) | clear n; rename n' into n]
+  | _ => fail "not a contradiction"
+  end.
+
 Ltac split' := repeat split.
 
 Ltac split_with H :=
@@ -356,8 +368,8 @@ Proof.
   intros A P P0 Pn xs; induction xs; [exact P0 | apply (Pn xs); [exact IHxs |]]. exists a. apply List.Add_head.
 Qed.
 
-Tactic Notation "induction2" ident (a) ident (b) "using" tactic (ind2) :=
+Tactic Notation "induction2" ident(a) ident(b) "using" tactic(ind2) :=
   revert_with a; revert_with b; ind2 a b; intros.
 
-Tactic Notation "induction3" ident (a) ident (b) ident (c) "using" tactic (ind3) :=
+Tactic Notation "induction3" ident(a) ident(b) ident(c) "using" tactic(ind3) :=
   revert_with a; revert_with b; revert_with c; ind3 a b c; intros.
