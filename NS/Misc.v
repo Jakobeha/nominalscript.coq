@@ -185,6 +185,9 @@ Ltac left_right_with H :=
 
 Ltac destruct_var H := is_var H; destruct H.
 
+Tactic Notation "pose'" constr(x) "as" ident(id) := pose (id := x); clearbody id.
+Tactic Notation "pose'" constr(x) := let e := fresh "e" in pose' x as e.
+
 Ltac destruct' H :=
   destruct_var H || lazymatch H with
   | ?P => is_ind P || is_constructor P || is_const P
