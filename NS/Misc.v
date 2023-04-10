@@ -190,15 +190,15 @@ Tactic Notation "pose'" constr(x) := let e := fresh "e" in pose' x as e.
 
 Ltac destruct' H :=
   destruct_var H || lazymatch H with
-  | ?P => is_ind P || is_constructor P || is_const P
-  | ?P ?H0 => is_ind P; destruct' H0
-  | ?P ?H0 ?H1 => is_ind P; destruct' H0; destruct' H1
-  | ?P ?H0 ?H1 ?H2 => is_ind P; destruct' H0; destruct' H1; destruct' H2
-  | ?P ?H0 ?H1 ?H2 ?H3 => is_ind P; destruct' H0; destruct' H1; destruct' H2; destruct' H3
-  | ?P ?H0 ?H1 ?H2 ?H3 ?H4 => is_ind P; destruct' H0; destruct' H1; destruct' H2; destruct' H3; destruct' H4
-  | ?P ?H0 ?H1 ?H2 ?H3 ?H4 ?H5 => is_ind P; destruct' H0; destruct' H1; destruct' H2; destruct' H3; destruct' H4; destruct' H5
-  | ?P ?H0 ?H1 ?H2 ?H3 ?H4 ?H5 ?H6 => is_ind P; destruct' H0; destruct' H1; destruct' H2; destruct' H3; destruct' H4; destruct' H5; destruct' H6
   | ?P ?H0 ?H1 ?H2 ?H3 ?H4 ?H5 ?H6 ?H7 => is_ind P; destruct' H0; destruct' H1; destruct' H2; destruct' H3; destruct' H4; destruct' H5; destruct' H6; destruct' H7
+  | ?P ?H0 ?H1 ?H2 ?H3 ?H4 ?H5 ?H6 => is_ind P; destruct' H0; destruct' H1; destruct' H2; destruct' H3; destruct' H4; destruct' H5; destruct' H6
+  | ?P ?H0 ?H1 ?H2 ?H3 ?H4 ?H5 => is_ind P; destruct' H0; destruct' H1; destruct' H2; destruct' H3; destruct' H4; destruct' H5
+  | ?P ?H0 ?H1 ?H2 ?H3 ?H4 => is_ind P; destruct' H0; destruct' H1; destruct' H2; destruct' H3; destruct' H4
+  | ?P ?H0 ?H1 ?H2 ?H3 => is_ind P; destruct' H0; destruct' H1; destruct' H2; destruct' H3
+  | ?P ?H0 ?H1 ?H2 => is_ind P; destruct' H0; destruct' H1; destruct' H2
+  | ?P ?H0 ?H1 => is_ind P; destruct' H0; destruct' H1
+  | ?P ?H0 => is_ind P; destruct' H0
+  | ?P => is_ind P || is_constructor P || is_const P
   end || fail "don't know what to destruct".
 
 Theorem nat_ind2: forall (P: nat -> nat -> Prop),

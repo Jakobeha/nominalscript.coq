@@ -296,3 +296,92 @@ Proof.
     try (inv H H0; fail); [constructor .. |]; inv H H0;
     [constructor; [apply subtype_trans with b0 | apply IHa with b] | apply IHb; [constructor |] | constructor; apply IHa with (b0 :: b); [| constructor] ..]; assumption.
 Qed.
+
+Global Instance Top_variance: Top variance := Bivariant.
+Global Instance Bottom_variance: Bottom variance := Invariant.
+Global Instance IsValidType_variance: IsValidType variance := IsValidType_always.
+Global Instance SubtypeRefl_variance: SubtypeRefl variance.
+Proof. intros a; destruct a; constructor. Qed.
+Global Instance SubtypeAntisym_variance: SubtypeAntisym variance.
+Proof. intros a b H H0; destruct a, b; inv H H0; constructor. Qed.
+Global Instance SubtypeTrans_variance: SubtypeTrans variance.
+Proof. intros a b c H H0; destruct a, b, c; inv H H0; constructor. Qed.
+
+(* TODO rest of the relations *)
+Global Instance Top_otype {A: Set} `{_Top: Top A}: Top (otype A) := Ot true _Top.
+Global Instance Bottom_otype {A: Set} `{_Bottom: Bottom A}: Bottom (otype A) := Ot false _Bottom.
+Global Instance IsValidType_otype {A: Set} `{V: IsValidType A}: IsValidType (otype A) := fun '(Ot _ a) => V a.
+Global Instance SubtypeRefl_otype {A: Set} `{_SubtypeRefl: SubtypeRefl A}: SubtypeRefl (otype A).
+Proof. intros a; destruct a; constructor; [destruct optional; simpl; reflexivity | apply subtype_refl]; assumption. Qed.
+Global Instance SubtypeAntisym_otype {A: Set} `{_SubtypeAntisym: SubtypeAntisym A}: SubtypeAntisym (otype A).
+Proof. intros a b H H0; destruct a, b; inv H H0; destruct optional, optional0; try discriminate; constructor; apply subtype_antisym; assumption. Qed.
+Global Instance SubtypeTrans_otype {A: Set} `{_SubtypeTrans: SubtypeTrans A}: SubtypeTrans (otype A).
+Proof. intros a b c H H0; destruct a, b, c; inv H H0; destruct optional, optional0, optional1; try discriminate; constructor; (simpl; reflexivity) || apply subtype_trans with a0; assumption. Qed.
+
+Global Instance IsValidType_vtype {A: Set} `{V: IsValidType A}: IsValidType (vtype A) := fun a => match a with | VVoid => True | Vt a => V a end.
+Global Instance SubtypeRefl_vtype {A: Set} `{_SubtypeRefl: SubtypeRefl A}: SubtypeRefl (vtype A).
+Proof. intros a; destruct a; constructor; apply subtype_refl; assumption. Qed.
+Global Instance SubtypeAntisym_vtype {A: Set} `{_SubtypeAntisym: SubtypeAntisym A}: SubtypeAntisym (vtype A).
+Proof. intros a b H H0; destruct a, b; inv H H0; constructor; apply subtype_antisym; assumption. Qed.
+Global Instance SubtypeTrans_vtype {A: Set} `{_SubtypeTrans: SubtypeTrans A}: SubtypeTrans (vtype A).
+Proof. intros a b c H H0; destruct a, b, c; inv H H0; constructor; apply subtype_trans with a0; assumption. Qed.
+
+Global Instance IsValidType_tparam {A: Set} `{V: IsValidType A}: IsValidType (tparam A) := fun '(TParam _ _ supers) => @IsValidType_list A V supers.
+Global Instance SubtypeRefl_tparam {A: Set} `{_SubtypeRefl: SubtypeRefl A}: SubtypeRefl (tparam A).
+Proof. intros a; destruct a; constructor; apply subtype_refl; [reflexivity | assumption]. Qed.
+Global Instance SubtypeAntisym_tparam {A: Set} `{_SubtypeAntisym: SubtypeAntisym A}: SubtypeAntisym (tparam A).
+Proof. intros a b H H0; destruct a, b; inv H H0; rewrite (SubtypeAntisym_variance H2 H3); constructor; apply SubtypeAntisym_Intersect; assumption. Qed.
+Global Instance SubtypeTrans_tparam {A: Set} `{_SubtypeTrans: SubtypeTrans A}: SubtypeTrans (tparam A).
+Proof. intros a b c H H0; destruct a, b, c; inv H H0; constructor; [apply subtype_trans with v0 | apply subtype_trans with supers0]; assumption. Qed.
+
+Global Instance IsValidType_itype {A: Set} `{V: IsValidType A}: IsValidType (itype A) := fun '(It _ targs) => @IsValidType_list A V targs.
+Global Instance SubtypeRefl_itype {A: Set} `{_SubtypeRefl: SubtypeRefl A}: SubtypeRefl (itype A).
+Proof. intros a; destruct a; constructor; apply subtype_refl; assumption. Qed.
+Global Instance SubtypeAntisym_itype {A: Set} `{_SubtypeAntisym: SubtypeAntisym A}: SubtypeAntisym (itype A).
+Proof. intros a b H H0; destruct a, b; inv H H0; constructor; apply SubtypeAntisym_Zip; assumption. Qed.
+Global Instance SubtypeTrans_itype {A: Set} `{_SubtypeTrans: SubtypeTrans A}: SubtypeTrans (itype A).
+Proof. intros a b c H H0; destruct a, b, c; inv H H0; constructor; apply subtype_trans with targs0; assumption. Qed.
+
+Global Instance IsValidType_stype {A: Set} `{V: IsValidType A}: IsValidType (stype A) := fun x => match x with
+| SFn tparams thisp params restp ret => is_valid_type tparams /\ is_valid_type thisp /\ is_valid_type params /\ is_valid_type restp /\ is_valid_type ret
+| SArray elem => is_valid_type elem
+| STuple elems => is_valid_type elems
+| SObject fields => is_valid_type fields
+end.
+Global Instance SubtypeRefl_stype {A: Set} `{_SubtypeRefl: SubtypeRefl A}: SubtypeRefl (stype A).
+Proof. intros a; destruct a; constructor; apply subtype_refl; unfold is_valid_type, IsValidType_stype in H; decompose [and] H; assumption. Qed.
+Global Instance SubtypeAntisym_stype {A: Set} `{_SubtypeAntisym: SubtypeAntisym A}: SubtypeAntisym (stype A).
+Proof. intros a b H H0; destruct a, b; inv H H0; constructor; apply subtype_antisym || apply SubtypeAntisym_Zip || apply SubtypeAntisym_JsrZip; assumption. Qed.
+Global Instance SubtypeTrans_stype {A: Set} `{_SubtypeTrans: SubtypeTrans A}: SubtypeTrans (stype A).
+Proof. intros a b c H H0; destruct a, b, c; inv H H0; constructor; eapply subtype_trans; eassumption. Qed.
+
+Definition IsValidType_ftype (x: ftype): Prop.
+  induction x using ftype_ind'.
+  - exact True.
+  - exact True.
+  - apply (@IsValidType_stype ftype); assumption.
+  - apply and; [apply and |]; [apply (@IsValidType_itype ftype) | apply (@IsValidType_list iftype); [apply (@IsValidType_itype ftype) |] | apply (@IsValidType_option sftype); [apply (@IsValidType_stype ftype) |]]; assumption.
+Qed.
+
+From Equations Require Import Equations.
+Equations _IsValidType_ftype (x: ftype): Prop by wf (ftype_depth x) lt :=
+_IsValidType_ftype FAny := True;
+_IsValidType_ftype (FNever _) := True;
+_IsValidType_ftype (FStructural _ structure) := @IsValidType_stype ftype (fun a => _IsValidType_ftype a) structure;
+_IsValidType_ftype (FNominal _ id sids structure) := @IsValidType_itype ftype (fun a => _IsValidType_ftype a) id /\ @IsValidType_list iftype (@IsValidType_itype ftype (fun a => _IsValidType_ftype a)) sids /\ @IsValidType_option sftype (@IsValidType_stype ftype (fun a => _IsValidType_ftype a)) structure.
+Next Obligation. auto.
+Program Fixpoint _IsValidType_ftype (x: ftype) {measure (ftype_depth x)}: Prop := match x with
+| FAny => True
+| FNever _ => True
+| FStructural _ structure => @IsValidType_stype ftype (fun a => _IsValidType_ftype a) structure
+| FNominal _ id sids structure => @IsValidType_itype ftype (fun a => _IsValidType_ftype a) id /\ @IsValidType_list iftype (@IsValidType_itype ftype (fun a => _IsValidType_ftype a)) sids /\ @IsValidType_option sftype (@IsValidType_stype ftype (fun a => _IsValidType_ftype a))  structure
+end.
+Next Obligation. simpl.
+
+Global Instance IsValidType_ftype: IsValidType ftype := _IsValidType_ftype.
+Global Instance SubtypeRefl_ftype {A: Set}: SubtypeRefl ftype.
+Proof. intros a; destruct a; constructor; apply subtype_refl; unfold is_valid_type, IsValidType_ftype in H; decompose [and] H; assumption. Qed.
+Global Instance SubtypeAntisym_ftype {A: Set}: SubtypeAntisym ftype.
+Proof. intros a b H H0; destruct a, b; inv H H0; constructor; apply subtype_antisym || apply SubtypeAntisym_Zip || apply SubtypeAntisym_JsrZip; assumption. Qed.
+Global Instance SubtypeTrans_ftype {A: Set}: SubtypeTrans ftype.
+Proof. intros a b c H H0; destruct a, b, c; inv H H0; constructor; eapply subtype_trans; eassumption. Qed.
