@@ -4,7 +4,9 @@ Require Import Coq.Strings.String.
 Require Import Coq.Arith.PeanoNat.
 Require Import Coq.Arith.EqNat.
 Require Import Coq.Bool.Bool.
+From Equations Require Import Equations.
 From NS Require Import Misc.
+From NS Require Import HigherOrder.
 From NS Require Import JsRecord.
 
 (* Return (void-able) type *)
@@ -65,6 +67,8 @@ Inductive ftype: Set :=
 | FNever (nullable: bool)
 | FStructural (nullable: bool) (structure: stype ftype)
 | FNominal (nullable: bool) (id: itype ftype) (sids: list (itype ftype)) (structure: option (stype ftype)).
+Derive NoConfusion for ftype.
+Derive Subterm for ftype.
 Notation vftype := (vtype ftype).
 Notation iftype := (itype ftype).
 Notation ftparam := (tparam ftype).
@@ -72,21 +76,34 @@ Notation oftype := (otype ftype).
 Notation sftype := (stype ftype).
 
 Inductive IType_Forall {A: Set} (P: A -> Prop): itype A -> Prop :=
-| Forall_It : forall name targs, List.Forall P targs -> IType_Forall P (It name targs).
+| Forall_It : forall name targs, List.Forall P targs -> IType_Forall P (It name targs)
+. Global Instance Forall_itype: Forall itype := @IType_Forall.
 Inductive VType_Forall {A: Set} (P: A -> Prop): vtype A -> Prop :=
 | Forall_VVoid : VType_Forall P VVoid
-| Forall_Vt : forall x, P x -> VType_Forall P (Vt x).
+| Forall_Vt : forall x, P x -> VType_Forall P (Vt x)
+. Global Instance Forall_vtype: Forall vtype := @VType_Forall.
 Inductive OType_Forall {A: Set} (P: A -> Prop): otype A -> Prop :=
-| Forall_Ot : forall optional x, P x -> OType_Forall P (Ot optional x).
+| Forall_Ot : forall optional x, P x -> OType_Forall P (Ot optional x)
+. Global Instance Forall_otype: Forall otype := @OType_Forall.
 Inductive TParam_Forall {A: Set} (P: A -> Prop): tparam A -> Prop :=
-| Forall_TParam : forall variance name supers, List.Forall P supers -> TParam_Forall P (TParam variance name supers).
+| Forall_TParam : forall variance name supers, List.Forall P supers -> TParam_Forall P (TParam variance name supers)
+. Global Instance Forall_tparam: Forall tparam := @TParam_Forall.
 Inductive SType_Forall {A: Set} (P: A -> Prop): stype A -> Prop :=
 | Forall_SFn : forall tparams thisp params rparam ret,
     List.Forall (TParam_Forall P) tparams -> P thisp -> List.Forall (OType_Forall P) params -> P rparam -> VType_Forall P ret ->
     SType_Forall P (SFn tparams thisp params rparam ret)
 | Forall_SArray : forall elem, P elem -> SType_Forall P (SArray elem)
 | Forall_STuple : forall elems, List.Forall (OType_Forall P) elems -> SType_Forall P (STuple elems)
-| Forall_SObject : forall fields, JsRecordForall (OType_Forall P) fields -> SType_Forall P (SObject fields).
+| Forall_SObject : forall fields, JsRecordForall (OType_Forall P) fields -> SType_Forall P (SObject fields)
+. Global Instance Forall_stype: Forall stype := @SType_Forall.
+Inductive SType_Forall' {A: Set} (P: A -> Prop): stype A -> Prop :=
+| Forall'_SFn : forall tparams thisp params rparam ret,
+    List.Forall (TParam_Forall P) tparams -> P thisp -> List.Forall (OType_Forall P) params -> P rparam -> VType_Forall P ret ->
+    SType_Forall' P (SFn tparams thisp params rparam ret)
+| Forall'_SArray : forall elem, P elem -> SType_Forall' P (SArray elem)
+| Forall'_STuple : forall elems, List.Forall (OType_Forall P) elems -> SType_Forall' P (STuple elems)
+| Forall'_SObject : forall fields, JsRecordNoDupForall (OType_Forall P) fields -> SType_Forall' P (SObject fields)
+.
 
 Axiom ttype_ind':
   forall (P: ttype -> Prop)
@@ -95,12 +112,26 @@ Axiom ttype_ind':
     (fStructural: forall nullable structure, SType_Forall P structure -> P (TStructural nullable structure))
     (fNominal: forall nullable id, IType_Forall P id -> P (TNominal nullable id))
     (x: ttype), P x.
+Axiom ttype_ind'0:
+  forall (P: ttype -> Prop)
+    (fAny: P TAny)
+    (fNever: forall nullable, P (TNever nullable))
+    (fStructural: forall nullable structure, SType_Forall' P structure -> P (TStructural nullable structure))
+    (fNominal: forall nullable id, IType_Forall P id -> P (TNominal nullable id))
+    (x: ttype), P x.
 Axiom ftype_ind':
   forall (P: ftype -> Prop)
     (fAny: P FAny)
     (fNever: forall nullable, P (FNever nullable))
     (fStructural: forall nullable structure, SType_Forall P structure -> P (FStructural nullable structure))
     (fNominal: forall nullable id sids structure, IType_Forall P id -> List.Forall (IType_Forall P) sids -> Option_Forall (SType_Forall P) structure -> P (FNominal nullable id sids structure))
+    (x: ftype), P x.
+Axiom ftype_ind'0:
+  forall (P: ftype -> Prop)
+    (fAny: P FAny)
+    (fNever: forall nullable, P (FNever nullable))
+    (fStructural: forall nullable structure, SType_Forall' P structure -> P (FStructural nullable structure))
+    (fNominal: forall nullable id sids structure, IType_Forall P id -> List.Forall (IType_Forall P) sids -> Option_Forall (SType_Forall' P) structure -> P (FNominal nullable id sids structure))
     (x: ftype), P x.
 
 Definition TNEVER: ttype := TNever false.

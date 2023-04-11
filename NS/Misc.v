@@ -83,9 +83,6 @@ end.
 Definition subtract_hd {A: Type} (eqb: A -> A -> bool) (xs: list A) (ys: list A): option A :=
   find (fun x => negb (any (eqb x) ys)) xs.
 
-Definition list_sum: list nat -> nat := fold Nat.add 0.
-Definition list_max: list nat -> nat := fold Nat.max 0.
-
 Definition option_sum (a: option nat): nat :=
 match a with
 | None => 0

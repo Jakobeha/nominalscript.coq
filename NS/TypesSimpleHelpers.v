@@ -115,32 +115,66 @@ match a with
 | Vt a => type_depth a
 end.
 
+Definition vtype_size {type: Set} (type_size: type -> nat) (a: vtype type): nat :=
+match a with
+| VVoid => 0
+| Vt a => type_size a
+end.
+
 Definition otype_depth {type: Set} (type_depth: type -> nat) (a: otype type): nat :=
 match a with
 | Ot _ a => type_depth a
 end.
 
+Definition otype_size {type: Set} (type_size: type -> nat) (a: otype type): nat :=
+match a with
+| Ot _ a => type_size a
+end.
+
 Definition tparam_depth {type: Set} (type_depth: type -> nat) (a: tparam type): nat :=
 match a with
-| TParam _ _ supers => list_max (List.map type_depth supers)
+| TParam _ _ supers => List.list_max (List.map type_depth supers)
+end.
+
+Definition tparam_size {type: Set} (type_size: type -> nat) (a: tparam type): nat :=
+match a with
+| TParam _ _ supers => List.list_sum (List.map type_size supers)
 end.
 
 Definition itype_depth {type: Set} (type_depth: type -> nat) (a: itype type): nat :=
 match a with
-| It _ targs => list_max (List.map type_depth targs)
+| It _ targs => List.list_max (List.map type_depth targs)
+end.
+
+Definition itype_size {type: Set} (type_size: type -> nat) (a: itype type): nat :=
+match a with
+| It _ targs => List.list_sum (List.map type_size targs)
 end.
 
 Definition stype_depth {type: Set} (type_depth: type -> nat) (a: stype type): nat :=
 match a with
-| SFn tparams thisp params rparam ret => list_max (
+| SFn tparams thisp params rparam ret => List.list_max (
     type_depth thisp ::
     type_depth rparam ::
     vtype_depth type_depth ret ::
     List.map (tparam_depth type_depth) tparams ++
     List.map (otype_depth type_depth) params)%list
 | SArray elem => type_depth elem
-| STuple elems => list_max (List.map (otype_depth type_depth) elems)
-| SObject fields => list_max (List.map (otype_depth type_depth << snd) fields)
+| STuple elems => List.list_max (List.map (otype_depth type_depth) elems)
+| SObject fields => List.list_max (List.map (otype_depth type_depth << snd) fields)
+end.
+
+Definition stype_size {type: Set} (type_size: type -> nat) (a: stype type): nat :=
+match a with
+| SFn tparams thisp params rparam ret => List.list_sum (
+    type_size thisp ::
+    type_size rparam ::
+    vtype_size type_size ret ::
+    List.map (tparam_size type_size) tparams ++
+    List.map (otype_size type_size) params)%list
+| SArray elem => type_size elem
+| STuple elems => List.list_sum (List.map (otype_size type_size) elems)
+| SObject fields => List.list_sum (List.map (otype_size type_size << snd) fields)
 end.
 
 Fixpoint ttype_depth (a: ttype): nat := S (
@@ -151,10 +185,26 @@ match a with
 | TNominal _ id => itype_depth ttype_depth id
 end).
 
+Fixpoint ttype_size (a: ttype): nat := S (
+match a with
+| TAny => 0
+| TNever _ => 0
+| TStructural _ s => stype_size ttype_size s
+| TNominal _ id => itype_size ttype_size id
+end).
+
 Fixpoint ftype_depth (a: ftype): nat := S (
 match a with
 | FAny => 0
 | FNever _ => 0
 | FStructural _ s => stype_depth ftype_depth s
-| FNominal _ id sids s => list_max (itype_depth ftype_depth id :: option_map (stype_depth ftype_depth) s ?:: List.map (itype_depth ftype_depth) sids)
+| FNominal _ id sids s => List.list_max (itype_depth ftype_depth id :: option_map (stype_depth ftype_depth) s ?:: List.map (itype_depth ftype_depth) sids)
+end).
+
+Fixpoint ftype_size (a: ftype): nat := S (
+match a with
+| FAny => 0
+| FNever _ => 0
+| FStructural _ s => stype_size ftype_size s
+| FNominal _ id sids s => List.list_sum (itype_size ftype_size id :: option_map (stype_size ftype_size) s ?:: List.map (itype_size ftype_size) sids)
 end).
