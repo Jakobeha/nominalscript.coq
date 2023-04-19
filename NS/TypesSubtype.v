@@ -65,13 +65,13 @@ Definition IsValidType_always {A: Set}: IsValidType A := fun _ => True.
 Unset Implicit Arguments.
 Class Top (A: Set): Set := top: A.
 Class Bottom (A: Set): Set := bottom: A.
-Class SubtypeTop {A: Set} `(S: Subtype A) `{_Top: Top A}: Prop := subtype_top: forall (a: A), a <: top.
-Class SubtypeBottom {A: Set} `(S: Subtype A) `{_Bottom: Bottom A}: Prop := subtype_bottom: forall (a: A), bottom <: a.
+Class SubtypeTop {A: Set} `(S: Subtype A) `{T: Top A}: Prop := subtype_top: forall (a: A), a <: top.
+Class SubtypeBottom {A: Set} `(S: Subtype A) `{B: Bottom A}: Prop := subtype_bottom: forall (a: A), bottom <: a.
 Class SubtypeRefl {A: Set} `(S: Subtype A) `{V: IsValidType A}: Prop := subtype_refl: forall (a: A), is_valid_type a -> a <: a.
 Class SubtypeAntisym {A: Set} `(S: Subtype A) `{E: EqvType A}: Prop := subtype_antisym: forall (a b: A), a <: b -> b <: a -> a == b.
 Class SubtypeTrans {A: Set} `(S: Subtype A): Prop := subtype_trans: forall (a b c: A), a <: b -> b <: c -> a <: c.
-Class SubtypeValid {A: Set} `(S: Subtype A) `{V: IsValidType A} `{E: EqvType A}: Prop := subtype_valid: SubtypeRefl S /\ SubtypeAntisym S /\ SubtypeTrans S.
-Class SubtypeValid0 {A: Set} `(S: Subtype A) `{V: IsValidType A} `{E: EqvType A} `{_Top: Top A} `{_Bottom: Bottom A}: Prop := subtype_valid0: SubtypeTop S /\ SubtypeBottom S /\ SubtypeValid S.
+Class SubtypeValid {A: Set} `(S: Subtype A) `{V: IsValidType A, E: EqvType A}: Prop := subtype_valid: SubtypeRefl S /\ SubtypeAntisym S /\ SubtypeTrans S.
+Class SubtypeValid0 {A: Set} `(S: Subtype A) `{V: IsValidType A, E: EqvType A, T: Top A, B: Bottom A}: Prop := subtype_valid0: SubtypeTop S /\ SubtypeBottom S /\ SubtypeValid S.
 Set Implicit Arguments.
 
 (* Subtype relation implementations *)
@@ -410,9 +410,19 @@ Class SubtypeUnionIntersectValid {A: Set} `(S: Subtype A) `{V: IsValidType A, E:
 
 Global Instance UnionTop_S {A: Set} `{T: SubtypeTop A}: UnionTop S0.
 Proof. split; [apply subtype_top | split; [apply subtype_top | intros; assumption]]. Qed.
-Global Instance UnionBottom_S {A: Set} `{T: SubtypeBottom A, V: IsValidType A, ! SubtypeRefl S0}: UnionBottom S0.
+Global Instance UnionBottom_S {A: Set} `{B: SubtypeBottom A, V: IsValidType A, ! SubtypeRefl S0}: UnionBottom S0.
 Proof. split; [apply subtype_bottom | split; [apply subtype_refl | intros]; assumption]. Qed.
 Global Instance IntersectTop_S {A: Set} `{T: SubtypeTop A, V: IsValidType A, ! SubtypeRefl S0}: IntersectTop S0.
 Proof. split; [apply subtype_top | split; [apply subtype_refl; assumption | intros; assumption]]. Qed.
-Global Instance IntersectBottom_S {A: Set} `{T: SubtypeBottom A}: IntersectBottom S0.
+Global Instance IntersectBottom_S {A: Set} `{B: SubtypeBottom A}: IntersectBottom S0.
 Proof. split; [apply subtype_bottom | split; [apply subtype_bottom | intros]; assumption]. Qed.
+Global Instance UnionRefl_S {A: Set} `{R: SubtypeRefl A}: UnionRefl S0.
+Proof. split; [apply subtype_refl | split; [apply subtype_refl | intros]]; assumption. Qed.
+Global Instance IntersectRefl_S {A: Set} `{R: SubtypeRefl A}: IntersectRefl S0.
+Proof. split; [apply subtype_refl | split; [apply subtype_refl | intros]]; assumption. Qed.
+Global Instance UnionComm_S {A: Set} `{S: Subtype A}: UnionComm S.
+Proof. split; intros; destruct H; destruct H0; repeat split; try assumption; intros; apply H1; assumption. Qed.
+Global Instance IntersectComm_S {A: Set} `{S: Subtype A}: IntersectComm S.
+Proof. split; intros; destruct H; destruct H0; repeat split; try assumption; intros; apply H1; assumption. Qed.
+Global Instance UnionAssoc_S {A: Set} `{T: SubtypeTrans A}: UnionAssoc S0.
+Proof. split; intros H1; destruct H, H0, H1; destruct H2, H3, H4; repeat split; try assumption; try (eapply subtype_trans; eassumption); try (apply H5 || apply H6). eapply subtype_trans.
