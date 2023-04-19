@@ -127,7 +127,20 @@ Tactic Notation "inv" hyp(H) hyp(H0) hyp(H1) hyp(H2) := _inv H; _inv H0; _inv H1
 Tactic Notation "inv" hyp(H) hyp(H0) hyp(H1) hyp(H2) hyp(H3) := _inv H; _inv H0; _inv H1; _inv H2; _inv H3.
 Tactic Notation "inv" hyp(H) hyp(H0) hyp(H1) hyp(H2) hyp(H3) hyp(H4) := _inv H; _inv H0; _inv H1; _inv H2; _inv H3; _inv H4.
 Tactic Notation "inv" hyp(H) hyp(H0) hyp(H1) hyp(H2) hyp(H3) hyp(H4) hyp(H5) := _inv H; _inv H0; _inv H1; _inv H2; _inv H3; _inv H4; _inv H5.
-Ltac if_some tac H := lazymatch H with | None => idtac | @None => idtac | Some ?H => tac H | ?H => idtac H; fail "must be None or Some" end.
+
+Ltac discr_inv :=
+  match goal with
+  | H : ?T |- _ => inv H; fail
+  end || fail "discr_inv: no discriminable hypothesis".
+
+Ltac discr_inv_n n :=
+  match n with
+  | 0 => fail "discr_inv_n: no discriminable hypothesis"
+  | S n =>
+      match goal with
+      | H : ?T |- _ => inv H; discr_inv_n n
+      end
+  end.
 
 Local Ltac invert_eqs' n :=
   match n with
@@ -145,6 +158,8 @@ Local Ltac invert_eqs' n :=
       end
   end.
 Ltac invert_eqs := invert_eqs' 33.
+
+Ltac if_some tac H := lazymatch H with | None => idtac | @None => idtac | Some ?H => tac H | ?H => idtac H; fail "must be None or Some" end.
 
 Ltac revert_with t :=
   repeat lazymatch goal with

@@ -10,7 +10,6 @@ Require Import Coq.Logic.Eqdep.
 Require Import Coq.Program.Equality.
 Require Import Coq.Relations.Relation_Definitions.
 Require Import Lia.
-Require Import LibHyps.LibHyps.
 From NS Require Import Misc.
 From NS Require Import HigherOrder.
 From NS Require Import JsRecord.
@@ -201,6 +200,24 @@ Inductive E_ftype: EqvType ftype :=
     [E_Zip (E_itype E_ftype)] (idl :: idsl) == (idr :: idsr) -> [E_option (E_stype E_ftype)] sl == sr ->
     [E_ftype] FNominal n idl idsl sl == FNominal n idr idsr sr
 . Global Existing Instance E_ftype.
+(* `ftype`` relations without inductive arguments AKA hypotheses, for alternate `S_ftype_ind`s *)
+Inductive S_ftype0: Subtype ftype :=
+| S_Any0             : forall (lhs: ftype), [S_ftype0] lhs <: FAny
+| S_Never0           : forall (rhs: ftype), [S_ftype0] FNEVER <: rhs
+| S_Null0            : forall (rhs: ftype), IsNullable rhs -> [S_ftype0] FNULL <: rhs
+| S_Struct0          : forall (nl nr: bool) (sl sr: sftype),
+    nl <= nr -> [S_ftype0] FStructural nl sl <: FStructural nr sr
+| S_NomStruct0       : forall (nl nr: bool) (idl: iftype) (idsl: list iftype) (sl sr: sftype),
+    nl <= nr -> [S_ftype0] FNominal nl idl idsl (Some sl) <: FStructural nr sr
+| S_Nom0             : forall (nl nr: bool) (idl idr: iftype) (idsl idsr: list iftype) (sl sr: option sftype),
+    nl <= nr -> [S_option (fun _ _ => True)] sl <: sr -> [S_ftype0] FNominal nl idl idsl sl <: FNominal nr idr idsr sr
+. Global Existing Instance S_ftype0.
+Inductive E_ftype0: EqvType ftype :=
+| E_Any0             : [E_ftype0] FAny == FAny
+| E_NeverNull0       : forall (n: bool), [E_ftype0] FNever n == FNever n
+| E_Struct0          : forall (n: bool) (sl sr: sftype), [E_ftype0] FStructural n sl == FStructural n sr
+| E_Nom0             : forall (n: bool) (idl idr: iftype) (idsl idsr: list iftype) (sl sr: option sftype), [E_ftype0] FNominal n idl idsl sl == FNominal n idr idsr sr
+. Global Existing Instance E_ftype0.
 
 Global Instance Top_option {A: Set} `{_Top: Top A}: Top (option A) := None.
 Global Instance Bottom_option {A: Set} `{_Bottom: Bottom A}: Bottom (option A) := Some bottom.
@@ -227,8 +244,20 @@ Inductive IsValidType_ftype: IsValidType ftype :=
 | FNominal: forall x id sids structure, @IsValidType_itype ftype IsValidType_ftype id -> @IsValidType_list iftype (@IsValidType_itype ftype IsValidType_ftype) sids -> @IsValidType_option sftype (@IsValidType_stype ftype IsValidType_ftype) structure -> IsValidType_ftype (FNominal x id sids structure)
 . Global Existing Instance IsValidType_ftype.
 
-(* Axiom because I have no idea how to handle the complex recursion or if its even possible *)
-Axiom S_ftype_ind0:
+(* Axioms to induct on S_ftype without having to handle the complex recursion *)
+Axiom S_ftype_ind_S:
+  forall (P: forall {A: Set}, Subtype A -> Prop)
+    (f_option: forall {A: Set} {S: Subtype A}, P S -> P (S_option S))
+    (f_Zip: forall {A: Set} {S: Subtype A}, P S -> P (S_Zip S))
+    (f_Intersect: forall {A: Set} {S: Subtype A}, P S -> P (S_Intersect S))
+    (f_vtype: forall {A: Set} {S: Subtype A}, P S -> P (S_vtype S))
+    (f_otype: forall {A: Set} {S: Subtype A}, P S -> P (S_otype S))
+    (f_tparam: forall {A: Set} {S: Subtype A}, P S -> P (S_tparam S))
+    (f_itype: forall {A: Set} {S: Subtype A}, P S -> P (S_itype S))
+    (f_stype: forall {A: Set} {S: Subtype A}, P S -> P (S_stype S))
+    (f_variance: P S_variance),
+    P S_ftype0 -> P S_ftype.
+Axiom S_ftype_ind_SV:
   forall (P: forall {A: Set} {V: IsValidType A}, Subtype A -> Prop)
     (f_option: forall {A: Set} {S: Subtype A} {V: IsValidType A}, P S -> P (S_option S))
     (f_Zip: forall {A: Set} {S: Subtype A} {V: IsValidType A}, P S -> P (S_Zip S))
@@ -239,8 +268,20 @@ Axiom S_ftype_ind0:
     (f_itype: forall {A: Set} {S: Subtype A} {V: IsValidType A}, P S -> P (S_itype S))
     (f_stype: forall {A: Set} {S: Subtype A} {V: IsValidType A}, P S -> P (S_stype S))
     (f_variance: P S_variance),
-    (P S_ftype -> P S_ftype) -> P S_ftype.
-Axiom S_ftype_ind1:
+    P S_ftype0 -> P S_ftype.
+Axiom S_ftype_ind_SE:
+  forall (P: forall {A: Set} {E: EqvType A}, Subtype A -> Prop)
+    (f_option: forall {A: Set} {S: Subtype A} {E: EqvType A}, P S -> P (S_option S))
+    (f_Zip: forall {A: Set} {S: Subtype A} {E: EqvType A}, P S -> P (S_Zip S))
+    (f_Intersect: forall {A: Set} {S: Subtype A} {E: EqvType A}, P S -> P (S_Intersect S))
+    (f_vtype: forall {A: Set} {S: Subtype A} {E: EqvType A}, P S -> P (S_vtype S))
+    (f_otype: forall {A: Set} {S: Subtype A} {E: EqvType A}, P S -> P (S_otype S))
+    (f_tparam: forall {A: Set} {S: Subtype A} {E: EqvType A}, P S -> P (S_tparam S))
+    (f_itype: forall {A: Set} {S: Subtype A} {E: EqvType A}, P S -> P (S_itype S))
+    (f_stype: forall {A: Set} {S: Subtype A} {E: EqvType A}, P S -> P (S_stype S))
+    (f_variance: P S_variance),
+    P S_ftype0 -> P S_ftype.
+Axiom S_ftype_ind_SVE:
   forall (P: forall {A: Set} {V: IsValidType A} {E: EqvType A}, Subtype A -> Prop)
     (f_option: forall {A: Set} {S: Subtype A} {V: IsValidType A} {E: EqvType A}, P S -> P (S_option S))
     (f_Zip: forall {A: Set} {S: Subtype A} {V: IsValidType A} {E: EqvType A}, P S -> P (S_Zip S))
@@ -251,7 +292,7 @@ Axiom S_ftype_ind1:
     (f_itype: forall {A: Set} {S: Subtype A} {V: IsValidType A} {E: EqvType A}, P S -> P (S_itype S))
     (f_stype: forall {A: Set} {S: Subtype A} {V: IsValidType A} {E: EqvType A}, P S -> P (S_stype S))
     (f_variance: P S_variance),
-    (P S_ftype -> P S_ftype) -> P S_ftype.
+    P S_ftype0 -> P S_ftype.
 
 (* Now we prove that these relations are valid *)
 Global Instance SubtypeRefl_option {A: Set} `(_SubtypeRefl: SubtypeRefl A): SubtypeRefl (S_option subtype).
@@ -351,35 +392,9 @@ Proof. intros a b H H0; destruct a, b; inv H H0; constructor; apply subtype_anti
 Global Instance SubtypeTrans_stype {A: Set} `{_SubtypeTrans: SubtypeTrans A}: SubtypeTrans (S_stype subtype).
 Proof. intros a b c H H0; destruct a, b, c; inv H H0; constructor; eapply subtype_trans; eassumption. Qed.
 
-Local Ltac rewrite_lia a b := let H := fresh "H" in assert (H: a = b); [lia |]; rewrite H; clear H.
 Global Instance SubtypeRefl_ftype: SubtypeRefl S_ftype.
-intros a; remember (ftype_depth a) as n; assert (Hle : (ftype_depth a <= n)%nat); [lia |]; clear Heqn; revert Hle; revert a; induction n; intros; [destruct a; simpl in Hle; lia | destruct a; simpl in Hle; inv H].
-- constructor.
-- destruct nullable; constructor; reflexivity.
-- constructor; [destruct nullable; reflexivity |]. unshelve eapply subtype_refl; [| | exact H1]; unfold SubtypeRefl.
-- constructor; [destruct nullable; reflexivity |].
-apply S_ftype_ind0; intros.
-intros a V; induction a using ftype_ind'.
-- constructor.
-- destruct nullable; constructor; reflexivity.
-- constructor; inv V; [destruct nullable; reflexivity |]; eapply subtype_refl; eassumption.
-- constructor; inv V; [destruct nullable; reflexivity | ..]; eapply subtype_refl; [apply List.Forall_cons |]; eassumption.
-Unshelve. eapply SubtypeRefl_stype. eapply SubtypeRefl_Intersect. eapply SubtypeRefl_option; eapply SubtypeRefl_stype.
-Unshelve. unfold SubtypeRefl; auto. unfold SubtypeRefl; auto. eapply SubtypeRefl_itype. unfold SubtypeRefl; auto.
-Unshelve. unfold SubtypeRefl; auto. Defined.
-Defined.
-Global Instance SubtypeRefl_ftype {A: Set}: SubtypeRefl ftype.
-Ltac inv_con :=
-  lazymatch goal with
-  | |- [S_variance] ?a <: ?b => destruct a; constructor
-  | H : ?P -> ?a, H0 : ?Q ?a |- [?R] ?a <: ?b => apply H; assumption
-  | H : ?P ?a, H0 : ?Q ?a |- [?R] ?a <: ?b => destruct a; inv H H0; constructor
-  end.
-Proof.
-  intros a; induction a using ftype_ind'; constructor || (destruct nullable; constructor); try (try destruct nullable; reflexivity).
-  - apply subtype_refl1.
-       constructor. apply subtype_refl. unfold is_valid_type, IsValidType_ftype in H; decompose [and] H; assumption. Qed.
-Global Instance SubtypeAntisym_ftype {A: Set}: SubtypeAntisym ftype.
-Proof. intros a b H H0; destruct a, b; inv H H0; constructor; apply subtype_antisym || apply SubtypeAntisym_Zip || apply SubtypeAntisym_JsrZip; assumption. Qed.
-Global Instance SubtypeTrans_ftype {A: Set}: SubtypeTrans ftype.
-Proof. intros a b c H H0; destruct a, b, c; inv H H0; constructor; eapply subtype_trans; eassumption. Qed.
+Proof. apply S_ftype_ind_SV; [typeclasses eauto; fail .. |]. intros a; destruct a; intros; [constructor | destruct nullable; constructor; reflexivity | constructor; destruct nullable; reflexivity | constructor; [destruct nullable; reflexivity | destruct structure; constructor; constructor]]. Qed.
+Global Instance SubtypeAntisym_ftype {A: Set}: SubtypeAntisym S_ftype.
+Proof. apply S_ftype_ind_SE; [typeclasses eauto; fail .. |]. intros a b; destruct a, b; intros; inv H H0; [constructor | constructor | inv H1 | inv H2 | constructor | destruct nullable, nullable0; inv H1 H2; constructor | destruct nullable, nullable0, structure, structure0; inv H2 H3 H10 H11; constructor]. Qed.
+Global Instance SubtypeTrans_ftype {A: Set}: SubtypeTrans S_ftype.
+Proof. apply S_ftype_ind_S; [typeclasses eauto; fail .. |]. intros a b c; destruct a, b, c; intros; inv H H0; try destruct nullable; try destruct nullable0; try destruct nullable1; try destruct structure; try destruct structure0; try destruct structure1; try constructor; try reflexivity; try discr_inv; try constructor; try constructor. Qed.
