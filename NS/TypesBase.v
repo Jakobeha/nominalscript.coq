@@ -75,6 +75,23 @@ Notation ftparam := (tparam ftype).
 Notation oftype := (otype ftype).
 Notation sftype := (stype ftype).
 
+(* Equivalent definition of ftype which has depth for proper recursion *)
+Inductive option' (A: nat -> Set): nat -> Set :=
+| Some': forall {n: nat}, A n -> option' A n
+| None': option' A 0.
+Arguments Some' {A n}.
+Arguments None' {A}.
+Inductive list' (A: nat -> Set): nat -> Set :=
+| Nil': list' A 0
+| Cons': forall {n n0: nat}, A n -> list' A n0 -> list' A (max n n0).
+Arguments Nil' {A}.
+Arguments Cons' {A n n0} a l.
+Inductive ftype': nat -> Set :=
+| FAny': ftype' 1
+| FNever': forall (nullable: bool), ftype' 1
+| FStructural': forall {n: nat} (nullable: bool) (structure: stype (ftype' n)), ftype' (S n)
+| FNominal': forall {n n0 n1: nat} (nullable: bool) (id: itype (ftype' n)) (sids: list' (fun n2 => itype (ftype' n2)) n0) (structure: option' (fun n2 => stype (ftype' n2)) n1), ftype' (S (max n (max n0 n1))).
+
 Inductive IType_Forall {A: Set} (P: A -> Prop): itype A -> Prop :=
 | Forall_It : forall name targs, List.Forall P targs -> IType_Forall P (It name targs)
 . Global Instance Forall_itype: Forall itype := @IType_Forall.

@@ -5,6 +5,7 @@ Require Import Coq.Arith.PeanoNat.
 Require Import Coq.Arith.EqNat.
 Require Import Coq.Bool.Bool.
 Require Import Coq.Logic.FunctionalExtensionality.
+Require Import Lia.
 From NS Require Import Misc.
 From NS Require Import JsRecord.
 From NS Require Import TypesBase.
@@ -198,7 +199,7 @@ match a with
 | FAny => 0
 | FNever _ => 0
 | FStructural _ s => stype_depth ftype_depth s
-| FNominal _ id sids s => List.list_max (itype_depth ftype_depth id :: option_map (stype_depth ftype_depth) s ?:: List.map (itype_depth ftype_depth) sids)
+| FNominal _ id sids s => Nat.max (itype_depth ftype_depth id) (Nat.max (List.list_max (List.map (itype_depth ftype_depth) sids)) (option_max (option_map (stype_depth ftype_depth) s)))
 end).
 
 Fixpoint ftype_size (a: ftype): nat := S (
@@ -208,3 +209,46 @@ match a with
 | FStructural _ s => stype_size ftype_size s
 | FNominal _ id sids s => List.list_sum (itype_size ftype_size id :: option_map (stype_size ftype_size) s ?:: List.map (itype_size ftype_size) sids)
 end).
+
+Notation ftype' nat := {x: ftype | ftype_depth x <= nat}.
+Program Axiom ftype_ind_depth:
+  forall (P: forall (n: nat), ftype' n -> Prop)
+    (pAny: P 1 FAny)
+    (pNever: forall (nullable: bool), P 1 (FNever nullable))
+    (pStructural: forall (n: nat) (IHn: forall (a: ftype' n), P n a) (nullable: bool) (s: stype (ftype' n)), P (S n) (FStructural nullable s))
+    (pNominal: forall (n: nat) (IHn: forall (a: ftype' n), P n a) (nullable: bool) (id: itype (ftype' n)) (sids: list (itype (ftype' n))) (s: option (stype (ftype' n))), P (S n) (FNominal nullable id sids s))
+    (a: ftype),
+    P a.
+
+
+
+Definition option_conv {A: Set} {B: nat -> Set} (df: A -> nat) (f: forall (a0: A), B (df a0)) (a: option A): option' B (option_max (option_map df a)) :=
+match a with | Some a => Some' (f a) | None => None' end.
+Definition option'_conv {A: nat -> Set} {B: Set} {n: nat} (f: A n -> B) (a: option' A n): option B.
+destruct a; [apply Some; apply f; exact a | apply None]. Defined.
+Fixpoint list_conv {A: Set} {B: nat -> Set} (df: A -> nat) (f: forall (a0: A), B (df a0)) (a: list A): list' B (List.list_max (List.map df a)) :=
+match a with | nil => Nil' | cons a a0 => Cons' (f a) (list_conv df f a0) end.
+Definition list'_conv {A: nat -> Set} {B: Set} {n: nat} (f: forall n0, n0 <= n -> A n0 -> B) (a: list' A n): list B.
+induction a; [apply nil | apply cons; [apply f with n; [apply Nat.le_max_l | exact a] | apply IHa; intros; apply f with n1; [eapply Nat.le_trans; [exact H | apply Nat.le_max_r] | exact H0]]]. Defined.
+Local Obligation Tactic := lia || intuition.
+Program Fixpoint ftype'_conv {n: nat} (t: ftype' n) {measure n}: ftype :=
+  match t with
+  | FAny' => FAny
+  | FNever' nullable => FNever nullable
+  | FStructural' nullable structure => FStructural nullable (map_stype (fun a => ftype'_conv a) structure)
+  | FNominal' nullable id sids structure => FNominal nullable (map_itype (fun a => ftype'_conv a) id) (list'_conv (fun n prf => map_itype (fun a => ftype'_conv a)) sids) (option'_conv (map_stype (fun a => ftype'_conv a)) structure)
+  end.
+(* Program Fixpoint ftype_conv {n: nat} (t: {t: ftype | ftype_depth t = n}) {measure n}: ftype' n :=
+match t with
+| FAny => FAny'
+| FNever nullable => FNever' nullable
+| FStructural nullable structure => @FStructural' _ nullable (map_stype (fun a => ftype_conv _) structure)
+| FNominal nullable id sids structure => @FNominal' _ _ _ nullable (map_itype (fun a => ftype_conv _) id) (list_conv (itype_depth (fun a => ftype_depth a)) (fun a0 => map_itype (fun a => ftype_conv _) a0) sids) (option_conv (stype_depth (fun a => ftype_depth a)) (fun a0 => map_stype (fun a => ftype_conv _) a0) structure)
+end. *)
+Local Ltac rewrite_admit a b := let H := fresh "H" in assert (H: a = b); [admit |]; rewrite H; clear H.
+Definition ftype_conv (t: ftype): ftype' (ftype_depth t).
+remember (ftype_depth t) as n; revert Heqn; revert t; induction n; intros; [destruct t; discriminate Heqn |].
+destruct t; simpl in Heqn; rewrite Heqn; [apply FAny' | apply FNever'; exact nullable | |].
+- apply FStructural'; [exact nullable | eapply map_stype; [intros H | exact structure]]; inv Heqn; apply IHn with H; admit.
+- apply FNominal'; [exact nullable | eapply map_itype; [intros H | exact id] | apply list_conv; intros H | apply option_conv; intros H ]; [| eapply map_itype; [rename H into H0; intros H | exact H] | eapply map_stype; [rename H into H0; intros H | exact H]]; [rewrite_admit (itype_depth ftype_depth id) n | rewrite_admit (itype_depth ftype_depth H0) n | rewrite_admit (stype_depth ftype_depth H0) n]; apply IHn with H; admit.
+Admitted.
