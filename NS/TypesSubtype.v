@@ -11,10 +11,8 @@ Require Import Coq.Program.Equality.
 Require Import Coq.Relations.Relation_Definitions.
 Require Import Lia.
 From NS Require Import Misc.
-From NS Require Import HigherOrder.
 From NS Require Import JsRecord.
 From NS Require Import TypesBase.
-From NS Require Import TypesNotation.
 From NS Require Import TypesSimpleHelpers.
 
 Set Default Timeout 10.
@@ -72,7 +70,69 @@ Class SubtypeAntisym {A: Set} `(S: Subtype A) `{E: EqvType A}: Prop := subtype_a
 Class SubtypeTrans {A: Set} `(S: Subtype A): Prop := subtype_trans: forall (a b c: A), a <: b -> b <: c -> a <: c.
 Class SubtypeValid {A: Set} `(S: Subtype A) `{V: IsValidType A, E: EqvType A}: Prop := subtype_valid: SubtypeRefl S /\ SubtypeAntisym S /\ SubtypeTrans S.
 Class SubtypeValid0 {A: Set} `(S: Subtype A) `{V: IsValidType A, E: EqvType A, T: Top A, B: Bottom A}: Prop := subtype_valid0: SubtypeTop S /\ SubtypeBottom S /\ SubtypeValid S.
+Class UnionTop {A: Set} `(S: Subtype A) `{T: Top A}: Prop := union_top: forall (a: A), top U a = top.
+Class UnionBottom {A: Set} `(S: Subtype A) `{B: Bottom A, V: IsValidType A}: Prop := union_bottom: forall (a: A), is_valid_type a -> bottom U a = a.
+Class IntersectTop {A: Set} `(S: Subtype A) `{T: Top A, V: IsValidType A}: Prop := intersect_top: forall (a: A), is_valid_type a -> top I a = a.
+Class IntersectBottom {A: Set} `(S: Subtype A) `{B: Bottom A}: Prop := intersect_bottom: forall (a: A), bottom I a = bottom.
+Class UnionRefl {A: Set} `(S: Subtype A) `{V: IsValidType A}: Prop := union_refl: forall (a: A), is_valid_type a -> a U a = a.
+Class IntersectRefl {A: Set} `(S: Subtype A) `{V: IsValidType A}: Prop := intersect_refl: forall (a: A), is_valid_type a -> a I a = a.
+Class UnionComm {A: Set} `(S: Subtype A): Prop := union_comm: forall (a b ab: A), a U b = ab <-> b U a = ab.
+Class IntersectComm {A: Set} `(S: Subtype A): Prop := intersect_comm: forall (a b ab: A), a I b = ab <-> b I a = ab.
+Class UnionAssoc {A: Set} `(S: Subtype A): Prop := union_assoc: forall (a b c ab bc abc: A), a U b = ab -> b U c = bc -> ab U c = abc <-> a U bc = abc.
+Class IntersectAssoc {A: Set} `(S: Subtype A): Prop := intersect_assoc: forall (a b c ab bc abc: A), a I b = ab -> b I c = bc -> ab I c = abc <-> a I bc = abc.
+Class UnionAbsorb {A: Set} `(S: Subtype A) `{V: IsValidType A}: Prop := union_absorb: forall (a b ab: A), is_valid_type b -> a <: b -> a U b = b.
+Class IntersectAbsorb {A: Set} `(S: Subtype A) `{V: IsValidType A}: Prop := intersect_absorb: forall (a b ab: A), is_valid_type a -> a <: b -> a I b = a.
+Class UnionIntersectValid {A: Set} `(S: Subtype A) `{V: IsValidType A}: Prop := union_intersect_valid: UnionRefl S /\ IntersectRefl S /\ UnionComm S /\ IntersectComm S /\ UnionAssoc S /\ IntersectAssoc S /\ UnionAbsorb S /\ IntersectAbsorb S.
+Class UnionIntersectValid0 {A: Set} `(S: Subtype A) `{V: IsValidType A, T: Top A, B: Bottom A}: Prop := union_intersect_valid0: UnionBottom S /\ UnionTop S /\ IntersectBottom S /\ IntersectTop S /\ UnionIntersectValid S.
+Class SubtypeUnionIntersectValid0 {A: Set} `(S: Subtype A) `{V: IsValidType A, E: EqvType A} `{T: Top A} `{B: Bottom A}: Prop := subtype_union_intersect_valid0: SubtypeValid0 S /\ UnionIntersectValid0 S.
 Set Implicit Arguments.
+
+(* The union properties are actually implied by subtype properties *)
+Global Instance UnionTop_S {A: Set} `{S: Subtype A, T: Top A, ! SubtypeTop S}: UnionTop S.
+Proof. split; [apply subtype_top | split; [apply subtype_top | intros; assumption]]. Qed.
+Global Instance UnionBottom_S {A: Set} `{S: Subtype A, V: IsValidType A, B: Bottom A, ! SubtypeBottom S, ! SubtypeRefl S}: UnionBottom S.
+Proof. split; [apply subtype_bottom | split; [apply subtype_refl | intros]; assumption]. Qed.
+Global Instance IntersectTop_S {A: Set} `{S: Subtype A, T: Top A, V: IsValidType A, ! SubtypeTop S, ! SubtypeRefl S}: IntersectTop S.
+Proof. split; [apply subtype_top | split; [apply subtype_refl; assumption | intros; assumption]]. Qed.
+Global Instance IntersectBottom_S {A: Set} `{S: Subtype A, B: Bottom A, ! SubtypeBottom S}: IntersectBottom S.
+Proof. split; [apply subtype_bottom | split; [apply subtype_bottom | intros]; assumption]. Qed.
+Global Instance UnionRefl_S {A: Set} `{S: Subtype A, V: IsValidType A, ! SubtypeRefl S}: UnionRefl S.
+Proof. split; [apply subtype_refl | split; [apply subtype_refl | intros]]; assumption. Qed.
+Global Instance IntersectRefl_S {A: Set} `{S: Subtype A, V: IsValidType A, ! SubtypeRefl S}: IntersectRefl S.
+Proof. split; [apply subtype_refl | split; [apply subtype_refl | intros]]; assumption. Qed.
+Global Instance UnionComm_S {A: Set} `{S: Subtype A}: UnionComm S.
+Proof. split; intros; destruct H, H0; repeat split; try assumption; intros; apply H1; assumption. Qed.
+Global Instance IntersectComm_S {A: Set} `{S: Subtype A}: IntersectComm S.
+Proof. split; intros; destruct H, H0; repeat split; try assumption; intros; apply H1; assumption. Qed.
+Global Instance UnionAssoc_S {A: Set} `{S: Subtype A, ! SubtypeTrans S}: UnionAssoc S.
+Proof. split; intros H1; destruct H, H0, H1, H2, H3, H4; repeat split.
+- apply subtype_trans with ab; assumption.
+- apply H6; [apply subtype_trans with ab |]; assumption.
+- intros; apply H7; [apply H5 |]; [| apply subtype_trans with bc ..]; assumption.
+- apply H5; [| apply subtype_trans with bc]; assumption.
+- apply subtype_trans with bc; assumption.
+- intros; apply H7; [| apply H6]; [apply subtype_trans with ab .. |]; assumption.
+Qed.
+Global Instance IntersectAssoc_S {A: Set} `{S: Subtype A, ! SubtypeTrans S}: IntersectAssoc S.
+Proof. split; intros H1; destruct H, H0, H1; destruct H2, H3, H4; repeat split.
+- apply subtype_trans with ab; assumption.
+- apply H6; [apply subtype_trans with ab |]; assumption.
+- intros; apply H7; [apply H5 |]; [| apply subtype_trans with bc ..]; assumption.
+- apply H5; [| apply subtype_trans with bc]; assumption.
+- apply subtype_trans with bc; assumption.
+- intros; apply H7; [| apply H6]; [apply subtype_trans with ab .. |]; assumption.
+Qed.
+Global Instance UnionAbsorb_S {A: Set} `{S: Subtype A, V: IsValidType A, ! SubtypeRefl S}: UnionAbsorb S.
+Proof. split; [| split; [apply subtype_refl | intros]]; assumption. Qed.
+Global Instance IntersectAbsorb_S {A: Set} `{S: Subtype A, V: IsValidType A, ! SubtypeRefl S}: IntersectAbsorb S.
+Proof. split; [apply subtype_refl | split; [| intros]]; assumption. Qed.
+Global Instance UnionIntersectValid_S {A: Set} `{S: Subtype A, V: IsValidType A, ! SubtypeRefl S, ! SubtypeTrans S}: UnionIntersectValid S.
+Proof. do 7 [> .. | split]; typeclasses eauto. Qed.
+Global Instance UnionIntersectValid0_S {A: Set} `{S: Subtype A, V: IsValidType A, T: Top A, B: Bottom A, ! SubtypeTop S, ! SubtypeBottom S, ! SubtypeRefl S, ! SubtypeTrans S}: UnionIntersectValid0 S.
+Proof. do 11 [> .. | split]; typeclasses eauto. Qed.
+Global Instance SubtypeUnionIntersectValid0_S {A: Set} `{S: Subtype A, V: IsValidType A, E: EqvType A, T: Top A, B: Bottom A, ! SubtypeValid0 S}: SubtypeUnionIntersectValid0 S.
+Proof. split; [assumption | destruct SubtypeValid1, H0, H1, H2; apply UnionIntersectValid0_S]. Qed.
+
 
 (* Subtype relation implementations *)
 Inductive S_option {A: Set} (S: Subtype A): Subtype (option A) :=
@@ -383,46 +443,45 @@ Global Instance SubtypeValid_ftype: SubtypeValid S_ftype.
 Proof. repeat split; typeclasses eauto. Qed.
 Global Instance SubtypeValid0_ftype: SubtypeValid0 S_ftype.
 Proof. repeat split; typeclasses eauto. Qed.
+Global Instance SubtypeUnionIntersectValid0_ftype: SubtypeUnionIntersectValid0 S_ftype.
+Proof. typeclasses eauto. Qed.
 
-(* TODO: Some of these = may need to be == *)
-Class UnionTop {A: Set} `(S: Subtype A) `{T: Top A}: Prop := union_top: forall (a: A), top U a = top.
-Class UnionBottom {A: Set} `(S: Subtype A) `{B: Bottom A, V: IsValidType A}: Prop := union_bottom: forall (a: A), is_valid_type a -> bottom U a = a.
-Class IntersectTop {A: Set} `(S: Subtype A) `{T: Top A, V: IsValidType A}: Prop := intersect_top: forall (a: A), is_valid_type a -> top I a = a.
-Class IntersectBottom {A: Set} `(S: Subtype A) `{B: Bottom A}: Prop := intersect_bottom: forall (a: A), bottom I a = bottom.
-Class UnionRefl {A: Set} `(S: Subtype A) `{V: IsValidType A}: Prop := union_refl: forall (a: A), is_valid_type a -> a U a = a.
-Class IntersectRefl {A: Set} `(S: Subtype A) `{V: IsValidType A}: Prop := intersect_refl: forall (a: A), is_valid_type a -> a I a = a.
-Class UnionComm {A: Set} `(S: Subtype A): Prop := union_comm: forall (a b ab: A), a U b = ab <-> b U a = ab.
-Class IntersectComm {A: Set} `(S: Subtype A): Prop := intersect_comm: forall (a b ab: A), a I b = ab <-> b I a = ab.
-Class UnionAssoc {A: Set} `(S: Subtype A): Prop := union_assoc: forall (a b c ab bc abc: A), a U b = ab -> b U c = bc -> ab U c = abc <-> a U bc = abc.
-Class IntersectAssoc {A: Set} `(S: Subtype A): Prop := intersect_assoc: forall (a b c ab bc abc: A), a I b = ab -> b I c = bc -> ab I c = abc <-> a I bc = abc.
-Class UnionAbsorb {A: Set} `(S: Subtype A): Prop := union_absorb: forall (a b ab: A), a <: b -> a U b = ab <-> a = ab.
-Class IntersectAbsorb {A: Set} `(S: Subtype A): Prop := intersect_absorb: forall (a b ab: A), a <: b -> a I b = ab <-> b = ab.
-Class UnionIntersectValid {A: Set} `(S: Subtype A) `{V: IsValidType A}: Prop := union_intersect_valid: UnionRefl S /\ IntersectRefl S /\ UnionComm S /\ IntersectComm S /\ UnionAssoc S /\ IntersectAssoc S /\ UnionAbsorb S /\ IntersectAbsorb S.
-Class UnionIntersectValid0 {A: Set} `(S: Subtype A) `{V: IsValidType A, T: Top A, B: Bottom A}: Prop := union_intersect_valid0: UnionBottom S /\ UnionTop S /\ IntersectBottom S /\ IntersectTop S /\ UnionIntersectValid S.
-Class UnionSubtypeLattice0 {A: Set} `(S: Subtype A): Prop := union_subtype_lattice0: forall (a b ab c: A), a <: c -> b <: c -> a U b = ab -> ab <: c.
-Class IntersectSubtypeLattice0 {A: Set} `(S: Subtype A): Prop := intersect_subtype_lattice0: forall (a b ab c: A), c <: a -> c <: b -> a I b = ab -> c <: ab.
-Class UnionSubtypeLattice1 {A: Set} `(S: Subtype A): Prop := union_subtype_lattice1: forall (a b c d ab cd: A), a <: c -> b <: d -> a U b = ab -> c U d = cd -> ab <: cd.
-Class IntersectSubtypeLattice1 {A: Set} `(S: Subtype A): Prop := intersect_subtype_lattice1: forall (a b c d ab cd: A), a <: c -> b <: d -> a I b = ab -> c I d = cd -> ab <: cd.
-Class UnionSubtypeLattice2 {A: Set} `(S: Subtype A): Prop := union_subtype_lattice2: forall (a b ab: A), a U b = ab -> a <: ab /\ b <: ab.
-Class IntersectSubtypeLattice2 {A: Set} `(S: Subtype A): Prop := intersect_subtype_lattice2: forall (a b ab: A), a I b = ab -> ab <: a /\ ab <: b.
-Class UnionIntersectSubtypeLattice {A: Set} `(S: Subtype A) `{T: Top A, B: Bottom A}: Prop := union_intersectSubtype_lattice: UnionSubtypeLattice0 S /\ UnionSubtypeLattice1 S /\ UnionSubtypeLattice2 S /\ IntersectSubtypeLattice0 S /\ IntersectSubtypeLattice1 S /\ IntersectSubtypeLattice2 S.
-Class SubtypeUnionIntersectValid {A: Set} `(S: Subtype A) `{V: IsValidType A, E: EqvType A} `{T: Top A} `{B: Bottom A}: Prop := subtype_union_intersect_valid: SubtypeValid S /\ UnionIntersectValid S /\ UnionIntersectSubtypeLattice S.
+Corollary union_subtype_lattice0 {A: Set} `{S: Subtype A, V: IsValidType A, E: EqvType A, ! SubtypeValid S}: forall (a b ab c: A), a <: c -> b <: c -> a U b = ab -> ab <: c.
+Proof. intros; destruct H1, H2; apply H3; assumption. Qed.
+Corollary intersect_subtype_lattice0 {A: Set} `{S: Subtype A, V: IsValidType A, E: EqvType A, ! SubtypeValid S}: forall (a b ab c: A), c <: a -> c <: b -> a I b = ab -> c <: ab.
+Proof. intros; destruct H1, H2; apply H3; assumption. Qed.
+Corollary union_subtype_lattice1 {A: Set} `{S: Subtype A, V: IsValidType A, E: EqvType A, ! SubtypeValid S}: forall (a b c d ab cd: A), a <: c -> b <: d -> a U b = ab -> c U d = cd -> ab <: cd.
+Proof. intros; destruct H1, H2, H3, H4, SubtypeValid1, H8; apply H5; [apply subtype_trans with c | apply subtype_trans with d]; assumption. Qed.
+Corollary intersect_subtype_lattice1 {A: Set} `{S: Subtype A, V: IsValidType A, E: EqvType A, ! SubtypeValid S}: forall (a b c d ab cd: A), a <: c -> b <: d -> a I b = ab -> c I d = cd -> ab <: cd.
+Proof. intros; destruct H1, H2, H3, H4, SubtypeValid1, H8; apply H6; [apply subtype_trans with a | apply subtype_trans with b]; assumption. Qed.
+Corollary union_subtype_lattice2 {A: Set} `{S: Subtype A, V: IsValidType A, E: EqvType A, ! SubtypeValid S}: forall (a b ab: A), a U b = ab -> a <: ab /\ b <: ab.
+Proof. intros; destruct H, H0; split; assumption. Qed.
+Corollary intersect_subtype_lattice2 {A: Set} `{S: Subtype A, V: IsValidType A, E: EqvType A, ! SubtypeValid S}: forall (a b ab: A), a I b = ab -> ab <: a /\ ab <: b.
+Proof. intros; destruct H, H0; split; assumption. Qed.
 
-Global Instance UnionTop_S {A: Set} `{T: SubtypeTop A}: UnionTop S0.
-Proof. split; [apply subtype_top | split; [apply subtype_top | intros; assumption]]. Qed.
-Global Instance UnionBottom_S {A: Set} `{B: SubtypeBottom A, V: IsValidType A, ! SubtypeRefl S0}: UnionBottom S0.
-Proof. split; [apply subtype_bottom | split; [apply subtype_refl | intros]; assumption]. Qed.
-Global Instance IntersectTop_S {A: Set} `{T: SubtypeTop A, V: IsValidType A, ! SubtypeRefl S0}: IntersectTop S0.
-Proof. split; [apply subtype_top | split; [apply subtype_refl; assumption | intros; assumption]]. Qed.
-Global Instance IntersectBottom_S {A: Set} `{B: SubtypeBottom A}: IntersectBottom S0.
-Proof. split; [apply subtype_bottom | split; [apply subtype_bottom | intros]; assumption]. Qed.
-Global Instance UnionRefl_S {A: Set} `{R: SubtypeRefl A}: UnionRefl S0.
-Proof. split; [apply subtype_refl | split; [apply subtype_refl | intros]]; assumption. Qed.
-Global Instance IntersectRefl_S {A: Set} `{R: SubtypeRefl A}: IntersectRefl S0.
-Proof. split; [apply subtype_refl | split; [apply subtype_refl | intros]]; assumption. Qed.
-Global Instance UnionComm_S {A: Set} `{S: Subtype A}: UnionComm S.
-Proof. split; intros; destruct H; destruct H0; repeat split; try assumption; intros; apply H1; assumption. Qed.
-Global Instance IntersectComm_S {A: Set} `{S: Subtype A}: IntersectComm S.
-Proof. split; intros; destruct H; destruct H0; repeat split; try assumption; intros; apply H1; assumption. Qed.
-Global Instance UnionAssoc_S {A: Set} `{T: SubtypeTrans A}: UnionAssoc S0.
-Proof. split; intros H1; destruct H, H0, H1; destruct H2, H3, H4; repeat split; try assumption; try (eapply subtype_trans; eassumption); try (apply H5 || apply H6). eapply subtype_trans.
+
+Create HintDb subtype_laws.
+Global Hint Extern 4 => typeclasses eauto: subtype_laws.
+Global Hint Resolve subtype_top: subtype_laws.
+Global Hint Resolve subtype_bottom: subtype_laws.
+Global Hint Resolve subtype_refl: subtype_laws.
+Global Hint Resolve subtype_antisym: subtype_laws.
+Global Hint Resolve subtype_trans: subtype_laws.
+Global Hint Resolve union_top: subtype_laws.
+Global Hint Resolve union_bottom: subtype_laws.
+Global Hint Resolve union_refl: subtype_laws.
+Global Hint Resolve union_comm: subtype_laws.
+Global Hint Resolve union_assoc: subtype_laws.
+Global Hint Resolve union_absorb: subtype_laws.
+Global Hint Resolve intersect_top: subtype_laws.
+Global Hint Resolve intersect_bottom: subtype_laws.
+Global Hint Resolve intersect_refl: subtype_laws.
+Global Hint Resolve intersect_comm: subtype_laws.
+Global Hint Resolve intersect_assoc: subtype_laws.
+Global Hint Resolve intersect_absorb: subtype_laws.
+Global Hint Resolve union_subtype_lattice0: subtype_laws.
+Global Hint Resolve intersect_subtype_lattice0: subtype_laws.
+Global Hint Resolve union_subtype_lattice1: subtype_laws.
+Global Hint Resolve intersect_subtype_lattice1: subtype_laws.
+Global Hint Resolve union_subtype_lattice2: subtype_laws.
+Global Hint Resolve intersect_subtype_lattice2: subtype_laws.
