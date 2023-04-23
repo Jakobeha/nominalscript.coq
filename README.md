@@ -15,6 +15,7 @@ If not, this follows the standard Coq package structure: run `./configure.sh` to
 
 - `NS/`: Where the source (coq) is located
   - `Misc.v`: Utility definitions, theorems, and tactics
+  - `HigherOrder.v`: `Forall` typeclass which is useful for higher-order inductives (this could honestly go in `Misc.v` since it's the only definition here)
   - `JsRecord.v`: Definitions, theorems, and tactics for a "map" or "javascript record" represented by a list of `string * A` pairs
   - `TypesBase.v`: Defines nominalscript types
   - `TypesSimpleHelpers.v`: Helper definitions and lemmas for the nominalscript types
