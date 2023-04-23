@@ -1,0 +1,32 @@
+opam-version: "2.0"
+maintainer: "jakobeha@gmail.com"
+version: "dev"
+
+homepage: "https://github.com/Jakobeha/nominalscript.coq"
+dev-repo: "git+https://github.com/Jakobeha/nominalscript.coq.git"
+bug-reports: "https://github.com/Jakobeha/nominalscript.coq/issues"
+license: "MIT"
+
+authors: [
+  "Jakob Hain"
+]
+
+build: [
+  ["./configure.sh"]
+  [make "-j%{jobs}%"]
+]
+install: [make "install"]
+
+depends: [
+  "coq" {>= "8.14" & < "9.0"}
+]
+
+synopsis: "Formalization of NominalScript's type system"
+description: """
+Defines NominalScript's type system and a subset of the subtyping rules in Coq, and proves reflexivity, symmetry, and transitivity.
+Also defines union and intersection based off of subtyping, and proves properties of those
+"""
+
+tags: [
+  "logpath:nominalscript"
+]

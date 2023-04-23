@@ -459,7 +459,6 @@ Proof. intros; destruct H, H0; split; assumption. Qed.
 Corollary intersect_subtype_lattice2 {A: Set} `{S: Subtype A, V: IsValidType A, E: EqvType A, ! SubtypeValid S}: forall (a b ab: A), a I b = ab -> ab <: a /\ ab <: b.
 Proof. intros; destruct H, H0; split; assumption. Qed.
 
-
 Create HintDb subtype_laws.
 Global Hint Extern 4 => typeclasses eauto: subtype_laws.
 Global Hint Resolve subtype_top: subtype_laws.

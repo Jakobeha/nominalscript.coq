@@ -1,9 +1,10 @@
--Q NS NS
--docroot NS
+-R NS NS
 
-NS/Misc.v
-NS/JsRecord.v
-NS/TypesBase.v
-NS/TypesSimpleHelpers.v
 NS/TypesNotation.v
+NS/JsRecord.v
 NS/TypesSubtype.v
+NS/TypesSimpleHelpers.v
+NS/TypesUnify.v
+NS/HigherOrder.v
+NS/Misc.v
+NS/TypesBase.v
