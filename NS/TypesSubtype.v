@@ -86,9 +86,10 @@ Class UnionDist {A: Set} `(S: Subtype A): Prop := union_dist: forall (a b c bc: 
 Class UnionDist0 {A: Set} `(S: Subtype A): Prop := union_dist0: forall (a b c bc: A), b U c = bc -> bc <: a -> b <: a /\ c <: a.
 Class IntersectDist {A: Set} `(S: Subtype A): Prop := intersect_dist: forall (a b c bc: A), b I c = bc -> b <: a \/ c <: a -> bc <: a.
 Class IntersectDist0 {A: Set} `(S: Subtype A): Prop := intersect_dist0: forall (a b c bc: A), b I c = bc -> a <: bc -> a <: b /\ a <: c.
-Class UnionIntersectDist {A: Set} `(S: Subtype A): Prop := union_intersect_dist: forall (a b c aub auc bic aubic: A), a U b = aub -> a U c = auc -> b I c = bic -> a U bic = aubic <-> aub I auc = aubic.
-Class IntersectUnionDist {A: Set} `(S: Subtype A): Prop := intersect_union_dist: forall (a b c aib aic buc aibuc: A), a I b = aib -> a I c = aic -> b U c = buc -> a I buc = aibuc <-> aib U aic = aibuc.
-Class UnionIntersectValid {A: Set} `(S: Subtype A) `{V: IsValidType A}: Prop := union_intersect_valid: UnionRefl S /\ IntersectRefl S /\ UnionComm S /\ IntersectComm S /\ UnionAssoc S /\ IntersectAssoc S /\ UnionAbsorb S /\ IntersectAbsorb S /\ UnionDist S /\ UnionDist0 S /\ IntersectDist S /\ IntersectDist0 S /\ UnionIntersectDist S /\ IntersectUnionDist S.
+(* These can't be proven, i haven't figured out why *)
+(* Class UnionIntersectDist {A: Set} `(S: Subtype A): Prop := union_intersect_dist: forall (a b c aub auc bic aubic: A), a U b = aub -> a U c = auc -> b I c = bic -> a U bic = aubic <-> aub I auc = aubic. *)
+(* Class IntersectUnionDist {A: Set} `(S: Subtype A): Prop := intersect_union_dist: forall (a b c aib aic buc aibuc: A), a I b = aib -> a I c = aic -> b U c = buc -> a I buc = aibuc <-> aib U aic = aibuc. *)
+Class UnionIntersectValid {A: Set} `(S: Subtype A) `{V: IsValidType A}: Prop := union_intersect_valid: UnionRefl S /\ IntersectRefl S /\ UnionComm S /\ IntersectComm S /\ UnionAssoc S /\ IntersectAssoc S /\ UnionAbsorb S /\ IntersectAbsorb S /\ UnionDist S /\ UnionDist0 S /\ IntersectDist S /\ IntersectDist0 S.
 Class UnionIntersectValid0 {A: Set} `(S: Subtype A) `{V: IsValidType A, T: Top A, B: Bottom A}: Prop := union_intersect_valid0: UnionBottom S /\ UnionTop S /\ IntersectBottom S /\ IntersectTop S /\ UnionIntersectValid S.
 Class SubtypeUnionIntersectValid0 {A: Set} `(S: Subtype A) `{V: IsValidType A, E: EqvType A} `{T: Top A} `{B: Bottom A}: Prop := subtype_union_intersect_valid0: SubtypeValid0 S /\ UnionIntersectValid0 S.
 Set Implicit Arguments.
@@ -140,14 +141,14 @@ Global Instance IntersectDist_S {A: Set} `{S: Subtype A, V: IsValidType A, ! Sub
 Proof. intros a b c bc [? [? ?]] [? | ?]; [apply subtype_trans with b | apply subtype_trans with c]; assumption. Qed.
 Global Instance IntersectDist0_S {A: Set} `{S: Subtype A, V: IsValidType A, ! SubtypeTrans S}: IntersectDist0 S.
 Proof. split; destruct H, H1; apply subtype_trans with bc; assumption. Qed.
-Global Instance UnionIntersectDist_S {A: Set} `{S: Subtype A, V: IsValidType A, ! SubtypeTrans S}: UnionIntersectDist S.
+(* Global Instance UnionIntersectDist_S {A: Set} `{S: Subtype A, V: IsValidType A, ! SubtypeTrans S}: UnionIntersectDist S.
 Proof. repeat split; destruct H, H0, H1, H2, H3, H4, H5, H6; [apply H10; [| apply subtype_trans with b] | apply H10; [| apply subtype_trans with c] | intros | apply H10 | apply H10; [apply subtype_trans with b | apply subtype_trans with c] | intros]; try assumption. Admitted. (* TODO *)
 Global Instance IntersectUnionDist_S {A: Set} `{S: Subtype A, V: IsValidType A, ! SubtypeTrans S}: IntersectUnionDist S.
-Proof. repeat split; destruct H, H0, H1, H2, H3, H4, H5, H6; [apply H10; [| apply subtype_trans with b] | apply H10; [| apply subtype_trans with c] | intros | apply H10 | apply H10; [apply subtype_trans with b | apply subtype_trans with c] | intros]; try assumption. Admitted. (* TODO *)
+Proof. repeat split; destruct H, H0, H1, H2, H3, H4, H5, H6; [apply H10; [| apply subtype_trans with b] | apply H10; [| apply subtype_trans with c] | intros | apply H10 | apply H10; [apply subtype_trans with b | apply subtype_trans with c] | intros]; try assumption. Admitted. (* TODO *) *)
 Global Instance UnionIntersectValid_S {A: Set} `{S: Subtype A, V: IsValidType A, ! SubtypeRefl S, ! SubtypeTrans S}: UnionIntersectValid S.
-Proof. do 13 [> .. | split]; typeclasses eauto. Qed.
+Proof. do 11 [> .. | split]; typeclasses eauto. Qed.
 Global Instance UnionIntersectValid0_S {A: Set} `{S: Subtype A, V: IsValidType A, T: Top A, B: Bottom A, ! SubtypeTop S, ! SubtypeBottom S, ! SubtypeRefl S, ! SubtypeTrans S}: UnionIntersectValid0 S.
-Proof. do 17 [> .. | split]; typeclasses eauto. Qed.
+Proof. do 15 [> .. | split]; typeclasses eauto. Qed.
 Global Instance SubtypeUnionIntersectValid0_S {A: Set} `{S: Subtype A, V: IsValidType A, E: EqvType A, T: Top A, B: Bottom A, ! SubtypeValid0 S}: SubtypeUnionIntersectValid0 S.
 Proof. split; [assumption | destruct SubtypeValid1, H0, H1, H2; apply UnionIntersectValid0_S]. Qed.
 
@@ -188,18 +189,18 @@ Inductive S_variance: Subtype variance :=
 . Global Existing Instance S_variance.
 Global Instance E_variance: EqvType variance := eq.
 Inductive S_targ {A: Set} (S: Subtype A): Subtype (targ A) :=
-| S_TArgInvariant    : forall (al ar: A),
-    [S] al <: ar -> [S] ar <: al -> [S_targ S] TArg Invariant al <: TArg Invariant ar
-| S_TArgCovariant    : forall (vl: variance) (al ar: A),
-    [S_variance] vl <: Covariant -> [S] al <: ar -> [S_targ S] TArg vl al <: TArg Covariant ar
-| S_TArgContravariant: forall (vl: variance) (al ar: A),
-    [S_variance] vl <: Contravariant -> [S] ar <: al -> [S_targ S] TArg vl al <: TArg Contravariant ar
-| S_TArgBivariant    : forall (vl: variance) (al ar: A),
-    [S] al <: ar \/ [S] ar <: al -> [S_targ S] TArg vl al <: TArg Bivariant ar
+| S_TArgInvariant    : forall (al ar: A), [S] al <: ar /\ [S] ar <: al -> [S_targ S] TArg Invariant al <: TArg Invariant ar
+| S_TArgCovariant    : forall (al ar: A), [S] al <: ar                -> [S_targ S] TArg Covariant al <: TArg Covariant ar
+| S_TArgContravariant: forall (al ar: A),                [S] ar <: al -> [S_targ S] TArg Contravariant al <: TArg Contravariant ar
+(* true bivariance breaks transitivity...we may need to change the name of this bound
+   because it's misleading... *)
+| S_TArgBivariant    : forall (al ar: A),                               [S_targ S] TArg Bivariant al <: TArg Bivariant ar
 . Global Existing Instance S_targ.
-Inductive E_targ {A: Set} (S: Subtype A) (E: EqvType A): EqvType (targ A) :=
-| E_TArg           : forall (v: variance) (al ar: A), [E] al == ar -> [E_targ S E] TArg v al == TArg v ar
-| E_TArgBivariant  : forall (al ar: A), [S] al <: ar \/ [S] ar <: al -> [E_targ S E] TArg Bivariant al == TArg Bivariant ar
+Inductive E_targ {A: Set} (E: EqvType A): EqvType (targ A) :=
+| E_TArgInvariant    : forall (al ar: A), [E] al == ar -> [E_targ E] TArg Invariant al == TArg Invariant ar
+| E_TArgCovariant    : forall (al ar: A), [E] al == ar -> [E_targ E] TArg Covariant al == TArg Covariant ar
+| E_TArgContravariant: forall (al ar: A), [E] al == ar -> [E_targ E] TArg Contravariant al == TArg Contravariant ar
+| E_TArgBivariant    : forall (al ar: A),                [E_targ E] TArg Bivariant al == TArg Bivariant ar
 . Global Existing Instance E_targ.
 Inductive S_tparam {A: Set} (S: Subtype A): Subtype (tparam A) :=
 | S_TParam           : forall (vl vr: variance) (name: string) (supl supr: list A),
@@ -266,7 +267,7 @@ Inductive E_ftype: EqvType ftype :=
 | E_Struct           : forall (n: bool) (sl sr: sftype),
     [E_stype E_ftype] sl == sr -> [E_ftype] FStructural n sl == FStructural n sr
 | E_Nom              : forall (n: bool) (idl idr: iftype) (idsl idsr: list iftype) (sl sr: option sftype),
-    [E_Zip (E_itype (E_targ S_ftype E_ftype))] (idl :: idsl) == (idr :: idsr) -> [E_option (E_stype E_ftype)] sl == sr ->
+    [E_Zip (E_itype (E_targ E_ftype))] (idl :: idsl) == (idr :: idsr) -> [E_option (E_stype E_ftype)] sl == sr ->
     [E_ftype] FNominal n idl idsl sl == FNominal n idr idsr sr
 . Global Existing Instance E_ftype.
 (* `ftype`` relations without inductive arguments AKA hypotheses, for alternate `S_ftype_ind`s *)
@@ -432,24 +433,11 @@ Global Instance SubtypeTrans_variance: SubtypeTrans S_variance.
 Proof. intros a b c H H0; destruct a, b, c; inv H H0; constructor. Qed.
 
 Global Instance SubtypeRefl_targ {A: Set} `{R: SubtypeRefl A}: SubtypeRefl (S_targ subtype).
-Proof. intros a; destruct a; destruct v; constructor; [.. | right]; apply subtype_refl; inv H; reflexivity || assumption. Qed.
+Proof. intros a; destruct a, v; constructor; [split | |]; apply subtype_refl; inv H; assumption. Qed.
 Global Instance SubtypeAntisym_targ {A: Set} `{SA: SubtypeAntisym A}: SubtypeAntisym (S_targ subtype).
-Proof. intros a b H H0; destruct a, b; inv H H0; try (inv H3; fail); try (inv H4; fail); [apply E_TArg; apply subtype_antisym .. | apply E_TArgBivariant]; assumption. Qed.
+Proof. intros a b H H0; destruct a, b, v, v0; inv H H0; [destruct H2, H3 | ..]; constructor; apply subtype_antisym; assumption. Qed.
 Global Instance SubtypeTrans_targ {A: Set} `{T: SubtypeTrans A}: SubtypeTrans (S_targ subtype).
-Proof. intros a b c H H0; destruct a, b, c, v, v0, v1; inv H H0; try (inv H3; fail); try (inv H4; fail);
-  constructor; try (constructor; fail); try (apply subtype_trans with a0; assumption);
-  try (left_right_with H1; apply subtype_trans with a0; assumption).
-
-Proof. intros a b c H H0; destruct a, b, c; inv H H0;
-  try (constructor; [assumption || (constructor; fail) || (apply subtype_trans with v0; assumption) || (apply subtype_trans with a0; assumption) ..]);
-  try inv H3; try inv H4; try inv H5;
-  try (apply S_TArgCovariant; [constructor | apply subtype_trans with a0; assumption]).
-- apply S_TArgInvariant.
-  (apply S_TArgBivariant || (apply S_TArgCovariant; [constructor |]) || (apply S_TArgContravariant; [constructor |]) || apply S_TArgInvariant);
-  try (constructor; fail); try (apply subtype_trans with a0; assumption).
--
-- apply S_TArgCovariant. [apply subtype_trans with v0; assumption | |]. [> (apply subtype_trans with v0; assumption) || (apply subtype_trans with a0) ..].
-Proof. intros a b c H H0; destruct a, b, c; inv H H0; constructor; [apply subtype_trans with v0 | apply subtype_trans with supers0]; assumption. Qed.
+Proof. intros a b c H H0; destruct a, b, c, v, v0, v1; inv H H0; [destruct H2, H3 | ..]; constructor; [split | ..]; apply subtype_trans with a0; assumption. Qed.
 
 Global Instance SubtypeRefl_tparam {A: Set} `{R: SubtypeRefl A}: SubtypeRefl (S_tparam subtype).
 Proof. intros a; destruct a; constructor; apply subtype_refl; [reflexivity | inv H; assumption]. Qed.
@@ -529,12 +517,16 @@ Global Hint Resolve union_refl: subtype_laws.
 Global Hint Resolve union_comm: subtype_laws.
 Global Hint Resolve union_assoc: subtype_laws.
 Global Hint Resolve union_absorb: subtype_laws.
+Global Hint Resolve union_dist: subtype_laws.
+Global Hint Resolve union_dist0: subtype_laws.
 Global Hint Resolve intersect_top: subtype_laws.
 Global Hint Resolve intersect_bottom: subtype_laws.
 Global Hint Resolve intersect_refl: subtype_laws.
 Global Hint Resolve intersect_comm: subtype_laws.
 Global Hint Resolve intersect_assoc: subtype_laws.
 Global Hint Resolve intersect_absorb: subtype_laws.
+Global Hint Resolve intersect_dist: subtype_laws.
+Global Hint Resolve intersect_dist0: subtype_laws.
 Global Hint Resolve union_subtype_lattice0: subtype_laws.
 Global Hint Resolve intersect_subtype_lattice0: subtype_laws.
 Global Hint Resolve union_subtype_lattice1: subtype_laws.
