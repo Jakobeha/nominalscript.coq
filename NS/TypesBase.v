@@ -4,10 +4,25 @@ Require Import Coq.Strings.String.
 Require Import Coq.Arith.PeanoNat.
 Require Import Coq.Arith.EqNat.
 Require Import Coq.Bool.Bool.
-From Equations Require Import Equations.
 From NS Require Import Misc.
 From NS Require Import HigherOrder.
 From NS Require Import JsRecord.
+
+Inductive variance: Set :=
+| Invariant
+| Covariant
+| Contravariant
+| Bivariant.
+
+(* A type argument *)
+Inductive targ (A: Set): Set :=
+| TArg (v: variance) (a: A).
+Arguments TArg {A} v a.
+
+(* A type parameter *)
+Inductive tparam (A: Set): Set :=
+| TParam (v: variance) (name: string) (supers: list A).
+Arguments TParam {A} v name supers.
 
 (* Return (void-able) type *)
 Inductive vtype (A: Set): Set :=
@@ -16,27 +31,15 @@ Inductive vtype (A: Set): Set :=
 Arguments VVoid {A}.
 Arguments Vt {A} a.
 
-(* Nominal (identifer) A *)
-Inductive itype (A: Set): Set :=
-| It (name: string) (targs: list A).
-Arguments It {A} name targs.
-
-Inductive variance: Set :=
-| Invariant
-| Covariant
-| Contravariant
-| Bivariant.
-
-(* A parameter *)
-Inductive tparam (A: Set): Set :=
-| TParam (v: variance) (name: string) (supers: list A).
-Arguments TParam {A} v name supers.
-
 (* Optional (different than nullable) A *)
 Inductive otype (A: Set): Set :=
 | Ot (optional: bool) (a: A).
 Arguments Ot {A} optional a.
 
+(* Nominal (identifer) A *)
+Inductive itype (A: Set): Set :=
+| It (name: string) (targs: list A).
+Arguments It {A} name targs.
 
 (* Structural A *)
 Inductive stype (A: Set): Set :=
@@ -55,10 +58,11 @@ Inductive ttype: Set :=
 | TNever (nullable: bool)
 | TStructural (nullable: bool) (structure: stype ttype)
 | TNominal (nullable: bool) (id: itype ttype).
-Notation vttype := (vtype ttype).
-Notation ittype := (itype ttype).
+Notation ttarg := (targ ttype).
 Notation ttparam := (tparam ttype).
+Notation vttype := (vtype ttype).
 Notation ottype := (otype ttype).
+Notation ittype := (itype ttype).
 Notation sttype := (stype ttype).
 
 (* Fat type: resolved thin type (lookup supevtypes and normalize), how the compiler sees thin types *)
@@ -66,30 +70,20 @@ Inductive ftype: Set :=
 | FAny
 | FNever (nullable: bool)
 | FStructural (nullable: bool) (structure: stype ftype)
-| FNominal (nullable: bool) (id: itype ftype) (sids: list (itype ftype)) (structure: option (stype ftype)).
-Derive NoConfusion for ftype.
-Derive Subterm for ftype.
-Notation vftype := (vtype ftype).
-Notation iftype := (itype ftype).
+| FNominal (nullable: bool) (id: itype (targ ftype)) (sids: list (itype (targ ftype))) (structure: option (stype ftype)).
+Notation ftarg := (targ ftype).
 Notation ftparam := (tparam ftype).
+Notation vftype := (vtype ftype).
 Notation oftype := (otype ftype).
+Notation iftype := (itype (targ ftype)).
 Notation sftype := (stype ftype).
 
-(* Equivalent definition of ftype which has depth for proper recursion *)
-Inductive option' (A: nat -> Set): nat -> Set :=
-| Some': forall {n: nat}, A n -> option' A n
-| None': option' A 0.
-Arguments Some' {A n}.
-Arguments None' {A}.
-Inductive list' (A: nat -> Set): nat -> Set :=
-| Nil': list' A 0
-| Cons': forall {n n0: nat}, A n -> list' A n0 -> list' A (max n n0).
-Arguments Nil' {A}.
-Arguments Cons' {A n n0} a l.
-
-Inductive IType_Forall {A: Set} (P: A -> Prop): itype A -> Prop :=
-| Forall_It : forall name targs, List.Forall P targs -> IType_Forall P (It name targs)
-. Global Instance Forall_itype: Forall itype := @IType_Forall.
+Inductive TArg_Forall {A: Set} (P: A -> Prop): targ A -> Prop :=
+| Forall_TArg : forall variance a, P a -> TArg_Forall P (TArg variance a)
+. Global Instance Forall_targ: Forall targ := @TArg_Forall.
+Inductive TParam_Forall {A: Set} (P: A -> Prop): tparam A -> Prop :=
+| Forall_TParam : forall variance name supers, List.Forall P supers -> TParam_Forall P (TParam variance name supers)
+. Global Instance Forall_tparam: Forall tparam := @TParam_Forall.
 Inductive VType_Forall {A: Set} (P: A -> Prop): vtype A -> Prop :=
 | Forall_VVoid : VType_Forall P VVoid
 | Forall_Vt : forall x, P x -> VType_Forall P (Vt x)
@@ -97,9 +91,9 @@ Inductive VType_Forall {A: Set} (P: A -> Prop): vtype A -> Prop :=
 Inductive OType_Forall {A: Set} (P: A -> Prop): otype A -> Prop :=
 | Forall_Ot : forall optional x, P x -> OType_Forall P (Ot optional x)
 . Global Instance Forall_otype: Forall otype := @OType_Forall.
-Inductive TParam_Forall {A: Set} (P: A -> Prop): tparam A -> Prop :=
-| Forall_TParam : forall variance name supers, List.Forall P supers -> TParam_Forall P (TParam variance name supers)
-. Global Instance Forall_tparam: Forall tparam := @TParam_Forall.
+Inductive IType_Forall {A: Set} (P: A -> Prop): itype A -> Prop :=
+| Forall_It : forall name targs, List.Forall P targs -> IType_Forall P (It name targs)
+. Global Instance Forall_itype: Forall itype := @IType_Forall.
 Inductive SType_Forall {A: Set} (P: A -> Prop): stype A -> Prop :=
 | Forall_SFn : forall tparams thisp params rparam ret,
     List.Forall (TParam_Forall P) tparams -> P thisp -> List.Forall (OType_Forall P) params -> P rparam -> VType_Forall P ret ->
@@ -121,29 +115,29 @@ Axiom ttype_ind':
   forall (P: ttype -> Prop)
     (fAny: P TAny)
     (fNever: forall nullable, P (TNever nullable))
-    (fStructural: forall nullable structure, SType_Forall P structure -> P (TStructural nullable structure))
-    (fNominal: forall nullable id, IType_Forall P id -> P (TNominal nullable id))
+    (fStructural: forall nullable structure, forall_ P structure -> P (TStructural nullable structure))
+    (fNominal: forall nullable id, forall_ P id -> P (TNominal nullable id))
     (x: ttype), P x.
 Axiom ttype_ind'0:
   forall (P: ttype -> Prop)
     (fAny: P TAny)
     (fNever: forall nullable, P (TNever nullable))
     (fStructural: forall nullable structure, SType_Forall' P structure -> P (TStructural nullable structure))
-    (fNominal: forall nullable id, IType_Forall P id -> P (TNominal nullable id))
+    (fNominal: forall nullable id, forall_ P id -> P (TNominal nullable id))
     (x: ttype), P x.
 Axiom ftype_ind':
   forall (P: ftype -> Prop)
     (fAny: P FAny)
     (fNever: forall nullable, P (FNever nullable))
-    (fStructural: forall nullable structure, SType_Forall P structure -> P (FStructural nullable structure))
-    (fNominal: forall nullable id sids structure, IType_Forall P id -> List.Forall (IType_Forall P) sids -> Option_Forall (SType_Forall P) structure -> P (FNominal nullable id sids structure))
+    (fStructural: forall nullable structure, forall_ P structure -> P (FStructural nullable structure))
+    (fNominal: forall nullable id sids structure, forall_ (forall_ P) id -> forall_ (forall_ (forall_ P)) sids -> forall_ (forall_ P) structure -> P (FNominal nullable id sids structure))
     (x: ftype), P x.
 Axiom ftype_ind'0:
   forall (P: ftype -> Prop)
     (fAny: P FAny)
     (fNever: forall nullable, P (FNever nullable))
     (fStructural: forall nullable structure, SType_Forall' P structure -> P (FStructural nullable structure))
-    (fNominal: forall nullable id sids structure, IType_Forall P id -> List.Forall (IType_Forall P) sids -> Option_Forall (SType_Forall' P) structure -> P (FNominal nullable id sids structure))
+    (fNominal: forall nullable id sids structure, forall_ (forall_ P) id -> forall_ (forall_ (forall_ P)) sids -> forall_ (SType_Forall' P) structure -> P (FNominal nullable id sids structure))
     (x: ftype), P x.
 
 Definition TNEVER: ttype := TNever false.

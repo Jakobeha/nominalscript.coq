@@ -82,7 +82,13 @@ Class UnionAssoc {A: Set} `(S: Subtype A): Prop := union_assoc: forall (a b c ab
 Class IntersectAssoc {A: Set} `(S: Subtype A): Prop := intersect_assoc: forall (a b c ab bc abc: A), a I b = ab -> b I c = bc -> ab I c = abc <-> a I bc = abc.
 Class UnionAbsorb {A: Set} `(S: Subtype A) `{V: IsValidType A}: Prop := union_absorb: forall (a b ab: A), is_valid_type b -> a <: b -> a U b = b.
 Class IntersectAbsorb {A: Set} `(S: Subtype A) `{V: IsValidType A}: Prop := intersect_absorb: forall (a b ab: A), is_valid_type a -> a <: b -> a I b = a.
-Class UnionIntersectValid {A: Set} `(S: Subtype A) `{V: IsValidType A}: Prop := union_intersect_valid: UnionRefl S /\ IntersectRefl S /\ UnionComm S /\ IntersectComm S /\ UnionAssoc S /\ IntersectAssoc S /\ UnionAbsorb S /\ IntersectAbsorb S.
+Class UnionDist {A: Set} `(S: Subtype A): Prop := union_dist: forall (a b c bc: A), b U c = bc -> a <: b \/ a <: c -> a <: bc.
+Class UnionDist0 {A: Set} `(S: Subtype A): Prop := union_dist0: forall (a b c bc: A), b U c = bc -> bc <: a -> b <: a /\ c <: a.
+Class IntersectDist {A: Set} `(S: Subtype A): Prop := intersect_dist: forall (a b c bc: A), b I c = bc -> b <: a \/ c <: a -> bc <: a.
+Class IntersectDist0 {A: Set} `(S: Subtype A): Prop := intersect_dist0: forall (a b c bc: A), b I c = bc -> a <: bc -> a <: b /\ a <: c.
+Class UnionIntersectDist {A: Set} `(S: Subtype A): Prop := union_intersect_dist: forall (a b c aub auc bic aubic: A), a U b = aub -> a U c = auc -> b I c = bic -> a U bic = aubic <-> aub I auc = aubic.
+Class IntersectUnionDist {A: Set} `(S: Subtype A): Prop := intersect_union_dist: forall (a b c aib aic buc aibuc: A), a I b = aib -> a I c = aic -> b U c = buc -> a I buc = aibuc <-> aib U aic = aibuc.
+Class UnionIntersectValid {A: Set} `(S: Subtype A) `{V: IsValidType A}: Prop := union_intersect_valid: UnionRefl S /\ IntersectRefl S /\ UnionComm S /\ IntersectComm S /\ UnionAssoc S /\ IntersectAssoc S /\ UnionAbsorb S /\ IntersectAbsorb S /\ UnionDist S /\ UnionDist0 S /\ IntersectDist S /\ IntersectDist0 S /\ UnionIntersectDist S /\ IntersectUnionDist S.
 Class UnionIntersectValid0 {A: Set} `(S: Subtype A) `{V: IsValidType A, T: Top A, B: Bottom A}: Prop := union_intersect_valid0: UnionBottom S /\ UnionTop S /\ IntersectBottom S /\ IntersectTop S /\ UnionIntersectValid S.
 Class SubtypeUnionIntersectValid0 {A: Set} `(S: Subtype A) `{V: IsValidType A, E: EqvType A} `{T: Top A} `{B: Bottom A}: Prop := subtype_union_intersect_valid0: SubtypeValid0 S /\ UnionIntersectValid0 S.
 Set Implicit Arguments.
@@ -126,10 +132,22 @@ Global Instance UnionAbsorb_S {A: Set} `{S: Subtype A, V: IsValidType A, ! Subty
 Proof. split; [| split; [apply subtype_refl | intros]]; assumption. Qed.
 Global Instance IntersectAbsorb_S {A: Set} `{S: Subtype A, V: IsValidType A, ! SubtypeRefl S}: IntersectAbsorb S.
 Proof. split; [apply subtype_refl | split; [| intros]]; assumption. Qed.
+Global Instance UnionDist_S {A: Set} `{S: Subtype A, V: IsValidType A, ! SubtypeTrans S}: UnionDist S.
+Proof. intros a b c bc [? [? ?]] [? | ?]; [apply subtype_trans with b | apply subtype_trans with c]; assumption. Qed.
+Global Instance UnionDist0_S {A: Set} `{S: Subtype A, V: IsValidType A, ! SubtypeTrans S}: UnionDist0 S.
+Proof. split; destruct H, H1; apply subtype_trans with bc; assumption. Qed.
+Global Instance IntersectDist_S {A: Set} `{S: Subtype A, V: IsValidType A, ! SubtypeTrans S}: IntersectDist S.
+Proof. intros a b c bc [? [? ?]] [? | ?]; [apply subtype_trans with b | apply subtype_trans with c]; assumption. Qed.
+Global Instance IntersectDist0_S {A: Set} `{S: Subtype A, V: IsValidType A, ! SubtypeTrans S}: IntersectDist0 S.
+Proof. split; destruct H, H1; apply subtype_trans with bc; assumption. Qed.
+Global Instance UnionIntersectDist_S {A: Set} `{S: Subtype A, V: IsValidType A, ! SubtypeTrans S}: UnionIntersectDist S.
+Proof. repeat split; destruct H, H0, H1, H2, H3, H4, H5, H6; [apply H10; [| apply subtype_trans with b] | apply H10; [| apply subtype_trans with c] | intros | apply H10 | apply H10; [apply subtype_trans with b | apply subtype_trans with c] | intros]; try assumption. Admitted. (* TODO *)
+Global Instance IntersectUnionDist_S {A: Set} `{S: Subtype A, V: IsValidType A, ! SubtypeTrans S}: IntersectUnionDist S.
+Proof. repeat split; destruct H, H0, H1, H2, H3, H4, H5, H6; [apply H10; [| apply subtype_trans with b] | apply H10; [| apply subtype_trans with c] | intros | apply H10 | apply H10; [apply subtype_trans with b | apply subtype_trans with c] | intros]; try assumption. Admitted. (* TODO *)
 Global Instance UnionIntersectValid_S {A: Set} `{S: Subtype A, V: IsValidType A, ! SubtypeRefl S, ! SubtypeTrans S}: UnionIntersectValid S.
-Proof. do 7 [> .. | split]; typeclasses eauto. Qed.
+Proof. do 13 [> .. | split]; typeclasses eauto. Qed.
 Global Instance UnionIntersectValid0_S {A: Set} `{S: Subtype A, V: IsValidType A, T: Top A, B: Bottom A, ! SubtypeTop S, ! SubtypeBottom S, ! SubtypeRefl S, ! SubtypeTrans S}: UnionIntersectValid0 S.
-Proof. do 11 [> .. | split]; typeclasses eauto. Qed.
+Proof. do 17 [> .. | split]; typeclasses eauto. Qed.
 Global Instance SubtypeUnionIntersectValid0_S {A: Set} `{S: Subtype A, V: IsValidType A, E: EqvType A, T: Top A, B: Bottom A, ! SubtypeValid0 S}: SubtypeUnionIntersectValid0 S.
 Proof. split; [assumption | destruct SubtypeValid1, H0, H1, H2; apply UnionIntersectValid0_S]. Qed.
 
@@ -169,20 +187,20 @@ Inductive S_variance: Subtype variance :=
 | S_Invariant        : forall (rhs: variance), [S_variance] Invariant <: rhs
 . Global Existing Instance S_variance.
 Global Instance E_variance: EqvType variance := eq.
-Inductive S_otype {A: Set} (S: Subtype A): Subtype (otype A) :=
-| S_OType            : forall (ol or: bool) (lhs rhs: A), ol <= or -> [S] lhs <: rhs -> [S_otype S] Ot ol lhs <: Ot or rhs
-. Global Existing Instance S_otype.
-Inductive E_otype {A: Set} (E: EqvType A): EqvType (otype A) :=
-| E_OType            : forall (o: bool) (lhs rhs: A), [E] lhs == rhs -> [E_otype E] Ot o lhs == Ot o rhs
-. Global Existing Instance E_otype.
-Inductive S_vtype {A: Set} (S: Subtype A): Subtype (vtype A) :=
-| S_Void             : [S_vtype S] @VVoid A <: VVoid
-| S_NotVoid          : forall (lhs rhs: A), [S] lhs <: rhs -> [S_vtype S] Vt lhs <: Vt rhs
-. Global Existing Instance S_vtype.
-Inductive E_vtype {A: Set} (E: EqvType A): EqvType (vtype A) :=
-| E_Void             : [E_vtype E] @VVoid A == VVoid
-| E_NotVoid          : forall (lhs rhs: A), [E] lhs == rhs -> [E_vtype E] Vt lhs == Vt rhs
-. Global Existing Instance E_vtype.
+Inductive S_targ {A: Set} (S: Subtype A): Subtype (targ A) :=
+| S_TArgInvariant    : forall (al ar: A),
+    [S] al <: ar -> [S] ar <: al -> [S_targ S] TArg Invariant al <: TArg Invariant ar
+| S_TArgCovariant    : forall (vl: variance) (al ar: A),
+    [S_variance] vl <: Covariant -> [S] al <: ar -> [S_targ S] TArg vl al <: TArg Covariant ar
+| S_TArgContravariant: forall (vl: variance) (al ar: A),
+    [S_variance] vl <: Contravariant -> [S] ar <: al -> [S_targ S] TArg vl al <: TArg Contravariant ar
+| S_TArgBivariant    : forall (vl: variance) (al ar: A),
+    [S] al <: ar \/ [S] ar <: al -> [S_targ S] TArg vl al <: TArg Bivariant ar
+. Global Existing Instance S_targ.
+Inductive E_targ {A: Set} (S: Subtype A) (E: EqvType A): EqvType (targ A) :=
+| E_TArg           : forall (v: variance) (al ar: A), [E] al == ar -> [E_targ S E] TArg v al == TArg v ar
+| E_TArgBivariant  : forall (al ar: A), [S] al <: ar \/ [S] ar <: al -> [E_targ S E] TArg Bivariant al == TArg Bivariant ar
+. Global Existing Instance E_targ.
 Inductive S_tparam {A: Set} (S: Subtype A): Subtype (tparam A) :=
 | S_TParam           : forall (vl vr: variance) (name: string) (supl supr: list A),
     [S_variance] vl <: vr -> [S_Intersect S] supl <: supr ->
@@ -192,6 +210,20 @@ Inductive E_tparam {A: Set} (E: EqvType A): EqvType (tparam A) :=
 | E_TParam           : forall (v: variance) (name: string) (supl supr: list A),
     [E_Zip E] supl == supr -> [E_tparam E] TParam v name supl == TParam v name supr
 . Global Existing Instance E_tparam.
+Inductive S_vtype {A: Set} (S: Subtype A): Subtype (vtype A) :=
+| S_Void             : [S_vtype S] @VVoid A <: VVoid
+| S_NotVoid          : forall (lhs rhs: A), [S] lhs <: rhs -> [S_vtype S] Vt lhs <: Vt rhs
+. Global Existing Instance S_vtype.
+Inductive E_vtype {A: Set} (E: EqvType A): EqvType (vtype A) :=
+| E_Void             : [E_vtype E] @VVoid A == VVoid
+| E_NotVoid          : forall (lhs rhs: A), [E] lhs == rhs -> [E_vtype E] Vt lhs == Vt rhs
+. Global Existing Instance E_vtype.
+Inductive S_otype {A: Set} (S: Subtype A): Subtype (otype A) :=
+| S_OType            : forall (ol or: bool) (lhs rhs: A), ol <= or -> [S] lhs <: rhs -> [S_otype S] Ot ol lhs <: Ot or rhs
+. Global Existing Instance S_otype.
+Inductive E_otype {A: Set} (E: EqvType A): EqvType (otype A) :=
+| E_OType            : forall (o: bool) (lhs rhs: A), [E] lhs == rhs -> [E_otype E] Ot o lhs == Ot o rhs
+. Global Existing Instance E_otype.
 Inductive S_itype {A: Set} (S: Subtype A): Subtype (itype A) :=
 | S_Ident            : forall (name: string) (tal tar: list A), [S_Zip S] tal <: tar -> [S_itype S] It name tal <: It name tar
 . Global Existing Instance S_itype.
@@ -225,7 +257,7 @@ Inductive S_ftype: Subtype ftype :=
 | S_NomStruct        : forall (nl nr: bool) (idl: iftype) (idsl: list iftype) (sl sr: sftype),
     nl <= nr -> [S_stype S_ftype] sl <: sr -> [S_ftype] FNominal nl idl idsl (Some sl) <: FStructural nr sr
 | S_Nom              : forall (nl nr: bool) (idl idr: iftype) (idsl idsr: list iftype) (sl sr: option sftype),
-    nl <= nr -> [S_Intersect (S_itype S_ftype)] (idl :: idsl) <: (idr :: idsr) -> [S_option (S_stype S_ftype)] sl <: sr ->
+    nl <= nr -> [S_Intersect (S_itype (S_targ S_ftype))] (idl :: idsl) <: (idr :: idsr) -> [S_option (S_stype S_ftype)] sl <: sr ->
     [S_ftype] FNominal nl idl idsl sl <: FNominal nr idr idsr sr
 . Global Existing Instance S_ftype.
 Inductive E_ftype: EqvType ftype :=
@@ -234,7 +266,7 @@ Inductive E_ftype: EqvType ftype :=
 | E_Struct           : forall (n: bool) (sl sr: sftype),
     [E_stype E_ftype] sl == sr -> [E_ftype] FStructural n sl == FStructural n sr
 | E_Nom              : forall (n: bool) (idl idr: iftype) (idsl idsr: list iftype) (sl sr: option sftype),
-    [E_Zip (E_itype E_ftype)] (idl :: idsl) == (idr :: idsr) -> [E_option (E_stype E_ftype)] sl == sr ->
+    [E_Zip (E_itype (E_targ S_ftype E_ftype))] (idl :: idsl) == (idr :: idsr) -> [E_option (E_stype E_ftype)] sl == sr ->
     [E_ftype] FNominal n idl idsl sl == FNominal n idr idsr sr
 . Global Existing Instance E_ftype.
 (* `ftype`` relations without inductive arguments AKA hypotheses, for alternate `S_ftype_ind`s *)
@@ -269,16 +301,17 @@ Global Instance IsValidType_option {A: Set} `{V: IsValidType A}: IsValidType (op
 Global Instance IsValidType_list {A: Set} `{V: IsValidType A}: IsValidType (list A) := List.Forall V.
 Global Instance IsValidType_js_record {A: Set} `{V: IsValidType A}: IsValidType (js_record A) := JsRecordNoDupForall V.
 Global Instance IsValidType_variance: IsValidType variance := IsValidType_always.
-Global Instance IsValidType_otype {A: Set} `{V: IsValidType A}: IsValidType (otype A) := OType_Forall V.
-Global Instance IsValidType_vtype {A: Set} `{V: IsValidType A}: IsValidType (vtype A) := VType_Forall V.
+Global Instance IsValidType_targ {A: Set} `{V: IsValidType A}: IsValidType (targ A) := TArg_Forall V.
 Global Instance IsValidType_tparam {A: Set} `{V: IsValidType A}: IsValidType (tparam A) := TParam_Forall V.
+Global Instance IsValidType_vtype {A: Set} `{V: IsValidType A}: IsValidType (vtype A) := VType_Forall V.
+Global Instance IsValidType_otype {A: Set} `{V: IsValidType A}: IsValidType (otype A) := OType_Forall V.
 Global Instance IsValidType_itype {A: Set} `{V: IsValidType A}: IsValidType (itype A) := IType_Forall V.
 Global Instance IsValidType_stype {A: Set} `{V: IsValidType A}: IsValidType (stype A) := SType_Forall' V.
 Inductive IsValidType_ftype: IsValidType ftype :=
 | FAny: IsValidType_ftype FAny
 | FNever: forall x, IsValidType_ftype (FNever x)
 | FStructural: forall x structure, @IsValidType_stype ftype IsValidType_ftype structure -> IsValidType_ftype (FStructural x structure)
-| FNominal: forall x id sids structure, @IsValidType_itype ftype IsValidType_ftype id -> @IsValidType_list iftype (@IsValidType_itype ftype IsValidType_ftype) sids -> @IsValidType_option sftype (@IsValidType_stype ftype IsValidType_ftype) structure -> IsValidType_ftype (FNominal x id sids structure)
+| FNominal: forall x id sids structure, @IsValidType_itype ftarg (@IsValidType_targ ftype IsValidType_ftype) id -> @IsValidType_list iftype (@IsValidType_itype ftarg (@IsValidType_targ ftype IsValidType_ftype)) sids -> @IsValidType_option sftype (@IsValidType_stype ftype IsValidType_ftype) structure -> IsValidType_ftype (FNominal x id sids structure)
 . Global Existing Instance IsValidType_ftype.
 
 (* Axioms to induct on S_ftype without having to handle the complex recursion *)
@@ -287,48 +320,52 @@ Axiom S_ftype_ind_S:
     (f_option: forall {A: Set} {S: Subtype A}, P S -> P (S_option S))
     (f_Zip: forall {A: Set} {S: Subtype A}, P S -> P (S_Zip S))
     (f_Intersect: forall {A: Set} {S: Subtype A}, P S -> P (S_Intersect S))
+    (f_variance: P S_variance)
+    (f_targ: forall {A: Set} {S: Subtype A}, P S -> P (S_targ S))
+    (f_tparam: forall {A: Set} {S: Subtype A}, P S -> P (S_tparam S))
     (f_vtype: forall {A: Set} {S: Subtype A}, P S -> P (S_vtype S))
     (f_otype: forall {A: Set} {S: Subtype A}, P S -> P (S_otype S))
-    (f_tparam: forall {A: Set} {S: Subtype A}, P S -> P (S_tparam S))
     (f_itype: forall {A: Set} {S: Subtype A}, P S -> P (S_itype S))
-    (f_stype: forall {A: Set} {S: Subtype A}, P S -> P (S_stype S))
-    (f_variance: P S_variance),
+    (f_stype: forall {A: Set} {S: Subtype A}, P S -> P (S_stype S)),
     P S_ftype0 -> P S_ftype.
 Axiom S_ftype_ind_SV:
   forall (P: forall {A: Set} {V: IsValidType A}, Subtype A -> Prop)
     (f_option: forall {A: Set} {S: Subtype A} {V: IsValidType A}, P S -> P (S_option S))
     (f_Zip: forall {A: Set} {S: Subtype A} {V: IsValidType A}, P S -> P (S_Zip S))
     (f_Intersect: forall {A: Set} {S: Subtype A} {V: IsValidType A}, P S -> P (S_Intersect S))
+    (f_variance: P S_variance)
+    (f_targ: forall {A: Set} {S: Subtype A} {V: IsValidType A}, P S -> P (S_targ S))
+    (f_tparam: forall {A: Set} {S: Subtype A} {V: IsValidType A}, P S -> P (S_tparam S))
     (f_vtype: forall {A: Set} {S: Subtype A} {V: IsValidType A}, P S -> P (S_vtype S))
     (f_otype: forall {A: Set} {S: Subtype A} {V: IsValidType A}, P S -> P (S_otype S))
-    (f_tparam: forall {A: Set} {S: Subtype A} {V: IsValidType A}, P S -> P (S_tparam S))
     (f_itype: forall {A: Set} {S: Subtype A} {V: IsValidType A}, P S -> P (S_itype S))
-    (f_stype: forall {A: Set} {S: Subtype A} {V: IsValidType A}, P S -> P (S_stype S))
-    (f_variance: P S_variance),
+    (f_stype: forall {A: Set} {S: Subtype A} {V: IsValidType A}, P S -> P (S_stype S)),
     P S_ftype0 -> P S_ftype.
 Axiom S_ftype_ind_SE:
   forall (P: forall {A: Set} {E: EqvType A}, Subtype A -> Prop)
     (f_option: forall {A: Set} {S: Subtype A} {E: EqvType A}, P S -> P (S_option S))
     (f_Zip: forall {A: Set} {S: Subtype A} {E: EqvType A}, P S -> P (S_Zip S))
     (f_Intersect: forall {A: Set} {S: Subtype A} {E: EqvType A}, P S -> P (S_Intersect S))
+    (f_variance: P S_variance)
+    (f_targ: forall {A: Set} {S: Subtype A} {E: EqvType A}, P S -> P (S_targ S))
+    (f_tparam: forall {A: Set} {S: Subtype A} {E: EqvType A}, P S -> P (S_tparam S))
     (f_vtype: forall {A: Set} {S: Subtype A} {E: EqvType A}, P S -> P (S_vtype S))
     (f_otype: forall {A: Set} {S: Subtype A} {E: EqvType A}, P S -> P (S_otype S))
-    (f_tparam: forall {A: Set} {S: Subtype A} {E: EqvType A}, P S -> P (S_tparam S))
     (f_itype: forall {A: Set} {S: Subtype A} {E: EqvType A}, P S -> P (S_itype S))
-    (f_stype: forall {A: Set} {S: Subtype A} {E: EqvType A}, P S -> P (S_stype S))
-    (f_variance: P S_variance),
+    (f_stype: forall {A: Set} {S: Subtype A} {E: EqvType A}, P S -> P (S_stype S)),
     P S_ftype0 -> P S_ftype.
 Axiom S_ftype_ind_SVE:
   forall (P: forall {A: Set} {V: IsValidType A} {E: EqvType A}, Subtype A -> Prop)
     (f_option: forall {A: Set} {S: Subtype A} {V: IsValidType A} {E: EqvType A}, P S -> P (S_option S))
     (f_Zip: forall {A: Set} {S: Subtype A} {V: IsValidType A} {E: EqvType A}, P S -> P (S_Zip S))
     (f_Intersect: forall {A: Set} {S: Subtype A} {V: IsValidType A} {E: EqvType A}, P S -> P (S_Intersect S))
+    (f_variance: P S_variance)
+    (f_targ: forall {A: Set} {S: Subtype A} {V: IsValidType A} {E: EqvType A}, P S -> P (S_targ S))
+    (f_tparam: forall {A: Set} {S: Subtype A} {V: IsValidType A} {E: EqvType A}, P S -> P (S_tparam S))
     (f_vtype: forall {A: Set} {S: Subtype A} {V: IsValidType A} {E: EqvType A}, P S -> P (S_vtype S))
     (f_otype: forall {A: Set} {S: Subtype A} {V: IsValidType A} {E: EqvType A}, P S -> P (S_otype S))
-    (f_tparam: forall {A: Set} {S: Subtype A} {V: IsValidType A} {E: EqvType A}, P S -> P (S_tparam S))
     (f_itype: forall {A: Set} {S: Subtype A} {V: IsValidType A} {E: EqvType A}, P S -> P (S_itype S))
-    (f_stype: forall {A: Set} {S: Subtype A} {V: IsValidType A} {E: EqvType A}, P S -> P (S_stype S))
-    (f_variance: P S_variance),
+    (f_stype: forall {A: Set} {S: Subtype A} {V: IsValidType A} {E: EqvType A}, P S -> P (S_stype S)),
     P S_ftype0 -> P S_ftype.
 
 (* Now we prove that these relations are valid *)
@@ -394,12 +431,32 @@ Proof. intros a b H H0; destruct a, b; inv H H0; constructor. Qed.
 Global Instance SubtypeTrans_variance: SubtypeTrans S_variance.
 Proof. intros a b c H H0; destruct a, b, c; inv H H0; constructor. Qed.
 
-Global Instance SubtypeRefl_otype {A: Set} `{R: SubtypeRefl A}: SubtypeRefl (S_otype subtype).
-Proof. intros a; destruct a; constructor; [destruct optional; simpl; reflexivity | apply subtype_refl]; inv H; assumption. Qed.
-Global Instance SubtypeAntisym_otype {A: Set} `{SA: SubtypeAntisym A}: SubtypeAntisym (S_otype subtype).
-Proof. intros a b H H0; destruct a, b; inv H H0; destruct optional, optional0; try discriminate; constructor; apply subtype_antisym; assumption. Qed.
-Global Instance SubtypeTrans_otype {A: Set} `{T: SubtypeTrans A}: SubtypeTrans (S_otype subtype).
-Proof. intros a b c H H0; destruct a, b, c; inv H H0; destruct optional, optional0, optional1; try discriminate; constructor; (simpl; reflexivity) || apply subtype_trans with a0; assumption. Qed.
+Global Instance SubtypeRefl_targ {A: Set} `{R: SubtypeRefl A}: SubtypeRefl (S_targ subtype).
+Proof. intros a; destruct a; destruct v; constructor; [.. | right]; apply subtype_refl; inv H; reflexivity || assumption. Qed.
+Global Instance SubtypeAntisym_targ {A: Set} `{SA: SubtypeAntisym A}: SubtypeAntisym (S_targ subtype).
+Proof. intros a b H H0; destruct a, b; inv H H0; try (inv H3; fail); try (inv H4; fail); [apply E_TArg; apply subtype_antisym .. | apply E_TArgBivariant]; assumption. Qed.
+Global Instance SubtypeTrans_targ {A: Set} `{T: SubtypeTrans A}: SubtypeTrans (S_targ subtype).
+Proof. intros a b c H H0; destruct a, b, c, v, v0, v1; inv H H0; try (inv H3; fail); try (inv H4; fail);
+  constructor; try (constructor; fail); try (apply subtype_trans with a0; assumption);
+  try (left_right_with H1; apply subtype_trans with a0; assumption).
+
+Proof. intros a b c H H0; destruct a, b, c; inv H H0;
+  try (constructor; [assumption || (constructor; fail) || (apply subtype_trans with v0; assumption) || (apply subtype_trans with a0; assumption) ..]);
+  try inv H3; try inv H4; try inv H5;
+  try (apply S_TArgCovariant; [constructor | apply subtype_trans with a0; assumption]).
+- apply S_TArgInvariant.
+  (apply S_TArgBivariant || (apply S_TArgCovariant; [constructor |]) || (apply S_TArgContravariant; [constructor |]) || apply S_TArgInvariant);
+  try (constructor; fail); try (apply subtype_trans with a0; assumption).
+-
+- apply S_TArgCovariant. [apply subtype_trans with v0; assumption | |]. [> (apply subtype_trans with v0; assumption) || (apply subtype_trans with a0) ..].
+Proof. intros a b c H H0; destruct a, b, c; inv H H0; constructor; [apply subtype_trans with v0 | apply subtype_trans with supers0]; assumption. Qed.
+
+Global Instance SubtypeRefl_tparam {A: Set} `{R: SubtypeRefl A}: SubtypeRefl (S_tparam subtype).
+Proof. intros a; destruct a; constructor; apply subtype_refl; [reflexivity | inv H; assumption]. Qed.
+Global Instance SubtypeAntisym_tparam {A: Set} `{SA: SubtypeAntisym A}: SubtypeAntisym (S_tparam subtype).
+Proof. intros a b H H0; destruct a, b; inv H H0; rewrite (SubtypeAntisym_variance H2 H3); constructor; apply SubtypeAntisym_Intersect; assumption. Qed.
+Global Instance SubtypeTrans_tparam {A: Set} `{T: SubtypeTrans A}: SubtypeTrans (S_tparam subtype).
+Proof. intros a b c H H0; destruct a, b, c; inv H H0; constructor; [apply subtype_trans with v0 | apply subtype_trans with supers0]; assumption. Qed.
 
 Global Instance SubtypeRefl_vtype {A: Set} `{R: SubtypeRefl A}: SubtypeRefl (S_vtype subtype).
 Proof. intros a; destruct a; constructor; apply subtype_refl; inv H; assumption. Qed.
@@ -408,12 +465,12 @@ Proof. intros a b H H0; destruct a, b; inv H H0; constructor; apply subtype_anti
 Global Instance SubtypeTrans_vtype {A: Set} `{T: SubtypeTrans A}: SubtypeTrans (S_vtype subtype).
 Proof. intros a b c H H0; destruct a, b, c; inv H H0; constructor; apply subtype_trans with a0; assumption. Qed.
 
-Global Instance SubtypeRefl_tparam {A: Set} `{R: SubtypeRefl A}: SubtypeRefl (S_tparam subtype).
-Proof. intros a; destruct a; constructor; apply subtype_refl; [reflexivity | inv H; assumption]. Qed.
-Global Instance SubtypeAntisym_tparam {A: Set} `{SA: SubtypeAntisym A}: SubtypeAntisym (S_tparam subtype).
-Proof. intros a b H H0; destruct a, b; inv H H0; rewrite (SubtypeAntisym_variance H2 H3); constructor; apply SubtypeAntisym_Intersect; assumption. Qed.
-Global Instance SubtypeTrans_tparam {A: Set} `{T: SubtypeTrans A}: SubtypeTrans (S_tparam subtype).
-Proof. intros a b c H H0; destruct a, b, c; inv H H0; constructor; [apply subtype_trans with v0 | apply subtype_trans with supers0]; assumption. Qed.
+Global Instance SubtypeRefl_otype {A: Set} `{R: SubtypeRefl A}: SubtypeRefl (S_otype subtype).
+Proof. intros a; destruct a; constructor; [destruct optional; simpl; reflexivity | apply subtype_refl]; inv H; assumption. Qed.
+Global Instance SubtypeAntisym_otype {A: Set} `{SA: SubtypeAntisym A}: SubtypeAntisym (S_otype subtype).
+Proof. intros a b H H0; destruct a, b; inv H H0; destruct optional, optional0; try discriminate; constructor; apply subtype_antisym; assumption. Qed.
+Global Instance SubtypeTrans_otype {A: Set} `{T: SubtypeTrans A}: SubtypeTrans (S_otype subtype).
+Proof. intros a b c H H0; destruct a, b, c; inv H H0; destruct optional, optional0, optional1; try discriminate; constructor; (simpl; reflexivity) || apply subtype_trans with a0; assumption. Qed.
 
 Global Instance SubtypeRefl_itype {A: Set} `{R: SubtypeRefl A}: SubtypeRefl (S_itype subtype).
 Proof. intros a; destruct a; constructor; apply subtype_refl; inv H; assumption. Qed.

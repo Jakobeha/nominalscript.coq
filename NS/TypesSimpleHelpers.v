@@ -4,16 +4,19 @@ Require Import Coq.Strings.String.
 Require Import Coq.Arith.PeanoNat.
 Require Import Coq.Arith.EqNat.
 Require Import Coq.Bool.Bool.
-Require Import Coq.Logic.FunctionalExtensionality.
-Require Import Lia.
 From NS Require Import Misc.
 From NS Require Import JsRecord.
 From NS Require Import TypesBase.
 From NS Require Import TypesNotation.
 
-Definition map_itype {A B: Set} (f: A -> B) (a: itype A): itype B :=
+Definition map_targ {A B: Set} (f: A -> B) (a: targ A): targ B :=
 match a with
-| It name targs => It name (List.map f targs)
+| TArg v a => TArg v (f a)
+end.
+
+Definition map_tparam {A B: Set} (f: A -> B) (a: tparam A): tparam B :=
+match a with
+| TParam v name supers => TParam v name (List.map f supers)
 end.
 
 Definition map_vtype {A B: Set} (f: A -> B) (a: vtype A): vtype B :=
@@ -22,14 +25,14 @@ match a with
 | Vt a => Vt (f a)
 end.
 
-Definition map_tparam {A B: Set} (f: A -> B) (a: tparam A): tparam B :=
-match a with
-| TParam v name supers => TParam v name (List.map f supers)
-end.
-
 Definition map_otype {A B: Set} (f: A -> B) (a: otype A): otype B :=
 match a with
 | Ot nullable a => Ot nullable (f a)
+end.
+
+Definition map_itype {A B: Set} (f: A -> B) (a: itype A): itype B :=
+match a with
+| It name targs => It name (List.map f targs)
 end.
 
 Definition map_stype {A B: Set} (f: A -> B) (a: stype A): stype B :=
@@ -45,7 +48,7 @@ match a with
 | FAny => TAny
 | FNever nullable => TNever nullable
 | FStructural nullable s => TStructural nullable (map_stype thinnify s)
-| FNominal nullable id _ _ => TNominal nullable (map_itype thinnify id)
+| FNominal nullable id _ _ => TNominal nullable (map_itype (fun '(TArg _ a) => thinnify a) id)
 end.
 
 Definition is_ttype_nullable (a: ttype): bool :=
@@ -110,6 +113,26 @@ match a with
 | It _ targs => targs
 end.
 
+Definition targ_depth {type: Set} (type_depth: type -> nat) (a: targ type): nat :=
+match a with
+| TArg _ a => type_depth a
+end.
+
+Definition targ_size {type: Set} (type_size: type -> nat) (a: targ type): nat :=
+match a with
+| TArg _ a => type_size a
+end.
+
+Definition tparam_depth {type: Set} (type_depth: type -> nat) (a: tparam type): nat :=
+match a with
+| TParam _ _ supers => List.list_max (List.map type_depth supers)
+end.
+
+Definition tparam_size {type: Set} (type_size: type -> nat) (a: tparam type): nat :=
+match a with
+| TParam _ _ supers => List.list_sum (List.map type_size supers)
+end.
+
 Definition vtype_depth {type: Set} (type_depth: type -> nat) (a: vtype type): nat :=
 match a with
 | VVoid => 0
@@ -130,16 +153,6 @@ end.
 Definition otype_size {type: Set} (type_size: type -> nat) (a: otype type): nat :=
 match a with
 | Ot _ a => type_size a
-end.
-
-Definition tparam_depth {type: Set} (type_depth: type -> nat) (a: tparam type): nat :=
-match a with
-| TParam _ _ supers => List.list_max (List.map type_depth supers)
-end.
-
-Definition tparam_size {type: Set} (type_size: type -> nat) (a: tparam type): nat :=
-match a with
-| TParam _ _ supers => List.list_sum (List.map type_size supers)
 end.
 
 Definition itype_depth {type: Set} (type_depth: type -> nat) (a: itype type): nat :=
@@ -199,7 +212,7 @@ match a with
 | FAny => 0
 | FNever _ => 0
 | FStructural _ s => stype_depth ftype_depth s
-| FNominal _ id sids s => Nat.max (itype_depth ftype_depth id) (Nat.max (List.list_max (List.map (itype_depth ftype_depth) sids)) (option_max (option_map (stype_depth ftype_depth) s)))
+| FNominal _ id sids s => Nat.max (itype_depth (targ_depth ftype_depth) id) (Nat.max (List.list_max (List.map (itype_depth (targ_depth ftype_depth)) sids)) (option_max (option_map (stype_depth ftype_depth) s)))
 end).
 
 Fixpoint ftype_size (a: ftype): nat := S (
@@ -207,5 +220,5 @@ match a with
 | FAny => 0
 | FNever _ => 0
 | FStructural _ s => stype_size ftype_size s
-| FNominal _ id sids s => List.list_sum (itype_size ftype_size id :: option_map (stype_size ftype_size) s ?:: List.map (itype_size ftype_size) sids)
+| FNominal _ id sids s => List.list_sum (itype_size (targ_size ftype_size) id :: option_map (stype_size ftype_size) s ?:: List.map (itype_size (targ_size ftype_size)) sids)
 end).

@@ -9,7 +9,7 @@ It also defines a union and intersection relation from the subtype relation, and
 
 `opam install nominalscript`, or `opam install .` within this directory, should work.
 
-If not, this follows the standard Coq package structure: run `./configure.sh` to generate a makefile from `_CoqProject`, and then `make` to build the coq sources.
+If not, this follows the standard Coq package structure: run `./configure.sh` to generate a makefile, and then `make` to build the coq sources.
 
 ## Project Structure
 
