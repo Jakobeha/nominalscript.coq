@@ -68,6 +68,8 @@ Class SubtypeBottom {A: Set} `(S: Subtype A) `{B: Bottom A}: Prop := subtype_bot
 Class SubtypeRefl {A: Set} `(S: Subtype A) `{V: IsValidType A}: Prop := subtype_refl: forall (a: A), is_valid_type a -> a <: a.
 Class SubtypeAntisym {A: Set} `(S: Subtype A) `{E: EqvType A}: Prop := subtype_antisym: forall (a b: A), a <: b -> b <: a -> a == b.
 Class SubtypeTrans {A: Set} `(S: Subtype A): Prop := subtype_trans: forall (a b c: A), a <: b -> b <: c -> a <: c.
+Class SubtypeDistUnion {A: Set} `(S: Subtype A): Prop := subtype_dist_union: forall (a b c bc: A), b U c = bc -> b <: a -> c <: a -> bc <: a.
+Class SubtypeDistIntersect {A: Set} `(S: Subtype A): Prop := subtype_dist_intersect: forall (a b c bc: A), b I c = bc -> a <: b -> a <: c -> a <: bc.
 Class SubtypeValid {A: Set} `(S: Subtype A) `{V: IsValidType A, E: EqvType A}: Prop := subtype_valid: SubtypeRefl S /\ SubtypeAntisym S /\ SubtypeTrans S.
 Class SubtypeValid0 {A: Set} `(S: Subtype A) `{V: IsValidType A, E: EqvType A, T: Top A, B: Bottom A}: Prop := subtype_valid0: SubtypeTop S /\ SubtypeBottom S /\ SubtypeValid S.
 Class UnionTop {A: Set} `(S: Subtype A) `{T: Top A}: Prop := union_top: forall (a: A), top U a = top.
@@ -82,13 +84,13 @@ Class UnionAssoc {A: Set} `(S: Subtype A): Prop := union_assoc: forall (a b c ab
 Class IntersectAssoc {A: Set} `(S: Subtype A): Prop := intersect_assoc: forall (a b c ab bc abc: A), a I b = ab -> b I c = bc -> ab I c = abc <-> a I bc = abc.
 Class UnionAbsorb {A: Set} `(S: Subtype A) `{V: IsValidType A}: Prop := union_absorb: forall (a b ab: A), is_valid_type b -> a <: b -> a U b = b.
 Class IntersectAbsorb {A: Set} `(S: Subtype A) `{V: IsValidType A}: Prop := intersect_absorb: forall (a b ab: A), is_valid_type a -> a <: b -> a I b = a.
-Class UnionDist {A: Set} `(S: Subtype A): Prop := union_dist: forall (a b c bc: A), b U c = bc -> a <: b \/ a <: c -> a <: bc.
-Class UnionDist0 {A: Set} `(S: Subtype A): Prop := union_dist0: forall (a b c bc: A), b U c = bc -> bc <: a -> b <: a /\ c <: a.
-Class IntersectDist {A: Set} `(S: Subtype A): Prop := intersect_dist: forall (a b c bc: A), b I c = bc -> b <: a \/ c <: a -> bc <: a.
-Class IntersectDist0 {A: Set} `(S: Subtype A): Prop := intersect_dist0: forall (a b c bc: A), b I c = bc -> a <: bc -> a <: b /\ a <: c.
+Class UnionDist {A: Set} `(S: Subtype A): Prop := union_dist: forall (a b c bc: A), b U c = bc -> bc <: a <-> b <: a /\ c <: a.
+Class UnionDist0 {A: Set} `(S: Subtype A): Prop := union_dist0: forall (a b c bc: A), b U c = bc -> a <: b \/ a <: c -> a <: bc.
+Class IntersectDist {A: Set} `(S: Subtype A): Prop := intersect_dist: forall (a b c bc: A), b I c = bc -> a <: bc <-> a <: b /\ a <: c.
+Class IntersectDist0 {A: Set} `(S: Subtype A): Prop := intersect_dist0: forall (a b c bc: A), b I c = bc -> b <: a \/ c <: a -> bc <: a.
 (* These can't be proven, i haven't figured out why *)
-(* Class UnionIntersectDist {A: Set} `(S: Subtype A): Prop := union_intersect_dist: forall (a b c aub auc bic aubic: A), a U b = aub -> a U c = auc -> b I c = bic -> a U bic = aubic <-> aub I auc = aubic. *)
-(* Class IntersectUnionDist {A: Set} `(S: Subtype A): Prop := intersect_union_dist: forall (a b c aib aic buc aibuc: A), a I b = aib -> a I c = aic -> b U c = buc -> a I buc = aibuc <-> aib U aic = aibuc. *)
+(* Class UnionIntersectDist {A: Set} `(S: Subtype A): Prop := union_intersect_dist: forall (a b c aub auc bic aubic: A), a U b = aub -> a U c = auc -> b I c = bic -> a U bic = aubic <-> aub I auc = aubic.
+Class IntersectUnionDist {A: Set} `(S: Subtype A): Prop := intersect_union_dist: forall (a b c aib aic buc aibuc: A), a I b = aib -> a I c = aic -> b U c = buc -> a I buc = aibuc <-> aib U aic = aibuc. *)
 Class UnionIntersectValid {A: Set} `(S: Subtype A) `{V: IsValidType A}: Prop := union_intersect_valid: UnionRefl S /\ IntersectRefl S /\ UnionComm S /\ IntersectComm S /\ UnionAssoc S /\ IntersectAssoc S /\ UnionAbsorb S /\ IntersectAbsorb S /\ UnionDist S /\ UnionDist0 S /\ IntersectDist S /\ IntersectDist0 S.
 Class UnionIntersectValid0 {A: Set} `(S: Subtype A) `{V: IsValidType A, T: Top A, B: Bottom A}: Prop := union_intersect_valid0: UnionBottom S /\ UnionTop S /\ IntersectBottom S /\ IntersectTop S /\ UnionIntersectValid S.
 Class SubtypeUnionIntersectValid0 {A: Set} `(S: Subtype A) `{V: IsValidType A, E: EqvType A} `{T: Top A} `{B: Bottom A}: Prop := subtype_union_intersect_valid0: SubtypeValid0 S /\ UnionIntersectValid0 S.
@@ -134,13 +136,13 @@ Proof. split; [| split; [apply subtype_refl | intros]]; assumption. Qed.
 Global Instance IntersectAbsorb_S {A: Set} `{S: Subtype A, V: IsValidType A, ! SubtypeRefl S}: IntersectAbsorb S.
 Proof. split; [apply subtype_refl | split; [| intros]]; assumption. Qed.
 Global Instance UnionDist_S {A: Set} `{S: Subtype A, V: IsValidType A, ! SubtypeTrans S}: UnionDist S.
-Proof. intros a b c bc [? [? ?]] [? | ?]; [apply subtype_trans with b | apply subtype_trans with c]; assumption. Qed.
+Proof. split; destruct H, H0; [split | intros [? ?]]; [apply subtype_trans with bc .. | apply H1]; assumption. Qed.
 Global Instance UnionDist0_S {A: Set} `{S: Subtype A, V: IsValidType A, ! SubtypeTrans S}: UnionDist0 S.
-Proof. split; destruct H, H1; apply subtype_trans with bc; assumption. Qed.
-Global Instance IntersectDist_S {A: Set} `{S: Subtype A, V: IsValidType A, ! SubtypeTrans S}: IntersectDist S.
 Proof. intros a b c bc [? [? ?]] [? | ?]; [apply subtype_trans with b | apply subtype_trans with c]; assumption. Qed.
+Global Instance IntersectDist_S {A: Set} `{S: Subtype A, V: IsValidType A, ! SubtypeTrans S}: IntersectDist S.
+Proof. split; destruct H, H0; [split | intros [? ?]]; [apply subtype_trans with bc .. | apply H1]; assumption. Qed.
 Global Instance IntersectDist0_S {A: Set} `{S: Subtype A, V: IsValidType A, ! SubtypeTrans S}: IntersectDist0 S.
-Proof. split; destruct H, H1; apply subtype_trans with bc; assumption. Qed.
+Proof. intros a b c bc [? [? ?]] [? | ?]; [apply subtype_trans with b | apply subtype_trans with c]; assumption. Qed.
 (* Global Instance UnionIntersectDist_S {A: Set} `{S: Subtype A, V: IsValidType A, ! SubtypeTrans S}: UnionIntersectDist S.
 Proof. repeat split; destruct H, H0, H1, H2, H3, H4, H5, H6; [apply H10; [| apply subtype_trans with b] | apply H10; [| apply subtype_trans with c] | intros | apply H10 | apply H10; [apply subtype_trans with b | apply subtype_trans with c] | intros]; try assumption. Admitted. (* TODO *)
 Global Instance IntersectUnionDist_S {A: Set} `{S: Subtype A, V: IsValidType A, ! SubtypeTrans S}: IntersectUnionDist S.
@@ -151,7 +153,6 @@ Global Instance UnionIntersectValid0_S {A: Set} `{S: Subtype A, V: IsValidType A
 Proof. do 15 [> .. | split]; typeclasses eauto. Qed.
 Global Instance SubtypeUnionIntersectValid0_S {A: Set} `{S: Subtype A, V: IsValidType A, E: EqvType A, T: Top A, B: Bottom A, ! SubtypeValid0 S}: SubtypeUnionIntersectValid0 S.
 Proof. split; [assumption | destruct SubtypeValid1, H0, H1, H2; apply UnionIntersectValid0_S]. Qed.
-
 
 (* Subtype relation implementations *)
 Inductive S_option {A: Set} (S: Subtype A): Subtype (option A) :=
