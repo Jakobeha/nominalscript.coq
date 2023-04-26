@@ -88,12 +88,12 @@ Class UnionDist {A: Set} `(S: Subtype A): Prop := union_dist: forall (a b c bc: 
 Class UnionDist0 {A: Set} `(S: Subtype A): Prop := union_dist0: forall (a b c bc: A), b U c = bc -> a <: b \/ a <: c -> a <: bc.
 Class IntersectDist {A: Set} `(S: Subtype A): Prop := intersect_dist: forall (a b c bc: A), b I c = bc -> a <: bc <-> a <: b /\ a <: c.
 Class IntersectDist0 {A: Set} `(S: Subtype A): Prop := intersect_dist0: forall (a b c bc: A), b I c = bc -> b <: a \/ c <: a -> bc <: a.
-(* These can't be proven, i haven't figured out why *)
-(* Class UnionIntersectDist {A: Set} `(S: Subtype A): Prop := union_intersect_dist: forall (a b c aub auc bic aubic: A), a U b = aub -> a U c = auc -> b I c = bic -> a U bic = aubic <-> aub I auc = aubic.
-Class IntersectUnionDist {A: Set} `(S: Subtype A): Prop := intersect_union_dist: forall (a b c aib aic buc aibuc: A), a I b = aib -> a I c = aic -> b U c = buc -> a I buc = aibuc <-> aib U aic = aibuc. *)
 Class UnionIntersectValid {A: Set} `(S: Subtype A) `{V: IsValidType A}: Prop := union_intersect_valid: UnionRefl S /\ IntersectRefl S /\ UnionComm S /\ IntersectComm S /\ UnionAssoc S /\ IntersectAssoc S /\ UnionAbsorb S /\ IntersectAbsorb S /\ UnionDist S /\ UnionDist0 S /\ IntersectDist S /\ IntersectDist0 S.
 Class UnionIntersectValid0 {A: Set} `(S: Subtype A) `{V: IsValidType A, T: Top A, B: Bottom A}: Prop := union_intersect_valid0: UnionBottom S /\ UnionTop S /\ IntersectBottom S /\ IntersectTop S /\ UnionIntersectValid S.
 Class SubtypeUnionIntersectValid0 {A: Set} `(S: Subtype A) `{V: IsValidType A, E: EqvType A} `{T: Top A} `{B: Bottom A}: Prop := subtype_union_intersect_valid0: SubtypeValid0 S /\ UnionIntersectValid0 S.
+(* These are actually disproven for ftype *)
+Class UnionIntersectDist {A: Set} `(S: Subtype A): Prop := union_intersect_dist: forall (a b c aub auc bic aubic: A), a U b = aub -> a U c = auc -> b I c = bic -> a U bic = aubic <-> aub I auc = aubic.
+Class IntersectUnionDist {A: Set} `(S: Subtype A): Prop := intersect_union_dist: forall (a b c aib aic buc aibuc: A), a I b = aib -> a I c = aic -> b U c = buc -> a I buc = aibuc <-> aib U aic = aibuc.
 Set Implicit Arguments.
 
 (* The union properties are actually implied by subtype properties *)
@@ -377,6 +377,8 @@ Global Instance SubtypeAntisym_option {A: Set} `(SA: SubtypeAntisym A): SubtypeA
 Proof. intros a b H H0; destruct a, b; inv H H0; constructor; apply subtype_antisym; assumption. Qed.
 Global Instance SubtypeTrans_option {A: Set} `{T: SubtypeTrans A}: SubtypeTrans (S_option subtype).
 Proof. intros a b c H H0; destruct a, b, c; inv H H0; constructor; apply subtype_trans with a0; assumption. Qed.
+(* Global Instance UnionInterectDist_option {A: Set} `(D: UnionIntersectDist A): UnionIntersectDist (S_option subtype).
+Proof. split; intros; destruct H, H0, H1, H2, H3, H4, H5, H6, a, b, c, aub, auc, bic, aubic; inv H H0 H1 H2 H3 H4 H5; inv H6. *)
 
 Global Instance SubtypeRefl_Zip {A: Set} `{R: SubtypeRefl A}: SubtypeRefl (S_Zip subtype).
 Proof. intros a; induction a; constructor; [apply subtype_refl | apply IHa]; inv H; assumption. Qed.
@@ -492,6 +494,7 @@ Proof. repeat split; typeclasses eauto. Qed.
 Global Instance SubtypeUnionIntersectValid0_ftype: SubtypeUnionIntersectValid0 S_ftype.
 Proof. typeclasses eauto. Qed.
 
+(* Examples using the theorems *)
 Corollary union_subtype_lattice0 {A: Set} `{S: Subtype A, V: IsValidType A, E: EqvType A, ! SubtypeValid S}: forall (a b ab c: A), a <: c -> b <: c -> a U b = ab -> ab <: c.
 Proof. intros; destruct H1, H2; apply H3; assumption. Qed.
 Corollary intersect_subtype_lattice0 {A: Set} `{S: Subtype A, V: IsValidType A, E: EqvType A, ! SubtypeValid S}: forall (a b ab c: A), c <: a -> c <: b -> a I b = ab -> c <: ab.
@@ -505,6 +508,7 @@ Proof. intros; destruct H, H0; split; assumption. Qed.
 Corollary intersect_subtype_lattice2 {A: Set} `{S: Subtype A, V: IsValidType A, E: EqvType A, ! SubtypeValid S}: forall (a b ab: A), a I b = ab -> ab <: a /\ ab <: b.
 Proof. intros; destruct H, H0; split; assumption. Qed.
 
+(* Hint database which could possibly be useful *)
 Create HintDb subtype_laws.
 Global Hint Extern 4 => typeclasses eauto: subtype_laws.
 Global Hint Resolve subtype_top: subtype_laws.
